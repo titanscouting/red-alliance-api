@@ -1,0 +1,13 @@
+{
+  "name": "node-api-testing",
+  "version": "0.0.1",
+  "description": "Titan Scout NodeJS API to DynamoDB (testing)",
+  "main": "index.js",
+  "repository": "https://github.com/titanscout2022/node-api-testing",
+  "author": "Dev Singh and the Titan Scouting Team",
+  "license": "none",
+  "private": false,
+  "dependencies": {
+    "aws-sdk": "^2.566.0"
+  }
+}
