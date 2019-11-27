@@ -1,15 +1,14 @@
 let AWS = require("aws-sdk")
 AWS.config.update({region: "us-east-2", endpoint: "https://dynamodb.us-east-2.amazonaws.com"});
-let dynamodb = new AWS.DynamoDB();
 let dbClient = new AWS.DynamoDB.DocumentClient();  
 
 
-exports.addName = (name, data) => {
+exports.addUser = (id, name) => {
     let datum = {
-        TableName: "robotics_testing",
+        TableName: "userlist",
         Item: {
-            name: name, 
-            data: data 
+            id: id, 
+            name: name,
         }
     }
     dbClient.put(datum, function(err, data) {

@@ -9,18 +9,21 @@ app = express()
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
 
-app.post("/api/send-name", (req, res) => {
-    const name = String(validator.escape(req.body.name))
-    const data = String(validator.escape(req.body.data))
-    dbHandler.addName(name, data)
-    res.send("Done")
+app.get('/', (req, res) => {
+    res.send("API live")
 })
 
-app.post("/api/send-name-auth", methods.checkAuth, (req, res) => {
-    const name = String(validator.escape(req.body.name))
-    const data = String(validator.escape(req.body.data))
-    dbHandler.addName(name, data)
-    res.send("Done")
+app.post("/api/addUser", methods.checkAuth, (req, res) => {
+    try {
+        const id = String(validator.escape(req.body.id))
+        const name = String(validator.escape(req.body.name))
+        dbHandler.addName(id, name)
+    } catch (error) {
+        res.send("Failed: Don't try writing to a teapot")
+        res.status(418)
+    }
+    res.send("Sucess")
+
 })
 
 
