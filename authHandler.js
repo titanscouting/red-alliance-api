@@ -13,8 +13,7 @@ module.exports.checkAuth = async (req, res, next) => {
 }).catch(err => {console.error(err); res.status(401);});
   try {
     const payload = ticket.getPayload();
-    const userid = payload['sub'];
-    console.log(userid)
+    res.locals.id = payload['sub'];
   }
   catch (e) {
     console.error("Could not get payload from ticket")
@@ -24,4 +23,4 @@ module.exports.checkAuth = async (req, res, next) => {
   next()
 }
 
-// after this point, the token has now been verified as valid and the userid can be treated as a unique identifier for a google user.
+// after this point, the token has now been verified as valid and 'res.locals.id' can be treated as a unique identifier for a google user.
