@@ -33,17 +33,24 @@ exports.addUserToTeam = (idin, namein, positionin) => {
 
 
 exports.getCompetitions = (idin) => {
-    MongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true }, function(err, db) {
-        if (err) throw err;
-        var dbo = db.db("data_scouting");
-        var myobj = { id: idin, name: namein};
-        dbo.collection("userlist").findOne(myobj, function(err, res) {
-          if (err) {
-              console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
-              errorcode = 1
-          }
-          console.log("1 document inserted");
-          db.close();
+    let rval;
+    // Get the competitions for a team member. Currently, one user can only be part of one team. 
+    try {
+        MongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true }, function(err, db) {
+            var dbo = db.db("data_scouting");
+            var myobj = { id: idin};
+            dbo.collection("userlist").findOne(myobj, function(err, res) {
+                if (err) {
+                    console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
+                    errorcode = 1
+                }
+                console.log("Found");
+                rval = result
+                db.close();
+            });
         });
-      });
+    } catch(err) {
+        console.error(err)
+    }
+    return rval
 }
