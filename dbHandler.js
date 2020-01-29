@@ -1,8 +1,8 @@
-let AWS = require("aws-sdk")
-AWS.config.update({region: "us-east-2", endpoint: "https://dynamodb.us-east-2.amazonaws.com"});
-let dbClient = new AWS.DynamoDB.DocumentClient();  
+let MongoClient = require('mongodb').MongoClient;
 
 let errorcode = 0
+
+const url = "mongodb+srv://api_user:epycepoch2019@2022-scouting-4vfuu.mongodb.net/test?retryWrites=true&w=majority";
 
 exports.checkDB = async (table, val) => {
     var params = { }
@@ -15,46 +15,35 @@ exports.checkDB = async (table, val) => {
             console.log(err);
     });
 }
-exports.addUser = (id, name) => {
-    const datum = {
-        TableName: "userlist",
-        Item: {
-            id: id, 
-            name: name,
-        }
-    }
-    dbClient.put(datum, (err) => {
-        if (err) {
-            console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
-            errorcode = 1
-        }
-    });
-    return errorcode
+exports.addUserToTeam = (idin, namein, positionin) => {
+    MongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true }, function(err, db) {
+        if (err) throw err;
+        var dbo = db.db("data_scouting");
+        var myobj = { id: idin, name: namein, position: positionin};
+        dbo.collection("userlist").updateOne(myobj, {upsert:true}, function(err, res) {
+          if (err) {
+              console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
+              errorcode = 1
+          }
+          console.log("1 document inserted");
+          db.close();
+        });
+      });
 };
 
 
-exports.addUserToTeam = (id, team, position) => {
-    db_id = this.checkDB("userlist", id)
-    db_id.then((result) => {
-        console.log(db_id)
-        console.log(result)
-    })
-    // if (db_id !== id) {
-    //     throw new Error("User ID does not exist")
-    // }
-    const datum = {
-        TableName: "UserAssociations",
-        Item: {
-            id: id, 
-            team: team,
-            position: position
-        }
-    }
-    dbClient.put(datum, function(err) {
-        if (err) {
-            console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
-            errorcode = 1
-        }
-    });
-    return errorcode
-};
+exports.getCompetitions = (idin) => {
+    MongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true }, function(err, db) {
+        if (err) throw err;
+        var dbo = db.db("data_scouting");
+        var myobj = { id: idin, name: namein};
+        dbo.collection("userlist").findOne(myobj, function(err, res) {
+          if (err) {
+              console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
+              errorcode = 1
+          }
+          console.log("1 document inserted");
+          db.close();
+        });
+      });
+}

@@ -14,28 +14,7 @@ app.get('/', (req, res) => {
     res.status(200)
 })
 
-app.post("/api/addUser", auth.checkAuth, (req, res) => {
-    try {
-        const id = res.locals.id
-        const name = String(validator.escape(req.body.name))
-        val = dbHandler.addUser(id, name)
-        if (val != 0)
-        {
-            throw new Error('Error adding to DB')
-        }
-    } catch (error) {
-        res.json({
-            "success": "false"
-        })       
-    }
-    res.json({
-        "success": "true",
-        "id": res.locals.id,
-        "name": req.body.name
-    })
-})
-
-app.post("/api/addUserToTeam", auth.checkAuth, (req, res) => {
+app.post("/api/addUserToTeam", (req, res) => {
     try{
         const id = res.locals.id
         const team = parseInt(validator.escape(req.body.team))
