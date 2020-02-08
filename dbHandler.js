@@ -15,9 +15,13 @@ exports.addUserToTeam = (db, idin, namein, positionin) => {
     var dbo = db.db("data_scouting");
     var myobj = { id: idin, name: namein, position: positionin};
     dbo.collection("userlist").updateOne(myobj, {upsert:true}).then(function(err, res) {
-    console.log("1 document inserted");
-    db.close();
+        if (err){
+            console.error(err)
+        } else {
+            console.log("1 document inserted");
+        }
     });
+    db.close();
 }
 
 
