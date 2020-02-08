@@ -7,6 +7,7 @@ const port = 4000
 
 app = express()
 app.use(bodyParser.json())
+app.use(auth.checkAuth())
 app.use(bodyParser.urlencoded({extended: true}))
 
 app.get('/', (req, res) => {
@@ -62,6 +63,32 @@ app.post("/api/getCompetitions", (req, res) => {
                 "id": res.locals.id,
                 "team": val.team,
                 "competitions": val.competitions
+            }
+        }
+        res.json(resobj)
+})
+app.post("/api/submitMatchData", (req, res) => {
+    let err = false;
+    try{
+        const id = res.locals.id
+        const competition_id = String(validator.escape(req.body.competition_id))
+        const match_number = parseInt(validator.escape(req.body.match_number))
+        const team_scouted = parseInt(validator.escape(req.body.team_scouted))
+        const data = req.body.data
+        val = dbHandler.addUserToTeam(id, competition_id, match_number, team_scouted, data)
+        resobj = {}
+        if (val != 0)
+        {
+            throw new Error('Error adding to DB')
+        }
+        } catch (error) {
+            err = true; 
+            resobj = {"success": !err}
+            console.log(error)
+        }
+        if (err == false) { // do not change this line to a boolean operator, random JS errors can cause it to work unexpectedly (because JS). 
+            resobj = {
+                "success": !errss
             }
         }
         res.json(resobj)
