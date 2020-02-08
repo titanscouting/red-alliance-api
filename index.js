@@ -9,7 +9,7 @@ const port = process.env.PORT || 80;
 app = express()
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
-app.use(expressMongoDb('mongodb+srv://api_user:epycepoch2019@2022-scouting-4vfuu.mongodb.net/test?retryWrites=true&w=majority', { socketOptions: { connectTimeoutMS: 5000 }}));
+app.use(expressMongoDb('mongodb+srv://api-user-new:titanscout2022@2022-scouting-4vfuu.mongodb.net/test?retryWrites=true&w=majority', { socketOptions: { connectTimeoutMS: 5000 }}));
 
 
 app.get('/', (req, res) => {
@@ -43,7 +43,7 @@ app.post("/api/addUserToTeam", (req, res) => {
 app.post("/api/getCompetitions", auth.checkAuth, (req, res) => {
     let err = false;
     try{
-        const id = res.locals.id
+        const id = 202020212022
         val = dbHandler.getCompetitions(req.db, id)
         resobj = {}
         if (!val)
