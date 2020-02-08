@@ -4,7 +4,7 @@ let validator = require('validator')
 let dbHandler = require('./dbHandler.js')
 let auth = require('./authHandler.js')
 let expressMongoDb = require('express-mongo-db');
-const port = 80
+const port = process.env.PORT || 80;
 
 app = express()
 app.use(bodyParser.json())
