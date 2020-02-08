@@ -88,7 +88,7 @@ app.post("/api/submitMatchData", (req, res) => {
         }
         if (err == false) { // do not change this line to a boolean operator, random JS errors can cause it to work unexpectedly (because JS). 
             resobj = {
-                "success": !errss
+                "success": !err
             }
         }
         res.json(resobj)
