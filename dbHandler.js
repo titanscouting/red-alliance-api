@@ -16,6 +16,10 @@ exports.addUserToTeam = (db, idin, namein, positionin) => {
     var dbo = db.db("userlist");
     var myobj = { id: idin, name: namein, position: positionin};
     dbo.collection("data").updateOne(myobj, {upsert:true}).then(function(err, res) {
+        if (err) {
+            console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
+            errorcode = 1
+        }
         console.log("1 document inserted");
         db.close();
     });
