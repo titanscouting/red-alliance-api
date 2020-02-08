@@ -19,51 +19,29 @@ app.get('/', (req, res) => {
 
 app.post("/api/addUserToTeam", (req, res) => {
     let err = false;
-    try{
-        const id = "no-id-provided" || res.locals.id
-        const team = parseInt(validator.escape(req.body.team))
-        const position = String(validator.escape(req.body.position))
-        val = dbHandler.addUserToTeam(req.db, id, team, position)
-        resobj = {}
-    } catch (error) {
-        err = true; 
-        resobj = {"success": !err}
-        console.log(error)
-    }
-    if (err == false) { // do not change this line to a boolean operator, random JS errors can cause it to work unexpectedly (because JS). 
-        resobj = {
-            "success": !err,
-            "id": res.locals.id,
-            "team": req.body.team,
-            "position": req.body.position
-        }
+    const id = res.locals.id
+    const team = parseInt(validator.escape(req.body.team))
+    const position = String(validator.escape(req.body.position))
+    val = dbHandler.addUserToTeam(req.db, id, team, position)
+    resobj = {
+        "success": !err,
+        "id": res.locals.id,
+        "team": req.body.team,
+        "position": req.body.position
     }
     res.json(resobj)
 })
 app.post("/api/getCompetitions", auth.checkAuth, (req, res) => {
     let err = false;
-    try{
-        const id = 202020212022
-        val = dbHandler.getCompetitions(req.db, id)
-        resobj = {}
-        if (!val)
-        {
-            throw new Error('Error fetching from DB')
-        }
-        } catch (error) {
-            err = true; 
-            resobj = {"success": !err}
-            console.log(error)
-        }
-        if (err == false) { // do not change this line to a boolean operator, random JS errors can cause it to work unexpectedly (because JS). 
-            resobj = {
-                "success": !err,
-                "id": res.locals.id,
-                "team": val.team,
-                "competitions": val.competitions
-            }
-        }
-        res.json(resobj)
+    const id = res.locals.id
+    val = dbHandler.getCompetitions(req.db, id)
+    resobj = {
+            "success": !err,
+            "id": res.locals.id,
+            "team": val.team,
+            "competitions": val.competitions
+    }
+    res.json(resobj)
 })
 app.post("/api/submitMatchData", auth.checkAuth, (req, res) => {
     let err = false;
