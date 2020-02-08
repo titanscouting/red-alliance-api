@@ -17,7 +17,7 @@ app.get('/', (req, res) => {
     res.status(200)
 })
 
-app.post("/api/addUserToTeam", (req, res) => {
+app.post("/api/addUserToTeam", auth.checkAuth, (req, res) => {
     let err = false;
     const id = res.locals.id
     const team = parseInt(validator.escape(req.body.team))
