@@ -13,9 +13,9 @@ exports.checkDB = async (table, val) => {
 }
 exports.addUserToTeam = (db, idin, namein, positionin) => {
     idin = String(idin)
-    var dbo = db.db("data_scouting");
+    var dbo = db.db("userlist");
     var myobj = { id: idin, name: namein, position: positionin};
-    dbo.collection("userlist").updateOne(myobj, {upsert:true}).then(function(err, res) {
+    dbo.collection("data").updateOne(myobj, {upsert:true}).then(function(err, res) {
         console.log("1 document inserted");
         db.close();
     });
