@@ -9,7 +9,7 @@ const port = process.env.PORT || 80;
 app = express()
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
-app.use(expressMongoDb('mongodb+srv://api_user:epycepoch2019@2022-scouting-4vfuu.mongodb.net/test?retryWrites=true&w=majority', { server: { socketOptions: { connectTimeoutMS: 5000 }}}));
+app.use(expressMongoDb('mongodb+srv://api_user:epycepoch2019@2022-scouting-4vfuu.mongodb.net/test?retryWrites=true&w=majority', { socketOptions: { connectTimeoutMS: 5000 }}));
 
 
 app.get('/', (req, res) => {
