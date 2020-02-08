@@ -16,7 +16,7 @@ exports.addUserToTeam = (db, idin, namein, positionin) => {
     var myobj = { id: idin, name: namein, position: positionin};
     dbo.collection("userlist").updateOne(myobj, {upsert:true}).then(function(err, res) {
         if (err){
-            console.error(err)
+            console.error(err.code)
         } else {
             console.log("1 document inserted");
         }
