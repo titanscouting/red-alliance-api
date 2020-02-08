@@ -7,7 +7,6 @@ const port = 4000
 
 app = express()
 app.use(bodyParser.json())
-app.use(auth.checkAuth())
 app.use(bodyParser.urlencoded({extended: true}))
 
 app.get('/', (req, res) => {
@@ -15,7 +14,7 @@ app.get('/', (req, res) => {
     res.status(200)
 })
 
-app.post("/api/addUserToTeam", (req, res) => {
+app.post("/api/addUserToTeam", auth.checkAuth, (req, res) => {
     let err = false;
     try{
         const id = res.locals.id
@@ -42,7 +41,7 @@ app.post("/api/addUserToTeam", (req, res) => {
         }
         res.json(resobj)
 })
-app.post("/api/getCompetitions", (req, res) => {
+app.post("/api/getCompetitions", auth.checkAuth, (req, res) => {
     let err = false;
     try{
         const id = res.locals.id
@@ -67,7 +66,7 @@ app.post("/api/getCompetitions", (req, res) => {
         }
         res.json(resobj)
 })
-app.post("/api/submitMatchData", (req, res) => {
+app.post("/api/submitMatchData", auth.checkAuth, (req, res) => {
     let err = false;
     try{
         const id = res.locals.id
