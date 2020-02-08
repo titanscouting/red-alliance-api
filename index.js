@@ -27,8 +27,7 @@ app.post("/api/addUserToTeam", auth.checkAuth, (req, res) => {
     resobj = {
         "success": !err,
         "id": res.locals.id,
-        "team": req.body.team,
-        "position": req.body.position
+        "response": val
     }
     res.json(resobj)
 })
