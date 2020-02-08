@@ -9,8 +9,8 @@ const port = process.env.PORT || 80;
 app = express()
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
-app.use(expressMongoDb('mongodb+srv://api-user-new:titanscout2022@2022-scouting-4vfuu.mongodb.net/test?retryWrites=true&w=majority', {server: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000 } },
-replset: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000 } }}));
+app.use(expressMongoDb('mongodb+srv://api-user-new:titanscout2022@2022-scouting-4vfuu.mongodb.net/test?retryWrites=true&w=majority', server: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000 } },
+replset: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000 } }));
 
 
 app.get('/', (req, res) => {
@@ -27,7 +27,8 @@ app.post("/api/addUserToTeam", auth.checkAuth, (req, res) => {
     resobj = {
         "success": !err,
         "id": res.locals.id,
-        "response": val
+        "team": req.body.team,
+        "position": req.body.position
     }
     res.json(resobj)
 })
