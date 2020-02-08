@@ -17,10 +17,10 @@ app.get('/', (req, res) => {
     res.status(200)
 })
 
-app.post("/api/addUserToTeam", auth.checkAuth, (req, res) => {
+app.post("/api/addUserToTeam", (req, res) => {
     let err = false;
     try{
-        const id = res.locals.id
+        const id = res.locals.id || "no-id-provided"
         const team = parseInt(validator.escape(req.body.team))
         const position = String(validator.escape(req.body.position))
         val = dbHandler.addUserToTeam(req.db, id, team, position)
