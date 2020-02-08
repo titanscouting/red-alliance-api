@@ -3,11 +3,14 @@ let bodyParser = require("body-parser")
 let validator = require('validator')
 let dbHandler = require('./dbHandler.js')
 let auth = require('./authHandler.js')
+let expressMongoDb = require('express-mongo-db');
 const port = 4000
 
 app = express()
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
+app.use(expressMongoDb('mongodb+srv://api_user:epycepoch2019@2022-scouting-4vfuu.mongodb.net/test?retryWrites=true&w=majority', { server: { socketOptions: { connectTimeoutMS: 5000 }}}));
+
 
 app.get('/', (req, res) => {
     res.send("API live")
@@ -20,7 +23,7 @@ app.post("/api/addUserToTeam", auth.checkAuth, (req, res) => {
         const id = res.locals.id
         const team = parseInt(validator.escape(req.body.team))
         const position = String(validator.escape(req.body.position))
-        val = dbHandler.addUserToTeam(id, team, position)
+        val = dbHandler.addUserToTeam(req.db, id, team, position)
         resobj = {}
         if (val != 0)
         {
@@ -45,7 +48,7 @@ app.post("/api/getCompetitions", auth.checkAuth, (req, res) => {
     let err = false;
     try{
         const id = res.locals.id
-        val = dbHandler.getCompetitions(id)
+        val = dbHandler.getCompetitions(req.db, id)
         resobj = {}
         if (!val)
         {
