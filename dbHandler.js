@@ -20,8 +20,8 @@ exports.addUserToTeam = (db, idin, namein, positionin) => {
         } else {
             console.log("1 document inserted");
         }
+        db.close();
     });
-    db.close();
 }
 
 
