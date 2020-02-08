@@ -12,6 +12,7 @@ exports.checkDB = async (table, val) => {
     });
 }
 exports.addUserToTeam = (db, idin, namein, positionin) => {
+    idin = String(idin)
     var dbo = db.db("data_scouting");
     var myobj = { id: idin, name: namein, position: positionin};
     dbo.collection("userlist").updateOne(myobj, {upsert:true}).then(function(err, res) {
@@ -24,6 +25,7 @@ exports.addUserToTeam = (db, idin, namein, positionin) => {
 
 exports.getCompetitions = (db, idin) => {
     let rval;
+    idin = String(idin)
     // Get the competitions for a team member. Currently, one user can only be part of one team. 
     var dbo = db.db("data_scouting");
     var myobj = { id: idin};
@@ -41,6 +43,7 @@ exports.getCompetitions = (db, idin) => {
 
 exports.submitMatchData = (db, idin, competitionin, matchin, teamin, datain) => {
     if (err) throw err;
+    idin = String(idin)
     var dbo = db.db("data_scouting");
     var myobj = { id: idin, competition: competitionin, match: matchin, team_scouted: teamin, data: JSON.parse(datain)};
     dbo.collection("matchdata").updateOne(myobj, {upsert:true}, function(err, res) {
