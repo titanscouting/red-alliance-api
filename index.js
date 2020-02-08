@@ -25,10 +25,6 @@ app.post("/api/addUserToTeam", (req, res) => {
         const position = String(validator.escape(req.body.position))
         val = dbHandler.addUserToTeam(req.db, id, team, position)
         resobj = {}
-        if (val != 0)
-        {
-            throw new Error('Error adding to DB')
-        }
         } catch (error) {
             err = true; 
             resobj = {"success": !err}
