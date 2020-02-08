@@ -9,8 +9,11 @@ const port = process.env.PORT || 80;
 app = express()
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
-app.use(expressMongoDb('mongodb+srv://api-user-new:titanscout2022@2022-scouting-4vfuu.mongodb.net/test?retryWrites=true&w=majority', server: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000 } },
-replset: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000 } }));
+let options = {
+    server: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000 } },
+    replset: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000 } }
+};
+app.use(expressMongoDb('mongodb+srv://api-user-new:titanscout2022@2022-scouting-4vfuu.mongodb.net/test?retryWrites=true&w=majority', options))
 
 
 app.get('/', (req, res) => {
