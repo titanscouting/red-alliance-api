@@ -13,10 +13,16 @@ module.exports.checkAuth = async (req, res, next) => {
 }).catch(err => {console.error(err); res.status(401);});
   try {
     const payload = ticket.getPayload();
-    res.locals.id = payload['sub'];
+    if (payload['hd'] == 'imsa.edu') {
+      res.locals.id = payload['sub'];
+      res.locals.name = payload['name'];
+    }
+    else {
+      throw new Error("User is not part of imsa.edu domain");
+    }
   }
   catch (e) {
-    console.error("Could not get payload from ticket")
+    console.error("Could not get payload from ticket for reason:" + e)
     res.status(403)
   }
 

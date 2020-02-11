@@ -4,7 +4,7 @@ let validator = require('validator')
 let dbHandler = require('./dbHandler.js')
 let auth = require('./authHandler.js')
 let expressMongoDb = require('express-mongo-db');
-const port = process.env.PORT || 80;
+const port = process.env.PORT || 8090;
 
 app = express()
 app.use(bodyParser.json())
@@ -23,18 +23,18 @@ app.get('/', (req, res) => {
 app.post("/api/addUserToTeam", auth.checkAuth, (req, res) => {
     let err = false;
     const id = res.locals.id
+    const name = res.locals.name
     const team = parseInt(validator.escape(req.body.team))
-    const position = String(validator.escape(req.body.position))
-    val = dbHandler.addUserToTeam(req.db, id, team, position)
+    val = dbHandler.addUserToTeam(req.db, id, name, team)
     resobj = {
         "success": !err,
+        "name": res.locals.name,
         "id": res.locals.id,
         "team": req.body.team,
-        "position": req.body.position
     }
     res.json(resobj)
 })
-app.post("/api/getCompetitions", auth.checkAuth, (req, res) => {
+app.get("/api/getCompetitions", auth.checkAuth, (req, res) => {
     let err = false;
     const id = res.locals.id
     val = dbHandler.getCompetitions(req.db, id)
@@ -47,29 +47,53 @@ app.post("/api/getCompetitions", auth.checkAuth, (req, res) => {
     res.json(resobj)
 })
 app.post("/api/submitMatchData", auth.checkAuth, (req, res) => {
-    let err = false;
+    let val;  
+    const id = res.locals.id
+    const competition_id = String(validator.escape(req.body.competition_id))
+    const match_number = parseInt(validator.escape(req.body.match_number))
+    const team_scouted = parseInt(validator.escape(req.body.team_scouted))
+    const data = req.body.data
     try{
-        const id = res.locals.id
-        const competition_id = String(validator.escape(req.body.competition_id))
-        const match_number = parseInt(validator.escape(req.body.match_number))
-        const team_scouted = parseInt(validator.escape(req.body.team_scouted))
-        const data = req.body.data
-        val = dbHandler.addUserToTeam(id, competition_id, match_number, team_scouted, data)
-        resobj = {}
-        if (val != 0)
-        {
-            throw new Error('Error adding to DB')
+        val = await dbHandler.submitMatchData(req.db, id, competition_id, match_number, team_scouted, data).catch(e => {console.error(e); val.err_occur = true;})
+    } catch (err) {
+        console.error(err)
+        val.err_occur = true;
+    }
+    if (val.err_occur == false) {
+        resobj = {
+            "success": true,
+            "competition": competition_id,
+            "match_number" : match_number,
         }
-        } catch (error) {
-            err = true; 
-            resobj = {"success": !err}
-            console.log(error)
+    } else {
+        resobj = {
+            "success": false
         }
-        if (err == false) { // do not change this line to a boolean operator, random JS errors can cause it to work unexpectedly (because JS). 
-            resobj = {
-                "success": !err
-            }
-        }
-        res.json(resobj)
+    }
+    res.json(resobj)
 })
+
+app.get('/api/fetchMatches', async (req, res) => {  
+    let val;  
+    const competition = String(validator.escape(req.body.competition))
+    try{
+        val = await dbHandler.fetchMatchesForCompetition(req.db, competition).catch(e => {console.error(e); val.err_occur = true;})
+    } catch (err) {
+        console.error(err)
+        val.err_occur = true;
+    }
+    if (val.err_occur == false) {
+        resobj = {
+            "success": true,
+            "competition": competition,
+            "data": val.data.data
+        }
+    } else {
+        resobj = {
+            "success": false
+        }
+    }
+    res.json(resobj)
+})
+
 app.listen(port, () => console.log(`Listening on port ${port}`))
