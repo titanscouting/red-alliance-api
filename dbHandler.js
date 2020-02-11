@@ -1,8 +1,4 @@
-let MongoClient = require('mongodb').MongoClient;
-
 let errorcode = 0
-
-const url = "mongodb+srv://api_user:epycepoch2019@2022-scouting-4vfuu.mongodb.net/test?retryWrites=true&w=majority";
 
 exports.checkDB = async (table, val) => {
     var params = { }
@@ -15,42 +11,57 @@ exports.checkDB = async (table, val) => {
             console.log(err);
     });
 }
-exports.addUserToTeam = (idin, namein, positionin) => {
-    MongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true }, function(err, db) {
-        if (err) throw err;
-        var dbo = db.db("data_scouting");
-        var myobj = { id: idin, name: namein, position: positionin};
-        dbo.collection("userlist").updateOne(myobj, {upsert:true}, function(err, res) {
-          if (err) {
-              console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
-              errorcode = 1
-          }
-          console.log("1 document inserted");
-          db.close();
-        });
-      });
-};
+exports.addUserToTeam = (db, idin, namein, teamin) => {
+    idin = String(idin)
+    var dbo = db.db("userlist");
+    var myobj = { "$set": {_id: idin, id: idin, name: namein, team: teamin}};
+    dbo.collection("data").updateOne({_id: idin}, myobj, {upsert:true}).then(function(err, res) {
+        if (err) {
+            console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
+            errorcode = 1
+        }
+        console.log("1 document inserted");
+    });
+}
 
 
-exports.getCompetitions = (idin) => {
+exports.getCompetitions = async (db, idin) => {
     let rval;
+    idin = String(idin)
     // Get the competitions for a team member. Currently, one user can only be part of one team. 
+    var dbo = db.db("data_scouting");
+    var myobj = { id: idin};
+    var data = await dbo.collection("userlist").findOne(myobj)
+    return rval
+}
+
+exports.submitMatchData = async (db, idin, competitionin, matchin, teamin, datain) => {
+    let data = {}
+    data.err_occur = false
+    idin = String(idin)
+    let dbo = db.db("data_scouting");
+    let myobj = {"$set": {id: idin, competition: competitionin, match: matchin, team_scouted: teamin, data: datain}};
     try {
-        MongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true }, function(err, db) {
-            var dbo = db.db("data_scouting");
-            var myobj = { id: idin};
-            dbo.collection("userlist").findOne(myobj, function(err, res) {
-                if (err) {
-                    console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
-                    errorcode = 1
-                }
-                console.log("Found");
-                rval = result
-                db.close();
-            });
-        });
-    } catch(err) {
+        await dbo.collection("matchdata").updateOne({_id: idin}, myobj, {upsert:true}).catch(e => {console.error(e);data.err_occur = true;})
+    } catch (err) {
+        data.err_occur = true
         console.error(err)
     }
-    return rval
+    return data;
+}
+
+exports.fetchMatchesForCompetition = async (db, comp_idin) => {
+    let data = {}
+    data.err_occur = false
+    comp_idin = String(comp_idin)
+    var dbo = db.db("data_scouting");
+    var myobj = {competition: comp_idin};
+    try {
+        data.data = await dbo.collection("schedule").findOne(myobj).catch(e => {console.error(e);data.err_occur = true;})
+    } catch (err) {
+        data.err_occur = true
+        console.error(err)
+    }
+    return data;
+
 }

@@ -1,6 +1,6 @@
 const {OAuth2Client} = require('google-auth-library');
 
-CLIENT_ID = "310664675151-5en2tm8rm9m6fjemifs1a06au02n8g8k.apps.googleusercontent.com"
+CLIENT_ID = "291863698243-eg5i4fh001n7sl28b0bqgp4h2vae9gn2.apps.googleusercontent.com"
 
 const client = new OAuth2Client(CLIENT_ID);
 module.exports.checkAuth = async (req, res, next) => {
@@ -13,10 +13,16 @@ module.exports.checkAuth = async (req, res, next) => {
 }).catch(err => {console.error(err); res.status(401);});
   try {
     const payload = ticket.getPayload();
-    res.locals.id = payload['sub'];
+    if (payload['hd'] == 'imsa.edu') {
+      res.locals.id = payload['sub'];
+      res.locals.name = payload['name'];
+    }
+    else {
+      throw new Error("User is not part of imsa.edu domain");
+    }
   }
   catch (e) {
-    console.error("Could not get payload from ticket")
+    console.error("Could not get payload from ticket for reason:" + e)
     res.status(403)
   }
 
