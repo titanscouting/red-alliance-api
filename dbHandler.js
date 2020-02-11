@@ -1,39 +1,27 @@
-let errorcode = 0
 
-exports.checkDB = async (table, val) => {
-    var params = { }
-    params.TableName = table;
-    var key = { "id": val};
-    params.Key = key;
-    
-    return dbClient.get(params, function(err, data) {
-        if (err)
-            console.log(err);
-    });
-}
-exports.addUserToTeam = (db, idin, namein, teamin) => {
-    idin = String(idin)
-    var dbo = db.db("userlist");
-    var myobj = { "$set": {_id: idin, id: idin, name: namein, team: teamin}};
-    dbo.collection("data").updateOne({_id: idin}, myobj, {upsert:true}).then(function(err, res) {
-        if (err) {
-            console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
-            errorcode = 1
-        }
-        console.log("1 document inserted");
-    });
-}
+// Not implemented in this year's version of the API.
+// exports.addUserToTeam = (db, idin, namein, teamin) => {
+//     idin = String(idin)
+//     var dbo = db.db("userlist");
+//     var myobj = { "$set": {_id: idin, id: idin, name: namein, team: teamin}};
+//     dbo.collection("data").updateOne({_id: idin}, myobj, {upsert:true}).then(function(err, res) {
+//         if (err) {
+//             console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
+//             errorcode = 1
+//         }
+//         console.log("1 document inserted");
+//     });
+// }
 
-
-exports.getCompetitions = async (db, idin) => {
-    let rval;
-    idin = String(idin)
-    // Get the competitions for a team member. Currently, one user can only be part of one team. 
-    var dbo = db.db("data_scouting");
-    var myobj = { id: idin};
-    var data = await dbo.collection("userlist").findOne(myobj)
-    return rval
-}
+// exports.getCompetitions = async (db, idin) => {
+//     let rval;
+//     idin = String(idin)
+//     // Get the competitions for a team member. Currently, one user can only be part of one team. 
+//     var dbo = db.db("data_scouting");
+//     var myobj = { id: idin};
+//     var data = await dbo.collection("userlist").findOne(myobj)
+//     return rval
+// }
 
 exports.submitMatchData = async (db, idin, competitionin, matchin, teamin, datain) => {
     let data = {}
@@ -63,5 +51,4 @@ exports.fetchMatchesForCompetition = async (db, comp_idin) => {
         console.error(err)
     }
     return data;
-
 }
