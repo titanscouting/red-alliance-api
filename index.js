@@ -20,7 +20,7 @@ app.get('/', (req, res) => {
     res.status(200)
 })
 
-app.post("/api/addUserToTeam", auth.checkAuth, (req, res) => {
+app.post("/api/addUserToTeam", auth.checkAuth, async (req, res) => {
     let err = false;
     const id = res.locals.id
     const name = res.locals.name
@@ -34,7 +34,7 @@ app.post("/api/addUserToTeam", auth.checkAuth, (req, res) => {
     }
     res.json(resobj)
 })
-app.get("/api/getCompetitions", auth.checkAuth, (req, res) => {
+app.get("/api/getCompetitions", auth.checkAuth, async (req, res) => {
     let err = false;
     const id = res.locals.id
     val = dbHandler.getCompetitions(req.db, id)
@@ -46,7 +46,7 @@ app.get("/api/getCompetitions", auth.checkAuth, (req, res) => {
     }
     res.json(resobj)
 })
-app.post("/api/submitMatchData", auth.checkAuth, (req, res) => {
+app.post("/api/submitMatchData", auth.checkAuth, async (req, res) => {
     let val;  
     const id = res.locals.id
     const competition_id = String(validator.escape(req.body.competition_id))
