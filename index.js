@@ -14,11 +14,20 @@ let options = {
 };
 app.use(expressMongoDb('mongodb+srv://api-user-new:titanscout2022@2022-scouting-4vfuu.mongodb.net/test?retryWrites=true&w=majority', options))
 
-
+/**
+ * Base route; allows the frontend application and/or developer to sanity check to ensure the API is live.
+ */
 app.get('/', (req, res) => {
     res.send("API live")
     res.status(200)
 })
+
+/**
+ * POST route "/api/addUserToTeam"
+ * Adds user to the team. More useful for next year's version of the application, this year the application is hard coded and will just use match ID data. 
+ * @param token in form of header with title 'token' and value of JWT provided by Google OAuth
+ * @returns back to the client resobj and 200 OK. 
+ */
 
 app.post("/api/addUserToTeam", auth.checkAuth, async (req, res) => {
     let err = false;
@@ -34,18 +43,33 @@ app.post("/api/addUserToTeam", auth.checkAuth, async (req, res) => {
     }
     res.json(resobj)
 })
-app.get("/api/getCompetitions", auth.checkAuth, async (req, res) => {
-    let err = false;
-    const id = res.locals.id
-    val = dbHandler.getCompetitions(req.db, id)
-    resobj = {
-            "success": !err,
-            "id": res.locals.id,
-            "team": val.team,
-            "competitions": val.competitions
-    }
-    res.json(resobj)
-})
+/*
+* GET route "/api/getCompetitions"
+* Not implemented and will not be implemented until next year. 
+*/
+// app.get("/api/getCompetitions", auth.checkAuth, async (req, res) => {
+//     let err = false;
+//     const id = res.locals.id
+//     val = dbHandler.getCompetitions(req.db, id)
+//     resobj = {
+//             "success": !err,
+//             "id": res.locals.id,
+//             "team": val.team,
+//             "competitions": val.competitions
+//     }
+//     res.json(resobj)
+// })
+
+/**
+ * POST route "/api/submitMatchData"
+ * Allows the application to submit data to the API, with some key data seperated within the JSON and the rest submitted as arbirtary structures within the data key. 
+ * @param token in form of header with title 'token' and value of JWT provided by Google OAuth
+ * @param competition_id is the identifier for the competition: e.g. "Central 2020". 
+ * @param match_number is the number of the match scouted: e.g. "1".
+ * @param team_scouted is the team that was being scouted: e.g. "3061".
+ * @param data is the arbritrary other data that needs to be recorded for the match.
+ * @returns back to the client resobj and 200 OK. 
+ */
 app.post("/api/submitMatchData", auth.checkAuth, async (req, res) => {
     let val;  
     const id = res.locals.id
@@ -73,6 +97,12 @@ app.post("/api/submitMatchData", auth.checkAuth, async (req, res) => {
     res.json(resobj)
 })
 
+/**
+ * GET route "/api/fetchMatches"
+ * Allows the application to fetch the list of matches and the number of scouters for the match.
+ * @param competition_id is the identifier for the competition: e.g. "Central 2020". 
+ * @returns back to the client resobj and 200 OK. 
+ */
 app.get('/api/fetchMatches', async (req, res) => {  
     let val;  
     const competition = String(validator.escape(req.body.competition))
