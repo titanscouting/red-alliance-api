@@ -116,7 +116,7 @@ app.get('/api/fetchMatches', async (req, res) => {
         resobj = {
             "success": true,
             "competition": competition,
-            "data": JSON.parse(val.data.data).catch((e) => {console.error(e);})
+            "data": val.data.data
         }
     } else {
         resobj = {
