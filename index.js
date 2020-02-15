@@ -127,9 +127,9 @@ app.get('/api/fetchMatches', async (req, res) => {
 })
 app.get('/api/fetchMatchData', async (req, res) => {  
     let val;  
-    const competition_id = String(validator.escape(req.body.competition_id))
-    const match_number = parseInt(validator.escape(req.body.match_number))
-    const team_scouted = parseInt(validator.escape(req.body.team_scouted))    
+    const competition_id = String(validator.escape(req.query.competition))
+    const match_number = parseInt(validator.escape(req.query.match_number))
+    const team_scouted = parseInt(validator.escape(req.query.team_scouted))    
     try {
         val = await dbHandler.fetchMatchData(req.db, competition_id, match_number, team_scouted).catch(e => {console.error(e); val.err_occur = true;})
     } catch (err) {
