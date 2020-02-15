@@ -64,6 +64,7 @@ exports.fetchMatchData = async (db, comp_idin, match_numberin, team_scoutedin) =
     console.log(myobj)
     try {
         data.data = await dbo.collection("matchdata").find(myobj).catch(e => {console.error(e);data.err_occur = true;})
+        console.log(data.data)
     } catch (err) {
         data.err_occur = true
         console.error(err)
