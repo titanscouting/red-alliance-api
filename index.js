@@ -116,7 +116,60 @@ app.get('/api/fetchMatches', async (req, res) => {
         resobj = {
             "success": true,
             "competition": competition,
-            "data": val.data.data
+            "data": JSON.parse(val.data.data).catch((e) => {console.error(e);})
+        }
+    } else {
+        resobj = {
+            "success": false
+        }
+    }
+    res.json(resobj)
+})
+app.get('/api/fetchMatchData', async (req, res) => {  
+    let val;  
+    const competition_id = String(validator.escape(req.body.competition_id))
+    const match_number = parseInt(validator.escape(req.body.match_number))
+    const team_scouted = parseInt(validator.escape(req.body.team_scouted))    
+    try {
+        val = await dbHandler.fetchMatchData(req.db, competition_id, match_number, team_scouted).catch(e => {console.error(e); val.err_occur = true;})
+    } catch (err) {
+        console.error(err)
+        val.err_occur = true;
+    }
+    if (val.err_occur == false) {
+        resobj = {
+            "success": true,
+            "competition": competition_id,
+            "match_number": match_number,
+            "team_scouted": team_scouted,
+            "data": val.dat.data
+        }
+    } else {
+        resobj = {
+            "success": false
+        }
+    }
+    res.json(resobj)
+})
+
+app.get('/api/fetchShotChart', async (req, res) => {  
+    let val;  
+    const competition_id = String(validator.escape(req.body.competition_id))
+    const match_number = parseInt(validator.escape(req.body.match_number))
+    const team_scouted = parseInt(validator.escape(req.body.team_scouted))    
+    try {
+        val = await dbHandler.fetchShotChart(req.db, competition_id, match_number, team_scouted).catch(e => {console.error(e); val.err_occur = true;})
+    } catch (err) {
+        console.error(err)
+        val.err_occur = true;
+    }
+    if (val.err_occur == false) {
+        resobj = {
+            "success": true,
+            "competition": competition_id,
+            "match_number": match_number,
+            "team_scouted": team_scouted,
+            "data": val.dat.data
         }
     } else {
         resobj = {
