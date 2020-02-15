@@ -60,7 +60,7 @@ exports.fetchMatchData = async (db, comp_idin, match_numberin, team_scoutedin) =
     data.err_occur = false
     console.log(comp_idin, match_numberin, team_scoutedin)
     var dbo = db.db("data_scouting");
-    var myobj = {_id: comp_idin + match_numberin + team_scoutedin};
+    var myobj = {_id: comp_idin + team_scoutedin + match_numberin};
     // var myobj = {competition: String(comp_idin), match: parseInt(match_numberin), team_scouted: parseInt(team_scoutedin)};
     console.log(myobj)
     try {
