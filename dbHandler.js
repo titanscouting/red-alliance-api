@@ -42,8 +42,8 @@ exports.fetchMatchesForCompetition = async (db, comp_idin) => {
     let data = {}
     data.err_occur = false
     comp_idin = String(comp_idin)
-    var dbo = db.db("data_scouting");
-    var myobj = {competition: String(comp_idin)};
+    let dbo = db.db("data_scouting");
+    let myobj = {competition: String(comp_idin)};
     console.log(myobj)
     try {
         data.data = await dbo.collection("schedule").findOne(myobj).catch(e => {console.error(e);data.err_occur = true;})
@@ -58,9 +58,9 @@ exports.fetchMatchesForCompetition = async (db, comp_idin) => {
 exports.fetchMatchData = async (db, comp_idin, match_numberin, team_scoutedin) => {
     let data = {}
     data.err_occur = false
-    var dbo = db.db("data_scouting");
-    var myobj = {_id: comp_idin + team_scoutedin + match_numberin};
-    // var myobj = {competition: String(comp_idin), match: parseInt(match_numberin), team_scouted: parseInt(team_scoutedin)};
+    let dbo = db.db("data_scouting");
+    // var myobj = {_id: comp_idin + team_scoutedin + match_numberin};
+    let myobj = {competition: String(comp_idin), match: parseInt(match_numberin), team_scouted: parseInt(team_scoutedin)};
     try {
         data.data = await dbo.collection("matchdata").findOne(myobj).catch(e => {console.error(e);data.err_occur = true;})
     } catch (err) {
@@ -74,8 +74,8 @@ exports.fetchShotChart = async (db, comp_idin, match_numberin, team_scoutedin) =
     let data = {}
     data.err_occur = false
     comp_idin = String(comp_idin)
-    var dbo = db.db("data_scouting");
-    var myobj = {competition: comp_idin, match: match_numberin, team_scouted: team_scoutedin};
+    let dbo = db.db("data_scouting");
+    let myobj = {competition: comp_idin, match: match_numberin, team_scouted: team_scoutedin};
     try {
         data.data = await dbo.collection("shotchart").findOne(myobj).catch(e => {console.error(e);data.err_occur = true;})
     } catch (err) {
