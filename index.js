@@ -142,7 +142,7 @@ app.get('/api/fetchMatchData', async (req, res) => {
             "competition": competition_id,
             "match_number": match_number,
             "team_scouted": team_scouted,
-            "data": val.dat.data
+            "data": val.data.data
         }
     } else {
         resobj = {
