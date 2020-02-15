@@ -43,9 +43,11 @@ exports.fetchMatchesForCompetition = async (db, comp_idin) => {
     data.err_occur = false
     comp_idin = String(comp_idin)
     var dbo = db.db("data_scouting");
-    var myobj = {competition: comp_idin};
+    var myobj = {competition: String(comp_idin)};
+    console.log(myobj)
     try {
         data.data = await dbo.collection("schedule").findOne(myobj).catch(e => {console.error(e);data.err_occur = true;})
+        console.log(data.data)
     } catch (err) {
         data.err_occur = true
         console.error(err)
