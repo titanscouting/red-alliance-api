@@ -30,7 +30,7 @@ exports.submitMatchData = async (db, idin, competitionin, matchin, teamin, datai
     let dbo = db.db("data_scouting");
     let myobj = {"$set": {id: idin, competition: competitionin, match: matchin, team_scouted: teamin, data: datain}};
     try {
-        await dbo.collection("matchdata").updateOne({_id: competitionin+"_"matchin+"_"teamin}, myobj, {upsert:true}).catch(e => {console.error(e);data.err_occur = true;})
+        await dbo.collection("matchdata").updateOne({_id: competitionin+"_"+matchin+"_"+teamin}, myobj, {upsert:true}).catch(e => {console.error(e);data.err_occur = true;})
     } catch (err) {
         data.err_occur = true
         console.error(err)
