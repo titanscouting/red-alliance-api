@@ -105,7 +105,7 @@ app.post("/api/submitMatchData", auth.checkAuth, async (req, res) => {
  */
 app.get('/api/fetchMatches', async (req, res) => {  
     let val;  
-    const competition = String(validator.escape(req.body.competition))
+    const competition = String(validator.escape(req.query.competition))
     try{
         val = await dbHandler.fetchMatchesForCompetition(req.db, competition).catch(e => {console.error(e); val.err_occur = true;})
     } catch (err) {
