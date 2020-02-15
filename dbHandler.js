@@ -38,6 +38,21 @@ exports.submitMatchData = async (db, idin, competitionin, matchin, teamin, datai
     return data;
 }
 
+exports.submitShotChartData = async (db, idin, competitionin, matchin, teamin, datain) => {
+    let data = {}
+    data.err_occur = false
+    idin = String(idin)
+    let dbo = db.db("data_scouting");
+    let myobj = {"$set": {id: idin, competition: competitionin, match: matchin, team_scouted: teamin, data: datain}};
+    try {
+        await dbo.collection("shotchart").updateOne({_id: competitionin+matchin+teamin}, myobj, {upsert:true}).catch(e => {console.error(e);data.err_occur = true;})
+    } catch (err) {
+        data.err_occur = true
+        console.error(err)
+    }
+    return data;
+}
+
 exports.fetchMatchesForCompetition = async (db, comp_idin) => {
     let data = {}
     data.err_occur = false
@@ -70,12 +85,12 @@ exports.fetchMatchData = async (db, comp_idin, match_numberin, team_scoutedin) =
     return data;
 }
 
-exports.fetchShotChart = async (db, comp_idin, match_numberin, team_scoutedin) => {
+exports.fetchShotChartData = async (db, comp_idin, match_numberin, team_scoutedin) => {
     let data = {}
     data.err_occur = false
-    comp_idin = String(comp_idin)
     let dbo = db.db("data_scouting");
-    let myobj = {competition: comp_idin, match: match_numberin, team_scouted: team_scoutedin};
+    // var myobj = {_id: comp_idin + team_scoutedin + match_numberin};
+    let myobj = {competition: String(comp_idin), match: parseInt(match_numberin), team_scouted: parseInt(team_scoutedin)};
     try {
         data.data = await dbo.collection("shotchart").findOne(myobj).catch(e => {console.error(e);data.err_occur = true;})
     } catch (err) {

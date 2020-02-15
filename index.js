@@ -152,13 +152,13 @@ app.get('/api/fetchMatchData', async (req, res) => {
     res.json(resobj)
 })
 
-app.get('/api/fetchShotChart', async (req, res) => {  
+app.get('/api/fetchShotChartData', async (req, res) => {  
     let val;  
     const competition_id = String(validator.escape(req.body.competition_id))
     const match_number = parseInt(validator.escape(req.body.match_number))
     const team_scouted = parseInt(validator.escape(req.body.team_scouted))    
     try {
-        val = await dbHandler.fetchShotChart(req.db, competition_id, match_number, team_scouted).catch(e => {console.error(e); val.err_occur = true;})
+        val = await dbHandler.fetchShotChartData(req.db, competition_id, match_number, team_scouted).catch(e => {console.error(e); val.err_occur = true;})
     } catch (err) {
         console.error(err)
         val.err_occur = true;
@@ -170,6 +170,33 @@ app.get('/api/fetchShotChart', async (req, res) => {
             "match_number": match_number,
             "team_scouted": team_scouted,
             "data": val.dat.data
+        }
+    } else {
+        resobj = {
+            "success": false
+        }
+    }
+    res.json(resobj)
+})
+
+app.post("/api/submitShotChartData", auth.checkAuth, async (req, res) => {
+    let val;  
+    const id = res.locals.id
+    const competition_id = String(validator.escape(req.body.competition_id))
+    const match_number = parseInt(validator.escape(req.body.match_number))
+    const team_scouted = parseInt(validator.escape(req.body.team_scouted))
+    const data = req.body.data
+    try{
+        val = await dbHandler.submitShotChartData(req.db, id, competition_id, match_number, team_scouted, data).catch(e => {console.error(e); val.err_occur = true;})
+    } catch (err) {
+        console.error(err)
+        val.err_occur = true;
+    }
+    if (val.err_occur == false) {
+        resobj = {
+            "success": true,
+            "competition": competition_id,
+            "match_number" : match_number,
         }
     } else {
         resobj = {
