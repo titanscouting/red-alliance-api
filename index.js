@@ -91,7 +91,8 @@ app.post("/api/submitMatchData", auth.checkAuth, async (req, res) => {
         }
     } else {
         resobj = {
-            "success": false
+            "success": false,
+            "reasons": val.err_reasons,
         }
     }
     res.json(resobj)
@@ -120,7 +121,8 @@ app.get('/api/fetchMatches', async (req, res) => {
         }
     } else {
         resobj = {
-            "success": false
+            "success": false,
+            "reasons": val.err_reasons,
         }
     }
     res.json(resobj)
@@ -146,7 +148,8 @@ app.get('/api/fetchMatchData', async (req, res) => {
         }
     } else {
         resobj = {
-            "success": false
+            "success": false,
+            "reasons": val.err_reasons,
         }
     }
     res.json(resobj)
@@ -173,7 +176,8 @@ app.get('/api/fetchShotChartData', async (req, res) => {
         }
     } else {
         resobj = {
-            "success": false
+            "success": false,
+            "reasons": val.err_reasons,
         }
     }
     res.json(resobj)
@@ -200,7 +204,8 @@ app.post("/api/submitShotChartData", auth.checkAuth, async (req, res) => {
         }
     } else {
         resobj = {
-            "success": false
+            "success": false,
+            "reasons": val.err_reasons,
         }
     }
     res.json(resobj)
