@@ -182,7 +182,6 @@ app.get('/api/fetchShotChartData', async (req, res) => {
     }
     res.json(resobj)
 })
-
 app.post("/api/submitShotChartData", auth.checkAuth, async (req, res) => {
     let val;  
     const id = res.locals.id
@@ -210,5 +209,20 @@ app.post("/api/submitShotChartData", auth.checkAuth, async (req, res) => {
     }
     res.json(resobj)
 })
+
+
+
+
+
+
+// Privacy Policy
+app.get('/privacy-policy', function(req, res) {
+    res.sendFile('public/privacy-policy.pdf')
+})
+
+
+
+
+
 
 app.listen(port, () => console.log(`Listening on port ${port}`))
