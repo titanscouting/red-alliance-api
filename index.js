@@ -5,6 +5,7 @@ let dbHandler = require('./dbHandler.js')
 let auth = require('./authHandler.js')
 let expressMongoDb = require('express-mongo-db');
 const port = process.env.PORT || 8190;
+let path = require("path");
 
 app = express()
 app.use(bodyParser.json())
