@@ -218,7 +218,7 @@ app.post("/api/submitShotChartData", auth.checkAuth, async (req, res) => {
 
 // Privacy Policy
 app.get('/privacy-policy', function(req, res) {
-    res.sendFile(path.join(__dirname, '../public', 'privacy-policy.pdf'));
+    res.sendFile(path.join(__dirname, 'public', 'privacy-policy.pdf'));
 })
 
 
