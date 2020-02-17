@@ -218,7 +218,7 @@ app.post("/api/submitShotChartData", auth.checkAuth, async (req, res) => {
 
 // Privacy Policy
 app.get('/privacy-policy', function(req, res) {
-    res.redirect('https://drive.google.com/a/imsa.edu/file/d/12Uyw51y8OYqK26McyE0-5mIREVCrIxAB/view?usp=sharing')
+    res.redirect('https://drive.google.com/a/imsa.edu/file/d/11_cAuaerCrQ3BBXNx_G_zw1ZyGaTWx0z/view?usp=sharing')
 })
 
 
