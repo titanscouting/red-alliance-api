@@ -173,7 +173,7 @@ app.get('/api/fetchShotChartData', async (req, res) => {
             "competition": competition_id,
             "match_number": match_number,
             "team_scouted": team_scouted,
-            "data": val.dat.data
+            "data": val.data.data
         }
     } else {
         resobj = {
@@ -211,7 +211,31 @@ app.post("/api/submitShotChartData", auth.checkAuth, async (req, res) => {
     res.json(resobj)
 })
 
-
+app.post('/api/addScouterToMatch', async (req, res) => {  
+    let val;  
+    const match = String(validator.escape(req.body.match))
+    const user = parseInt(validator.escape(req.body.user_id))
+    const team_scouted = parseInt(validator.escape(req.body.team_scouted))    
+    try {
+        val = await dbHandler.addScouterToMatch(req.db, user, match, team_scouted).catch(e => {console.error(e); val.err_occur = true;})
+    } catch (err) {
+        console.error(err)
+        val.err_occur = true;
+    }
+    if (val.err_occur == false) {
+        resobj = {
+            "success": true,
+            "match_number": match,
+            "team_scouted": team_scouted,
+        }
+    } else {
+        resobj = {
+            "success": false,
+            "reasons": val.err_reasons,
+        }
+    }
+    res.json(resobj)
+})
 
 
 

@@ -108,3 +108,22 @@ exports.fetchShotChartData = async (db, comp_idin, match_numberin, team_scoutedi
     }
     return data;
 }
+
+exports.addScouterToMatch = async (db, userin, matchin, team_scouted) => {
+    let data = {}
+    data.err_occur = false
+    data.err_reasons = []
+    let dbo = db.db("data_scouting");
+    let myobj = {match: matchin}
+    try {
+        let interim = await dbo.collection("matches").findOne(myobj).catch(e => {console.error(e);data.err_occur = true;})
+        let index = interim.data.teams.indexOf(team_scouted);
+        interim.data.scouters[index] = userin;
+        await dbo.collection("matches").findOneAndReplace(myobj, interim.data, {upsert: true}).catch(e => {console.error(e);data.err_occur = true;})
+    } catch (err) {
+        data.err_occur = true
+        data.err_reasons.push(err)
+        console.error(err)
+    }
+    return data
+}
