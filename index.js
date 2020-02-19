@@ -152,6 +152,29 @@ app.get("/api/fetchScouterUIDs", async (req, res) => {
   }
   res.json(resobj)
 })
+app.get("/api/fetchCompetitionSchedule"), async (req, res) => {
+  let val;
+  const competition = String(validator.escape(req.query.competition))
+  try {
+    val = await dbHandler.fetchUIDsForMatch(req.db, competition).catch(e => {console.error(e); val.err_occur = true;})
+  } catch (e) {
+      console.error(e)
+      val.err_occur = true;
+  }
+  if (val.err_occur == false) {
+      resobj = {
+          "success": true,
+          "competition": competition,
+          "data": val.data.data
+      }
+  } else {
+      resobj = {
+          "success": false,
+          "reasons": val.err_reasons,
+      }
+  }
+  res.json(resobj)
+})
 app.get('/api/fetchMatchData', async (req, res) => {
     let val;
     const competition_id = String(validator.escape(req.query.competition))
