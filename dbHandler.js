@@ -147,7 +147,7 @@ exports.removeScouterFromMatch = async (db, userin, matchin, team_scouted) => {
             data.err_occur = true
             data.err_reasons.push("Team does not exist in scout schedule")
         }
-        interim.scouters[index] = "-1";
+        interim.scouters[index] = false;
         await dbo.collection("matches").findOneAndReplace(myobj, interim, {upsert: true}).catch(e => {console.error(e);data.err_occur = true;})
     } catch (err) {
         data.err_occur = true
