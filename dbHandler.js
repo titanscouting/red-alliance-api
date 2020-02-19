@@ -118,6 +118,7 @@ exports.addScouterToMatch = async (db, userin, matchin, team_scouted) => {
     try {
         let interim = await dbo.collection("matches").findOne(myobj).catch(e => {console.error(e);data.err_occur = true;})
         console.log("heres the interim data: ", interim)
+        console.log(interim.teams)
         let index = interim.teams.indexOf(team_scouted);
         console.log("heres the index", index)
         interim.scouters[index] = String(userin);
