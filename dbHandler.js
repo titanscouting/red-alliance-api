@@ -120,9 +120,9 @@ exports.addScouterToMatch = async (db, userin, matchin, team_scouted) => {
         let interim = await dbo.collection("matches").findOne(myobj).catch(e => {console.error(e);data.err_occur = true;})
         console.log(interim)
         console.log(interim.data)
-        let index = interim.data.teams.indexOf(team_scouted);
-        interim.data.scouters[index] = userin;
-        await dbo.collection("matches").findOneAndReplace(myobj, interim.data, {upsert: true}).catch(e => {console.error(e);data.err_occur = true;})
+        let index = interim.teams.indexOf(team_scouted);
+        interim.scouters[index] = userin;
+        await dbo.collection("matches").findOneAndReplace(myobj, interim, {upsert: true}).catch(e => {console.error(e);data.err_occur = true;})
     } catch (err) {
         data.err_occur = true
         data.err_reasons.push(err)
