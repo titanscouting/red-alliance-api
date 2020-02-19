@@ -115,13 +115,13 @@ exports.addScouterToMatch = async (db, userin, matchin, team_scouted) => {
     data.err_reasons = []
     let dbo = db.db("data_scouting");
     let myobj = {match: parseInt(matchin)}
-    console.log(myobj)
     try {
         let interim = await dbo.collection("matches").findOne(myobj).catch(e => {console.error(e);data.err_occur = true;})
-        console.log(interim)
-        console.log(interim.data)
+        console.log("heres the interim data: ", interim)
         let index = interim.teams.indexOf(team_scouted);
+        console.log("heres the index", index)
         interim.scouters[index] = String(userin);
+        console.log(interim)
         await dbo.collection("matches").findOneAndReplace(myobj, interim, {upsert: true}).catch(e => {console.error(e);data.err_occur = true;})
     } catch (err) {
         data.err_occur = true
