@@ -241,7 +241,7 @@ app.post('/api/removeScouterFromMatch', auth.checkAuth, async (req, res) => {
     const user = parseInt(validator.escape(res.locals.id))
     const team_scouted = parseInt(validator.escape(req.body.team_scouting))    
     try {
-        val = await dbHandler.addScouterToMatch(req.db, user, match, team_scouted).catch(e => {console.error(e); val.err_occur = true;})
+        val = await dbHandler.removeScouterFromMatch(req.db, user, match, team_scouted).catch(e => {console.error(e); val.err_occur = true;})
     } catch (err) {
         console.error(err)
         val.err_occur = true;
