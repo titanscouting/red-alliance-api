@@ -128,7 +128,7 @@ app.get('/api/fetchMatches', async (req, res) => {
     }
     res.json(resobj)
 })
-app.get("/api/fetchUID", async (req, res) => {
+app.get("/api/fetchScouterUIDs", async (req, res) => {
   let val;
   const competition = String(validator.escape(req.query.competition))
   const match_number = parseInt(validator.escape(req.body.match_number))
