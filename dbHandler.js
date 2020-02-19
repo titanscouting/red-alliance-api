@@ -132,3 +132,27 @@ exports.addScouterToMatch = async (db, userin, matchin, team_scouted) => {
     }
     return data
 }
+
+exports.removeScouterFromMatch = async (db, userin, matchin, team_scouted) => {
+    let data = {}
+    data.err_occur = false
+    data.err_reasons = []
+    let dbo = db.db("data_scouting");
+    let myobj = {match: parseInt(matchin)}
+    try {
+        const interim = await dbo.collection("matches").findOne(myobj).catch(e => {console.error(e);data.err_occur = true;})
+        const index = interim.teams.indexOf(String(team_scouted));
+        if (index < 0) {
+            console.error("Does not exist")
+            data.err_occur = true
+            data.err_reasons.push("Team does not exist in scout schedule")
+        }
+        interim.scouters[index] = false;
+        await dbo.collection("matches").findOneAndReplace(myobj, interim, {upsert: true}).catch(e => {console.error(e);data.err_occur = true;})
+    } catch (err) {
+        data.err_occur = true
+        data.err_reasons.push(err)
+        console.error(err)
+    }
+    return data
+}
