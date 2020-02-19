@@ -114,7 +114,8 @@ exports.addScouterToMatch = async (db, userin, matchin, team_scouted) => {
     data.err_occur = false
     data.err_reasons = []
     let dbo = db.db("data_scouting");
-    let myobj = {match: matchin}
+    let myobj = {match: parseInt(matchin)}
+    console.log(myobj)
     try {
         let interim = await dbo.collection("matches").findOne(myobj).catch(e => {console.error(e);data.err_occur = true;})
         console.log(interim)
