@@ -127,7 +127,7 @@ exports.addScouterToMatch = async (db, userin, namein, matchin, team_scouted) =>
         await dbo.collection("matches").findOneAndReplace(myobj, interim, {upsert: true}).catch(e => {console.error(e);data.err_occur = true;})
         let myobj2 = {competition: "Central2020"} // TODO: Fix Hardcoding of this
         const matchsched = await dbo.collection("schedule").findOne(myobj2).catch(e => {console.error(e);data.err_occur = true;})
-        matchsched[matchin - 1] += 1
+        matchsched.data[matchin - 1] += 1
         await dbo.collection("schedule").findOneAndReplace(myobj2, matchsched, {upsert: true}).catch(e => {console.error(e);data.err_occur = true;})
     } catch (err) {
         data.err_occur = true
@@ -155,7 +155,7 @@ exports.removeScouterFromMatch = async (db, userin, matchin, team_scouted) => {
         await dbo.collection("matches").findOneAndReplace(myobj, interim, {upsert: true}).catch(e => {console.error(e);data.err_occur = true;})
         let myobj2 = {competition: "Central2020"} // TODO: Fix Hardcoding of this
         const matchsched = await dbo.collection("schedule").findOne(myobj2).catch(e => {console.error(e);data.err_occur = true;})
-        matchsched[matchin - 1] -= 1
+        matchsched.data[matchin - 1] -= 1
         await dbo.collection("schedule").findOneAndReplace(myobj2, matchsched, {upsert: true}).catch(e => {console.error(e);data.err_occur = true;})
     } catch (err) {
         data.err_occur = true
