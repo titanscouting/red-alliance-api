@@ -16,7 +16,7 @@
 // exports.getCompetitions = async (db, idin) => {
 //     let rval;
 //     idin = String(idin)
-//     // Get the competitions for a team member. Currently, one user can only be part of one team. 
+//     // Get the competitions for a team member. Currently, one user can only be part of one team.
 //     var dbo = db.db("data_scouting");
 //     var myobj = { id: idin};
 //     var data = await dbo.collection("userlist").findOne(myobj)
@@ -92,6 +92,28 @@ exports.fetchMatchData = async (db, comp_idin, match_numberin, team_scoutedin) =
     return data;
 }
 
+exports.fetchCompetitionSchedule = async (db, comp_idin) => {
+  let data = {}
+  data.err_occur = false
+  data.err_reasons = []
+  let dbo = db.db("data_scouting");
+  let passin = {competition: String(comp_idin)}
+  try {
+    obj = {}
+    cursor = await dba.collection("matches").find(passin).catch(e => {console.error(e);data.err_occur = true;})
+    while (cursor.hasNext()) {
+      matchtolookat = cursor.next();
+      obj[matchtolookat.match] = matchtolookat.teams
+    }
+    data.data = obj
+  }  catch (err) {
+      data.err_occur = true
+      data.err_reasons.push(err)
+      console.error(err)
+  }
+  return data;
+}
+
 exports.fetchShotChartData = async (db, comp_idin, match_numberin, team_scoutedin) => {
     let data = {}
     data.err_occur = false
@@ -101,6 +123,26 @@ exports.fetchShotChartData = async (db, comp_idin, match_numberin, team_scoutedi
     let myobj = {competition: String(comp_idin), match: parseInt(match_numberin), team_scouted: parseInt(team_scoutedin)};
     try {
         data.data = await dbo.collection("shotchart").findOne(myobj).catch(e => {console.error(e);data.err_occur = true;})
+    } catch (err) {
+        data.err_occur = true
+        data.err_reasons.push(err)
+        console.error(err)
+    }
+    return data;
+}
+
+exports.fetchScouterUIDs = async (db, comp_idin, match_numberin) => {
+    let data = {}
+    data.err_occur = false
+    data.err_reason= []
+    comp_idin = String(comp_idin)
+    let dbo = db.db("data_scouting");
+    let myobj = {competition: String(comp_idin), match: parseInt(match_numberin)};
+    //console.log(myobj)
+    try {
+        matchdata = await dbo.collection("matches").findOne(myobj).catch(e => {console.error(e);data.err_occur = true;});
+        data.scouters = matchdata.scouters
+        data.teams = matchdata.teams
     } catch (err) {
         data.err_occur = true
         data.err_reasons.push(err)

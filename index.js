@@ -26,9 +26,9 @@ app.get('/', (req, res) => {
 /**
  * POST route "/api/addUserToTeam"
  * Not implemented and will not be implemented until next year
- * Adds user to the team. More useful for next year's version of the application, this year the application is hard coded and will just use match ID data. 
+ * Adds user to the team. More useful for next year's version of the application, this year the application is hard coded and will just use match ID data.
  * @param token in form of header with title 'token' and value of JWT provided by Google OAuth
- * @returns back to the client resobj and 200 OK. 
+ * @returns back to the client resobj and 200 OK.
 */
 // app.post("/api/addUserToTeam", auth.checkAuth, async (req, res) => {
 //     let err = false;
@@ -46,7 +46,7 @@ app.get('/', (req, res) => {
 // })
 /*
 * GET route "/api/getCompetitions"
-* Not implemented and will not be implemented until next year. 
+* Not implemented and will not be implemented until next year.
 */
 // app.get("/api/getCompetitions", auth.checkAuth, async (req, res) => {
 //     let err = false;
@@ -63,16 +63,16 @@ app.get('/', (req, res) => {
 
 /**
  * POST route "/api/submitMatchData"
- * Allows the application to submit data to the API, with some key data seperated within the JSON and the rest submitted as arbirtary structures within the data key. 
+ * Allows the application to submit data to the API, with some key data seperated within the JSON and the rest submitted as arbirtary structures within the data key.
  * @param token in form of header with title 'token' and value of JWT provided by Google OAuth
- * @param competition_id is the identifier for the competition: e.g. "Central 2020". 
+ * @param competition_id is the identifier for the competition: e.g. "Central 2020".
  * @param match_number is the number of the match scouted: e.g. "1".
  * @param team_scouted is the team that was being scouted: e.g. "3061".
  * @param data is the arbritrary other data that needs to be recorded for the match.
- * @returns back to the client resobj and 200 OK. 
+ * @returns back to the client resobj and 200 OK.
  */
 app.post("/api/submitMatchData", auth.checkAuth, async (req, res) => {
-    let val;  
+    let val;
     const id = res.locals.id
     const competition_id = String(validator.escape(req.body.competition_id))
     const match_number = parseInt(validator.escape(req.body.match_number))
@@ -102,11 +102,11 @@ app.post("/api/submitMatchData", auth.checkAuth, async (req, res) => {
 /**
  * GET route "/api/fetchMatches"
  * Allows the application to fetch the list of matches and the number of scouters for the match.
- * @param competition_id is the identifier for the competition: e.g. "Central 2020". 
- * @returns back to the client resobj and 200 OK. 
+ * @param competition_id is the identifier for the competition: e.g. "Central 2020".
+ * @returns back to the client resobj and 200 OK.
  */
-app.get('/api/fetchMatches', async (req, res) => {  
-    let val;  
+app.get('/api/fetchMatches', async (req, res) => {
+    let val;
     const competition = String(validator.escape(req.query.competition))
     try{
         val = await dbHandler.fetchMatchesForCompetition(req.db, competition).catch(e => {console.error(e); val.err_occur = true;})
@@ -128,11 +128,60 @@ app.get('/api/fetchMatches', async (req, res) => {
     }
     res.json(resobj)
 })
-app.get('/api/fetchMatchData', async (req, res) => {  
-    let val;  
+app.get("/api/fetchScouterUIDs", async (req, res) => {
+  let val;
+  const competition = String(validator.escape(req.query.competition))
+  const match_number = parseInt(validator.escape(req.query.match_number))
+  try {
+    val = await dbHandler.fetchScouterUIDs(req.db, competition, match_number).catch(e => {console.error(e); val.err_occur = true;})
+  } catch (e) {
+      console.error(e)
+      val.err_occur = true;
+  }
+  if (val.err_occur == false) {
+      resobj = {
+          "success": true,
+          "competition": competition,
+          "scouters": val.scouters,
+          "teams": val.teams
+      }
+  } else {
+      resobj = {
+          "success": false,
+          "reasons": val.err_reasons,
+      }
+  }
+  res.json(resobj)
+})
+app.get("/api/fetchCompetitionSchedule", async (req, res) => {
+  let val;
+  const competition = String(validator.escape(req.query.competition))
+  try {
+    val = await dbHandler.fetchCompetitionSchedule(req.db, competition).catch(e => {console.error(e); val.err_occur = true;})
+  } catch (e) {
+      console.error(e)
+      val.err_occur = true;
+  }
+  if (val.err_occur == false) {
+      resobj = {
+          "success": true,
+          "competition": competition,
+          "data": val.data.data
+      }
+  } else {
+      resobj = {
+          "success": false,
+          "reasons": val.err_reasons,
+      }
+  }
+  res.json(resobj)
+})
+
+app.get('/api/fetchMatchData', async (req, res) => {
+    let val;
     const competition_id = String(validator.escape(req.query.competition))
     const match_number = parseInt(validator.escape(req.query.match_number))
-    const team_scouted = parseInt(validator.escape(req.query.team_scouted))    
+    const team_scouted = parseInt(validator.escape(req.query.team_scouted))
     try {
         val = await dbHandler.fetchMatchData(req.db, competition_id, match_number, team_scouted).catch(e => {console.error(e); val.err_occur = true;})
     } catch (err) {
@@ -156,11 +205,11 @@ app.get('/api/fetchMatchData', async (req, res) => {
     res.json(resobj)
 })
 
-app.get('/api/fetchShotChartData', async (req, res) => {  
-    let val;  
+app.get('/api/fetchShotChartData', async (req, res) => {
+    let val;
     const competition_id = String(validator.escape(req.body.competition_id))
     const match_number = parseInt(validator.escape(req.body.match_number))
-    const team_scouted = parseInt(validator.escape(req.body.team_scouted))    
+    const team_scouted = parseInt(validator.escape(req.body.team_scouted))
     try {
         val = await dbHandler.fetchShotChartData(req.db, competition_id, match_number, team_scouted).catch(e => {console.error(e); val.err_occur = true;})
     } catch (err) {
@@ -184,7 +233,7 @@ app.get('/api/fetchShotChartData', async (req, res) => {
     res.json(resobj)
 })
 app.post("/api/submitShotChartData", auth.checkAuth, async (req, res) => {
-    let val;  
+    let val;
     const id = res.locals.id
     const competition_id = String(validator.escape(req.body.competition_id))
     const match_number = parseInt(validator.escape(req.body.match_number))
@@ -211,14 +260,12 @@ app.post("/api/submitShotChartData", auth.checkAuth, async (req, res) => {
     res.json(resobj)
 })
 
-app.post('/api/addScouterToMatch', auth.checkAuth, async (req, res) => {  
-    let val;  
+app.post('/api/addScouterToMatch', auth.checkAuth, async (req, res) => {
+    let val;
     const match = String(validator.escape(req.body.match))
     const user = parseInt(validator.escape(res.locals.id))
-    const team_scouted = parseInt(validator.escape(req.body.team_scouting))    
+    const team_scouted = parseInt(validator.escape(req.body.team_scouting))
     const user_name = String(validator.escape(res.locals.name))
-
-    
     try {
         val = await dbHandler.addScouterToMatch(req.db, user, user_name, match, team_scouted).catch(e => {console.error(e); val.err_occur = true;})
     } catch (err) {
@@ -238,11 +285,11 @@ app.post('/api/addScouterToMatch', auth.checkAuth, async (req, res) => {
     res.json(resobj)
 })
 
-app.post('/api/removeScouterFromMatch', auth.checkAuth, async (req, res) => {  
-    let val;  
+app.post('/api/removeScouterFromMatch', auth.checkAuth, async (req, res) => {
+    let val;
     const match = String(validator.escape(req.body.match))
     const user = parseInt(validator.escape(res.locals.id))
-    const team_scouted = parseInt(validator.escape(req.body.team_scouting))    
+    const team_scouted = parseInt(validator.escape(req.body.team_scouting))
     try {
         val = await dbHandler.removeScouterFromMatch(req.db, user, match, team_scouted).catch(e => {console.error(e); val.err_occur = true;})
     } catch (err) {
