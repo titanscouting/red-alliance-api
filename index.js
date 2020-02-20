@@ -258,13 +258,14 @@ app.post("/api/submitShotChartData", auth.checkAuth, async (req, res) => {
     res.json(resobj)
 })
 
-app.post('/api/addScouterToMatch', async (req, res) => {
-    let val;
+app.post('/api/addScouterToMatch', auth.checkAuth, async (req, res) => {  
+    let val;  
     const match = String(validator.escape(req.body.match))
-    const user = parseInt(validator.escape(req.body.user_id))
-    const team_scouted = parseInt(validator.escape(req.body.team_scouted))
+    const user = parseInt(validator.escape(res.locals.id))
+    const team_scouted = parseInt(validator.escape(req.body.team_scouting))    
+    const user_name = String(validator.escape(res.locals.name))
     try {
-        val = await dbHandler.addScouterToMatch(req.db, user, match, team_scouted).catch(e => {console.error(e); val.err_occur = true;})
+        val = await dbHandler.addScouterToMatch(req.db, user, user_name, match, team_scouted).catch(e => {console.error(e); val.err_occur = true;})
     } catch (err) {
         console.error(err)
         val.err_occur = true;
@@ -272,8 +273,30 @@ app.post('/api/addScouterToMatch', async (req, res) => {
     if (val.err_occur == false) {
         resobj = {
             "success": true,
-            "match_number": match,
-            "team_scouted": team_scouted,
+        }
+    } else {
+        resobj = {
+            "success": false,
+            "reasons": val.err_reasons,
+        }
+    }
+    res.json(resobj)
+})
+
+app.post('/api/removeScouterFromMatch', auth.checkAuth, async (req, res) => {  
+    let val;  
+    const match = String(validator.escape(req.body.match))
+    const user = parseInt(validator.escape(res.locals.id))
+    const team_scouted = parseInt(validator.escape(req.body.team_scouting))    
+    try {
+        val = await dbHandler.removeScouterFromMatch(req.db, user, match, team_scouted).catch(e => {console.error(e); val.err_occur = true;})
+    } catch (err) {
+        console.error(err)
+        val.err_occur = true;
+    }
+    if (val.err_occur == false) {
+        resobj = {
+            "success": true,
         }
     } else {
         resobj = {
