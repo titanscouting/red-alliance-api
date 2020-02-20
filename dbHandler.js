@@ -92,7 +92,7 @@ exports.fetchMatchData = async (db, comp_idin, match_numberin, team_scoutedin) =
     return data;
 }
 
-exports.getSchedule = async (db, comp_idin) => {
+exports.fetchCompetitionSchedule = async (db, comp_idin) => {
   let data = {}
   data.err_occur = false
   data.err_reasons = []
@@ -131,7 +131,7 @@ exports.fetchShotChartData = async (db, comp_idin, match_numberin, team_scoutedi
     return data;
 }
 
-exports.fetchUIDsForMatch = async (db, comp_idin, match_numberin) => {
+exports.fetchScouterUIDs = async (db, comp_idin, match_numberin) => {
     let data = {}
     data.err_occur = false
     data.err_reason= []
