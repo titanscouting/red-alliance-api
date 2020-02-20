@@ -134,6 +134,7 @@ app.get("/api/fetchScouterUIDs", async (req, res) => {
   const match_number = parseInt(validator.escape(req.query.match_number))
   try {
     val = await dbHandler.fetchScouterUIDs(req.db, competition, match_number).catch(e => {console.error(e); val.err_occur = true;})
+    console.log(val)
   } catch (e) {
       console.error(e)
       val.err_occur = true;
