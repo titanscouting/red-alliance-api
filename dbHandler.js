@@ -109,7 +109,7 @@ exports.fetchShotChartData = async (db, comp_idin, match_numberin, team_scoutedi
     return data;
 }
 
-exports.addScouterToMatch = async (db, userin, matchin, team_scouted) => {
+exports.addScouterToMatch = async (db, userin, namein, matchin, team_scouted) => {
     let data = {}
     data.err_occur = false
     data.err_reasons = []
@@ -123,7 +123,7 @@ exports.addScouterToMatch = async (db, userin, matchin, team_scouted) => {
             data.err_occur = true
             data.err_reasons.push("Team does not exist in scout schedule")
         }
-        interim.scouters[index] = String(userin);
+        interim.scouters[index] = {name: String(namein), id: String(userin)} ;
         await dbo.collection("matches").findOneAndReplace(myobj, interim, {upsert: true}).catch(e => {console.error(e);data.err_occur = true;})
     } catch (err) {
         data.err_occur = true

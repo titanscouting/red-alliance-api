@@ -216,8 +216,11 @@ app.post('/api/addScouterToMatch', auth.checkAuth, async (req, res) => {
     const match = String(validator.escape(req.body.match))
     const user = parseInt(validator.escape(res.locals.id))
     const team_scouted = parseInt(validator.escape(req.body.team_scouting))    
+    const user_name = String(validator.escape(res.locals.name))
+
+    
     try {
-        val = await dbHandler.addScouterToMatch(req.db, user, match, team_scouted).catch(e => {console.error(e); val.err_occur = true;})
+        val = await dbHandler.addScouterToMatch(req.db, user, user_name, match, team_scouted).catch(e => {console.error(e); val.err_occur = true;})
     } catch (err) {
         console.error(err)
         val.err_occur = true;
