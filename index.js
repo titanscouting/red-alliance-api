@@ -152,7 +152,7 @@ app.get("/api/fetchScouterUIDs", async (req, res) => {
   }
   res.json(resobj)
 })
-app.get("/api/fetchCompetitionSchedule"), async (req, res) => {
+app.get("/api/fetchCompetitionSchedule", async (req, res) => {
   let val;
   const competition = String(validator.escape(req.query.competition))
   try {
@@ -175,6 +175,7 @@ app.get("/api/fetchCompetitionSchedule"), async (req, res) => {
   }
   res.json(resobj)
 })
+
 app.get('/api/fetchMatchData', async (req, res) => {
     let val;
     const competition_id = String(validator.escape(req.query.competition))
