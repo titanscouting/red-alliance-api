@@ -122,7 +122,7 @@ exports.fetch2022Schedule = async (db, comp_idin) => {
   let passin = {competition: String(comp_idin)}
   try{
     obj = {}
-    temp = exports.fetchCompetitionSchedule(db, comp_idin)
+    temp = await exports.fetchCompetitionSchedule(db, comp_idin).catch(e => {console.error(e);data.err_occur = true;})
     forEach((Object.keys(temp), key) => {
       if (temp[key].contains("2022")){
         obj[key] = temp[key];
