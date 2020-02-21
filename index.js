@@ -180,7 +180,7 @@ app.get("/api/fetch2022Schedule", async (req, res) => {
   let val;
   const competition = String(validator.escape(req.query.competition))
   try {
-    val = await dbHandler.fetch2022Schedule(req.db, competition).catch(e => {console.error(e); val.err_occur = true;})
+    val = await dbHandler.fetch2022Schedule(competition).catch(e => {console.error(e); val.err_occur = true;})
   } catch (e) {
       console.error(e)
       val.err_occur = true;
