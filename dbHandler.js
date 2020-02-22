@@ -100,17 +100,16 @@ exports.fetchCompetitionSchedule = async (db, comp_idin) => {
   let passin = {competition: String(comp_idin)}
   try {
     obj = {}
-    data.data = await dbo.collection("matches").find(passin).toArray((err, result) => {
-        if (err) {
-            throw err;
-        }
-        return result
+    await dbo.collection("matches").find(passin).toArray((err, result) => {
+        if (err) throw err;
+        data.data = result;
     })
   }  catch (err) {
       data.err_occur = true
       data.err_reasons.push(err)
       console.error(err)
   }
+  console.log(data.data)
   return data;
 }
 
