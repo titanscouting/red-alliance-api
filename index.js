@@ -332,7 +332,29 @@ app.post('/api/removeScouterFromMatch', auth.checkAuth, async (req, res) => {
     res.json(resobj)
 })
 
-
+app.get('/api/getDataOnTeam', auth.checkAuth, async (req, res) => {
+    let val;
+    const team = parseInt(validator.escape(req.query.team))
+    const comp = String(validator.escape(req.query.competition))
+    try {
+        val = await dbHandler.getDataOnTeam(req.db, team, comp).catch(e => {console.error(e); val.err_occur = true;})
+    } catch (err) {
+        console.error(err)
+        val.err_occur = true;
+    }
+    if (val.err_occur == false) {
+        resobj = {
+            "success": true,
+            "data": val.data
+        }
+    } else {
+        resobj = {
+            "success": false,
+            "reasons": val.err_reasons,
+        }
+    }
+    res.json(resobj)
+})
 
 
 // Privacy Policy

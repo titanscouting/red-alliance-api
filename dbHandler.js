@@ -217,3 +217,19 @@ exports.removeScouterFromMatch = async (db, userin, matchin, team_scouted) => {
     }
     return data
 }
+
+exports.getDataOnTeam = async (db, teamin, compin) => {
+    let data = {}
+    data.err_occur = false
+    data.err_reasons = []
+    let dbo = db.db("data_scouting");
+    let myobj = { team_scouted : parseInt(teamin), competition: String(compin) }
+    try {
+        data.data = await dbo.collection("matchdata").find(myobj).catch(e => {console.error(e);data.err_occur = true;}).toArray()
+    } catch (err) {
+        data.err_occur = true
+        data.err_reasons.push(err)
+        console.error(err)
+    }
+    return data
+}
