@@ -113,9 +113,9 @@ exports.fetch2022Schedule = async (db, comp_idin) => {
     data.err_occur = false
     data.err_reasons = []
     let dbo = db.db("data_scouting");
-    let myobj = { teams: ["2022"], competition: String(comp_idin) }
+    let myobj = { teams: { $all: ["2022"] } }
     try {
-        data.data  = await dbo.collection("matches").find(myobj).toArray()
+        data.data = await dbo.collection("matches").find(myobj).toArray()
         console.log(data)
     } catch (err) {
         data.err_occur = true
