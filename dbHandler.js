@@ -104,6 +104,7 @@ exports.fetchCompetitionSchedule = async (db, comp_idin) => {
         if (err) throw err;
         data.data = res
     })
+    console.log(data.data)
   }  catch (err) {
       data.err_occur = true
       data.err_reasons.push(err)
