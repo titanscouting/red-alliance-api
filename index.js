@@ -166,7 +166,7 @@ app.get("/api/fetchCompetitionSchedule", async (req, res) => {
       resobj = {
           "success": true,
           "competition": competition,
-          "data": val.data.data
+          "data": val.data
       }
   } else {
       resobj = {
