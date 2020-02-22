@@ -115,7 +115,7 @@ exports.fetch2022Schedule = async (db, comp_idin) => {
     data.err_reasons = []
     try {
         obj = {}
-        temp = await exports.fetchCompetitionSchedule(db, comp_idin).catch(e => {console.error(e);data.err_occur = true;})
+        temp = await exports.fetchCompetitionSchedule(db, String(comp_idin)).catch(e => {console.error(e);data.err_occur = true;})
         console.log(temp)
         forEach(Object.keys(temp), (key) => {
         if (temp[key].contains("2022")){
@@ -123,7 +123,7 @@ exports.fetch2022Schedule = async (db, comp_idin) => {
             }
         });
         data.data = obj;
-    } catch {
+    } catch (err) {
         data.err_occur = true
         data.err_reasons.push(err)
         console.error(err)
