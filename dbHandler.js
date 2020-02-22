@@ -102,7 +102,7 @@ exports.fetchCompetitionSchedule = async (db, comp_idin) => {
     obj = {}
     await dbo.collection("matches").find(passin).toArray((err, result) => {
         if (err) throw err;
-        data.data = result;
+        console.log(result)
     })
   }  catch (err) {
       data.err_occur = true
