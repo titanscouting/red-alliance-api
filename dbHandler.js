@@ -113,7 +113,7 @@ exports.fetch2022Schedule = async (db, comp_idin) => {
     data.err_occur = false
     data.err_reasons = []
     let dbo = db.db("data_scouting");
-    let myobj = { teams: { $all: ["2022"] } }
+    let myobj = { teams: { $all: ["2022"] }, competition: String(comp_idin) }
     try {
         data.data = await dbo.collection("matches").find(myobj).toArray()
         console.log(data)
@@ -122,6 +122,7 @@ exports.fetch2022Schedule = async (db, comp_idin) => {
         data.err_reasons.push(err)
         console.error(err)
     }
+    return data;
 }
 
 exports.fetchShotChartData = async (db, comp_idin, match_numberin, team_scoutedin) => {
