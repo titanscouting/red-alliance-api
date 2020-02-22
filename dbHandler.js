@@ -99,7 +99,6 @@ exports.fetchCompetitionSchedule = async (db, comp_idin) => {
   let dbo = db.db("data_scouting");
   let passin = {competition: String(comp_idin)}
   try {
-    obj = {}
     data.data = await dbo.collection("matches").find(passin).toArray()
   }  catch (err) {
       data.err_occur = true
@@ -113,16 +112,10 @@ exports.fetch2022Schedule = async (db, comp_idin) => {
     let data = {}
     data.err_occur = false
     data.err_reasons = []
+    let dbo = db.db("data_scouting");
     try {
-        obj = {}
-        temp = await exports.fetchCompetitionSchedule(db, String(comp_idin)).catch(e => {console.error(e);data.err_occur = true;})
-        console.log(temp)
-        forEach(Object.keys(temp), (key) => {
-        if (temp[key].contains("2022")){
-            obj[key] = temp[key];
-            }
-        });
-        data.data = obj;
+        data.data  = await dbo.db("matches").find({ teams: ["2022"], competition: String(comp_idin) }).toArray()
+        console.log(data)
     } catch (err) {
         data.err_occur = true
         data.err_reasons.push(err)
