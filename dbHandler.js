@@ -100,7 +100,8 @@ exports.fetchCompetitionSchedule = async (db, comp_idin) => {
   let passin = {competition: String(comp_idin)}
   try {
     obj = {}
-    cursor = await dbo.collection("matches").find(passin).catch(e => {console.error(e);data.err_occur = true;})
+    cursor = await dbo.collection("matches").find(passin)
+    console.log(cursor)
     while (cursor.hasNext()) {
       matchtolookat = cursor.next();
       obj[matchtolookat.match] = matchtolookat.teams
