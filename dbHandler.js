@@ -99,12 +99,7 @@ exports.fetchCompetitionSchedule = async (db, comp_idin) => {
   let dbo = db.db("data_scouting");
   let passin = { competition: String(comp_idin)}
   try {
-    obj = {}
-    data.data = await dbo.collection("matches").find(passin).toArray((err, result) => {
-        if (err) throw err;
-        console.log(result)
-        return result 
-    })
+    data.data = await dbo.collection("matches").find(passin).toArray()
   }  catch (err) {
       data.err_occur = true
       data.err_reasons.push(err)
@@ -112,6 +107,22 @@ exports.fetchCompetitionSchedule = async (db, comp_idin) => {
   }
   console.log(data.data)
   return data;
+}
+
+exports.fetch2022Schedule = async (db, comp_idin) => {
+    let data = {}
+    data.err_occur = false
+    data.err_reasons = []
+    let dbo = db.db("data_scouting");
+    let myobj = { teams: { $all: ["2022"] }, competition: String(comp_idin) }
+    try {
+        data.data = await dbo.collection("matches").find(myobj).toArray()
+    } catch (err) {
+        data.err_occur = true
+        data.err_reasons.push(err)
+        console.error(err)
+    }
+    return data;
 }
 
 exports.fetchShotChartData = async (db, comp_idin, match_numberin, team_scoutedin) => {
