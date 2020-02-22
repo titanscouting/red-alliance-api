@@ -225,7 +225,7 @@ exports.getDataOnTeam = async (db, teamin, compin) => {
     let dbo = db.db("data_scouting");
     let myobj = { team_scouted : parseInt(teamin), competition: String(compin) }
     try {
-        data.data = await dbo.collection("matchdata").find(myobj).catch(e => {console.error(e);data.err_occur = true;}).toArray()
+        data.data = await dbo.collection("matchdata").find(myobj).toArray()
     } catch (err) {
         data.err_occur = true
         data.err_reasons.push(err)
