@@ -73,13 +73,13 @@ app.get('/', (req, res) => {
  */
 app.post("/api/submitMatchData", auth.checkAuth, async (req, res) => {
     let val;
-    const id = res.locals.id
+    const scouter = {name: String(res.locals.name), id: String(res.locals.id)}
     const competition_id = String(validator.escape(req.body.competition_id))
     const match_number = parseInt(validator.escape(req.body.match_number))
     const team_scouted = parseInt(validator.escape(req.body.team_scouted))
     const data = req.body.data
     try{
-        val = await dbHandler.submitMatchData(req.db, id, competition_id, match_number, team_scouted, data).catch(e => {console.error(e); val.err_occur = true;})
+        val = await dbHandler.submitMatchData(req.db, scouter, competition_id, match_number, team_scouted, data).catch(e => {console.error(e); val.err_occur = true;})
     } catch (err) {
         console.error(err)
         val.err_occur = true;
@@ -257,13 +257,13 @@ app.get('/api/fetchShotChartData', async (req, res) => {
 })
 app.post("/api/submitShotChartData", auth.checkAuth, async (req, res) => {
     let val;
-    const id = res.locals.id
+    const scouter = {name: String(res.locals.name), id: String(res.locals.id)}
     const competition_id = String(validator.escape(req.body.competition_id))
     const match_number = parseInt(validator.escape(req.body.match_number))
     const team_scouted = parseInt(validator.escape(req.body.team_scouted))
     const data = req.body.data
     try{
-        val = await dbHandler.submitShotChartData(req.db, id, competition_id, match_number, team_scouted, data).catch(e => {console.error(e); val.err_occur = true;})
+        val = await dbHandler.submitShotChartData(req.db, scouter, competition_id, match_number, team_scouted, data).catch(e => {console.error(e); val.err_occur = true;})
     } catch (err) {
         console.error(err)
         val.err_occur = true;
@@ -356,6 +356,30 @@ app.get('/api/getDataOnTeam', auth.checkAuth, async (req, res) => {
     res.json(resobj)
 })
 
+app.post('/api/submitStrategy', auth.checkAuth, async (req, res) => {
+    let val;
+    const scouter = {name: res.locals.name, id: res.locals.id}
+    const team = parseInt(validator.escape(req.body.team))
+    const comp = String(validator.escape(req.body.competition))
+    const data = String(validator.escape(req.body.data))
+    try {
+        val = await dbHandler.submitStrategy(req.db, scouter, team, comp, data).catch(e => {console.error(e); val.err_occur = true;})
+    } catch (err) {
+        console.error(err)
+        val.err_occur = true;
+    }
+    if (val.err_occur == false) {
+        resobj = {
+            "success": true,
+        }
+    } else {
+        resobj = {
+            "success": false,
+            "reasons": val.err_reasons,
+        }
+    }
+    res.json(resobj)
+})
 
 // Privacy Policy
 app.get('/privacy-policy', function(req, res) {
