@@ -23,13 +23,12 @@
 //     return rval
 // }
 
-exports.submitMatchData = async (db, idin, competitionin, matchin, teamin, datain) => {
+exports.submitMatchData = async (db, scouterin, competitionin, matchin, teamin, datain) => {
     let data = {}
     data.err_occur = false
     data.err_reasons = []
-    idin = String(idin)
     let dbo = db.db("data_scouting");
-    let myobj = {"$set": {id: idin, competition: competitionin, match: matchin, team_scouted: teamin, data: datain}};
+    let myobj = {"$set": {scouter: scouterin, competition: competitionin, match: matchin, team_scouted: teamin, data: datain}};
     try {
         await dbo.collection("matchdata").updateOne({_id: competitionin+matchin+teamin}, myobj, {upsert:true}).catch(e => {console.error(e);data.err_occur = true;})
     } catch (err) {
@@ -40,13 +39,12 @@ exports.submitMatchData = async (db, idin, competitionin, matchin, teamin, datai
     return data;
 }
 
-exports.submitShotChartData = async (db, idin, competitionin, matchin, teamin, datain) => {
+exports.submitShotChartData = async (db, scouterin, competitionin, matchin, teamin, datain) => {
     let data = {}
     data.err_occur = false
     data.err_reasons = []
-    idin = String(idin)
     let dbo = db.db("data_scouting");
-    let myobj = {"$set": {id: idin, competition: competitionin, match: matchin, team_scouted: teamin, data: datain}};
+    let myobj = {"$set": {scouter: scouterin, competition: competitionin, match: matchin, team_scouted: teamin, data: datain}};
     try {
         await dbo.collection("shotchart").updateOne({_id: competitionin+matchin+teamin}, myobj, {upsert:true}).catch(e => {console.error(e);data.err_occur = true;})
     } catch (err) {
@@ -232,4 +230,21 @@ exports.getDataOnTeam = async (db, teamin, compin) => {
         console.error(err)
     }
     return data
+}
+
+exports.submitStrategy = async (db, scouterin, teamin, compin, datain) => {
+    let data = {}
+    data.err_occur = false
+    data.err_reasons = []
+    idin = String(idin)
+    let dbo = db.db("strategies");
+    let myobj = {"$set": {scouter: scouterin, competition: compin, match: matchin, team_scouted: teamin, data: datain}};
+    try {
+        await dbo.collection("data").updateOne({_id: compin+matchin+teamin}, myobj, {upsert:true}).catch(e => {console.error(e);data.err_occur = true;})
+    } catch (err) {
+        data.err_occur = true
+        data.err_reasons.push(err)
+        console.error(err)
+    }
+    return data;
 }
