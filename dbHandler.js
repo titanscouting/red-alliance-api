@@ -232,7 +232,7 @@ exports.getDataOnTeam = async (db, teamin, compin) => {
     return data
 }
 
-exports.submitStrategy = async (db, scouterin, teamin, compin, datain) => {
+exports.submitStrategy = async (db, scouterin, teamin, matchin, compin, datain) => {
     let data = {}
     data.err_occur = false
     data.err_reasons = []

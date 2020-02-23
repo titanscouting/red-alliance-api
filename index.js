@@ -362,8 +362,9 @@ app.post('/api/submitStrategy', auth.checkAuth, async (req, res) => {
     const team = parseInt(validator.escape(req.body.team))
     const comp = String(validator.escape(req.body.competition))
     const data = String(validator.escape(req.body.data))
+    const match = String(validator.escape(req.body.match))
     try {
-        val = await dbHandler.submitStrategy(req.db, scouter, team, comp, data).catch(e => {console.error(e); val.err_occur = true;})
+        val = await dbHandler.submitStrategy(req.db, scouter, team, match, comp, data).catch(e => {console.error(e); val.err_occur = true;})
     } catch (err) {
         console.error(err)
         val.err_occur = true;
