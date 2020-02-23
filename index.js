@@ -382,6 +382,32 @@ app.post('/api/submitStrategy', auth.checkAuth, async (req, res) => {
     res.json(resobj)
 })
 
+app.get('/api/fetchScoutingSuggestions', auth.checkAuth, async (req, res) => {
+    let val;
+    const team = parseInt(validator.escape(req.query.team))
+    const comp = String(validator.escape(req.query.competition))
+    const match = String(validator.escape(req.query.match))
+
+    try {
+        val = await dbHandler.fetchScoutingSuggestions(req.db, comp, match, team).catch(e => {console.error(e); val.err_occur = true;})
+    } catch (err) {
+        console.error(err)
+        val.err_occur = true;
+    }
+    if (val.err_occur == false) {
+        resobj = {
+            "success": true,
+            "data": val.data
+        }
+    } else {
+        resobj = {
+            "success": false,
+            "reasons": val.err_reasons,
+        }
+    }
+    res.json(resobj)
+})
+
 // Privacy Policy
 app.get('/privacy-policy', function(req, res) {
     res.redirect('https://drive.google.com/a/imsa.edu/file/d/11_cAuaerCrQ3BBXNx_G_zw1ZyGaTWx0z/view?usp=sharing')
