@@ -236,7 +236,6 @@ exports.submitStrategy = async (db, scouterin, teamin, compin, datain) => {
     let data = {}
     data.err_occur = false
     data.err_reasons = []
-    idin = String(idin)
     let dbo = db.db("strategies");
     let myobj = {"$set": {scouter: scouterin, competition: compin, match: matchin, team_scouted: teamin, data: datain}};
     try {
