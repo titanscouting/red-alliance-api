@@ -1,10 +1,10 @@
 {
   "name": "node-api-testing",
   "version": "0.0.1",
-  "description": "Titan Scout NodeJS API to DynamoDB (testing)",
+  "description": "Titan Scout NodeJS API to MongoDB",
   "main": "index.js",
-  "repository": "https://github.com/titanscout2022/node-api-testing",
-  "author": "Dev Singh and the Titan Scouting Team",
+  "repository": "https://github.com/titanscout2022/red-alliance-api",
+  "author": "Titan Scouting Team",
   "license": "none",
   "private": false,
   "scripts": {
