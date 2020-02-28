@@ -413,7 +413,7 @@ app.get('/privacy-policy', function(req, res) {
     res.redirect('https://drive.google.com/a/imsa.edu/file/d/11_cAuaerCrQ3BBXNx_G_zw1ZyGaTWx0z/view?usp=sharing')
 })
 
-app.get('/api/fetchConfig', async (req, res) => {
+app.get('/api/fetchMatchConfig', async (req, res) => {
     let response = [
         {
             "Auto":[
@@ -517,6 +517,109 @@ app.get('/api/fetchConfig', async (req, res) => {
     res.json(response)
 })
 
+app.get('/api/fetchPitConfig', async (req, res) => {
+    let response = [
+        {
+            "Auto":[
+                {
+                    "name":"Passed Auto Line?",
+                    "key":"pass-line",
+                    "widget":"segment",
+                    "options":["idk","Yes","No"]
+                },
+                {
+                    "name":"Initial Balls Stored",
+                    "key":"balls-started",
+                    "widget":"stepper"
+                },
+                {
+                    "name":"Extra Balls Collected",
+                    "key":"balls-collected",
+                    "widget":"stepper"
+                },
+                {
+                    "name":"Balls Scored Upper",
+                    "key":"balls-upper",
+                    "widget":"stepper"
+                },
+                {
+                    "name":"Balls Scored Lower",
+                    "key":"balls-lower",
+                    "widget":"stepper"
+                }
+            ]
+        },
+        {
+            "Teleop":[
+                {
+                    "name":"Spun Wheel?",
+                    "key":"spun-wheel",
+                    "widget":"segment",
+                    "options":["idk","Yes","No"]
+                },
+                {
+                    "name":"Color Control?",
+                    "key":"color-control",
+                    "widget":"segment",
+                    "options":["idk","Yes","No"]
+                },
+                {
+                    "name":"Initial Balls Stored",
+                    "key":"balls-started",
+                    "widget":"stepper"
+                },
+                {
+                    "name":"Extra Balls Collected",
+                    "key":"balls-collected",
+                    "widget":"stepper"
+                },
+                {
+                    "name":"Balls Scored Upper",
+                    "key":"balls-upper",
+                    "widget":"stepper"
+                },
+                {
+                    "name":"Balls Scored Lower",
+                    "key":"balls-lower",
+                    "widget":"stepper"
+                },
+                {
+                    "name":"Balls Blocked",
+                    "key":"balls-blocked",
+                    "widget":"stepper"
+                }
+            ]
+        },
+        {
+            "Notes":[
+                {
+                    "name":"Overall Competency",
+                    "key":"competency",
+                    "widget":"segment",
+                    "options":["idk","Awful","Meh","Good","Best"]
+                },
+                {
+                    "name":"Speed",
+                    "key":"speed",
+                    "widget":"segment",
+                    "options":["idk","Slow","Med.","Fast","Ludicrous"]
+                },
+                {
+                    "name":"Strategic Focus",
+                    "key":"strategic-focus",
+                    "widget":"segment",
+                    "options":["idk","Offense","Defense","Hybrid"]
+                },
+                {
+                    "name":"Strategy Notes",
+                    "key":"strategy-notes",
+                    "widget":"text-area"
+                }
+            ]
+        }
+    ];
+    res.json(response)
+})
 
 
 
