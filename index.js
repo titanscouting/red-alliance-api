@@ -1,6 +1,5 @@
 let express = require("express")
 let bodyParser = require("body-parser")
-let validator = require('validator')
 let dbHandler = require('./dbHandler.js')
 let auth = require('./authHandler.js')
 let expressMongoDb = require('express-mongo-db');
@@ -74,9 +73,9 @@ app.get('/', (req, res) => {
 app.post("/api/submitMatchData", auth.checkAuth, async (req, res) => {
     let val;
     const scouter = {name: String(res.locals.name), id: String(res.locals.id)}
-    const competition_id = String(validator.escape(req.body.competition_id))
-    const match_number = parseInt(validator.escape(req.body.match_number))
-    const team_scouted = parseInt(validator.escape(req.body.team_scouted))
+    const competition_id = String(req.body.competition_id)
+    const match_number = parseInt(req.body.match_number)
+    const team_scouted = parseInt(req.body.team_scouted)
     const data = req.body.data
     try{
         val = await dbHandler.submitMatchData(req.db, scouter, competition_id, match_number, team_scouted, data).catch(e => {console.error(e); val.err_occur = true;})
@@ -107,7 +106,7 @@ app.post("/api/submitMatchData", auth.checkAuth, async (req, res) => {
  */
 app.get('/api/fetchMatches', async (req, res) => {
     let val;
-    const competition = String(validator.escape(req.query.competition))
+    const competition = String(req.query.competition)
     try{
         val = await dbHandler.fetchMatchesForCompetition(req.db, competition).catch(e => {console.error(e); val.err_occur = true;})
     } catch (err) {
@@ -130,8 +129,8 @@ app.get('/api/fetchMatches', async (req, res) => {
 })
 app.get("/api/fetchScouterUIDs", async (req, res) => {
   let val;
-  const competition = String(validator.escape(req.query.competition))
-  const match_number = parseInt(validator.escape(req.query.match_number))
+  const competition = String(req.query.competition)
+  const match_number = parseInt(req.query.match_number)
   try {
     val = await dbHandler.fetchScouterUIDs(req.db, competition, match_number).catch(e => {console.error(e); val.err_occur = true;})
   } catch (e) {
@@ -155,7 +154,7 @@ app.get("/api/fetchScouterUIDs", async (req, res) => {
 })
 app.get("/api/fetchCompetitionSchedule", async (req, res) => {
   let val;
-  const competition = String(validator.escape(req.query.competition))
+  const competition = String(req.query.competition)
   try {
     val = await dbHandler.fetchCompetitionSchedule(req.db, competition).catch(e => {console.error(e); val.err_occur = true;})
   } catch (e) {
@@ -178,7 +177,7 @@ app.get("/api/fetchCompetitionSchedule", async (req, res) => {
 })
 app.get("/api/fetch2022Schedule", async (req, res) => {
   let val;
-  const competition = String(validator.escape(req.query.competition))
+  const competition = String(req.query.competition)
   try {
     val = await dbHandler.fetch2022Schedule(req.db, competition).catch(e => {console.error(e); val.err_occur = true;})
   } catch (e) {
@@ -202,9 +201,9 @@ app.get("/api/fetch2022Schedule", async (req, res) => {
 
 app.get('/api/fetchMatchData', async (req, res) => {
     let val;
-    const competition_id = String(validator.escape(req.query.competition))
-    const match_number = parseInt(validator.escape(req.query.match_number))
-    const team_scouted = parseInt(validator.escape(req.query.team_scouted))
+    const competition_id = String(req.query.competition)
+    const match_number = parseInt(req.query.match_number)
+    const team_scouted = parseInt(req.query.team_scouted)
     try {
         val = await dbHandler.fetchMatchData(req.db, competition_id, match_number, team_scouted).catch(e => {console.error(e); val.err_occur = true;})
     } catch (err) {
@@ -230,9 +229,9 @@ app.get('/api/fetchMatchData', async (req, res) => {
 
 app.get('/api/fetchShotChartData', async (req, res) => {
     let val;
-    const competition_id = String(validator.escape(req.body.competition_id))
-    const match_number = parseInt(validator.escape(req.body.match_number))
-    const team_scouted = parseInt(validator.escape(req.body.team_scouted))
+    const competition_id = String(req.body.competition_id)
+    const match_number = parseInt(req.body.match_number)
+    const team_scouted = parseInt(req.body.team_scouted)
     try {
         val = await dbHandler.fetchShotChartData(req.db, competition_id, match_number, team_scouted).catch(e => {console.error(e); val.err_occur = true;})
     } catch (err) {
@@ -258,9 +257,9 @@ app.get('/api/fetchShotChartData', async (req, res) => {
 app.post("/api/submitShotChartData", auth.checkAuth, async (req, res) => {
     let val;
     const scouter = {name: String(res.locals.name), id: String(res.locals.id)}
-    const competition_id = String(validator.escape(req.body.competition_id))
-    const match_number = parseInt(validator.escape(req.body.match_number))
-    const team_scouted = parseInt(validator.escape(req.body.team_scouted))
+    const competition_id = String(req.body.competition_id)
+    const match_number = parseInt(req.body.match_number)
+    const team_scouted = parseInt(req.body.team_scouted)
     const data = req.body.data
     try{
         val = await dbHandler.submitShotChartData(req.db, scouter, competition_id, match_number, team_scouted, data).catch(e => {console.error(e); val.err_occur = true;})
@@ -334,8 +333,8 @@ app.post('/api/removeScouterFromMatch', auth.checkAuth, async (req, res) => {
 
 app.get('/api/getDataOnTeam', auth.checkAuth, async (req, res) => {
     let val;
-    const team = parseInt(validator.escape(req.query.team))
-    const comp = String(validator.escape(req.query.competition))
+    const team = parseInt(req.query.team)
+    const comp = String(req.query.competition)
     try {
         val = await dbHandler.getDataOnTeam(req.db, team, comp).catch(e => {console.error(e); val.err_occur = true;})
     } catch (err) {
@@ -359,10 +358,10 @@ app.get('/api/getDataOnTeam', auth.checkAuth, async (req, res) => {
 app.post('/api/submitStrategy', auth.checkAuth, async (req, res) => {
     let val;
     const scouter = {name: res.locals.name, id: res.locals.id}
-    const team = parseInt(validator.escape(req.body.team))
-    const comp = String(validator.escape(req.body.competition))
-    const data = String(validator.escape(req.body.data))
-    const match = String(validator.escape(req.body.match))
+    const team = parseInt(req.body.team)
+    const comp = String(req.body.competition)
+    const data = String(req.body.data)
+    const match = String(req.body.match)
     try {
         val = await dbHandler.submitStrategy(req.db, scouter, team, match, comp, data).catch(e => {console.error(e); val.err_occur = true;})
     } catch (err) {
@@ -384,9 +383,9 @@ app.post('/api/submitStrategy', auth.checkAuth, async (req, res) => {
 
 app.get('/api/fetchScoutingSuggestions', auth.checkAuth, async (req, res) => {
     let val;
-    const team = parseInt(validator.escape(req.query.team))
-    const comp = String(validator.escape(req.query.competition))
-    const match = String(validator.escape(req.query.match))
+    const team = parseInt(req.query.team)
+    const comp = String(req.query.competition)
+    const match = String(req.query.match)
 
     try {
         val = await dbHandler.fetchScoutingSuggestions(req.db, comp, match, team).catch(e => {console.error(e); val.err_occur = true;})
