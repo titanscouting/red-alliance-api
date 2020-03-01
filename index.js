@@ -286,9 +286,9 @@ app.post("/api/submitShotChartData", auth.checkAuth, async (req, res) => {
 app.post('/api/addScouterToMatch', auth.checkAuth, async (req, res) => {
     let val;
     const match = String(req.body.match)
-    const user = parseInt(validator.escape(res.locals.id))
-    const team_scouted = parseInt(validator.escape(req.body.team_scouting))
-    const user_name = String(validator.escape(res.locals.name))
+    const user = parseInt(res.locals.id)
+    const team_scouted = parseInt(req.body.team_scouting)
+    const user_name = String(res.locals.name)
     try {
         val = await dbHandler.addScouterToMatch(req.db, user, user_name, match, team_scouted).catch(e => {console.error(e); val.err_occur = true;})
     } catch (err) {
