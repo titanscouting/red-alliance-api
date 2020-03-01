@@ -421,7 +421,7 @@ app.get('/api/fetchMatchConfig', async (req, res) => {
                     "name":"Passed Auto Line?",
                     "key":"pass-line",
                     "widget":"segment",
-                    "options":["idk","Yes","No"]
+                    "options":["Don't Know","Yes","No"]
                 },
                 {
                     "name":"Initial Balls Stored",
@@ -451,13 +451,13 @@ app.get('/api/fetchMatchConfig', async (req, res) => {
                     "name":"Spun Wheel?",
                     "key":"spun-wheel",
                     "widget":"segment",
-                    "options":["idk","Yes","No"]
+                    "options":["Don't know","Yes","No"]
                 },
                 {
                     "name":"Color Control?",
                     "key":"color-control",
                     "widget":"segment",
-                    "options":["idk","Yes","No"]
+                    "options":["Don't know","Yes","No"]
                 },
                 {
                     "name":"Initial Balls Stored",
@@ -492,19 +492,19 @@ app.get('/api/fetchMatchConfig', async (req, res) => {
                     "name":"Overall Competency",
                     "key":"competency",
                     "widget":"segment",
-                    "options":["idk","Awful","Meh","Good","Best"]
+                    "options":["Don't know","Awful","Meh","Good","Best"]
                 },
                 {
                     "name":"Speed",
                     "key":"speed",
                     "widget":"segment",
-                    "options":["idk","Slow","Med.","Fast","Ludicrous"]
+                    "options":["Don't know","Slow","Med.","Fast","Ludicrous"]
                 },
                 {
                     "name":"Strategic Focus",
                     "key":"strategic-focus",
                     "widget":"segment",
-                    "options":["idk","Offense","Defense","Hybrid"]
+                    "options":["Don't know","Offense","Defense","Hybrid"]
                 },
                 {
                     "name":"Strategy Notes",
@@ -525,7 +525,7 @@ app.get('/api/fetchPitConfig', async (req, res) => {
                     "name":"Passed Auto Line?",
                     "key":"pass-line",
                     "widget":"segment",
-                    "options":["idk","Yes","No"]
+                    "options":["Don't know","Yes","No"]
                 },
                 {
                     "name":"Initial Balls Stored",
@@ -555,13 +555,13 @@ app.get('/api/fetchPitConfig', async (req, res) => {
                     "name":"Spun Wheel?",
                     "key":"spun-wheel",
                     "widget":"segment",
-                    "options":["idk","Yes","No"]
+                    "options":["Don't know","Yes","No"]
                 },
                 {
                     "name":"Color Control?",
                     "key":"color-control",
                     "widget":"segment",
-                    "options":["idk","Yes","No"]
+                    "options":["Don't know","Yes","No"]
                 },
                 {
                     "name":"Initial Balls Stored",
@@ -596,19 +596,19 @@ app.get('/api/fetchPitConfig', async (req, res) => {
                     "name":"Overall Competency",
                     "key":"competency",
                     "widget":"segment",
-                    "options":["idk","Awful","Meh","Good","Best"]
+                    "options":["Don't know","Awful","Meh","Good","Best"]
                 },
                 {
                     "name":"Speed",
                     "key":"speed",
                     "widget":"segment",
-                    "options":["idk","Slow","Med.","Fast","Ludicrous"]
+                    "options":["Don't know","Slow","Med.","Fast","Ludicrous"]
                 },
                 {
                     "name":"Strategic Focus",
                     "key":"strategic-focus",
                     "widget":"segment",
-                    "options":["idk","Offense","Defense","Hybrid"]
+                    "options":["Don't know","Offense","Defense","Hybrid"]
                 },
                 {
                     "name":"Strategy Notes",
