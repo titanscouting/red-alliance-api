@@ -641,6 +641,7 @@ app.post("/api/submitPitData", auth.checkAuth, async (req, res) => {
         console.error(err)
         val.err_occur = true;
     }
+    
     if (val.err_occur == false) {
         resobj = {
             "success": true,
@@ -667,13 +668,19 @@ app.get('/api/fetchPitData', async (req, res) => {
         console.error(err)
         val.err_occur = true;
     }
+    let datum
+    try {
+        datum = val.data.data;
+    } catch {
+        val.err_occur = true;
+    }
     if (val.err_occur == false) {
         resobj = {
             "success": true,
             "competition": competition_id,
             "match_number": match_number,
             "team_scouted": team_scouted,
-            "data": val.data.data
+            "data": datum
         }
     } else {
         resobj = {
