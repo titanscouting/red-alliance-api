@@ -206,6 +206,7 @@ app.get('/api/fetchMatchData', async (req, res) => {
     const team_scouted = parseInt(req.query.team_scouted)
     try {
         val = await dbHandler.fetchMatchData(req.db, competition_id, match_number, team_scouted).catch(e => {console.error(e); val.err_occur = true;})
+        console.log(val)
     } catch (err) {
         console.error(err)
         val.err_occur = true;
