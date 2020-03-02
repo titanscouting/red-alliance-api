@@ -264,3 +264,19 @@ exports.fetchScoutingSuggestions = async (db, comp_idin, match_idin, team_idin) 
     }
     return data;
 }
+
+exports.submitPitData = async (db, scouterin, competitionin, matchin, teamin, datain) => {
+    let data = {}
+    data.err_occur = false
+    data.err_reasons = []
+    let dbo = db.db("data_scouting");
+    let myobj = {"$set": {scouter: scouterin, competition: competitionin, match: matchin, team_scouted: teamin, data: datain}};
+    try {
+        await dbo.collection("pitdata").updateOne({_id: competitionin+matchin+teamin}, myobj, {upsert:true}).catch(e => {console.error(e);data.err_occur = true;})
+    } catch (err) {
+        data.err_occur = true
+        data.err_reasons.push(err)
+        console.error(err)
+    }
+    return data;
+}

@@ -620,6 +620,32 @@ app.get('/api/fetchPitConfig', async (req, res) => {
     res.json(response)
 })
 
-
+app.post("/api/submitPitData", auth.checkAuth, async (req, res) => {
+    let val;
+    const scouter = {name: String(res.locals.name), id: String(res.locals.id)}
+    const competition_id = String(req.body.competition_id)
+    const match_number = parseInt(req.body.match_number)
+    const team_scouted = parseInt(req.body.team_scouted)
+    const data = req.body.data
+    try{
+        val = await dbHandler.submitPitData(req.db, scouter, competition_id, match_number, team_scouted, data).catch(e => {console.error(e); val.err_occur = true;})
+    } catch (err) {
+        console.error(err)
+        val.err_occur = true;
+    }
+    if (val.err_occur == false) {
+        resobj = {
+            "success": true,
+            "competition": competition_id,
+            "match_number" : match_number,
+        }
+    } else {
+        resobj = {
+            "success": false,
+            "reasons": val.err_reasons,
+        }
+    }
+    res.json(resobj)
+})
 
 app.listen(port, () => console.log(`Listening on port ${port}`))
