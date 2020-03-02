@@ -211,10 +211,12 @@ app.get('/api/fetchMatchData', async (req, res) => {
         console.error(err)
         val.err_occur = true;
     }
-    let datum = val.data.data
-    datum.catch(() => {
+    let datum
+    try {
+        datum = val.data.data;
+    } catch {
         val.err_occur = true;
-    })
+    }
     if (val.err_occur == false) {
 
         resobj = {
