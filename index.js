@@ -113,11 +113,17 @@ app.get('/api/fetchMatches', async (req, res) => {
         console.error(err)
         val.err_occur = true;
     }
+    let datum
+    try {
+        datum = val.data.data;
+    } catch {
+        val.err_occur = true;
+    }
     if (val.err_occur == false) {
         resobj = {
             "success": true,
             "competition": competition,
-            "data": val.data.data
+            "data": datum
         }
     } else {
         resobj = {
@@ -137,12 +143,20 @@ app.get("/api/fetchScouterUIDs", async (req, res) => {
       console.error(e)
       val.err_occur = true;
   }
+  let scouters1
+  let teams1
+  try {
+    scouters = val.scouters
+    teams1 = val.teams
+  } catch {
+      val.err_occur = true;
+  }
   if (val.err_occur == false) {
       resobj = {
           "success": true,
           "competition": competition,
-          "scouters": val.scouters,
-          "teams": val.teams
+          "scouters": scouters1,
+          "teams": teams1
       }
   } else {
       resobj = {
@@ -161,11 +175,17 @@ app.get("/api/fetchCompetitionSchedule", async (req, res) => {
       console.error(e)
       val.err_occur = true;
   }
+  let datum
+  try {
+      datum = val.data;
+  } catch {
+      val.err_occur = true;
+  }
   if (val.err_occur == false) {
       resobj = {
           "success": true,
           "competition": competition,
-          "data": val.data
+          "data": datum
       }
   } else {
       resobj = {
@@ -184,11 +204,17 @@ app.get("/api/fetch2022Schedule", async (req, res) => {
       console.error(e)
       val.err_occur = true;
   }
+  let datum
+  try {
+      datum = val.data
+  } catch {
+      val.err_occur = true;
+  }
   if (val.err_occur == false) {
       resobj = {
           "success": true,
           "competition": competition,
-          "data": val.data
+          "data": datum
       }
   } else {
       resobj = {
@@ -246,13 +272,19 @@ app.get('/api/fetchShotChartData', async (req, res) => {
         console.error(err)
         val.err_occur = true;
     }
+    let datum
+    try {
+        datum = val.data.data;
+    } catch {
+        val.err_occur = true;
+    }
     if (val.err_occur == false) {
         resobj = {
             "success": true,
             "competition": competition_id,
             "match_number": match_number,
             "team_scouted": team_scouted,
-            "data": val.data.data
+            "data": datum
         }
     } else {
         resobj = {
@@ -349,10 +381,16 @@ app.get('/api/getDataOnTeam', auth.checkAuth, async (req, res) => {
         console.error(err)
         val.err_occur = true;
     }
+    let datum
+    try {
+        datum = val.data;
+    } catch {
+        val.err_occur = true;
+    }
     if (val.err_occur == false) {
         resobj = {
             "success": true,
-            "data": val.data
+            "data": datum
         }
     } else {
         resobj = {
@@ -401,10 +439,16 @@ app.get('/api/fetchScoutingSuggestions', auth.checkAuth, async (req, res) => {
         console.error(err)
         val.err_occur = true;
     }
+    let datum
+    try {
+        datum = val.data;
+    } catch {
+        val.err_occur = true;
+    }
     if (val.err_occur == false) {
         resobj = {
             "success": true,
-            "data": val.data
+            "data": data
         }
     } else {
         resobj = {
@@ -667,13 +711,19 @@ app.get('/api/fetchPitData', async (req, res) => {
         console.error(err)
         val.err_occur = true;
     }
+    let datum
+    try {
+        datum = val.data.data;
+    } catch {
+        val.err_occur = true;
+    }
     if (val.err_occur == false) {
         resobj = {
             "success": true,
             "competition": competition_id,
             "match_number": match_number,
             "team_scouted": team_scouted,
-            "data": val.data.data
+            "data": datum
         }
     } else {
         resobj = {
