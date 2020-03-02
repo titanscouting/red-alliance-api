@@ -23,7 +23,7 @@
 //     return rval
 // }
 
-const global_competition = "Central2020"
+const global_competition = "2020ilch"
 exports.submitMatchData = async (db, scouterin, competitionin, matchin, teamin, datain) => {
     let data = {}
     data.err_occur = false
