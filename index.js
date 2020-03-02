@@ -421,11 +421,6 @@ app.get('/privacy-policy', function(req, res) {
 })
 
 app.get('/api/fetchMatchConfig', async (req, res) => {
-    let response;
-    res.json(response)
-})
-
-app.get('/api/fetchPitConfig', async (req, res) => {
     let response = [
         {
             "Auto":[
@@ -433,7 +428,7 @@ app.get('/api/fetchPitConfig', async (req, res) => {
                     "name":"Passed Auto Line?",
                     "key":"pass-line",
                     "widget":"segment",
-                    "options":["Don't know","Yes","No"]
+                    "options":["Don't Know","Yes","No"]
                 },
                 {
                     "name":"Initial Balls Stored",
@@ -526,6 +521,11 @@ app.get('/api/fetchPitConfig', async (req, res) => {
             ]
         }
     ];
+    res.json(response)
+})
+
+app.get('/api/fetchPitConfig', async (req, res) => {
+    let response;
     res.json(response)
 })
 
