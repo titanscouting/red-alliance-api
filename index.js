@@ -671,6 +671,7 @@ app.get('/api/fetchPitData', async (req, res) => {
     let datum
     try {
         datum = val.data.data;
+        console.log(datum)
     } catch {
         val.err_occur = true;
     }
