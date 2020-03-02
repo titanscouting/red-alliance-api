@@ -5,6 +5,7 @@ let auth = require('./authHandler.js')
 let expressMongoDb = require('express-mongo-db');
 const port = process.env.PORT || 8190;
 let path = require("path");
+import { v4 as uuidv4 } from 'uuid';
 
 app = express()
 app.use(bodyParser.json())
@@ -369,7 +370,7 @@ app.post('/api/submitStrategy', auth.checkAuth, async (req, res) => {
     const data = String(req.body.data)
     const match = String(req.body.match)
     try {
-        val = await dbHandler.submitStrategy(req.db, scouter, match, comp, data).catch(e => {console.error(e); val.err_occur = true;})
+        val = await dbHandler.submitStrategy(req.db, scouter, match, comp, data, String(uuidv4()).catch(e => {console.error(e); val.err_occur = true;})
     } catch (err) {
         console.error(err)
         val.err_occur = true;
