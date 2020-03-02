@@ -365,11 +365,12 @@ app.get('/api/getDataOnTeam', auth.checkAuth, async (req, res) => {
 app.post('/api/submitStrategy', auth.checkAuth, async (req, res) => {
     let val;
     const scouter = {name: res.locals.name, id: res.locals.id}
+    const team = parseInt(req.body.team)
     const comp = String(req.body.competition)
     const data = String(req.body.data)
     const match = String(req.body.match)
     try {
-        val = await dbHandler.submitStrategy(req.db, scouter, team, comp, data).catch(e => {console.error(e); val.err_occur = true;})
+        val = await dbHandler.submitStrategy(req.db, scouter, team, match, comp, data).catch(e => {console.error(e); val.err_occur = true;})
     } catch (err) {
         console.error(err)
         val.err_occur = true;
