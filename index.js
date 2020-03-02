@@ -113,17 +113,11 @@ app.get('/api/fetchMatches', async (req, res) => {
         console.error(err)
         val.err_occur = true;
     }
-    let datum
-    try {
-        datum = val.data.data;
-    } catch {
-        val.err_occur = true;
-    }
     if (val.err_occur == false) {
         resobj = {
             "success": true,
             "competition": competition,
-            "data": datum
+            "data": val.data.data
         }
     } else {
         resobj = {
@@ -133,13 +127,6 @@ app.get('/api/fetchMatches', async (req, res) => {
     }
     res.json(resobj)
 })
-/**
- * GET route "/api/fetchScouterUIDs"
- * Allows the application to fetch the list of teams and scouters in a match.
- * @param competition is the TBA competition id, e.g. "2020ilch"
- * @param match_number is the match number, e.g. 2
- * @returns back to the client resobj and 200 OK.
- */
 app.get("/api/fetchScouterUIDs", async (req, res) => {
   let val;
   const competition = String(req.query.competition)
@@ -150,20 +137,12 @@ app.get("/api/fetchScouterUIDs", async (req, res) => {
       console.error(e)
       val.err_occur = true;
   }
-  let scouters1
-  let teams1
-  try {
-    scouters = val.scouters
-    teams1 = val.teams
-  } catch {
-      val.err_occur = true;
-  }
   if (val.err_occur == false) {
       resobj = {
           "success": true,
           "competition": competition,
-          "scouters": scouters1,
-          "teams": teams1
+          "scouters": val.scouters,
+          "teams": val.teams
       }
   } else {
       resobj = {
@@ -173,12 +152,6 @@ app.get("/api/fetchScouterUIDs", async (req, res) => {
   }
   res.json(resobj)
 })
-/**
- * GET route "/api/fetchCompetitionSchedule"
- * Allows the application to fetch the competition schedule for a given match.
- * @param competition is the TBA competition id, e.g. "2020ilch"
- * @returns back to the client resobj and 200 OK.
- */
 app.get("/api/fetchCompetitionSchedule", async (req, res) => {
   let val;
   const competition = String(req.query.competition)
@@ -188,17 +161,11 @@ app.get("/api/fetchCompetitionSchedule", async (req, res) => {
       console.error(e)
       val.err_occur = true;
   }
-  let datum
-  try {
-      datum = val.data;
-  } catch {
-      val.err_occur = true;
-  }
   if (val.err_occur == false) {
       resobj = {
           "success": true,
           "competition": competition,
-          "data": datum
+          "data": val.data
       }
   } else {
       resobj = {
@@ -208,12 +175,6 @@ app.get("/api/fetchCompetitionSchedule", async (req, res) => {
   }
   res.json(resobj)
 })
-/**
- * GET route "/api/fetchCompetitionSchedule"
- * Allows the application to fetch all the matches that 2022 is a part of
- * @param competition is the TBA competition id, e.g. "2020ilch"
- * @returns back to the client resobj and 200 OK.
- */
 app.get("/api/fetch2022Schedule", async (req, res) => {
   let val;
   const competition = String(req.query.competition)
@@ -223,17 +184,11 @@ app.get("/api/fetch2022Schedule", async (req, res) => {
       console.error(e)
       val.err_occur = true;
   }
-  let datum
-  try {
-      datum = val.data
-  } catch {
-      val.err_occur = true;
-  }
   if (val.err_occur == false) {
       resobj = {
           "success": true,
           "competition": competition,
-          "data": datum
+          "data": val.data
       }
   } else {
       resobj = {
@@ -243,14 +198,7 @@ app.get("/api/fetch2022Schedule", async (req, res) => {
   }
   res.json(resobj)
 })
-/**
- * GET route "/api/fetchMatchData"
- * Allows the application to fetch the data for a given competition, match, and team scouted.
- * @param competition is the TBA competition id, e.g. "2020ilch"
- * @param match_number is the match number, e.g. 3
- * @param team_scouted is the team that was scouted, e.g. 2022
- * @returns back to the client resobj and 200 OK.
- */
+
 app.get('/api/fetchMatchData', async (req, res) => {
     let val;
     const competition_id = String(req.query.competition)
@@ -286,14 +234,7 @@ app.get('/api/fetchMatchData', async (req, res) => {
     }
     res.json(resobj)
 })
-/**
- * GET route "/api/fetchShotChartData"
- * Allows the application to fetch the shot chart data for a given competition, match, and team scouted.
- * @param competition is the TBA competition id, e.g. "2020ilch"
- * @param match_number is the match number, e.g. 3
- * @param team_scouted is the team that was scouted, e.g. 2022
- * @returns back to the client resobj and 200 OK.
- */
+
 app.get('/api/fetchShotChartData', async (req, res) => {
     let val;
     const competition_id = String(req.body.competition_id)
@@ -305,19 +246,13 @@ app.get('/api/fetchShotChartData', async (req, res) => {
         console.error(err)
         val.err_occur = true;
     }
-    let datum
-    try {
-        datum = val.data.data;
-    } catch {
-        val.err_occur = true;
-    }
     if (val.err_occur == false) {
         resobj = {
             "success": true,
             "competition": competition_id,
             "match_number": match_number,
             "team_scouted": team_scouted,
-            "data": datum
+            "data": val.data.data
         }
     } else {
         resobj = {
@@ -327,16 +262,6 @@ app.get('/api/fetchShotChartData', async (req, res) => {
     }
     res.json(resobj)
 })
-/**
- * POST route "/api/fetchMatchData"
- * Allows the application to submit shot chart data.
- * @param token in form of header with title 'token' and value of JWT provided by Google OAuth
- * @param competition is the TBA competition id, e.g. "2020ilch"
- * @param match_number is the match number, e.g. 3
- * @param team_scouted is the team that was scouted, e.g. 2022
- * @param data is the data collected.
- * @returns back to the client resobj and 200 OK.
- */
 app.post("/api/submitShotChartData", auth.checkAuth, async (req, res) => {
     let val;
     const scouter = {name: String(res.locals.name), id: String(res.locals.id)}
@@ -364,16 +289,7 @@ app.post("/api/submitShotChartData", auth.checkAuth, async (req, res) => {
     }
     res.json(resobj)
 })
-/**
- * POST route "/api/addScouterToMatch"
- * Allows the application to add a scouter to a match.
- * @param token in form of header with title 'token' and value of JWT provided by Google OAuth
- * @param competition is the TBA competition id, e.g. "2020ilch"
- * @param match_number is the match number, e.g. 3
- * @param team_scouted is the team that was scouted, e.g. 2022
- * @param data is the data collected.
- * @returns back to the client resobj and 200 OK.
- */
+
 app.post('/api/addScouterToMatch', auth.checkAuth, async (req, res) => {
     let val;
     const match = String(req.body.match)
@@ -398,16 +314,7 @@ app.post('/api/addScouterToMatch', auth.checkAuth, async (req, res) => {
     }
     res.json(resobj)
 })
-/**
- * POST route "/api/addScouterToMatch"
- * Allows the application to add a scouter to a match.
- * @param token in form of header with title 'token' and value of JWT provided by Google OAuth
- * @param competition is the TBA competition id, e.g. "2020ilch"
- * @param match_number is the match number, e.g. 3
- * @param team_scouted is the team that was scouted, e.g. 2022
- * @param data is the data collected.
- * @returns back to the client resobj and 200 OK.
- */
+
 app.post('/api/removeScouterFromMatch', auth.checkAuth, async (req, res) => {
     let val;
     const match = String(req.body.match)
@@ -442,16 +349,10 @@ app.get('/api/getDataOnTeam', auth.checkAuth, async (req, res) => {
         console.error(err)
         val.err_occur = true;
     }
-    let datum
-    try {
-        datum = val.data;
-    } catch {
-        val.err_occur = true;
-    }
     if (val.err_occur == false) {
         resobj = {
             "success": true,
-            "data": datum
+            "data": val.data
         }
     } else {
         resobj = {
@@ -500,16 +401,10 @@ app.get('/api/fetchScoutingSuggestions', auth.checkAuth, async (req, res) => {
         console.error(err)
         val.err_occur = true;
     }
-    let datum
-    try {
-        datum = val.data;
-    } catch {
-        val.err_occur = true;
-    }
     if (val.err_occur == false) {
         resobj = {
             "success": true,
-            "data": data
+            "data": val.data
         }
     } else {
         resobj = {
@@ -772,19 +667,13 @@ app.get('/api/fetchPitData', async (req, res) => {
         console.error(err)
         val.err_occur = true;
     }
-    let datum
-    try {
-        datum = val.data.data;
-    } catch {
-        val.err_occur = true;
-    }
     if (val.err_occur == false) {
         resobj = {
             "success": true,
             "competition": competition_id,
             "match_number": match_number,
             "team_scouted": team_scouted,
-            "data": datum
+            "data": val.data.data
         }
     } else {
         resobj = {
