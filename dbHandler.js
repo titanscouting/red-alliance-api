@@ -82,7 +82,7 @@ exports.fetchMatchData = async (db, comp_idin, match_numberin, team_scoutedin) =
     // var myobj = {_id: comp_idin + team_scoutedin + match_numberin};
     let myobj = {competition: String(comp_idin), match: parseInt(match_numberin), team_scouted: parseInt(team_scoutedin)};
     try {
-        data.data = await dbo.collection("matchdata").findOne(myobj).catch(e => {console.error(e);data.err_occur = true;})
+        data.data = await dbo.collection("matchdata").findOne(myobj).catch(e => {console.error(e);data.err_occur = true; throw "Database error";})
     } catch (err) {
         data.err_occur = true
         data.err_reasons.push(err)
