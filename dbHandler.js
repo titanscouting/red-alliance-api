@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid';
 // Not implemented in this year's version of the API.
 // exports.addUserToTeam = (db, idin, namein, teamin) => {
 //     idin = String(idin)
@@ -232,14 +233,14 @@ exports.getDataOnTeam = async (db, teamin, compin) => {
     return data
 }
 
-exports.submitStrategy = async (db, scouterin, teamin, matchin, compin, datain) => {
+exports.submitStrategy = async (db, scouterin, matchin, compin, datain) => {
     let data = {}
     data.err_occur = false
     data.err_reasons = []
     let dbo = db.db("strategies");
-    let myobj = {"$set": {scouter: scouterin, competition: compin, match: matchin, team_scouted: teamin, data: datain}};
+    let myobj = {"$set": {scouter: scouterin, competition: compin, match: matchin, data: datain}};
     try {
-        await dbo.collection("data").updateOne({_id: compin+matchin+teamin}, myobj, {upsert:true}).catch(e => {console.error(e);data.err_occur = true;})
+        await dbo.collection("data").updateOne({_id: String(uuidv4())}, myobj, {upsert:true}).catch(e => {console.error(e);data.err_occur = true;})
     } catch (err) {
         data.err_occur = true
         data.err_reasons.push(err)
