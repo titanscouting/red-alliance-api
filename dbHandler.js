@@ -249,14 +249,14 @@ exports.submitStrategy = async (db, scouterin, matchin, compin, datain) => {
     return data;
 }
 
-exports.fetchScoutingSuggestions = async (db, comp_idin, match_idin, team_idin) => {
+exports.fetchStrategy = async (db, comp_idin, match_idin) => {
     let data = {}
     data.err_occur = false
     data.err_reasons = []
     let dbo = db.db("strategies");
-    let myobj = {team_scouted: parseInt(team_idin), competition: String(comp_idin), match: String(match_idin)}
+    let myobj = {competition: String(comp_idin), match: String(match_idin)}
     try {
-        data.data = await dbo.collection("data").find(myobj).toArray()
+        data.data = await dbo.collection("data").find(myobj).catch(e => {console.error(e);data.err_occur = true; throw "Database error";})
     } catch (err) {
         data.err_occur = true
         data.err_reasons.push(err)

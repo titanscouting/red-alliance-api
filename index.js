@@ -387,22 +387,27 @@ app.post('/api/submitStrategy', auth.checkAuth, async (req, res) => {
     res.json(resobj)
 })
 
-app.get('/api/fetchScoutingSuggestions', auth.checkAuth, async (req, res) => {
+app.get('/api/fetchStrategy', async (req, res) => {
     let val;
-    const team = parseInt(req.query.team)
     const comp = String(req.query.competition)
     const match = String(req.query.match)
 
     try {
-        val = await dbHandler.fetchScoutingSuggestions(req.db, comp, match, team).catch(e => {console.error(e); val.err_occur = true;})
+        val = await dbHandler.fetchStrategy(req.db, comp, match).catch(e => {console.error(e); val.err_occur = true;})
     } catch (err) {
         console.error(err)
+        val.err_occur = true;
+    }
+    let datum
+    try {
+        datum = val.data;
+    } catch {
         val.err_occur = true;
     }
     if (val.err_occur == false) {
         resobj = {
             "success": true,
-            "data": val.data
+            "data": datum
         }
     } else {
         resobj = {
