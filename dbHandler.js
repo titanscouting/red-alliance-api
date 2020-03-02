@@ -280,3 +280,20 @@ exports.submitPitData = async (db, scouterin, competitionin, matchin, teamin, da
     }
     return data;
 }
+
+exports.fetchPitData = async (db, comp_idin, match_numberin, team_scoutedin) => {
+    let data = {}
+    data.err_occur = false
+    data.err_reasons = []
+    let dbo = db.db("data_scouting");
+    // var myobj = {_id: comp_idin + team_scoutedin + match_numberin};
+    let myobj = {competition: String(comp_idin), match: parseInt(match_numberin), team_scouted: parseInt(team_scoutedin)};
+    try {
+        data.data = await dbo.collection("pitdata").findOne(myobj).catch(e => {console.error(e);data.err_occur = true;})
+    } catch (err) {
+        data.err_occur = true
+        data.err_reasons.push(err)
+        console.error(err)
+    }
+    return data;
+}

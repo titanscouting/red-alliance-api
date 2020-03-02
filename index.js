@@ -648,4 +648,32 @@ app.post("/api/submitPitData", auth.checkAuth, async (req, res) => {
     res.json(resobj)
 })
 
+app.get('/api/fetchPitData', async (req, res) => {
+    let val;
+    const competition_id = String(req.query.competition)
+    const match_number = parseInt(req.query.match_number)
+    const team_scouted = parseInt(req.query.team_scouted)
+    try {
+        val = await dbHandler.fetchPitData(req.db, competition_id, match_number, team_scouted).catch(e => {console.error(e); val.err_occur = true;})
+    } catch (err) {
+        console.error(err)
+        val.err_occur = true;
+    }
+    if (val.err_occur == false) {
+        resobj = {
+            "success": true,
+            "competition": competition_id,
+            "match_number": match_number,
+            "team_scouted": team_scouted,
+            "data": val.data.data
+        }
+    } else {
+        resobj = {
+            "success": false,
+            "reasons": val.err_reasons,
+        }
+    }
+    res.json(resobj)
+})
+
 app.listen(port, () => console.log(`Listening on port ${port}`))
