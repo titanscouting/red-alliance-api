@@ -211,13 +211,18 @@ app.get('/api/fetchMatchData', async (req, res) => {
         console.error(err)
         val.err_occur = true;
     }
+    let datum = val.data.data
+    datum.catch(() => {
+        val.err_occur = true;
+    })
     if (val.err_occur == false) {
+
         resobj = {
             "success": true,
             "competition": competition_id,
             "match_number": match_number,
             "team_scouted": team_scouted,
-            "data": val.data.data
+            "data": datum
         }
     } else {
         resobj = {
