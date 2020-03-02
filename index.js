@@ -370,7 +370,7 @@ app.post('/api/submitStrategy', auth.checkAuth, async (req, res) => {
     const data = String(req.body.data)
     const match = String(req.body.match)
     try {
-        val = await dbHandler.submitStrategy(req.db, scouter, match, comp, data, String(uuid.v4()).catch(e => {console.error(e); val.err_occur = true;})
+        val = await dbHandler.submitStrategy(req.db, scouter, match, comp, data, String(uuid.v4()).catch(e => {console.error(e); val.err_occur = true;}))
     } catch (err) {
         console.error(err)
         val.err_occur = true;
