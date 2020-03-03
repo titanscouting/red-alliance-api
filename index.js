@@ -128,6 +128,34 @@ app.get('/api/fetchMatches', async (req, res) => {
     }
     res.json(resobj)
 })
+
+app.get('/api/fetchScouterSuggestions', async (req, res) => {
+    let val;
+    const competition = String(req.query.competition)
+    const match_number = parseInt(req.body.match_number)
+
+    try{
+        val = await dbHandler.fetchScouterSuggestions(req.db, competition, match_number).catch(e => {console.error(e); val.err_occur = true;})
+    } catch (err) {
+        console.error(err)
+        val.err_occur = true;
+    }
+    if (val.err_occur == false) {
+        resobj = {
+            "success": true,
+            "competition": competition,
+            "match_number" : match_number,
+            "data": val.data.data
+        }
+    } else {
+        resobj = {
+            "success": false,
+            "reasons": val.err_reasons,
+        }
+    }
+    res.json(resobj)
+})
+
 app.get("/api/fetchScouterUIDs", async (req, res) => {
   let val;
   const competition = String(req.query.competition)
