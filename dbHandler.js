@@ -73,6 +73,44 @@ exports.fetchMatchesForCompetition = async (db, comp_idin) => {
     return data;
 }
 
+
+exports.fetchAllTeamNicknamesAtCompetition = async (db, comp_idin) => {
+    let data = {}
+    data.err_occur = false
+    data.err_reason= []
+    comp_idin = String(comp_idin)
+    let dbo = db.db("data_scouting");
+    let myobj = {competition: String(comp_idin)};
+    console.log(myobj)
+    try {
+        data.data = await dbo.collection("teamlist").findOne(myobj).catch(e => {console.error(e);data.err_occur = true;})
+    } catch (err) {
+        data.err_occur = true
+        data.err_reasons.push(err)
+        console.error(err)
+    }
+    return data;
+}
+
+exports.findTeamNickname = async (db, team_num) => {
+    let data = {}
+    data.err_occur = false
+    data.err_reason= []
+    comp_idin = String(comp_idin)
+    let dbo = db.db("data_scouting");
+    let myobj = {team_num : {"$exists" : true}};
+    console.log(myobj)
+    try {
+        teamlist = await dbo.collection("teamlist").findOne(myobj).catch(e => {console.error(e);data.err_occur = true;})
+        data.data = teamlist[team_num]
+    } catch (err) {
+        data.err_occur = true
+        data.err_reasons.push(err)
+        console.error(err)
+    }
+    return data;
+}
+
 exports.fetchMatchData = async (db, comp_idin, match_numberin, team_scoutedin) => {
     let data = {}
     data.err_occur = false
