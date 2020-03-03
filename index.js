@@ -153,6 +153,54 @@ app.get("/api/fetchScouterUIDs", async (req, res) => {
   }
   res.json(resobj)
 })
+app.get("/api/fetchAllTeamNicknamesAtCompetition", async (req, res) => {
+  let val;
+  const competition = String(req.query.competition)
+  try {
+    val = await dbHandler.fetchAllTeamNicknamesAtCompetition(req.db, competition).catch(e => {console.error(e); val.err_occur = true;})
+  } catch (e) {
+      console.error(e)
+      val.err_occur = true;
+  }
+  if (val.err_occur == false) {
+      resobj = {
+          "success": true,
+          "competition": competition,
+          "data": val.data
+      }
+  } else {
+      resobj = {
+          "success": false,
+          "reasons": val.err_reasons,
+      }
+  }
+  res.json(resobj)
+})
+
+app.get("/api/findTeamNickname", async (req, res) => {
+  let val;
+  const team_num = String(req.query.team_number)
+  try {
+    val = await dbHandler.findTeamNickname(req.db, team_num).catch(e => {console.error(e); val.err_occur = true;})
+  } catch (e) {
+      console.error(e)
+      val.err_occur = true;
+  }
+  if (val.err_occur == false) {
+      resobj = {
+          "success": true,
+          "team_num" : team_number,
+          "nickname" : val.data
+      }
+  } else {
+      resobj = {
+          "success": false,
+          "reasons": val.err_reasons,
+      }
+  }
+  res.json(resobj)
+})
+
 app.get("/api/fetchCompetitionSchedule", async (req, res) => {
   let val;
   const competition = String(req.query.competition)
@@ -572,7 +620,7 @@ app.get('/api/fetchPitConfig', async (req, res) => {
                     "key":"climb-mechanism",
                     "widget":"segment",
                     "options":["Don't Know", "x1", "x2", "x3"]
-    
+
                 },
                 {
                     "name":"Climb requirements (space? time?)",
@@ -584,7 +632,7 @@ app.get('/api/fetchPitConfig', async (req, res) => {
                     "key":"attitude",
                     "widget":"segment",
                     "options":["Don't Know", "Negative", "Neutral", "Positive", "Love"]
-    
+
                 },
                 {
                     "name":"Other notes",
@@ -610,7 +658,7 @@ app.post("/api/submitPitData", auth.checkAuth, async (req, res) => {
         console.error(err)
         val.err_occur = true;
     }
-    
+
     if (val.err_occur == false) {
         resobj = {
             "success": true,
