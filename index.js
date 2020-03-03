@@ -447,7 +447,7 @@ app.get('/api/getDataOnTeam', auth.checkAuth, async (req, res) => {
 
 app.post('/api/submitStrategy', auth.checkAuth, async (req, res) => {
     let val;
-    const scouter = {name: res.locals.name, id: res.locals.id}
+    const scouter = String(res.locals.name);
     const comp = String(req.body.competition)
     const data = String(req.body.data)
     const match = String(req.body.match)
