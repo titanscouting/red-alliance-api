@@ -132,7 +132,7 @@ app.get('/api/fetchMatches', async (req, res) => {
 app.get('/api/fetchScouterSuggestions', async (req, res) => {
     let val;
     const competition = String(req.query.competition)
-    const match_number = parseInt(req.body.match_number)
+    const match_number = parseInt(req.query.match_number)
 
     try{
         val = await dbHandler.fetchScouterSuggestions(req.db, competition, match_number).catch(e => {console.error(e); val.err_occur = true;})
@@ -140,12 +140,18 @@ app.get('/api/fetchScouterSuggestions', async (req, res) => {
         console.error(err)
         val.err_occur = true;
     }
+    let datum;
+    try {
+        datum = val.data
+    } catch (e) {
+        val.err_occur = true;
+    }
     if (val.err_occur == false) {
         resobj = {
             "success": true,
             "competition": competition,
             "match_number" : match_number,
-            "data": val.data.data
+            "data": datum
         }
     } else {
         resobj = {

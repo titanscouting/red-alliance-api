@@ -144,14 +144,16 @@ exports.fetchScouterSuggestions = async (db, comp_idin, match_numberin) => {
     data.err_occur = false
     data.err_reasons = []
     let dbo = db.db("data_scouting");
-    // var myobj = {_id: comp_idin + team_scoutedin + match_numberin};
     let myobj = {competition: String(comp_idin), match: parseInt(match_numberin)};
     try {
         var out = [];
         var toProcess = await dbo.collection("matchdata").find(myobj).toArray().catch(e => {console.error(e);data.err_occur = true;})
-        for (var scoutSub in toProcess) {
-            out.push({"scouter" : scoutSub['scouter']['name'], "strategy" : scoutSub['data']['strategy-notes']})
+        for (let scoutSub of toProcess) {
+            if (scoutSub.data['strategy-notes']) {
+                out.push({"scouter" : scoutSub.scouter.name, "strategy" : scoutSub.data['strategy-notes']})   
+            }
         }
+        console.log(out)
         data.data = out;
 
     } catch (err) {
