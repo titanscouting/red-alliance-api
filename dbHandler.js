@@ -317,7 +317,7 @@ exports.fetchStrategy = async (db, comp_idin, match_idin) => {
     let dbo = db.db("strategies");
     let myobj = {competition: String(comp_idin), match: String(match_idin)}
     try {
-        data.data = await dbo.collection("data").find(myobj).catch(e => {console.error(e);data.err_occur = true; throw "Database error";})
+        data.data = await dbo.collection("data").find(myobj).toArray()
     } catch (err) {
         data.err_occur = true
         data.err_reasons.push(err)
