@@ -504,10 +504,8 @@ app.get('/api/fetchStrategy', async (req, res) => {
 app.get('/api/getNumberScouts', async (req, res) => {
     let val;
     const comp = String(req.query.competition)
-    const match = String(req.query.match)
-
     try {
-        val = await dbHandler.getNumberScouts(req.db, comp, match).catch(e => {console.error(e); val.err_occur = true;})
+        val = await dbHandler.getNumberScouts(req.db, comp).catch(e => {console.error(e); val.err_occur = true;})
     } catch (err) {
         console.error(err)
         val.err_occur = true;
