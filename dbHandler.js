@@ -77,7 +77,7 @@ exports.fetchMatchesForCompetition = async (db, comp_idin) => {
 exports.getNumberScouts = async (db, comp_idin) => {
     let data = {}
     data.err_occur = false
-    data.err_reason= []
+    data.err_reasons = []
     comp_idin = String(comp_idin)
     let dbo = db.db("data_scouting");
     let myobj = {competition: String(comp_idin)};
