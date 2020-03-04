@@ -501,6 +501,37 @@ app.get('/api/fetchStrategy', async (req, res) => {
     res.json(resobj)
 })
 
+app.get('/api/getNumberScouts', async (req, res) => {
+    let val;
+    const comp = String(req.query.competition)
+    const match = String(req.query.match)
+
+    try {
+        val = await dbHandler.getNumberScouts(req.db, comp, match).catch(e => {console.error(e); val.err_occur = true;})
+    } catch (err) {
+        console.error(err)
+        val.err_occur = true;
+    }
+    let datum
+    try {
+        datum = val.data;
+    } catch {
+        val.err_occur = true;
+    }
+    if (val.err_occur == false) {
+        resobj = {
+            "success": true,
+            "data": datum
+        }
+    } else {
+        resobj = {
+            "success": false,
+            "reasons": val.err_reasons,
+        }
+    }
+    res.json(resobj)
+})
+
 // Privacy Policy
 app.get('/privacy-policy', function(req, res) {
     res.redirect('https://drive.google.com/a/imsa.edu/file/d/11_cAuaerCrQ3BBXNx_G_zw1ZyGaTWx0z/view?usp=sharing')

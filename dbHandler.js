@@ -74,6 +74,28 @@ exports.fetchMatchesForCompetition = async (db, comp_idin) => {
 }
 
 
+exports.getNumberScouts = async (db, comp_idin) => {
+    let data = {}
+    data.err_occur = false
+    data.err_reason= []
+    comp_idin = String(comp_idin)
+    let dbo = db.db("data_scouting");
+    let myobj = {competition: String(comp_idin)};
+    console.log(myobj)
+    let inval;
+    try {
+        inval  = await dbo.collection("schedule").findOne(myobj).toArray()
+        data.data = inval.data.reduce((partial_sum, a) => partial_sum + a,0); 
+
+    } catch (e) {
+        data.err_occur = true
+        data.err_reasons.push(err)
+        console.error(err)
+    }
+    return data;
+}
+
+
 exports.fetchAllTeamNicknamesAtCompetition = async (db, comp_idin) => {
     let data = {}
     data.err_occur = false
