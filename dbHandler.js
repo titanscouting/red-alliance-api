@@ -84,7 +84,7 @@ exports.getNumberScouts = async (db, comp_idin) => {
     console.log(myobj)
     let inval;
     try {
-        inval  = await dbo.collection("schedule").findOne(myobj).toArray()
+        inval  = await dbo.collection("schedule").findOne(myobj)
         data.data = inval.data.reduce((partial_sum, a) => partial_sum + a,0); 
 
     } catch (e) {
