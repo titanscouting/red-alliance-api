@@ -62,7 +62,6 @@ exports.fetchMatchesForCompetition = async (db, comp_idin) => {
     comp_idin = String(comp_idin)
     let dbo = db.db("data_scouting");
     let myobj = {competition: String(comp_idin)};
-    console.log(myobj)
     try {
         data.data = await dbo.collection("schedule").findOne(myobj).catch(e => {console.error(e);data.err_occur = true;})
     } catch (err) {
@@ -81,7 +80,6 @@ exports.getNumberScouts = async (db, comp_idin) => {
     comp_idin = String(comp_idin)
     let dbo = db.db("data_scouting");
     let myobj = {competition: String(comp_idin)};
-    console.log(myobj)
     let inval;
     try {
         inval  = await dbo.collection("schedule").findOne(myobj)
@@ -103,7 +101,6 @@ exports.fetchAllTeamNicknamesAtCompetition = async (db, comp_idin) => {
     comp_idin = String(comp_idin)
     let dbo = db.db("data_scouting");
     let myobj = {competition: String(comp_idin)};
-    console.log(myobj)
     try {
         data.data = await dbo.collection("teamlist").findOne(myobj).catch(e => {console.error(e);data.err_occur = true;})
     } catch (err) {
@@ -121,7 +118,6 @@ exports.findTeamNickname = async (db, team_num) => {
     comp_idin = String(comp_idin)
     let dbo = db.db("data_scouting");
     let myobj = {team_num : {"$exists" : true}};
-    console.log(myobj)
     try {
         teamlist = await dbo.collection("teamlist").findOne(myobj).catch(e => {console.error(e);data.err_occur = true;})
         data.data = teamlist[team_num]
@@ -163,7 +159,6 @@ exports.fetchCompetitionSchedule = async (db, comp_idin) => {
       data.err_reasons.push(err)
       console.error(err)
   }
-  console.log(data.data)
   return data;
 }
 
@@ -213,7 +208,6 @@ exports.fetchScouterSuggestions = async (db, comp_idin, match_numberin) => {
                 out.push({"scouter" : scoutSub.scouter.name, "strategy" : scoutSub.data['strategy-notes']})   
             }
         }
-        console.log(out)
         data.data = out;
 
     } catch (err) {
@@ -231,7 +225,6 @@ exports.fetchScouterUIDs = async (db, comp_idin, match_numberin) => {
     comp_idin = String(comp_idin)
     let dbo = db.db("data_scouting");
     let myobj = {competition: String(comp_idin), match: parseInt(match_numberin)};
-    //console.log(myobj)
     try {
         matchdata = await dbo.collection("matches").findOne(myobj).catch(e => {console.error(e);data.err_occur = true;});
         data.scouters = matchdata.scouters
