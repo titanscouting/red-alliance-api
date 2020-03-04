@@ -90,7 +90,7 @@ exports.getNumberScouts = async (db, comp_idin) => {
     } catch (e) {
         data.err_occur = true
         data.err_reasons.push(e)
-        console.error(err)
+        console.error(e)
     }
     return data;
 }
