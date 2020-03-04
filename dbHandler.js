@@ -323,7 +323,7 @@ exports.submitStrategy = async (db, scouterin, matchin, compin, datain, uuid) =>
     let dbo = db.db("strategies");
     let myobj = {"$set": {scouter: scouterin, competition: compin, match: matchin, data: datain}};
     try {
-        await dbo.collection("data").updateOne({_id: uuid}, myobj, {upsert:true}).catch(e => {console.error(e);data.err_occur = true;})
+        await dbo.collection("data").updateOne({_id: uuid}, myobj, {upsert:true}).toArray()
     } catch (err) {
         data.err_occur = true
         data.err_reasons.push(err)
