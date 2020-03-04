@@ -323,7 +323,7 @@ exports.submitStrategy = async (db, scouterin, matchin, compin, datain, uuid) =>
     let dbo = db.db("strategies");
     let myobj = {"$set": {scouter: scouterin, competition: compin, match: matchin, data: datain}};
     try {
-        await dbo.collection("data").updateOne({_id: uuid}, myobj, {upsert:true}).toArray()
+        await dbo.collection("data").updateOne({_id: uuid}, myobj, {upsert:true})
     } catch (err) {
         data.err_occur = true
         data.err_reasons.push(err)
@@ -339,7 +339,7 @@ exports.fetchStrategy = async (db, comp_idin, match_idin) => {
     let dbo = db.db("strategies");
     let myobj = {competition: String(comp_idin), match: String(match_idin)}
     try {
-        data.data = await dbo.collection("data").find(myobj).toArray()
+        data.data = await dbo.collection("data").find(myobj)
     } catch (err) {
         data.err_occur = true
         data.err_reasons.push(err)
