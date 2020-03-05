@@ -5,7 +5,7 @@ const client = new OAuth2Client(CLIENT_ID);
 module.exports.checkAuth = async (req, res, next) => {
   const ticket = await client.verifyIdToken({
     idToken:   String(req.header('token')),
-    audience: CLIENT_ID,
+    audience: [CLIENT_ID, "291863698243-ovppseib28p6usahf60igsp7ia3ovq6l.apps.googleusercontent.com", "291863698243-0dsmvs8uetpd9odms7aqn63iknroi4op.apps.googleusercontent.com"]
     // Specify the CLIENT_ID of the app that accesses the backend
     // Or, if multiple clients access the backend:
     //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
