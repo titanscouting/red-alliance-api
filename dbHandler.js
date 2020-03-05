@@ -325,7 +325,23 @@ exports.submitStrategy = async (db, scouterin, matchin, compin, datain) => {
     return data;
 }
 
-exports.fetchStrategy = async (db, comp_idin, match_idin) => {
+exports.fetchStrategy = async (db, comp_idin, match_idin, namein) => {
+    let data = {}
+    data.err_occur = false
+    data.err_reasons = []
+    let dbo = db.db("strategies");
+    let myobj = {competition: String(comp_idin), match: String(match_idin), scouter: String(namein)}
+    try {
+        data.data = await dbo.collection("data").find(myobj).toArray().data
+    } catch (err) {
+        data.err_occur = true
+        data.err_reasons.push(err)
+        console.error(err)
+    }
+    return data;
+}
+
+exports.getUserStrategy = async (db, comp_idin, match_idin) => {
     let data = {}
     data.err_occur = false
     data.err_reasons = []
