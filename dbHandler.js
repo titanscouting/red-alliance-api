@@ -227,6 +227,7 @@ exports.fetchScouterUIDs = async (db, comp_idin, match_numberin) => {
     let myobj = {competition: String(comp_idin), match: parseInt(match_numberin)};
     try {
         matchdata = await dbo.collection("matches").findOne(myobj).catch(e => {console.error(e);data.err_occur = true;});
+        console.log(matchdata)
         data.scouters = matchdata.scouters
         data.teams = matchdata.teams
     } catch (err) {
