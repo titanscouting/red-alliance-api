@@ -721,7 +721,7 @@ app.get('/api/fetchPitConfig', async (req, res) => {
                     "name":"Climb mechanism",
                     "key":"climb-mechanism",
                     "widget":"segment",
-                    "options":["Don't Know", "x1", "x2", "x3"]
+                    "options":["Don't Know", "x0", "x1", "x2", "x3"]
 
                 },
                 {
