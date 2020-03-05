@@ -172,12 +172,20 @@ app.get("/api/fetchScouterUIDs", async (req, res) => {
       console.error(e)
       val.err_occur = true;
   }
+  let datum1
+  let datum2
+  try {
+      datum1 = val.scouters
+      datum2 = val.teams
+  } catch {
+      val.err_occur = true;
+  }
   if (val.err_occur == false) {
       resobj = {
           "success": true,
           "competition": competition,
-          "scouters": val.scouters,
-          "teams": val.teams
+          "scouters": datum1,
+          "teams": datum2
       }
   } else {
       resobj = {
