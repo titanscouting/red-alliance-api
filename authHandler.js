@@ -15,6 +15,7 @@ module.exports.checkAuth = async (req, res, next) => {
     if (payload['hd'] == 'imsa.edu') {
       res.locals.id = payload['sub'];
       res.locals.name = payload['name'];
+      console.log("Logged in " + res.locals.name + " with ID " + res.locals.id)
     }
     else {
       throw new Error("User is not part of imsa.edu domain");
