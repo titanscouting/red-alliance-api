@@ -458,6 +458,7 @@ app.post('/api/submitStrategy', auth.checkAuth, async (req, res) => {
     const scouter = String(res.locals.name);
     const comp = String(req.body.competition)
     const data = String(req.body.data)
+    console.log("here is submit strategy " + data)
     const match = String(req.body.match)
     try {
         val = await dbHandler.submitStrategy(req.db, scouter, match, comp, data)
