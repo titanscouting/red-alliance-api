@@ -459,7 +459,7 @@ app.post('/api/submitStrategy', auth.checkAuth, async (req, res) => {
     const comp = String(req.body.competition)
     const data = String(req.body.data)
     var do_get = true
-    if (data == null || data == 'undefined') {
+    if (data == null || scouter == 'undefined') {
         do_get = false; 
     }
     const match = String(req.body.match)
