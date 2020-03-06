@@ -71,7 +71,7 @@ exports.fetchMatchesForCompetition = async (db, comp_idin) => {
             let scouts = interim[i].scouters
             let scout_num = 0
             for (let j = 0; j < scouts.length; j++) {
-                if (!(scouts[j] == true || scouts[j] == false)) {
+                if ((scouts[j] !== true) || (scouts[j] !== false)) {
                     scout_num = scout_num + 1;
                 }
             }
