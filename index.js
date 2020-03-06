@@ -458,24 +458,35 @@ app.post('/api/submitStrategy', auth.checkAuth, async (req, res) => {
     const scouter = String(res.locals.name);
     const comp = String(req.body.competition)
     const data = String(req.body.data)
-    console.log("here is submit strategy " + data)
-    const match = String(req.body.match)
-    try {
-        val = await dbHandler.submitStrategy(req.db, scouter, match, comp, data)
-    } catch (err) {
-        console.error(err)
-        val.err_occur = true;
+    if (data == null) {
+        let do_get = false;
     }
-    if (val.err_occur == false) {
-        resobj = {
-            "success": true,
+    const match = String(req.body.match)
+    if (do_get = true) {
+        try {
+            val = await dbHandler.submitStrategy(req.db, scouter, match, comp, data)
+        } catch (err) {
+            console.error(err)
+            val.err_occur = true;
         }
+        if (val.err_occur == false) {
+            resobj = {
+                "success": true,
+            }
+        } else {
+            resobj = {
+                "success": false,
+                "reasons": val.err_reasons,
+            }
+        }
+        
     } else {
         resobj = {
             "success": false,
-            "reasons": val.err_reasons,
+            "reasons": "Data is null"
         }
     }
+
     res.json(resobj)
 })
 
