@@ -595,7 +595,7 @@ app.get('/api/fetchMatchConfig', async (req, res) => {
                     "name":"Passed Auto Line?",
                     "key":"pass-line",
                     "widget":"segment",
-                    "options":["Don't Know","Yes","No"]
+                    "options":["Don't Know","No","Yes"]
                 },
                 {
                     "name":"Initial Balls Stored",
@@ -625,23 +625,7 @@ app.get('/api/fetchMatchConfig', async (req, res) => {
                     "name":"Spun Wheel?",
                     "key":"spun-wheel",
                     "widget":"segment",
-                    "options":["Don't know","Yes","No"]
-                },
-                {
-                    "name":"Color Control?",
-                    "key":"color-control",
-                    "widget":"segment",
-                    "options":["Don't know","Yes","No"]
-                },
-                {
-                    "name":"Initial Balls Stored",
-                    "key":"balls-started",
-                    "widget":"stepper"
-                },
-                {
-                    "name":"Extra Balls Collected",
-                    "key":"balls-collected",
-                    "widget":"stepper"
+                    "options":["Don't know","No","Position","Color"]
                 },
                 {
                     "name":"Balls Scored Upper",
@@ -654,9 +638,32 @@ app.get('/api/fetchMatchConfig', async (req, res) => {
                     "widget":"stepper"
                 },
                 {
-                    "name":"Balls Blocked",
-                    "key":"balls-blocked",
-                    "widget":"stepper"
+                    "name":"Did they shoot from a vulnerable location??",
+                    "key":"shooting-vulnerable",
+                    "widget":"segment",
+                    "options":["Don't know","No","Yes"]
+                },
+                {
+                    "name":"Where could they shoot from?",
+                    "key":"shooting-notes",
+                    "widget":"text-area"
+                },
+                {
+                    "name":"Did they climb?",
+                    "key":"climb",
+                    "widget":"segment",
+                    "options":["Don't know", "No Attempt", "Failed", "Yes"]
+                },
+                {
+                    "name":"Did they play defense?",
+                    "key":"defense",
+                    "widget":"segment",
+                    "options":["Don't know","No","Yes"]
+                },
+                {
+                    "name":"What teams did this one play defense on?",
+                    "key":"defense-notes",
+                    "widget":"text-area"
                 }
             ]
         },
@@ -681,7 +688,7 @@ app.get('/api/fetchMatchConfig', async (req, res) => {
                     "options":["Don't know","Offense","Defense","Hybrid"]
                 },
                 {
-                    "name":"Strategy Notes",
+                    "name":"How could we use this robot in a strategy?",
                     "key":"strategy-notes",
                     "widget":"text-area"
                 }
