@@ -609,12 +609,12 @@ app.get('/api/fetchMatchConfig', async (req, res) => {
                 },
                 {
                     "name":"Balls Scored Upper",
-                    "key":"balls-upper",
+                    "key":"balls-upper-auto",
                     "widget":"stepper"
                 },
                 {
                     "name":"Balls Scored Lower",
-                    "key":"balls-lower",
+                    "key":"balls-lower-auto",
                     "widget":"stepper"
                 }
             ]
@@ -629,12 +629,12 @@ app.get('/api/fetchMatchConfig', async (req, res) => {
                 },
                 {
                     "name":"Balls Scored Upper",
-                    "key":"balls-upper",
+                    "key":"balls-upper-teleop",
                     "widget":"stepper"
                 },
                 {
                     "name":"Balls Scored Lower",
-                    "key":"balls-lower",
+                    "key":"balls-lower-teleop",
                     "widget":"stepper"
                 },
                 {
