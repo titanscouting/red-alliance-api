@@ -264,10 +264,6 @@ exports.addScouterToMatch = async (db, userin, namein, matchin, team_scouted) =>
         }
         interim.scouters[index] = {name: String(namein), id: String(userin)} ;
         await dbo.collection("matches").findOneAndReplace(myobj, interim, {upsert: true}).catch(e => {console.error(e);data.err_occur = true;})
-        let myobj2 = {competition: global_competition}
-        const matchsched = await dbo.collection("schedule").findOne(myobj2).catch(e => {console.error(e);data.err_occur = true;})
-        matchsched.data[matchin - 1] += 1
-        await dbo.collection("schedule").findOneAndReplace(myobj2, matchsched, {upsert: true}).catch(e => {console.error(e);data.err_occur = true;})
     } catch (err) {
         data.err_occur = true
         data.err_reasons.push(err)
@@ -292,10 +288,6 @@ exports.removeScouterFromMatch = async (db, userin, matchin, team_scouted) => {
         }
         interim.scouters[index] = false;
         await dbo.collection("matches").findOneAndReplace(myobj, interim, {upsert: true}).catch(e => {console.error(e);data.err_occur = true;})
-        let myobj2 = {competition: global_competition} // TODO: Fix Hardcoding of this
-        const matchsched = await dbo.collection("schedule").findOne(myobj2).catch(e => {console.error(e);data.err_occur = true;})
-        matchsched.data[matchin - 1] -= 1
-        await dbo.collection("schedule").findOneAndReplace(myobj2, matchsched, {upsert: true}).catch(e => {console.error(e);data.err_occur = true;})
     } catch (err) {
         data.err_occur = true
         data.err_reasons.push(err)
