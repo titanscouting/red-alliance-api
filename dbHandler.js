@@ -63,28 +63,15 @@ exports.fetchMatchesForCompetition = async (db, comp_idin) => {
     let dbo = db.db("data_scouting");
     let myobj = {competition: String(comp_idin)};
     try {
-        data.data = []
-        interim = await dbo.collection("matches").find(myobj).toArray()
-        data.data.competition = String(comp_idin)
-        data.data.data = []
-        data.data.memers = []
-        for (const m of interim) {
-            let num_scouters = 0;
-            data.data.memers.push(m.scouters.length)
-            for (let i = 0; i<6; i++){
-                if (!(String(typeof(m.scouters[i])) == "boolean")) {
-                    num_scouters = num_scouters + 1
-                }
-            }
-            data.data.data.push(num_scouters)
-        }
-        console.log(data.data.data)
+        data.data = await dbo.collection("schedule").findOne(myobj).catch(e => {console.error(e);data.err_occur = true;})
     } catch (err) {
         data.err_occur = true
+        data.err_reasons.push(err)
         console.error(err)
     }
     return data;
 }
+
 
 
 exports.getNumberScouts = async (db, comp_idin) => {
