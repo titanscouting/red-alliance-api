@@ -16,6 +16,9 @@ module.exports.checkAuth = async (req, res, next) => {
       res.locals.id = payload['sub'];
       res.locals.name = payload['name'];
       console.log("Logged in " + res.locals.name + " with ID " + res.locals.id)
+      if (String(res.locals.name) == "undefined") {
+        res.locals.name = "Unknown User"
+      }
     }
     else {
       throw new Error("User is not part of imsa.edu domain");
