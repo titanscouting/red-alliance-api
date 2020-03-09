@@ -129,6 +129,30 @@ app.get('/api/fetchMatches', async (req, res) => {
     res.json(resobj)
 })
 
+app.get('/api/checkUser', auth.checkAuth, async (req, res) => {
+    let val;
+    try{
+        val.name = res.locals.name; 
+        val.id = res.locals.id
+    } catch (err) {
+        console.error(err)
+        val.err_occur = true;
+    }
+    if (val.err_occur == false) {
+        resobj = {
+            "success": true,
+            "name": val.name, 
+            "id": val.id
+        }
+    } else {
+        resobj = {
+            "success": false,
+            "reasons": val.err_reasons,
+        }
+    }
+    res.json(resobj)
+})
+
 app.get('/api/fetchScouterSuggestions', async (req, res) => {
     let val;
     const competition = String(req.query.competition)
