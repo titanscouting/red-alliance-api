@@ -21,7 +21,11 @@ module.exports.checkAuth = async (req, res, next) => {
       }
     }
     else {
-      throw new Error("User is not part of imsa.edu domain");
+      res.json({
+        success: false,
+        reason: "User could not be authenticated"
+      })
+      throw new Error("User is not part of imsa.edu domain")
     }
   }
   catch (e) {
