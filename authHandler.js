@@ -25,6 +25,7 @@ module.exports.checkAuth = async (req, res, next) => {
         success: false,
         reason: "User could not be authenticated"
       })
+      res.status(401)
       throw new Error("User is not part of imsa.edu domain")
     }
   }
