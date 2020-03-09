@@ -13,12 +13,9 @@ module.exports.checkAuth = async (req, res, next) => {
   try {
     const payload = ticket.getPayload();
     if (payload['hd'] == 'imsa.edu') {
-      res.locals.id = payload['sub'];
-      res.locals.name = payload['name'];
+      res.locals.id = payload['sub'] ?? '0';
+      res.locals.name = payload['name'] ?? "Unknown User";
       console.log("Logged in " + res.locals.name + " with ID " + res.locals.id)
-      if (String(res.locals.name) == "undefined") {
-        res.locals.name = "Unknown User"
-      }
     }
     else {
       res.json({
