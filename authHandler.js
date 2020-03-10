@@ -20,7 +20,7 @@ module.exports.checkAuth = async (req, res, next) => {
     else {
       res.json({
         success: false,
-        reason: "User could not be authenticated"
+        reason: "User is not part of imsa.edu domain"
       })
       res.status(401)
       throw new Error("User is not part of imsa.edu domain")
@@ -28,6 +28,10 @@ module.exports.checkAuth = async (req, res, next) => {
   }
   catch (e) {
     console.error("Could not get payload from ticket for reason:" + e)
+    res.json({
+      success: false,
+      reason: "User could not be authenticated"
+    })
     res.status(403)
   }
 
