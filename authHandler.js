@@ -13,8 +13,8 @@ module.exports.checkAuth = async (req, res, next) => {
   try {
     const payload = ticket.getPayload();
     if (payload['hd'] == 'imsa.edu') {
-      res.locals.id = payload['sub'] ?? '0';
-      res.locals.name = payload['name'] ?? "Unknown User";
+      res.locals.id = payload['sub']
+      res.locals.name = payload['name']
       console.log("Logged in " + res.locals.name + " with ID " + res.locals.id)
     }
     else {
