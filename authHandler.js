@@ -18,21 +18,21 @@ module.exports.checkAuth = async (req, res, next) => {
       console.log("Logged in " + res.locals.name + " with ID " + res.locals.id)
     }
     else {
+      res.status(401)
       res.json({
         success: false,
         reason: "User is not part of imsa.edu domain"
       })
-      res.status(401)
       throw new Error("User is not part of imsa.edu domain")
     }
   }
   catch (e) {
     console.error("Could not get payload from ticket for reason:" + e)
+    res.status(401)
     res.json({
       success: false,
       reason: "User could not be authenticated"
     })
-    res.status(403)
   }
 
   next()
