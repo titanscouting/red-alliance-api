@@ -4,8 +4,6 @@ let dbHandler = require('./dbHandler.js')
 let auth = require('./authHandler.js')
 let expressMongoDb = require('express-mongo-db');
 const port = process.env.PORT || 8190;
-let path = require("path");
-let uuid = require("uuid");
 
 app = express()
 app.use(bodyParser.json())
@@ -14,62 +12,31 @@ let options = {
     keepAlive: 1, connectTimeoutMS: 30000
 };
 app.use(expressMongoDb('mongodb+srv://api-user-new:titanscout2022@2022-scouting-4vfuu.mongodb.net/test?retryWrites=true&w=majority', options))
+/** 
+ * NOTE TO DEVELOPERS: the `auth.checkAuth` statement is simply middleware which contacts authHandler.js to ensure that the user has a valid authentication token. 
+ * Within the documentation, the token input for each authenticated route (routes which require authentication) will be referred to as @param token. 
+*/
 
 /**
+ * GET route "/"
  * Base route; allows the frontend application and/or developer to sanity check to ensure the API is live.
+ * @returns HTTP Status Code 200 OK
  */
 app.get('/', (req, res) => {
     res.send("The Red Alliance API. Copyright 2020 Titan Scouting.")
     res.status(200)
 })
 
-/**
- * POST route "/api/addUserToTeam"
- * Not implemented and will not be implemented until next year
- * Adds user to the team. More useful for next year's version of the application, this year the application is hard coded and will just use match ID data.
- * @param token in form of header with title 'token' and value of JWT provided by Google OAuth
- * @returns back to the client resobj and 200 OK.
-*/
-// app.post("/api/addUserToTeam", auth.checkAuth, async (req, res) => {
-//     let err = false;
-//     const id = res.locals.id
-//     const name = res.locals.name
-//     const team = parseInt(validator.escape(req.body.team))
-//     val = dbHandler.addUserToTeam(req.db, id, name, team)
-//     resobj = {
-//         "success": !err,
-//         "name": res.locals.name,
-//         "id": res.locals.id,
-//         "team": req.body.team,
-//     }
-//     res.json(resobj)
-// })
-/*
-* GET route "/api/getCompetitions"
-* Not implemented and will not be implemented until next year.
-*/
-// app.get("/api/getCompetitions", auth.checkAuth, async (req, res) => {
-//     let err = false;
-//     const id = res.locals.id
-//     val = dbHandler.getCompetitions(req.db, id)
-//     resobj = {
-//             "success": !err,
-//             "id": res.locals.id,
-//             "team": val.team,
-//             "competitions": val.competitions
-//     }
-//     res.json(resobj)
-// })
 
 /**
  * POST route "/api/submitMatchData"
  * Allows the application to submit data to the API, with some key data seperated within the JSON and the rest submitted as arbirtary structures within the data key.
  * @param token in form of header with title 'token' and value of JWT provided by Google OAuth
- * @param competition_id is the identifier for the competition: e.g. "Central 2020".
+ * @param competition_id is the identifier for the competition: e.g. "2020ilch".
  * @param match_number is the number of the match scouted: e.g. "1".
  * @param team_scouted is the team that was being scouted: e.g. "3061".
  * @param data is the arbritrary other data that needs to be recorded for the match.
- * @returns back to the client resobj and 200 OK.
+ * @returns back to the client resobj (success boolean, competition id, and match number) and HTTP Status Code 200 OK.
  */
 app.post("/api/submitMatchData", auth.checkAuth, async (req, res) => {
     let val;
@@ -102,8 +69,8 @@ app.post("/api/submitMatchData", auth.checkAuth, async (req, res) => {
 /**
  * GET route "/api/fetchMatches"
  * Allows the application to fetch the list of matches and the number of scouters for the match.
- * @param competition_id is the identifier for the competition: e.g. "Central 2020".
- * @returns back to the client resobj and 200 OK.
+ * @param competition_id is the identifier for the competition: e.g. "2020ilch".
+ * @returns back to the client resobj (competition, list of matches, andn number of scouters) and 200 OK.
  */
 app.get('/api/fetchMatches', async (req, res) => {
     let val;
@@ -128,7 +95,12 @@ app.get('/api/fetchMatches', async (req, res) => {
     }
     res.json(resobj)
 })
-
+/**
+ * GET route "/api/checkUser"
+ * Allows the application to fetch the list of matches and the number of scouters for the match.
+ * @param token is the token obtained from Google OAuth and the JWT.
+ * @returns back to the client resobj (name and Google ID of user) and HTTP Status Code 200 OK.
+ */
 app.get('/api/checkUser', auth.checkAuth, async (req, res) => {
     let val;
     try{
@@ -152,7 +124,13 @@ app.get('/api/checkUser', auth.checkAuth, async (req, res) => {
     }
     res.json(resobj)
 })
-
+/**
+ * GET route "/api/fetchScouterSuggestions"
+ * Allows the application to fetch the suggestions that a scouter made for a match (presumably one that Titan Robotics is part of, or else why would they make suggestions?).
+ * @param competition is the identifier for the competition: e.g. "2020ilch".
+ * @param match_number is the number of the match scouted: e.g. "1".
+ * @returns back to the client resobj (competition id, match number, and reccoemendation) and HTTP Status Code 200 OK.
+ */
 app.get('/api/fetchScouterSuggestions', async (req, res) => {
     let val;
     const competition = String(req.query.competition)
@@ -164,9 +142,9 @@ app.get('/api/fetchScouterSuggestions', async (req, res) => {
         console.error(err)
         val.err_occur = true;
     }
-    let datum;
+    let data_interim;
     try {
-        datum = val.data
+        data_interim = val.data
     } catch (e) {
         val.err_occur = true;
     }
@@ -175,7 +153,7 @@ app.get('/api/fetchScouterSuggestions', async (req, res) => {
             "success": true,
             "competition": competition,
             "match_number" : match_number,
-            "data": datum
+            "data": data_interim
         }
     } else {
         resobj = {
@@ -185,31 +163,38 @@ app.get('/api/fetchScouterSuggestions', async (req, res) => {
     }
     res.json(resobj)
 })
-
+/**
+ * GET route "/api/fetchScouterUIDs"
+ * Allows the application to fetch which users are scouting a given match. 
+ * @param competition is the identifier for the competition: e.g. "2020ilch".
+ * @param match_number is the number of the match scouted: e.g. "1".
+ * @returns back to the client resobj (competition id, array containing scouter information, and corresponding index teams) and HTTP Status Code 200 OK.
+ */
 app.get("/api/fetchScouterUIDs", async (req, res) => {
-  let val;
+  let val
   const competition = String(req.query.competition)
   const match_number = parseInt(req.query.match_number)
   try {
-    val = await dbHandler.fetchScouterUIDs(req.db, competition, match_number).catch(e => {console.error(e); val.err_occur = true;})
+        val = await dbHandler.fetchScouterUIDs(req.db, competition, match_number).catch(e => {console.error(e); val.err_occur = true;})
   } catch (e) {
-      console.error(e)
-      val.err_occur = true;
+        console.error(e)
+        val.err_occur = true
   }
-  let datum1
-  let datum2
+  // the try...catch is the next few lines serves to ensure the application doesn't just crash if scouters or teams were not returned by the DB handler.
+  let scouters_interim
+  let teams_interim
   try {
-      datum1 = val.scouters
-      datum2 = val.teams
+        scouters_interim = val.scouters
+        teams_interim = val.teams
   } catch {
-      val.err_occur = true;
+        val.err_occur = true
   }
   if (val.err_occur == false) {
       resobj = {
           "success": true,
           "competition": competition,
-          "scouters": datum1,
-          "teams": datum2
+          "scouters": scouters_interim,
+          "teams": teams_interim
       }
   } else {
       resobj = {
@@ -219,14 +204,20 @@ app.get("/api/fetchScouterUIDs", async (req, res) => {
   }
   res.json(resobj)
 })
+/**
+ * GET route "/api/fetchAllTeamNicknamesAtCompetition"
+ * Allows the application to fetch the nicknames for all the teams which are at a competition. (For example, Team 2022 = Titan Robotics) 
+ * @param competition is the identifier for the competition: e.g. "2020ilch".
+ * @returns back to the client resobj (competition id, JSON of the team number and nicknames) and HTTP Status Code 200 OK.
+ */
 app.get("/api/fetchAllTeamNicknamesAtCompetition", async (req, res) => {
-  let val;
+  let val
   const competition = String(req.query.competition)
   try {
     val = await dbHandler.fetchAllTeamNicknamesAtCompetition(req.db, competition).catch(e => {console.error(e); val.err_occur = true;})
   } catch (e) {
       console.error(e)
-      val.err_occur = true;
+      val.err_occur = true
   }
   if (val.err_occur == false) {
       resobj = {
@@ -242,15 +233,20 @@ app.get("/api/fetchAllTeamNicknamesAtCompetition", async (req, res) => {
   }
   res.json(resobj)
 })
-
+/**
+ * GET route "/api/findTeamNickname"
+ * Allows the application to get the nickname for a team, given the team number.
+ * @param team_num is the FRC team number: e.g. "2022".
+ * @returns back to the client resobj (team number and nickname) and HTTP Status Code 200 OK.
+ */
 app.get("/api/findTeamNickname", async (req, res) => {
-  let val;
+  let val
   const team_num = String(req.query.team_number)
   try {
     val = await dbHandler.findTeamNickname(req.db, team_num).catch(e => {console.error(e); val.err_occur = true;})
   } catch (e) {
       console.error(e)
-      val.err_occur = true;
+      val.err_occur = true
   }
   if (val.err_occur == false) {
       resobj = {
@@ -266,15 +262,20 @@ app.get("/api/findTeamNickname", async (req, res) => {
   }
   res.json(resobj)
 })
-
+/**
+ * GET route "/api/fetchCompetitionSchedule"
+ * Allows the application to get all the matches for a given competition.
+ * @param competition is the Competition id: e.g. "2020ilch".
+ * @returns back to the client resobj (competition and ) and HTTP Status Code 200 OK.
+ */
 app.get("/api/fetchCompetitionSchedule", async (req, res) => {
-  let val;
+  let val
   const competition = String(req.query.competition)
   try {
     val = await dbHandler.fetchCompetitionSchedule(req.db, competition).catch(e => {console.error(e); val.err_occur = true;})
   } catch (e) {
       console.error(e)
-      val.err_occur = true;
+      val.err_occur = true
   }
   if (val.err_occur == false) {
       resobj = {
@@ -291,13 +292,13 @@ app.get("/api/fetchCompetitionSchedule", async (req, res) => {
   res.json(resobj)
 })
 app.get("/api/fetch2022Schedule", async (req, res) => {
-  let val;
+  let val
   const competition = String(req.query.competition)
   try {
     val = await dbHandler.fetch2022Schedule(req.db, competition).catch(e => {console.error(e); val.err_occur = true;})
   } catch (e) {
       console.error(e)
-      val.err_occur = true;
+      val.err_occur = true
   }
   if (val.err_occur == false) {
       resobj = {
@@ -325,9 +326,10 @@ app.get('/api/fetchMatchData', async (req, res) => {
         console.error(err)
         val.err_occur = true;
     }
-    let datum
+    // the try...catch is the next few lines serves to ensure the application doesn't just crash if scouters or teams were not returned by the DB handler.
+    let data_interim
     try {
-        datum = val.data.data;
+        data_interim = val.data.data;
     } catch {
         val.err_occur = true;
     }
@@ -338,7 +340,7 @@ app.get('/api/fetchMatchData', async (req, res) => {
             "competition": competition_id,
             "match_number": match_number,
             "team_scouted": team_scouted,
-            "data": datum
+            "data": data_interim
         }
     } else {
         resobj = {
@@ -483,6 +485,7 @@ app.post('/api/submitStrategy', auth.checkAuth, async (req, res) => {
     const comp = String(req.body.competition)
     const data = String(req.body.data)
     var do_get = true
+    // Application exhibits unpredicatble behavior if `if` evaluates to true, so we just filter that out. 
     if (data == 'null' || scouter == 'undefined') {
         do_get = false; 
     }
@@ -526,16 +529,17 @@ app.get('/api/fetchStrategy', async (req, res) => {
         console.error(err)
         val.err_occur = true;
     }
-    let datum
+    // the try...catch is the next few lines serves to ensure the application doesn't just crash if scouters or teams were not returned by the DB handler.
+    let data_interim
     try {
-        datum = val.data;
+        data_interim = val.data;
     } catch {
         val.err_occur = true;
     }
     if (val.err_occur == false) {
         resobj = {
             "success": true,
-            "data": datum
+            "data": data_interim
         }
     } else {
         resobj = {
@@ -555,16 +559,17 @@ app.get('/api/getNumberScouts', async (req, res) => {
         console.error(err)
         val.err_occur = true;
     }
-    let datum
+    // the try...catch is the next few lines serves to ensure the application doesn't just crash if scouters or teams were not returned by the DB handler.
+    let data_interim
     try {
-        datum = val.data;
+        data_interim = val.data;
     } catch {
         val.err_occur = true;
     }
     if (val.err_occur == false) {
         resobj = {
             "success": true,
-            "data": datum
+            "data": data_interim
         }
     } else {
         resobj = {
@@ -581,21 +586,22 @@ app.get('/api/getUserStrategy', auth.checkAuth, async (req, res) => {
     const match = String(req.query.match_number)
     const name = String(res.locals.name)
     try {
-        val = await dbHandler.getUserStrategy(req.db, comp. match, name).catch(e => {console.error(e); val.err_occur = true;})
+        val = await dbHandler.getUserStrategy(req.db, comp, match, name).catch(e => {console.error(e); val.err_occur = true;})
     } catch (err) {
         console.error(err)
         val.err_occur = true;
     }
-    let datum
+    // the try...catch is the next few lines serves to ensure the application doesn't just crash if scouters or teams were not returned by the DB handler.
+    let data_interim
     try {
-        datum = val.data;
+        data_interim = val.data;
     } catch {
         val.err_occur = true;
     }
     if (val.err_occur == false) {
         resobj = {
             "success": true,
-            "data": datum
+            "data": data_interim
         }
     } else {
         resobj = {
@@ -831,9 +837,10 @@ app.get('/api/fetchPitData', async (req, res) => {
         console.error(err)
         val.err_occur = true;
     }
-    let datum
+    // the try...catch is the next few lines serves to ensure the application doesn't just crash if scouters or teams were not returned by the DB handler.
+    let data_interim
     try {
-        datum = val.data.data;
+        data_interim = val.data.data;
     } catch {
         val.err_occur = true;
     }
@@ -843,7 +850,7 @@ app.get('/api/fetchPitData', async (req, res) => {
             "competition": competition_id,
             "match_number": match_number,
             "team_scouted": team_scouted,
-            "data": datum
+            "data": data_interim
         }
     } else {
         resobj = {
