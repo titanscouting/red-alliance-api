@@ -23,7 +23,7 @@ app.use(expressMongoDb('mongodb+srv://api-user-new:titanscout2022@2022-scouting-
  * @returns HTTP Status Code 200 OK
  */
 app.get('/', (req, res) => {
-    res.send("The Red Alliance API. Copyright 2020 Titan Scouting.")
+    res.send("The Red Alliance API 234. Copyright 2020 Titan Scouting.")
     res.status(200)
 })
 

@@ -8,8 +8,8 @@
   "license": "none",
   "private": false,
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js"
+    "start": "nodemon index.js",
+    "start:prod": "node index.js"
   },
   "dependencies": {
     "bcrypt": "^3.0.7",
