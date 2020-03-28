@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  example-service:
+  red-alliance-api:
     build: .
     volumes:
       - .:/usr/src/app
@@ -9,4 +9,7 @@ services:
     ports:
       - 8190:8190
       - 9229:9229
+    environment:
+      - REDALLIANCEAPIKEY
     command: npm start
+    

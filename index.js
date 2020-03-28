@@ -11,7 +11,7 @@ app.use(bodyParser.urlencoded({extended: true}))
 let options = {
     keepAlive: 1, connectTimeoutMS: 30000
 };
-app.use(expressMongoDb('mongodb+srv://api-user-new:titanscout2022@2022-scouting-4vfuu.mongodb.net/test?retryWrites=true&w=majority', options))
+app.use(expressMongoDb(process.env.REDALLIANCEAPIKEY, options))
 /** 
  * NOTE TO DEVELOPERS: the `auth.checkAuth` statement is simply middleware which contacts authHandler.js to ensure that the user has a valid authentication token. 
  * Within the documentation, the token input for each authenticated route (routes which require authentication) will be referred to as @param token. 
@@ -23,7 +23,7 @@ app.use(expressMongoDb('mongodb+srv://api-user-new:titanscout2022@2022-scouting-
  * @returns HTTP Status Code 200 OK
  */
 app.get('/', (req, res) => {
-    res.send("The Red Alliance API 234. Copyright 2020 Titan Scouting.")
+    res.send("The Red Alliance API. Copyright 2020 Titan Scouting.")
     res.status(200)
 })
 
