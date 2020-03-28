@@ -13,7 +13,11 @@ let options = {
 };
 
 // Make sure to set the connection string as an environment variable, e.g export REDALLIANCEDBKEY="fjsldjfksldfjaklfjsdalkfd"
-app.use(expressMongoDb(process.env.REDALLIANCEDBKEY, options))
+try {
+    app.use(expressMongoDb(process.env.REDALLIANCEDBKEY, options))
+} catch {
+    console.log("Could not connect to the MongoDB instance")
+}
 /** 
  * NOTE TO DEVELOPERS: the `auth.checkAuth` statement is simply middleware which contacts authHandler.js to ensure that the user has a valid authentication token. 
  * Within the documentation, the token input for each authenticated route (routes which require authentication) will be referred to as @param token. 
