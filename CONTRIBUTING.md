@@ -33,17 +33,18 @@ issue you're facing, or it's a known issue that we're already aware of.
 
 
 ## How to Contribute
-
-Pull Requests (PRs) are the main and exclusive way to contribute code to source{d} projects.
+In general, please use conventional approaches to development and contribution such as:
+* Create branches for additions or deletions, and or side projects
+* Do not commit to master!
+* Use Pull Requests (PRs) to indicate that an addition is ready to merge. 
+PRs are the main and exclusive way to contribute code to source{d} projects.
 In order for a PR to be accepted it needs to pass this list of requirements:
 
 - The contribution must be correctly explained with natural language and providing a minimum working example that reproduces it.
 - All PRs must be written idiomaticly:
-    - for Go: formatted according to [gofmt](https://golang.org/cmd/gofmt/), and without any warnings from [go lint](https://github.com/golang/lint) nor [go vet](https://golang.org/cmd/vet/)
+    - for Node: formatted according to [AirBnB standards](https://github.com/airbnb/javascript), and no warnings from `eslint` using the AirBnB style guide
     - for other languages, similar constraints apply.
 - They should in general include tests, and those shall pass.
-    - If the PR is a bug fix, it has to include a new unit test that fails before the patch is merged.
-    - If the PR is a new feature, it has to come with a suite of unit tests, that tests the new functionality.
     - In any case, all the PRs have to pass the personal evaluation of at least one of the [maintainers](MAINTAINERS) of the project.
 
 
