@@ -26,12 +26,12 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: install
     - name: Build Docker image
-    - run: docker build -t titanscout2022/red-alliance-api .
+      run: docker build -t titanscout2022/red-alliance-api .
     - name: Log into the GitHub Docker Registry
       env:
           DOCKER_REGISTRY_URL: docker.pkg.github.com
           DOCKER_USERNAME: ${{ github.actor }}
           DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
-    - run: docker login --username=$DOCKER_USERNAME --password=$DOCKER_PASSWORD $DOCKER_REGISTRY_URL
+      run: docker login --username=$DOCKER_USERNAME --password=$DOCKER_PASSWORD $DOCKER_REGISTRY_URL
     - name: docker push
-    - run: docker push titanscout2022/red-alliance-api
+      run: docker push titanscout2022/red-alliance-api
