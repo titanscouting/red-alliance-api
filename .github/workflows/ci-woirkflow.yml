@@ -1,0 +1,26 @@
+on: push
+name: npm build, lint, test and publish
+jobs:
+  build-and-publish:
+    name: build and publish
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: npm install
+        uses: actions/npm@master
+        with:
+          args: install
+      - name: docker build
+        uses: actions/docker/cli@master
+        with:
+          args: build -t titanscout2022/red-alliance-api .
+      - name: Log in to GitHub Docker Registry
+        uses: actions/docker/login@master
+        env:
+          DOCKER_REGISTRY_URL: docker.pkg.github.com
+          DOCKER_USERNAME: ${{ github.actor }}
+          DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+      - name: docker push
+        uses: actions/docker/cli@master
+        with:
+          args: push titanscout2022/red-alliance-api
