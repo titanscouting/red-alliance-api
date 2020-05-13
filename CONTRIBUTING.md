@@ -53,7 +53,7 @@ In order for a PR to be accepted it needs to pass this list of requirements:
 Every commit message should describe what was changed, under which context and, if applicable, the GitHub issue it relates to:
 
 ```
-plumbing: packp, Skip argument validations for unknown capabilities. Fixes #623
+index.js: /api/submitMatchData, parse user input into integer. Fixes #2
 ```
 
 The format can be described more formally as follows:
