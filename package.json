@@ -9,7 +9,9 @@
   "private": false,
   "scripts": {
     "start": "nodemon index.js",
-    "start:prod": "node index.js"
+    "start:prod": "node index.js",
+    "lint": "./node_modules/.bin/eslint",
+    "test-lint": "./node_modules/.bin/eslint *.js"
   },
   "dependencies": {
     "bcrypt": "^3.0.7",
@@ -24,5 +26,13 @@
     "nodemon": "^2.0.2",
     "uuid": "^7.0.1",
     "validator": "^12.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.1.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.20.0",
+    "eslint-plugin-react-hooks": "^2.5.0"
   }
 }
