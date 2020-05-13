@@ -6,9 +6,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: npm install
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
         with:
-          args: install
+          node-version: ${{ matrix.node-version }}
+      - run: npm install
       - name: docker build
         uses: actions/docker/cli@master
         with:
