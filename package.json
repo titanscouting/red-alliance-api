@@ -1,11 +1,11 @@
 {
-  "name": "node-api-testing",
+  "name": "red-alliance-api",
   "version": "0.0.1",
   "description": "Titan Scout NodeJS API to MongoDB",
   "main": "index.js",
   "repository": "https://github.com/titanscout2022/red-alliance-api",
-  "author": "Titan Scouting Team",
-  "license": "none",
+  "author": "Titan Robotics FRC 2022",
+  "license": "BSD-3-Clause",
   "private": false,
   "scripts": {
     "start": "nodemon index.js",
@@ -33,6 +33,8 @@
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.20.0",
-    "eslint-plugin-react-hooks": "^2.5.0"
+    "eslint-plugin-react-hooks": "^2.5.0",
+    "validator": "^12.0.0",
+    "minimist": ">=1.2.3"
   }
 }
