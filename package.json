@@ -14,7 +14,7 @@
     "test-lint": "./node_modules/.bin/eslint *.js"
   },
   "dependencies": {
-    "bcrypt": "^3.0.7",
+    "bcrypt": "^3.0.8",
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
     "express-jwt": "^5.3.1",
@@ -22,7 +22,7 @@
     "google-auth-library": "^5.5.1",
     "jsonwebtoken": "^8.5.1",
     "jwks-rsa": "^1.6.0",
-    "mongodb": "^3.5.2",
+    "mongodb": "^3.5.7",
     "nodemon": "^2.0.2",
     "uuid": "^7.0.1",
     "validator": "^12.0.0"
