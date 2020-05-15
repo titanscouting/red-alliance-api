@@ -439,7 +439,7 @@ app.post('/api/addScouterToMatch', auth.checkAuth, async (req, res) => {
   let val;
   const match = String(req.body.match);
   const user = parseInt(res.locals.id, 10);
-  const teamScouted = parseInt(req.body.team_scouting, 10);
+  const teamScouted = parseInt(req.body.teamScouting, 10);
   const userName = String(res.locals.name);
   try {
     val = await dbHandler.addScouterToMatch(req.db, user, userName, match, teamScouted).catch((e) => { console.error(e); val.err_occur = true; });
@@ -465,7 +465,7 @@ app.post('/api/removeScouterFromMatch', auth.checkAuth, async (req, res) => {
   let val;
   const match = String(req.body.match);
   const user = parseInt(res.locals.id, 10);
-  const teamScouted = parseInt(req.body.team_scouting, 10);
+  const teamScouted = parseInt(req.body.teamScouting, 10);
   try {
     val = await dbHandler.removeScouterFromMatch(req.db, user, match, teamScouted).catch((e) => { console.error(e); val.err_occur = true; });
   } catch (err) {
