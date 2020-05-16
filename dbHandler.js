@@ -54,7 +54,6 @@ exports.checkKey = async (db, clientID, clientKey) => {
   const myobj = { clientID };
   try {
     data.data = await dbo.collection('api_keys').findOne(myobj).catch((e) => { console.error(e); data.err_occur = true; throw new Error('Database error'); });
-
   } catch (err) {
     data.err_occur = true;
     data.err_reasons.push(err);
