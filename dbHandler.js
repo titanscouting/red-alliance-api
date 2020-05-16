@@ -23,6 +23,62 @@
 // }
 
 // const globalCompetition = '2020ilch';
+const bcrypt = require('bcrypt');
+
+exports.addKey = async (db, clientID, clientKey) => {
+  const data = {};
+  data.err_occur = false;
+  data.err_reasons = [];
+  const dbo = db.db('userlist');
+  let hashedClientKey;
+  await bcrypt.hash(clientKey, 12, (err, hash) => {
+    if (err) {
+      data.err_occur = true;
+      data.err_reasons.push(err);
+      console.error(err);
+    } else {
+      hashedClientKey = hash;
+    }
+  });
+  const myobj = {
+    $set: {
+      clientID, hashedClientKey,
+    },
+  };
+  try {
+    await dbo.collection('api_e').updateOne({ _id: clientID }, myobj, { upsert: true }).catch((e) => { console.error(e); data.err_occur = true; });
+  } catch (err) {
+    data.err_occur = true;
+    data.err_reasons.push(err);
+    console.error(err);
+  }
+  return data;
+};
+
+exports.checkKey = async (db, clientID, clientKey) => {
+  const data = {};
+  data.err_occur = false;
+  data.err_reasons = [];
+  const dbo = db.db('userlist');
+  const myobj = { clientID };
+  try {
+    data.data = await dbo.collection('api_keys').findOne(myobj).catch((e) => { console.error(e); data.err_occur = true; throw new Error('Database error'); });
+  } catch (err) {
+    data.err_occur = true;
+    data.err_reasons.push(err);
+    console.error(err);
+  }
+  let returnVal;
+  await bcrypt.compare(clientKey, data.data.CLIENT_KEY, (err, res) => {
+    if (res) {
+      returnVal = true;
+    } else {
+      returnVal = false;
+    }
+  });
+  return returnVal;
+};
+
 exports.submitMatchData = async (db, scouterin, competitionin, matchin, teamin, datain) => {
   const data = {};
   data.err_occur = false;
