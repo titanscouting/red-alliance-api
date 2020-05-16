@@ -6,7 +6,7 @@ const client = new OAuth2Client(CLIENT_ID);
 module.exports.checkAuth = async (req, res, next) => {
   const extUsers = ['Jon Abend', 'Robyn Abend', 'Dev Singh', 'Jacob Levine', 'Arthur Lu', 'Ian Fowler'];
   if (req.query.CLIENT_ID) {
-    if (dbHandler.checkKey(req.db, req.query.CLIENT_ID, req.query.CLIENT_KEY)) {
+    if (dbHandler.checkKey(req.db, req.query.CLIENT_ID, req.query.CLIENT_SECRET)) {
       res.locals.id = 0;
       res.locals.name = 'API User';
     }
