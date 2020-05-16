@@ -44,5 +44,14 @@ module.exports.checkAuth = async (req, res, next) => {
   next();
 };
 
+module.exports.noAPIKey = async (req, res, next) => {
+  if (req.query.CLIENT_ID || req.query.CLIENT_SECRET) {
+    res.status(401);
+    res.json({ success: false, reason: 'This route does not allow authentication via API key' });
+  }
+
+  next();
+};
+
 // after this point, the token has now been verified as valid and 'res.locals.id'
 // can be treated as a unique identifier for a google user.

@@ -440,10 +440,7 @@ app.post('/api/submitShotChartData', auth.checkAuth, async (req, res) => {
  * @param token in form of header with title 'token' and value of JWT provided by Google OAuth
  * @returns back to the client let resobj (success, client id, and client secret generated) and HTTP Status Code 200 OK.
  */
-app.post('/api/addAPIKey', auth.checkAuth, async (req, res) => {
-  if (req.query.CLIENT_ID || req.query.CLIENT_SECRET) {
-    res.json({ success: false, reason: 'Cannot create another API key with an API key' });
-  }
+app.post('/api/addAPIKey', auth.noAPIKey, auth.checkAuth, async (req, res) => {
   let val;
   const clientInfo = uuidAPIKey.create();
   try {
