@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const expressMongoDb = require('express-mongo-db');
+const uuidAPIKey = require('uuid-apikey');
 const dbHandler = require('./dbHandler.js');
 const auth = require('./authHandler.js');
 
@@ -424,6 +425,31 @@ app.post('/api/submitShotChartData', auth.checkAuth, async (req, res) => {
       success: true,
       competition: competitionID,
       matchNumber,
+    };
+  } else {
+    resobj = {
+      success: false,
+      reasons: val.err_reasons,
+    };
+  }
+  res.json(resobj);
+});
+
+app.post('/api/addAPIKey', auth.checkAuth, async (req, res) => {
+  let val;
+  const clientInfo = uuidAPIKey.create();
+  try {
+    val = await dbHandler.addKey(req.db, clientInfo.uuid, clientInfo.apiKey).catch((e) => { console.error(e); val.err_occur = true; });
+  } catch (err) {
+    console.error(err);
+    val.err_occur = true;
+  }
+  let resobj = null;
+  if (val.err_occur === false) {
+    resobj = {
+      success: true,
+      CLIENT_ID: clientInfo.uuid,
+      CLIENT_SECRET: clientInfo.apiKey,
     };
   } else {
     resobj = {
