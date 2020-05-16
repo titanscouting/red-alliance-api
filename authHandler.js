@@ -6,9 +6,16 @@ const client = new OAuth2Client(CLIENT_ID);
 module.exports.checkAuth = async (req, res, next) => {
   const extUsers = ['Jon Abend', 'Robyn Abend', 'Dev Singh', 'Jacob Levine', 'Arthur Lu', 'Ian Fowler'];
   if (req.query.CLIENT_ID) {
-    if (dbHandler.checkKey(req.db, req.query.CLIENT_ID, req.query.CLIENT_SECRET)) {
+    const isAuthorized = await dbHandler.checkKey(req.db, req.query.CLIENT_ID, req.query.CLIENT_SECRET);
+    if (isAuthorized) {
       res.locals.id = 0;
       res.locals.name = 'API User';
+    } else {
+      res.status(401);
+      res.json({
+        success: false,
+        reason: 'User could not be authenticated',
+      });
     }
   } else {
     const ticket = await client.verifyIdToken({
@@ -41,6 +48,15 @@ module.exports.checkAuth = async (req, res, next) => {
       });
     }
   }
+  next();
+};
+
+module.exports.noAPIKey = async (req, res, next) => {
+  if (req.query.CLIENT_ID || req.query.CLIENT_SECRET) {
+    res.status(401);
+    res.json({ success: false, reason: 'This route does not allow authentication via API key' });
+  }
+
   next();
 };
 
