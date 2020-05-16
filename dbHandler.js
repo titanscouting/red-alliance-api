@@ -283,13 +283,12 @@ exports.fetchScouterSuggestions = async (db, compIdIn, matchNumberIn) => {
   return data;
 };
 
-exports.fetchScouterUIDs = async (db, compIdIn1, matchNumberIn) => {
+exports.fetchScouterUIDs = async (db, competition, matchNumberIn) => {
   const data = {};
   data.err_occur = false;
   data.err_reason = [];
-  const compIdIn = String(compIdIn1);
   const dbo = db.db('data_scouting');
-  const myobj = { competition: String(compIdIn), match: parseInt(matchNumberIn, 10) };
+  const myobj = { competition, match: parseInt(matchNumberIn, 10) };
   try {
     const matchdata = await dbo.collection('matches').findOne(myobj).catch((e) => { console.error(e); data.err_occur = true; });
     data.scouters = matchdata.scouters;
