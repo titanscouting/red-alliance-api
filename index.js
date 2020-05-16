@@ -520,7 +520,6 @@ app.get('/api/getDataOnTeam', auth.checkAuth, async (req, res) => {
   let val;
   const team = parseInt(req.query.team, 10);
   const comp = String(req.query.competition);
-  console.log(team, comp)
   try {
     val = await dbHandler.getDataOnTeam(req.db, team, comp).catch((e) => { console.error(e); val.err_occur = true; });
   } catch (err) {

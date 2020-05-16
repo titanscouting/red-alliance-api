@@ -54,12 +54,17 @@ exports.checkKey = async (db, clientID, clientKey) => {
   const myobj = { clientID };
   try {
     data.data = await dbo.collection('api_keys').findOne(myobj).catch((e) => { console.error(e); data.err_occur = true; throw new Error('Database error'); });
+
   } catch (err) {
     data.err_occur = true;
     data.err_reasons.push(err);
     console.error(err);
   }
-  return bcrypt.compareSync(clientKey, data.data.hashedClientKey);
+  if (data.data == null) {
+    data.data = { hashedClientKey: 'obvsnotrightlfojdslf2e980' };
+  }
+  const isAuthorized = bcrypt.compareSync(clientKey, data.data.hashedClientKey);
+  return isAuthorized;
 };
 
 exports.submitMatchData = async (db, scouterin, competitionin, matchin, teamin, datain) => {
