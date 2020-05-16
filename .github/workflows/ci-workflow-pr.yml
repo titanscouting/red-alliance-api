@@ -27,5 +27,7 @@ jobs:
       run: npm run test-lint
     - name: Run unit tests
       run: npm test
+      env:
+        REDALLIANCEDBKEY: ${{ secrets.REDALLIANCEDBKEY }}
     - name: Build Docker image
       run: docker build -t docker.pkg.github.com/titanscout2022/red-alliance-api/red-alliance-api:latest .
