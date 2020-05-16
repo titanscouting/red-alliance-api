@@ -442,7 +442,7 @@ app.post('/api/submitShotChartData', auth.checkAuth, async (req, res) => {
  */
 app.post('/api/addAPIKey', auth.noAPIKey, auth.checkAuth, async (req, res) => {
   let val;
-  const clientInfo = uuidAPIKey.create();
+  const clientInfo = await uuidAPIKey.create();
   try {
     val = await dbHandler.addKey(req.db, clientInfo.uuid, clientInfo.apiKey).catch((e) => { console.error(e); val.err_occur = true; });
   } catch (err) {
@@ -520,6 +520,7 @@ app.get('/api/getDataOnTeam', auth.checkAuth, async (req, res) => {
   let val;
   const team = parseInt(req.query.team, 10);
   const comp = String(req.query.competition);
+  console.log(team, comp)
   try {
     val = await dbHandler.getDataOnTeam(req.db, team, comp).catch((e) => { console.error(e); val.err_occur = true; });
   } catch (err) {

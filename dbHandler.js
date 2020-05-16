@@ -30,23 +30,14 @@ exports.addKey = async (db, clientID, clientKey) => {
   data.err_occur = false;
   data.err_reasons = [];
   const dbo = db.db('userlist');
-  let hashedClientKey;
-  await bcrypt.hash(clientKey, 12, (err, hash) => {
-    if (err) {
-      data.err_occur = true;
-      data.err_reasons.push(err);
-      console.error(err);
-    } else {
-      hashedClientKey = hash;
-    }
-  });
+  const hashedClientKey = bcrypt.hashSync(clientKey, 12);
   const myobj = {
     $set: {
       clientID, hashedClientKey,
     },
   };
   try {
-    await dbo.collection('api_key').updateOne({ _id: clientID }, myobj, { upsert: true }).catch((e) => { console.error(e); data.err_occur = true; });
+    await dbo.collection('api_keys').updateOne({ _id: clientID }, myobj, { upsert: true }).catch((e) => { console.error(e); data.err_occur = true; });
   } catch (err) {
     data.err_occur = true;
     data.err_reasons.push(err);
@@ -78,7 +69,7 @@ exports.submitMatchData = async (db, scouterin, competitionin, matchin, teamin, 
   const dbo = db.db('data_scouting');
   const myobj = {
     $set: {
-      scouter: scouterin, competition: competitionin, match: matchin, teamScouted: teamin, data: datain,
+      scouter: scouterin, competition: competitionin, match: matchin, team_scouted: teamin, data: datain,
     },
   };
   try {
@@ -98,7 +89,7 @@ exports.submitShotChartData = async (db, scouterin, competitionin, matchin, team
   const dbo = db.db('data_scouting');
   const myobj = {
     $set: {
-      scouter: scouterin, competition: competitionin, match: matchin, teamScouted: teamin, data: datain,
+      scouter: scouterin, competition: competitionin, match: matchin, team_scouted: teamin, data: datain,
     },
   };
   try {
@@ -201,7 +192,7 @@ exports.fetchMatchData = async (db, compIdIn, matchNumberIn, teamScoutedIn) => {
   data.err_reasons = [];
   const dbo = db.db('data_scouting');
   // var myobj = {_id: compIdIn + teamScoutedIn + matchNumberIn};
-  const myobj = { competition: String(compIdIn), match: parseInt(matchNumberIn, 10), teamScouted: parseInt(teamScoutedIn, 10) };
+  const myobj = { competition: String(compIdIn), match: parseInt(matchNumberIn, 10), team_scouted: parseInt(teamScoutedIn, 10) };
   try {
     data.data = await dbo.collection('matchdata').findOne(myobj).catch((e) => { console.error(e); data.err_occur = true; throw new Error('Database error'); });
   } catch (err) {
@@ -250,7 +241,7 @@ exports.fetchShotChartData = async (db, compIdIn, matchNumberIn, teamScoutedIn) 
   data.err_reasons = [];
   const dbo = db.db('data_scouting');
   // var myobj = {_id: compIdIn + teamScoutedIn + matchNumberIn};
-  const myobj = { competition: String(compIdIn), match: parseInt(matchNumberIn, 10), teamScouted: parseInt(teamScoutedIn, 10) };
+  const myobj = { competition: String(compIdIn), match: parseInt(matchNumberIn, 10), team_scouted: parseInt(teamScoutedIn, 10) };
   try {
     data.data = await dbo.collection('shotchart').findOne(myobj).catch((e) => { console.error(e); data.err_occur = true; });
   } catch (err) {
@@ -354,7 +345,7 @@ exports.getDataOnTeam = async (db, teamin, compin) => {
   data.err_occur = false;
   data.err_reasons = [];
   const dbo = db.db('data_scouting');
-  const myobj = { teamScouted: parseInt(teamin, 10), competition: String(compin) };
+  const myobj = { team_scouted: parseInt(teamin, 10), competition: String(compin) };
   try {
     data.data = await dbo.collection('matchdata').find(myobj).toArray();
   } catch (err) {
@@ -428,7 +419,7 @@ exports.submitPitData = async (db, scouterin, competitionin, matchin, teamin, da
   const dbo = db.db('data_scouting');
   const myobj = {
     $set: {
-      scouter: scouterin, competition: competitionin, match: matchin, teamScouted: teamin, data: datain,
+      scouter: scouterin, competition: competitionin, match: matchin, team_scouted: teamin, data: datain,
     },
   };
   try {
@@ -447,7 +438,7 @@ exports.fetchPitData = async (db, compIdIn, matchNumberIn, teamScoutedIn) => {
   data.err_reasons = [];
   const dbo = db.db('data_scouting');
   // var myobj = {_id: compIdIn + teamScoutedIn + matchNumberIn};
-  const myobj = { competition: String(compIdIn), match: parseInt(matchNumberIn, 10), teamScouted: parseInt(teamScoutedIn, 10) };
+  const myobj = { competition: String(compIdIn), match: parseInt(matchNumberIn, 10), team_scouted: parseInt(teamScoutedIn, 10) };
   try {
     data.data = await dbo.collection('pitdata').findOne(myobj).catch((e) => { console.error(e); data.err_occur = true; });
   } catch (err) {
