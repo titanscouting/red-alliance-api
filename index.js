@@ -155,7 +155,7 @@ app.get('/api/checkUser', async (req, res) => {
 app.get('/api/fetchScouterSuggestions', async (req, res) => {
   let val;
   const competition = String(req.query.competition);
-  const matchNumber = parseInt(req.query.matchNumber, 10);
+  const matchNumber = parseInt(req.query.match_number, 10);
 
   try {
     val = await dbHandler.fetchScouterSuggestions(req.db, competition, matchNumber).catch((e) => { console.error(e); val.err_occur = true; });
@@ -195,7 +195,7 @@ app.get('/api/fetchScouterSuggestions', async (req, res) => {
 app.get('/api/fetchScouterUIDs', async (req, res) => {
   let val;
   const competition = String(req.query.competition);
-  const matchNumber = parseInt(req.query.matchNumber, 10);
+  const matchNumber = parseInt(req.query.match_number, 10);
   try {
     val = await dbHandler.fetchScouterUIDs(req.db, competition, matchNumber).catch((e) => { console.error(e); val.err_occur = true; });
   } catch (e) {
@@ -345,8 +345,8 @@ app.get('/api/fetch2022Schedule', async (req, res) => {
 app.get('/api/fetchMatchData', async (req, res) => {
   let val;
   const competitionID = String(req.query.competition);
-  const matchNumber = parseInt(req.query.matchNumber, 10);
-  const teamScouted = parseInt(req.query.teamScouted, 10);
+  const matchNumber = parseInt(req.query.match_number, 10);
+  const teamScouted = parseInt(req.query.team_scouted, 10);
   try {
     val = await dbHandler.fetchMatchData(req.db, competitionID, matchNumber, teamScouted).catch((e) => { console.error(e); val.err_occur = true; });
   } catch (err) {
@@ -646,7 +646,7 @@ app.get('/api/getNumberScouts', async (req, res) => {
 app.get('/api/getUserStrategy', auth.checkAuth, async (req, res) => {
   let val;
   const comp = String(req.query.competition);
-  const match = String(req.query.matchNumber);
+  const match = String(req.query.match_number);
   const name = String(res.locals.name);
   try {
     val = await dbHandler.getUserStrategy(req.db, comp, match, name).catch((e) => { console.error(e); val.err_occur = true; });
@@ -894,8 +894,8 @@ app.post('/api/submitPitData', auth.checkAuth, async (req, res) => {
 app.get('/api/fetchPitData', async (req, res) => {
   let val;
   const competitionID = String(req.query.competition);
-  const matchNumber = parseInt(req.query.matchNumber, 10);
-  const teamScouted = parseInt(req.query.teamScouted, 10);
+  const matchNumber = parseInt(req.query.match_number, 10);
+  const teamScouted = parseInt(req.query.team_scouted, 10);
   try {
     val = await dbHandler.fetchPitData(req.db, competitionID, matchNumber, teamScouted).catch((e) => { console.error(e); val.err_occur = true; });
   } catch (err) {
