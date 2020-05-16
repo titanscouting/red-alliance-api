@@ -66,18 +66,18 @@ exports.checkKey = async (db, clientID, clientKey) => {
   return isAuthorized;
 };
 
-exports.submitMatchData = async (db, scouterin, competitionin, matchin, teamin, datain) => {
+exports.submitMatchData = async (db, scouter, competition, match, team_scouted, matchdata) => {
   const data = {};
   data.err_occur = false;
   data.err_reasons = [];
   const dbo = db.db('data_scouting');
   const myobj = {
     $set: {
-      scouter: scouterin, competition: competitionin, match: matchin, team_scouted: teamin, data: datain,
+      scouter, competition, match, team_scouted, data: matchdata,
     },
   };
   try {
-    await dbo.collection('matchdata').updateOne({ _id: competitionin + matchin + teamin }, myobj, { upsert: true }).catch((e) => { console.error(e); data.err_occur = true; });
+    await dbo.collection('matchdata').updateOne({ _id: competition + match + team_scouted }, myobj, { upsert: true }).catch((e) => { console.error(e); data.err_occur = true; });
   } catch (err) {
     data.err_occur = true;
     data.err_reasons.push(err);
@@ -86,18 +86,18 @@ exports.submitMatchData = async (db, scouterin, competitionin, matchin, teamin, 
   return data;
 };
 
-exports.submitShotChartData = async (db, scouterin, competitionin, matchin, teamin, datain) => {
+exports.submitShotChartData = async (db, scouter, competition, match, team_scouted, datain) => {
   const data = {};
   data.err_occur = false;
   data.err_reasons = [];
   const dbo = db.db('data_scouting');
   const myobj = {
     $set: {
-      scouter: scouterin, competition: competitionin, match: matchin, team_scouted: teamin, data: datain,
+      scouter, competition, match, team_scouted, data: datain,
     },
   };
   try {
-    await dbo.collection('shotchart').updateOne({ _id: competitionin + matchin + teamin }, myobj, { upsert: true }).catch((e) => { console.error(e); data.err_occur = true; });
+    await dbo.collection('shotchart').updateOne({ _id: competition + match + team_scouted }, myobj, { upsert: true }).catch((e) => { console.error(e); data.err_occur = true; });
   } catch (err) {
     data.err_occur = true;
     data.err_reasons.push(err);
