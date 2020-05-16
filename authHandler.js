@@ -30,7 +30,6 @@ module.exports.checkAuth = async (req, res, next) => {
       if (payload.hd === 'imsa.edu' || extUsers.indexOf(payload.name) > -1 || extUsers.indexOf(payload.sub) > -1) {
         res.locals.id = payload.sub;
         res.locals.name = payload.name;
-        console.log(`Logged in ${res.locals.name} with ID ${res.locals.id}`);
       } else {
         res.status(401);
         res.json({
