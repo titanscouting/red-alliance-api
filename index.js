@@ -121,21 +121,20 @@ app.get('/api/fetchMatches', async (req, res) => {
  * @param token is the token obtained from Google OAuth and the JWT.
  * @returns back to the client let resobj (name and Google ID of user) and HTTP Status Code 200 OK.
  */
-app.get('/api/checkUser', auth.checkAuth, async (req, res) => {
-  let val;
+
+app.get('/api/checkUser', async (req, res) => {
+  const val = {};
   try {
-    val.name = res.locals.name;
-    val.id = res.locals.id;
+    val.data = await dbHandler.checkKey(req.db, req.query.CLIENT_ID, req.query.CLIENT_SECRET).catch((e) => { console.error(e); val.err_occur = true; });
   } catch (err) {
     console.error(err);
     val.err_occur = true;
   }
   let resobj = null;
-  if (val.err_occur === false) {
+  if (!val.err_occur) {
     resobj = {
       success: true,
-      name: val.name,
-      id: val.id,
+      isAuth: val.data,
     };
   } else {
     resobj = {

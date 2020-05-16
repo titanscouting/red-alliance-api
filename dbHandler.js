@@ -68,15 +68,7 @@ exports.checkKey = async (db, clientID, clientKey) => {
     data.err_reasons.push(err);
     console.error(err);
   }
-  let returnVal;
-  await bcrypt.compare(clientKey, data.data.CLIENT_KEY, (err, res) => {
-    if (res) {
-      returnVal = true;
-    } else {
-      returnVal = false;
-    }
-  });
-  return returnVal;
+  return bcrypt.compareSync(clientKey, data.data.hashedClientKey);
 };
 
 exports.submitMatchData = async (db, scouterin, competitionin, matchin, teamin, datain) => {
