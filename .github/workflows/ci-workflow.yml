@@ -26,7 +26,7 @@ jobs:
     - name: Lint the project
       run: npm run test-lint
     - name: Build Docker image
-      run: docker build -t docker.pkg.github.com/titanscout2022/red-alliance-api/red-alliance-api:latest .
+      run: docker build -t docker.pkg.github.com/titanscout2022/red-alliance-api/red-alliance-api:${{ github.sha }} .
     - name: Log into the GitHub Docker Registry
       env:
           DOCKER_REGISTRY_URL: docker.pkg.github.com
@@ -34,4 +34,4 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
       run: docker login --username=$DOCKER_USERNAME --password=$DOCKER_PASSWORD docker.pkg.github.com
     - name: docker push
-      run: docker push docker.pkg.github.com/titanscout2022/red-alliance-api/red-alliance-api:latest
+      run: docker push docker.pkg.github.com/titanscout2022/red-alliance-api/red-alliance-api:${{ github.sha }}
