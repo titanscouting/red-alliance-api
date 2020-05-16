@@ -46,7 +46,7 @@ exports.addKey = async (db, clientID, clientKey) => {
     },
   };
   try {
-    await dbo.collection('api_e').updateOne({ _id: clientID }, myobj, { upsert: true }).catch((e) => { console.error(e); data.err_occur = true; });
+    await dbo.collection('api_key').updateOne({ _id: clientID }, myobj, { upsert: true }).catch((e) => { console.error(e); data.err_occur = true; });
   } catch (err) {
     data.err_occur = true;
     data.err_reasons.push(err);
