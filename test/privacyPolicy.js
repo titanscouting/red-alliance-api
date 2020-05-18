@@ -11,13 +11,12 @@ chai.use(chaiHttp);
 /*
   * Test the /GET route
   */
-describe('/GET /api/fetchMatches', () => {
-  it('it should GET the number of scouters for each match', (done) => {
+describe('/GET /privacy-policy', () => {
+  it('it should GET the privacy policy', (done) => {
     chai.request(server)
-      .get('/api/fetchMatches?competition=2020ilch')
+      .get('/privacy-policy')
       .end((err, res) => {
         res.should.have.status(200);
-        res.body.should.have.property('success').eql(true);
         done();
       });
   });

@@ -11,12 +11,13 @@ chai.use(chaiHttp);
 /*
   * Test the /GET route
   */
-describe('/GET /api/fetchMatches', () => {
-  it('it should GET the number of scouters for each match', (done) => {
+describe('/GET /api/fetch2022Schedule', () => {
+  it('it should GET the schedule for 2022', (done) => {
     chai.request(server)
-      .get('/api/fetchMatches?competition=2020ilch')
+      .get('/api/fetch2022Schedule?competition=2020ilch')
       .end((err, res) => {
         res.should.have.status(200);
+        res.body.should.have.property('data');
         res.body.should.have.property('success').eql(true);
         done();
       });
