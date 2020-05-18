@@ -15,6 +15,7 @@
     "test": "nyc --reporter=text mocha --timeout 10000 --exit"
   },
   "dependencies": {
+    "@babel/register": "^7.9.0",
     "@istanbuljs/nyc-config-babel": "^3.0.0",
     "bcrypt": "^3.0.7",
     "body-parser": "^1.19.0",
