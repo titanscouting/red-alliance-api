@@ -516,31 +516,6 @@ app.post('/api/removeScouterFromMatch', auth.checkAuth, async (req, res) => {
   res.json(resobj);
 });
 
-app.get('/api/getDataOnTeam', auth.checkAuth, async (req, res) => {
-  let val;
-  const team = parseInt(req.query.team, 10);
-  const comp = String(req.query.competition);
-  try {
-    val = await dbHandler.getDataOnTeam(req.db, team, comp).catch((e) => { console.error(e); val.err_occur = true; });
-  } catch (err) {
-    console.error(err);
-    val.err_occur = true;
-  }
-  let resobj = null;
-  if (val.err_occur === false) {
-    resobj = {
-      success: true,
-      data: val.data,
-    };
-  } else {
-    resobj = {
-      success: false,
-      reasons: val.err_reasons,
-    };
-  }
-  res.json(resobj);
-});
-
 app.post('/api/submitStrategy', auth.checkAuth, async (req, res) => {
   let val;
   const scouter = String(res.locals.name);

@@ -344,21 +344,6 @@ exports.removeScouterFromMatch = async (db, userin, matchin, teamScouted) => {
   return data;
 };
 
-exports.getDataOnTeam = async (db, teamin, compin) => {
-  const data = {};
-  data.err_occur = false;
-  data.err_reasons = [];
-  const dbo = db.db('data_scouting');
-  const myobj = { team_scouted: parseInt(teamin, 10), competition: String(compin) };
-  try {
-    data.data = await dbo.collection('matchdata').find(myobj).toArray();
-  } catch (err) {
-    data.err_occur = true;
-    data.err_reasons.push(err);
-    console.error(err);
-  }
-  return data;
-};
 
 exports.submitStrategy = async (db, scouterin, matchin, compin, datain) => {
   const data = {};
@@ -386,10 +371,8 @@ exports.fetchStrategy = async (db, compIdIn, matchIdIn) => {
   data.err_reasons = [];
   const dbo = db.db('strategies');
   const myobj = { competition: String(compIdIn), match: String(matchIdIn) };
-  console.log(myobj);
   try {
     data.data = await dbo.collection('data').find(myobj).toArray();
-    console.log(data.data);
   } catch (err) {
     data.err_occur = true;
     data.err_reasons.push(err);
