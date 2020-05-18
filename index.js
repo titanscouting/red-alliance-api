@@ -378,62 +378,62 @@ app.get('/api/fetchMatchData', async (req, res) => {
   res.json(resobj);
 });
 
-app.get('/api/fetchShotChartData', async (req, res) => {
-  let val;
-  const competitionID = String(req.body.competitionID);
-  const matchNumber = parseInt(req.body.matchNumber, 10);
-  const teamScouted = parseInt(req.body.teamScouted, 10);
-  try {
-    val = await dbHandler.fetchShotChartData(req.db, competitionID, matchNumber, teamScouted).catch((e) => { console.error(e); val.err_occur = true; });
-  } catch (err) {
-    console.error(err);
-    val.err_occur = true;
-  }
-  let resobj = null;
-  if (val.err_occur === false) {
-    resobj = {
-      success: true,
-      competition: competitionID,
-      matchNumber,
-      teamScouted,
-      data: val.data.data,
-    };
-  } else {
-    resobj = {
-      success: false,
-      reasons: val.err_reasons,
-    };
-  }
-  res.json(resobj);
-});
-app.post('/api/submitShotChartData', auth.checkAuth, async (req, res) => {
-  let val;
-  const scouter = { name: String(res.locals.name), id: String(res.locals.id) };
-  const competitionID = String(req.body.competitionID);
-  const matchNumber = parseInt(req.body.matchNumber, 10);
-  const teamScouted = parseInt(req.body.teamScouted, 10);
-  const { data } = req.body;
-  try {
-    val = await dbHandler.submitShotChartData(req.db, scouter, competitionID, matchNumber, teamScouted, data).catch((e) => { console.error(e); val.err_occur = true; });
-  } catch (err) {
-    console.error(err);
-    val.err_occur = true;
-  }
-  let resobj = null;
-  if (val.err_occur === false) {
-    resobj = {
-      success: true,
-      competition: competitionID,
-      matchNumber,
-    };
-  } else {
-    resobj = {
-      success: false,
-      reasons: val.err_reasons,
-    };
-  }
-  res.json(resobj);
-});
+// app.get('/api/fetchShotChartData', async (req, res) => {
+//   let val;
+//   const competitionID = String(req.body.competitionID);
+//   const matchNumber = parseInt(req.body.matchNumber, 10);
+//   const teamScouted = parseInt(req.body.teamScouted, 10);
+//   try {
+//     val = await dbHandler.fetchShotChartData(req.db, competitionID, matchNumber, teamScouted).catch((e) => { console.error(e); val.err_occur = true; });
+//   } catch (err) {
+//     console.error(err);
+//     val.err_occur = true;
+//   }
+//   let resobj = null;
+//   if (val.err_occur === false) {
+//     resobj = {
+//       success: true,
+//       competition: competitionID,
+//       matchNumber,
+//       teamScouted,
+//       data: val.data.data,
+//     };
+//   } else {
+//     resobj = {
+//       success: false,
+//       reasons: val.err_reasons,
+//     };
+//   }
+//   res.json(resobj);
+// });
+// app.post('/api/submitShotChartData', auth.checkAuth, async (req, res) => {
+//   let val;
+//   const scouter = { name: String(res.locals.name), id: String(res.locals.id) };
+//   const competitionID = String(req.body.competitionID);
+//   const matchNumber = parseInt(req.body.matchNumber, 10);
+//   const teamScouted = parseInt(req.body.teamScouted, 10);
+//   const { data } = req.body;
+//   try {
+//     val = await dbHandler.submitShotChartData(req.db, scouter, competitionID, matchNumber, teamScouted, data).catch((e) => { console.error(e); val.err_occur = true; });
+//   } catch (err) {
+//     console.error(err);
+//     val.err_occur = true;
+//   }
+//   let resobj = null;
+//   if (val.err_occur === false) {
+//     resobj = {
+//       success: true,
+//       competition: competitionID,
+//       matchNumber,
+//     };
+//   } else {
+//     resobj = {
+//       success: false,
+//       reasons: val.err_reasons,
+//     };
+//   }
+//   res.json(resobj);
+// });
 /**
  * POST route '/api/addAPIKey'
  * Allows the creation of API keys from current OAuth users.
@@ -586,37 +586,6 @@ app.get('/api/fetchStrategy', async (req, res) => {
 
   try {
     val = await dbHandler.fetchStrategy(req.db, comp, match).catch((e) => { console.error(e); val.err_occur = true; });
-  } catch (err) {
-    console.error(err);
-    val.err_occur = true;
-  }
-  // the try...catch is the next few lines serves to ensure the application doesn't just crash if scouters or teams were not returned by the DB handler.
-  let dataInterim;
-  try {
-    dataInterim = val.data;
-  } catch (e) {
-    val.err_occur = true;
-  }
-  let resobj = null;
-  if (val.err_occur === false) {
-    resobj = {
-      success: true,
-      data: dataInterim,
-    };
-  } else {
-    resobj = {
-      success: false,
-      reasons: val.err_reasons,
-    };
-  }
-  res.json(resobj);
-});
-
-app.get('/api/getNumberScouts', async (req, res) => {
-  let val;
-  const comp = String(req.query.competition);
-  try {
-    val = await dbHandler.getNumberScouts(req.db, comp).catch((e) => { console.error(e); val.err_occur = true; });
   } catch (err) {
     console.error(err);
     val.err_occur = true;
