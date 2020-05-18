@@ -30,7 +30,7 @@ describe('/GET /api/fetchScouterUIDs', () => {
           ],
           teams: ['5350', '5133', '3734', '63', '1675', '8160'],
         });
-        console.log(res.body);
+        res.body.should.have.property('success').eql(true);
         done();
       });
   });

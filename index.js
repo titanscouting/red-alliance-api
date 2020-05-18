@@ -265,7 +265,7 @@ app.get('/api/fetchAllTeamNicknamesAtCompetition', async (req, res) => {
  */
 app.get('/api/findTeamNickname', async (req, res) => {
   let val;
-  const teamNumber = String(req.query.teamNumber);
+  const teamNumber = String(req.query.team_number);
   try {
     val = await dbHandler.findTeamNickname(req.db, teamNumber).catch((e) => { console.error(e); val.err_occur = true; });
   } catch (e) {

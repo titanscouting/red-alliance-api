@@ -178,7 +178,7 @@ exports.findTeamNickname = async (db, teamNumber) => {
   data.err_occur = false;
   data.err_reason = [];
   const dbo = db.db('data_scouting');
-  const myobj = { teamNumber: { $exists: true } };
+  const myobj = {};
   try {
     const teamlist = await dbo.collection('teamlist').findOne(myobj).catch((e) => { console.error(e); data.err_occur = true; });
     data.data = teamlist[teamNumber];
