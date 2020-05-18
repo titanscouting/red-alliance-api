@@ -17,18 +17,6 @@ jobs:
         node-version: [12.x, 14.x]
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    - run: npm install
-    - name: Lint the project
-      run: npm run test-lint
-    - name: Run unit tests
-      run: npm test
-      env:
-        REDALLIANCEDBKEY: ${{ secrets.REDALLIANCEDBKEY }}
     - name: Build Docker image
       run: docker build -t docker.pkg.github.com/titanscout2022/red-alliance-api/red-alliance-api:${{ github.sha }} .
     - name: Log into the GitHub Docker Registry
