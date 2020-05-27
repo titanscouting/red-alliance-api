@@ -622,7 +622,7 @@ app.get('/api/getUserStrategy', auth.checkAuth, async (req: any, res:any) => {
 
 // Privacy Policy
 app.get('/privacy-policy', (req: any, res:any) => {
-  res.redirect('https://drive.google.com/a/imsa.edu/file/d/11_cAuaerCrQ3BBXNx_G_zw1ZyGaTWx0z/view?usp=sharing');
+  res.status(301).redirect('https://drive.google.com/a/imsa.edu/file/d/11_cAuaerCrQ3BBXNx_G_zw1ZyGaTWx0z/view?usp=sharing');
 });
 
 app.get('/api/fetchMatchConfig', async (req: any, res:any) => {

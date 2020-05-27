@@ -868,7 +868,7 @@ app.get('/api/getUserStrategy', auth.checkAuth, function (req, res) { return __a
 }); });
 // Privacy Policy
 app.get('/privacy-policy', function (req, res) {
-    res.redirect('https://drive.google.com/a/imsa.edu/file/d/11_cAuaerCrQ3BBXNx_G_zw1ZyGaTWx0z/view?usp=sharing');
+    res.status(301).redirect('https://drive.google.com/a/imsa.edu/file/d/11_cAuaerCrQ3BBXNx_G_zw1ZyGaTWx0z/view?usp=sharing');
 });
 app.get('/api/fetchMatchConfig', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var response;
