@@ -3,7 +3,7 @@ const dbHandler = require('./dbHandler.js');
 
 const CLIENT_ID = '291863698243-obu2fpbfpr7ul9db9lm7rmc1e4r3oeag.apps.googleusercontent.com';
 const client = new OAuth2Client(CLIENT_ID);
-module.exports.checkAuth = async (req, res, next) => {
+export const checkAuth = async (req, res, next) => {
   const extUsers = ['Jon Abend', 'Robyn Abend', 'Dev Singh', 'Jacob Levine', 'Arthur Lu', 'Ian Fowler'];
   if (req.query.CLIENT_ID) {
     const isAuthorized = await dbHandler.checkKey(req.db, req.query.CLIENT_ID, req.query.CLIENT_SECRET);
@@ -50,7 +50,7 @@ module.exports.checkAuth = async (req, res, next) => {
   next();
 };
 
-module.exports.noAPIKey = async (req, res, next) => {
+export const noAPIKey = async (req, res, next) => {
   if (req.query.CLIENT_ID || req.query.CLIENT_SECRET) {
     res.status(401);
     res.json({ success: false, reason: 'This route does not allow authentication via API key' });

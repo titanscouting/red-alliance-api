@@ -1,5 +1,6 @@
+"use strict";
 // Not implemented in this year's version of the API.
-// exports.addUserToTeam = (db, idin, namein, teamin) => {
+// export const addUserToTeam = (db, idin, namein, teamin) => {
 //     idin = String(idin)
 //     var dbo = db.db("userlist");
 //     var myobj = { "$set": {_id: idin, id: idin, name: namein, team: teamin}};
@@ -47,8 +48,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var _this = this;
-// exports.getCompetitions = async (db, idin) => {
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.fetchPitData = exports.submitPitData = exports.getUserStrategy = exports.fetchStrategy = exports.submitStrategy = exports.removeScouterFromMatch = exports.addScouterToMatch = exports.fetchScouterUIDs = exports.fetchScouterSuggestions = exports.fetchShotChartData = exports.fetch2022Schedule = exports.fetchCompetitionSchedule = exports.fetchMatchData = exports.findTeamNickname = exports.fetchAllTeamNicknamesAtCompetition = exports.getNumberScouts = exports.fetchMatchesForCompetition = exports.submitShotChartData = exports.submitMatchData = exports.checkKey = exports.addKey = void 0;
+// export const getCompetitions = async (db, idin) => {
 //     let rval;
 //     idin = String(idin)
 //     // Get the competitions for a team member. Currently, one user can only be part of one team.
@@ -59,14 +61,12 @@ var _this = this;
 // }
 // const globalCompetition = '2020ilch';
 var bcrypt = require('bcrypt');
-exports.addKey = function (db, clientID, clientKey) { return __awaiter(_this, void 0, void 0, function () {
+exports.addKey = function (db, clientID, clientKey) { return __awaiter(void 0, void 0, void 0, function () {
     var data, dbo, hashedClientKey, myobj, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                data = {};
-                data.err_occur = false;
-                data.err_reasons = [];
+                data = { err_occur: false, err_reasons: [], data: {} };
                 dbo = db.db('userlist');
                 hashedClientKey = bcrypt.hashSync(clientKey, 12);
                 myobj = {
@@ -91,79 +91,36 @@ exports.addKey = function (db, clientID, clientKey) { return __awaiter(_this, vo
         }
     });
 }); };
-exports.checkKey = function (db, clientID, clientKey) { return __awaiter(_this, void 0, void 0, function () {
-    var data, dbo, myobj, _a, err_2, isAuthorized;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
-            case 0:
-                data = {};
-                data.err_occur = false;
-                data.err_reasons = [];
-                dbo = db.db('userlist');
-                myobj = { clientID: clientID };
-                _b.label = 1;
-            case 1:
-                _b.trys.push([1, 3, , 4]);
-                _a = data;
-                return [4 /*yield*/, dbo.collection('api_keys').findOne(myobj).catch(function (e) { console.error(e); data.err_occur = true; throw new Error('Database error'); })];
-            case 2:
-                _a.data = _b.sent();
-                return [3 /*break*/, 4];
-            case 3:
-                err_2 = _b.sent();
-                data.err_occur = true;
-                data.err_reasons.push(err_2);
-                console.error(err_2);
-                return [3 /*break*/, 4];
-            case 4:
-                if (data.data == null) {
-                    data.data = { hashedClientKey: 'obvsnotrightlfojdslf2e980' };
-                }
-                isAuthorized = bcrypt.compareSync(clientKey, data.data.hashedClientKey);
-                return [2 /*return*/, isAuthorized];
+exports.checkKey = function (db, clientID, clientKey) { return __awaiter(void 0, void 0, void 0, function () {
+    var data, dbo, myobj, isAuthorized;
+    return __generator(this, function (_a) {
+        data = { err_occur: false, err_reasons: [], data: { hashedClientKey: undefined } };
+        dbo = db.db('userlist');
+        myobj = { clientID: clientID };
+        data.data = dbo.collection('api_keys').findOne(myobj).catch(function (e) { console.error(e); data.err_occur = true; throw new Error('Database error'); });
+        if (data.data == null) {
+            data.data = { hashedClientKey: 'obvsnotrightlfojdslf2e980' };
         }
+        isAuthorized = bcrypt.compareSync(clientKey, data.data.hashedClientKey);
+        return [2 /*return*/, isAuthorized];
     });
 }); };
-exports.submitMatchData = function (db, scouter, competition, match, team_scouted, matchdata) { return __awaiter(_this, void 0, void 0, function () {
-    var data, dbo, myobj, err_3;
+exports.submitMatchData = function (db, scouter, competition, match, team_scouted, matchdata) { return __awaiter(void 0, void 0, void 0, function () {
+    var data, dbo, myobj;
+    return __generator(this, function (_a) {
+        data = { err_occur: false, err_reasons: [], data: {} };
+        dbo = db.db('data_scouting');
+        myobj = { $set: { scouter: scouter, competition: competition, match: match, team_scouted: team_scouted, data: matchdata, } };
+        dbo.collection('matchdata').updateOne({ _id: competition + match + team_scouted }, myobj, { upsert: true }).catch(function (e) { console.error(e); data.err_occur = true; data.err_reasons.push; });
+        return [2 /*return*/, data];
+    });
+}); };
+exports.submitShotChartData = function (db, scouter, competition, match, team_scouted, datain) { return __awaiter(void 0, void 0, void 0, function () {
+    var data, dbo, myobj, err_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                data = {};
-                data.err_occur = false;
-                data.err_reasons = [];
-                dbo = db.db('data_scouting');
-                myobj = {
-                    $set: {
-                        scouter: scouter, competition: competition, match: match, team_scouted: team_scouted,
-                        data: matchdata,
-                    },
-                };
-                _a.label = 1;
-            case 1:
-                _a.trys.push([1, 3, , 4]);
-                return [4 /*yield*/, dbo.collection('matchdata').updateOne({ _id: competition + match + team_scouted }, myobj, { upsert: true }).catch(function (e) { console.error(e); data.err_occur = true; })];
-            case 2:
-                _a.sent();
-                return [3 /*break*/, 4];
-            case 3:
-                err_3 = _a.sent();
-                data.err_occur = true;
-                data.err_reasons.push(err_3);
-                console.error(err_3);
-                return [3 /*break*/, 4];
-            case 4: return [2 /*return*/, data];
-        }
-    });
-}); };
-exports.submitShotChartData = function (db, scouter, competition, match, team_scouted, datain) { return __awaiter(_this, void 0, void 0, function () {
-    var data, dbo, myobj, err_4;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                data = {};
-                data.err_occur = false;
-                data.err_reasons = [];
+                data = { err_occur: false, err_reasons: [], data: {} };
                 dbo = db.db('data_scouting');
                 myobj = {
                     $set: {
@@ -179,23 +136,21 @@ exports.submitShotChartData = function (db, scouter, competition, match, team_sc
                 _a.sent();
                 return [3 /*break*/, 4];
             case 3:
-                err_4 = _a.sent();
+                err_2 = _a.sent();
                 data.err_occur = true;
-                data.err_reasons.push(err_4);
-                console.error(err_4);
+                data.err_reasons.push(err_2);
+                console.error(err_2);
                 return [3 /*break*/, 4];
             case 4: return [2 /*return*/, data];
         }
     });
 }); };
-exports.fetchMatchesForCompetition = function (db, compIdIn1) { return __awaiter(_this, void 0, void 0, function () {
-    var data, compIdIn, dbo, myobj, interim, _i, interim_1, m, numScouters, i, err_5;
+exports.fetchMatchesForCompetition = function (db, compIdIn1) { return __awaiter(void 0, void 0, void 0, function () {
+    var data, compIdIn, dbo, myobj, interim, _i, interim_1, m, numScouters, i, err_3;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                data = {};
-                data.err_occur = false;
-                data.err_reason = [];
+                data = { err_occur: false, err_reasons: [], data: { competition: undefined, data: undefined } };
                 compIdIn = String(compIdIn1);
                 dbo = db.db('data_scouting');
                 myobj = { competition: String(compIdIn) };
@@ -203,7 +158,6 @@ exports.fetchMatchesForCompetition = function (db, compIdIn1) { return __awaiter
                 _a.label = 1;
             case 1:
                 _a.trys.push([1, 3, , 4]);
-                data.data = [];
                 return [4 /*yield*/, dbo.collection('matches').find(myobj).toArray()];
             case 2:
                 interim = _a.sent();
@@ -221,22 +175,20 @@ exports.fetchMatchesForCompetition = function (db, compIdIn1) { return __awaiter
                 }
                 return [3 /*break*/, 4];
             case 3:
-                err_5 = _a.sent();
+                err_3 = _a.sent();
                 data.err_occur = true;
-                console.error(err_5);
+                console.error(err_3);
                 return [3 /*break*/, 4];
             case 4: return [2 /*return*/, data];
         }
     });
 }); };
-exports.getNumberScouts = function (db, compIdIn1) { return __awaiter(_this, void 0, void 0, function () {
+exports.getNumberScouts = function (db, compIdIn1) { return __awaiter(void 0, void 0, void 0, function () {
     var data, compIdIn, dbo, myobj, inval, e_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                data = {};
-                data.err_occur = false;
-                data.err_reasons = [];
+                data = { err_occur: false, err_reasons: [], data: {} };
                 compIdIn = String(compIdIn1);
                 dbo = db.db('data_scouting');
                 myobj = { competition: String(compIdIn) };
@@ -258,22 +210,107 @@ exports.getNumberScouts = function (db, compIdIn1) { return __awaiter(_this, voi
         }
     });
 }); };
-exports.fetchAllTeamNicknamesAtCompetition = function (db, compIdIn1) { return __awaiter(_this, void 0, void 0, function () {
-    var data, compIdIn, dbo, myobj, _a, err_6;
+exports.fetchAllTeamNicknamesAtCompetition = function (db, compIdIn) { return __awaiter(void 0, void 0, void 0, function () {
+    var data, dbo, myobj, _a;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
-                data = {};
-                data.err_occur = false;
-                data.err_reason = [];
-                compIdIn = String(compIdIn1);
+                data = { err_occur: false, err_reasons: [], data: {} };
                 dbo = db.db('data_scouting');
                 myobj = { competition: String(compIdIn) };
+                _a = data;
+                return [4 /*yield*/, dbo.collection('teamlist').findOne(myobj).catch(function (e) { console.error(e); data.err_occur = true; data.err_reasons.push(e); })];
+            case 1:
+                _a.data = _b.sent();
+                return [2 /*return*/, data];
+        }
+    });
+}); };
+exports.findTeamNickname = function (db, teamNumber) { return __awaiter(void 0, void 0, void 0, function () {
+    var data, dbo, myobj;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                data = { err_occur: false, err_reasons: [], data: {} };
+                dbo = db.db('data_scouting');
+                myobj = {};
+                return [4 /*yield*/, dbo.collection('teamlist').findOne(myobj).then(function (value) {
+                        data.data = value.teamNumber;
+                    }).catch(function (e) {
+                        data.err_occur = true;
+                        data.err_reasons.push(e);
+                    })];
+            case 1:
+                _a.sent();
+                return [2 /*return*/, data];
+        }
+    });
+}); };
+exports.fetchMatchData = function (db, compIdIn, matchNumberIn, teamScoutedIn) { return __awaiter(void 0, void 0, void 0, function () {
+    var data, dbo, myobj, _a, err_4;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                data = { err_occur: false, err_reasons: [], data: {} };
+                dbo = db.db('data_scouting');
+                myobj = { competition: String(compIdIn), match: parseInt(matchNumberIn, 10), team_scouted: parseInt(teamScoutedIn, 10) };
                 _b.label = 1;
             case 1:
                 _b.trys.push([1, 3, , 4]);
                 _a = data;
-                return [4 /*yield*/, dbo.collection('teamlist').findOne(myobj).catch(function (e) { console.error(e); data.err_occur = true; })];
+                return [4 /*yield*/, dbo.collection('matchdata').findOne(myobj).catch(function (e) { console.error(e); data.err_occur = true; throw new Error('Database error'); })];
+            case 2:
+                _a.data = _b.sent();
+                return [3 /*break*/, 4];
+            case 3:
+                err_4 = _b.sent();
+                data.err_occur = true;
+                data.err_reasons.push(err_4);
+                console.error(err_4);
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/, data];
+        }
+    });
+}); };
+exports.fetchCompetitionSchedule = function (db, compIdIn) { return __awaiter(void 0, void 0, void 0, function () {
+    var data, dbo, passin, _a, err_5;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                data = { err_occur: false, err_reasons: [], data: {} };
+                dbo = db.db('data_scouting');
+                passin = { competition: String(compIdIn) };
+                _b.label = 1;
+            case 1:
+                _b.trys.push([1, 3, , 4]);
+                _a = data;
+                return [4 /*yield*/, dbo.collection('matches').find(passin).toArray()];
+            case 2:
+                _a.data = _b.sent();
+                return [3 /*break*/, 4];
+            case 3:
+                err_5 = _b.sent();
+                data.err_occur = true;
+                data.err_reasons.push(err_5);
+                console.error(err_5);
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/, data];
+        }
+    });
+}); };
+exports.fetch2022Schedule = function (db, compIdIn) { return __awaiter(void 0, void 0, void 0, function () {
+    var data, dbo, myobj, _a, err_6;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                data = { err_occur: false, err_reasons: [], data: {} };
+                dbo = db.db('data_scouting');
+                myobj = { teams: { $all: ['2022'] }, competition: String(compIdIn) };
+                _b.label = 1;
+            case 1:
+                _b.trys.push([1, 3, , 4]);
+                _a = data;
+                return [4 /*yield*/, dbo.collection('matches').find(myobj).toArray()];
             case 2:
                 _a.data = _b.sent();
                 return [3 /*break*/, 4];
@@ -287,126 +324,12 @@ exports.fetchAllTeamNicknamesAtCompetition = function (db, compIdIn1) { return _
         }
     });
 }); };
-exports.findTeamNickname = function (db, teamNumber) { return __awaiter(_this, void 0, void 0, function () {
-    var data, dbo, myobj, teamlist, err_7;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                data = {};
-                data.err_occur = false;
-                data.err_reason = [];
-                dbo = db.db('data_scouting');
-                myobj = {};
-                _a.label = 1;
-            case 1:
-                _a.trys.push([1, 3, , 4]);
-                return [4 /*yield*/, dbo.collection('teamlist').findOne(myobj).catch(function (e) { console.error(e); data.err_occur = true; })];
-            case 2:
-                teamlist = _a.sent();
-                data.data = teamlist[teamNumber];
-                return [3 /*break*/, 4];
-            case 3:
-                err_7 = _a.sent();
-                data.err_occur = true;
-                data.err_reasons.push(err_7);
-                console.error(err_7);
-                return [3 /*break*/, 4];
-            case 4: return [2 /*return*/, data];
-        }
-    });
-}); };
-exports.fetchMatchData = function (db, compIdIn, matchNumberIn, teamScoutedIn) { return __awaiter(_this, void 0, void 0, function () {
-    var data, dbo, myobj, _a, err_8;
+exports.fetchShotChartData = function (db, compIdIn, matchNumberIn, teamScoutedIn) { return __awaiter(void 0, void 0, void 0, function () {
+    var data, dbo, myobj, _a, err_7;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
-                data = {};
-                data.err_occur = false;
-                data.err_reasons = [];
-                dbo = db.db('data_scouting');
-                myobj = { competition: String(compIdIn), match: parseInt(matchNumberIn, 10), team_scouted: parseInt(teamScoutedIn, 10) };
-                _b.label = 1;
-            case 1:
-                _b.trys.push([1, 3, , 4]);
-                _a = data;
-                return [4 /*yield*/, dbo.collection('matchdata').findOne(myobj).catch(function (e) { console.error(e); data.err_occur = true; throw new Error('Database error'); })];
-            case 2:
-                _a.data = _b.sent();
-                return [3 /*break*/, 4];
-            case 3:
-                err_8 = _b.sent();
-                data.err_occur = true;
-                data.err_reasons.push(err_8);
-                console.error(err_8);
-                return [3 /*break*/, 4];
-            case 4: return [2 /*return*/, data];
-        }
-    });
-}); };
-exports.fetchCompetitionSchedule = function (db, compIdIn) { return __awaiter(_this, void 0, void 0, function () {
-    var data, dbo, passin, _a, err_9;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
-            case 0:
-                data = {};
-                data.err_occur = false;
-                data.err_reasons = [];
-                dbo = db.db('data_scouting');
-                passin = { competition: String(compIdIn) };
-                _b.label = 1;
-            case 1:
-                _b.trys.push([1, 3, , 4]);
-                _a = data;
-                return [4 /*yield*/, dbo.collection('matches').find(passin).toArray()];
-            case 2:
-                _a.data = _b.sent();
-                return [3 /*break*/, 4];
-            case 3:
-                err_9 = _b.sent();
-                data.err_occur = true;
-                data.err_reasons.push(err_9);
-                console.error(err_9);
-                return [3 /*break*/, 4];
-            case 4: return [2 /*return*/, data];
-        }
-    });
-}); };
-exports.fetch2022Schedule = function (db, compIdIn) { return __awaiter(_this, void 0, void 0, function () {
-    var data, dbo, myobj, _a, err_10;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
-            case 0:
-                data = {};
-                data.err_occur = false;
-                data.err_reasons = [];
-                dbo = db.db('data_scouting');
-                myobj = { teams: { $all: ['2022'] }, competition: String(compIdIn) };
-                _b.label = 1;
-            case 1:
-                _b.trys.push([1, 3, , 4]);
-                _a = data;
-                return [4 /*yield*/, dbo.collection('matches').find(myobj).toArray()];
-            case 2:
-                _a.data = _b.sent();
-                return [3 /*break*/, 4];
-            case 3:
-                err_10 = _b.sent();
-                data.err_occur = true;
-                data.err_reasons.push(err_10);
-                console.error(err_10);
-                return [3 /*break*/, 4];
-            case 4: return [2 /*return*/, data];
-        }
-    });
-}); };
-exports.fetchShotChartData = function (db, compIdIn, matchNumberIn, teamScoutedIn) { return __awaiter(_this, void 0, void 0, function () {
-    var data, dbo, myobj, _a, err_11;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
-            case 0:
-                data = {};
-                data.err_occur = false;
-                data.err_reasons = [];
+                data = { err_occur: false, err_reasons: [], data: {} };
                 dbo = db.db('data_scouting');
                 myobj = { competition: String(compIdIn), match: parseInt(matchNumberIn, 10), team_scouted: parseInt(teamScoutedIn, 10) };
                 _b.label = 1;
@@ -418,23 +341,21 @@ exports.fetchShotChartData = function (db, compIdIn, matchNumberIn, teamScoutedI
                 _a.data = _b.sent();
                 return [3 /*break*/, 4];
             case 3:
-                err_11 = _b.sent();
+                err_7 = _b.sent();
                 data.err_occur = true;
-                data.err_reasons.push(err_11);
-                console.error(err_11);
+                data.err_reasons.push(err_7);
+                console.error(err_7);
                 return [3 /*break*/, 4];
             case 4: return [2 /*return*/, data];
         }
     });
 }); };
-exports.fetchScouterSuggestions = function (db, compIdIn, matchNumberIn) { return __awaiter(_this, void 0, void 0, function () {
-    var data, dbo, myobj, out, toProcess, _i, toProcess_1, scoutSub, err_12;
+exports.fetchScouterSuggestions = function (db, compIdIn, matchNumberIn) { return __awaiter(void 0, void 0, void 0, function () {
+    var data, dbo, myobj, out, toProcess, _i, toProcess_1, scoutSub, err_8;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                data = {};
-                data.err_occur = false;
-                data.err_reasons = [];
+                data = { err_occur: false, err_reasons: [], data: {} };
                 dbo = db.db('data_scouting');
                 myobj = { competition: String(compIdIn), match: parseInt(matchNumberIn, 10) };
                 _a.label = 1;
@@ -453,23 +374,21 @@ exports.fetchScouterSuggestions = function (db, compIdIn, matchNumberIn) { retur
                 data.data = out;
                 return [3 /*break*/, 4];
             case 3:
-                err_12 = _a.sent();
+                err_8 = _a.sent();
                 data.err_occur = true;
-                data.err_reasons.push(err_12);
-                console.error(err_12);
+                data.err_reasons.push(err_8);
+                console.error(err_8);
                 return [3 /*break*/, 4];
             case 4: return [2 /*return*/, data];
         }
     });
 }); };
-exports.fetchScouterUIDs = function (db, competition, matchNumberIn) { return __awaiter(_this, void 0, void 0, function () {
-    var data, dbo, myobj, matchdata, err_13;
+exports.fetchScouterUIDs = function (db, competition, matchNumberIn) { return __awaiter(void 0, void 0, void 0, function () {
+    var data, dbo, myobj, matchdata, err_9;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                data = {};
-                data.err_occur = false;
-                data.err_reason = [];
+                data = { err_occur: false, err_reasons: [], data: {}, scouters: 0, teams: [] };
                 dbo = db.db('data_scouting');
                 myobj = { competition: competition, match: parseInt(matchNumberIn, 10) };
                 _a.label = 1;
@@ -482,23 +401,21 @@ exports.fetchScouterUIDs = function (db, competition, matchNumberIn) { return __
                 data.teams = matchdata.teams;
                 return [3 /*break*/, 4];
             case 3:
-                err_13 = _a.sent();
+                err_9 = _a.sent();
                 data.err_occur = true;
-                data.err_reasons.push(err_13);
-                console.error(err_13);
+                data.err_reasons.push(err_9);
+                console.error(err_9);
                 return [3 /*break*/, 4];
             case 4: return [2 /*return*/, data];
         }
     });
 }); };
-exports.addScouterToMatch = function (db, userin, namein, matchin, teamScouted) { return __awaiter(_this, void 0, void 0, function () {
-    var data, dbo, myobj, interim, index, err_14;
+exports.addScouterToMatch = function (db, userin, namein, matchin, teamScouted) { return __awaiter(void 0, void 0, void 0, function () {
+    var data, dbo, myobj, interim, index, err_10;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                data = {};
-                data.err_occur = false;
-                data.err_reasons = [];
+                data = { err_occur: false, err_reasons: [], data: {} };
                 dbo = db.db('data_scouting');
                 myobj = { match: parseInt(matchin, 10) };
                 _a.label = 1;
@@ -519,23 +436,21 @@ exports.addScouterToMatch = function (db, userin, namein, matchin, teamScouted) 
                 _a.sent();
                 return [3 /*break*/, 5];
             case 4:
-                err_14 = _a.sent();
+                err_10 = _a.sent();
                 data.err_occur = true;
-                data.err_reasons.push(err_14);
-                console.error(err_14);
+                data.err_reasons.push(err_10);
+                console.error(err_10);
                 return [3 /*break*/, 5];
             case 5: return [2 /*return*/, data];
         }
     });
 }); };
-exports.removeScouterFromMatch = function (db, userin, matchin, teamScouted) { return __awaiter(_this, void 0, void 0, function () {
-    var data, dbo, myobj, interim, index, err_15;
+exports.removeScouterFromMatch = function (db, userin, matchin, teamScouted) { return __awaiter(void 0, void 0, void 0, function () {
+    var data, dbo, myobj, interim, index, err_11;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                data = {};
-                data.err_occur = false;
-                data.err_reasons = [];
+                data = { err_occur: false, err_reasons: [], data: {} };
                 dbo = db.db('data_scouting');
                 myobj = { match: parseInt(matchin, 10) };
                 _a.label = 1;
@@ -556,23 +471,21 @@ exports.removeScouterFromMatch = function (db, userin, matchin, teamScouted) { r
                 _a.sent();
                 return [3 /*break*/, 5];
             case 4:
-                err_15 = _a.sent();
+                err_11 = _a.sent();
                 data.err_occur = true;
-                data.err_reasons.push(err_15);
-                console.error(err_15);
+                data.err_reasons.push(err_11);
+                console.error(err_11);
                 return [3 /*break*/, 5];
             case 5: return [2 /*return*/, data];
         }
     });
 }); };
-exports.submitStrategy = function (db, scouterin, matchin, compin, datain) { return __awaiter(_this, void 0, void 0, function () {
-    var data, dbo, myobj, err_16;
+exports.submitStrategy = function (db, scouterin, matchin, compin, datain) { return __awaiter(void 0, void 0, void 0, function () {
+    var data, dbo, myobj, err_12;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                data = {};
-                data.err_occur = false;
-                data.err_reasons = [];
+                data = { err_occur: false, err_reasons: [], data: {} };
                 dbo = db.db('strategies');
                 myobj = {
                     $set: {
@@ -587,23 +500,21 @@ exports.submitStrategy = function (db, scouterin, matchin, compin, datain) { ret
                 _a.sent();
                 return [3 /*break*/, 4];
             case 3:
-                err_16 = _a.sent();
+                err_12 = _a.sent();
                 data.err_occur = true;
-                data.err_reasons.push(err_16);
-                console.error(err_16);
+                data.err_reasons.push(err_12);
+                console.error(err_12);
                 return [3 /*break*/, 4];
             case 4: return [2 /*return*/, data];
         }
     });
 }); };
-exports.fetchStrategy = function (db, compIdIn, matchIdIn) { return __awaiter(_this, void 0, void 0, function () {
-    var data, dbo, myobj, _a, err_17;
+exports.fetchStrategy = function (db, compIdIn, matchIdIn) { return __awaiter(void 0, void 0, void 0, function () {
+    var data, dbo, myobj, _a, err_13;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
-                data = {};
-                data.err_occur = false;
-                data.err_reasons = [];
+                data = { err_occur: false, err_reasons: [], data: {} };
                 dbo = db.db('strategies');
                 myobj = { competition: String(compIdIn), match: String(matchIdIn) };
                 _b.label = 1;
@@ -615,23 +526,21 @@ exports.fetchStrategy = function (db, compIdIn, matchIdIn) { return __awaiter(_t
                 _a.data = _b.sent();
                 return [3 /*break*/, 4];
             case 3:
-                err_17 = _b.sent();
+                err_13 = _b.sent();
                 data.err_occur = true;
-                data.err_reasons.push(err_17);
-                console.error(err_17);
+                data.err_reasons.push(err_13);
+                console.error(err_13);
                 return [3 /*break*/, 4];
             case 4: return [2 /*return*/, data];
         }
     });
 }); };
-exports.getUserStrategy = function (db, compIdIn, matchIdIn, namein) { return __awaiter(_this, void 0, void 0, function () {
-    var data, dbo, myobj, _a, err_18;
+exports.getUserStrategy = function (db, compIdIn, matchIdIn, namein) { return __awaiter(void 0, void 0, void 0, function () {
+    var data, dbo, myobj, _a, err_14;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
-                data = {};
-                data.err_occur = false;
-                data.err_reasons = [];
+                data = { err_occur: false, err_reasons: [], data: {} };
                 dbo = db.db('strategies');
                 myobj = { competition: String(compIdIn), match: String(matchIdIn), scouter: String(namein) };
                 console.log(myobj);
@@ -645,23 +554,21 @@ exports.getUserStrategy = function (db, compIdIn, matchIdIn, namein) { return __
                 console.log(data.data);
                 return [3 /*break*/, 4];
             case 3:
-                err_18 = _b.sent();
+                err_14 = _b.sent();
                 data.err_occur = true;
-                data.err_reasons.push(err_18);
-                console.error(err_18);
+                data.err_reasons.push(err_14);
+                console.error(err_14);
                 return [3 /*break*/, 4];
             case 4: return [2 /*return*/, data];
         }
     });
 }); };
-exports.submitPitData = function (db, scouterin, competitionin, matchin, teamin, datain) { return __awaiter(_this, void 0, void 0, function () {
-    var data, dbo, myobj, err_19;
+exports.submitPitData = function (db, scouterin, competitionin, matchin, teamin, datain) { return __awaiter(void 0, void 0, void 0, function () {
+    var data, dbo, myobj, err_15;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                data = {};
-                data.err_occur = false;
-                data.err_reasons = [];
+                data = { err_occur: false, err_reasons: [], data: {} };
                 dbo = db.db('data_scouting');
                 myobj = {
                     $set: {
@@ -676,23 +583,21 @@ exports.submitPitData = function (db, scouterin, competitionin, matchin, teamin,
                 _a.sent();
                 return [3 /*break*/, 4];
             case 3:
-                err_19 = _a.sent();
+                err_15 = _a.sent();
                 data.err_occur = true;
-                data.err_reasons.push(err_19);
-                console.error(err_19);
+                data.err_reasons.push(err_15);
+                console.error(err_15);
                 return [3 /*break*/, 4];
             case 4: return [2 /*return*/, data];
         }
     });
 }); };
-exports.fetchPitData = function (db, compIdIn, matchNumberIn, teamScoutedIn) { return __awaiter(_this, void 0, void 0, function () {
-    var data, dbo, myobj, _a, err_20;
+exports.fetchPitData = function (db, compIdIn, matchNumberIn, teamScoutedIn) { return __awaiter(void 0, void 0, void 0, function () {
+    var data, dbo, myobj, _a, err_16;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
-                data = {};
-                data.err_occur = false;
-                data.err_reasons = [];
+                data = { err_occur: false, err_reasons: [], data: {} };
                 dbo = db.db('data_scouting');
                 myobj = { competition: String(compIdIn), match: parseInt(matchNumberIn, 10), team_scouted: parseInt(teamScoutedIn, 10) };
                 _b.label = 1;
@@ -704,10 +609,10 @@ exports.fetchPitData = function (db, compIdIn, matchNumberIn, teamScoutedIn) { r
                 _a.data = _b.sent();
                 return [3 /*break*/, 4];
             case 3:
-                err_20 = _b.sent();
+                err_16 = _b.sent();
                 data.err_occur = true;
-                data.err_reasons.push(err_20);
-                console.error(err_20);
+                data.err_reasons.push(err_16);
+                console.error(err_16);
                 return [3 /*break*/, 4];
             case 4: return [2 /*return*/, data];
         }

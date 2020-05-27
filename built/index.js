@@ -185,7 +185,7 @@ app.get('/api/checkUser', function (req, res) { return __awaiter(void 0, void 0,
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
-                val = {};
+                val = { data: {}, err_occur: false, err_reasons: [] };
                 _b.label = 1;
             case 1:
                 _b.trys.push([1, 3, , 4]);
@@ -380,7 +380,7 @@ app.get('/api/findTeamNickname', function (req, res) { return __awaiter(void 0, 
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                teamNumber = String(req.query.team_number);
+                teamNumber = req.query.team_number;
                 _a.label = 1;
             case 1:
                 _a.trys.push([1, 3, , 4]);
@@ -543,7 +543,7 @@ app.get('/api/fetchMatchData', function (req, res) { return __awaiter(void 0, vo
         }
     });
 }); });
-// app.get('/api/fetchShotChartData', async (req, res) => {
+// app.get('/api/fetchShotChartData', async (req: any, res:any) => {
 //   let val;
 //   const competitionID = String(req.body.competitionID);
 //   const matchNumber = parseInt(req.body.matchNumber, 10);
@@ -571,7 +571,7 @@ app.get('/api/fetchMatchData', function (req, res) { return __awaiter(void 0, vo
 //   }
 //   res.json(resobj);
 // });
-// app.post('/api/submitShotChartData', auth.checkAuth, async (req, res) => {
+// app.post('/api/submitShotChartData', auth.checkAuth, async (req: any, res:any) => {
 //   let val;
 //   const scouter = { name: String(res.locals.name), id: String(res.locals.id) };
 //   const competitionID = String(req.body.competitionID);
