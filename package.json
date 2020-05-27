@@ -9,11 +9,11 @@
   "private": false,
   "scripts": {
     "start": "ts-node-script src/index.ts",
-    "start:prod": "node built/index.js",
+    "start:prod": "npm run build && node built/index.js",
     "build": "tsc",
     "lint": "./node_modules/.bin/eslint",
     "test-lint": "./node_modules/.bin/eslint *.js",
-    "test": "nyc --reporter=text mocha --timeout 10000 --exit"
+    "test": "npm run build && nyc --reporter=text mocha --timeout 10000 --exit"
   },
   "dependencies": {
     "@babel/register": "^7.9.0",
