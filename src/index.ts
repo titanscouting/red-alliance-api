@@ -34,7 +34,7 @@ try {
  * to ensure the API is live.
  * @returns HTTP Status Code 200 OK
  */
-app.get('/', (req, res) => {
+app.get('/', (req: any, res:any) => {
   res.send('The Red Alliance API. Copyright 2020 Titan Scouting.');
   res.status(200);
 });
@@ -52,7 +52,7 @@ app.get('/', (req, res) => {
  * @returns back to the client resobj (success boolean, competition id, and match number)
  * and HTTP Status Code 200 OK.
  */
-app.post('/api/submitMatchData', auth.checkAuth, async (req, res) => {
+app.post('/api/submitMatchData', auth.checkAuth, async (req: any, res: any) => {
   let val;
   const scouter = { name: String(res.locals.name), id: String(res.locals.id) };
   const competitionID = String(req.body.competitionID);
@@ -92,7 +92,7 @@ app.post('/api/submitMatchData', auth.checkAuth, async (req, res) => {
  * @param competitionID is the identifier for the competition: e.g. '2020ilch'.
  * @returns back to the client resobj (competition, list of matches, andn number of scouters) and 200 OK.
  */
-app.get('/api/fetchMatches', async (req, res) => {
+app.get('/api/fetchMatches', async (req: any, res:any) => {
   let val;
   const competition = String(req.query.competition);
   try {
@@ -123,8 +123,8 @@ app.get('/api/fetchMatches', async (req, res) => {
  * @returns back to the client let resobj (name and Google ID of user) and HTTP Status Code 200 OK.
  */
 
-app.get('/api/checkUser', async (req, res) => {
-  const val = {};
+app.get('/api/checkUser', async (req: any, res:any) => {
+  const val = {data: {}, err_occur: false, err_reasons: []};
   try {
     val.data = await dbHandler.checkKey(req.db, req.query.CLIENT_ID, req.query.CLIENT_SECRET).catch((e) => { console.error(e); val.err_occur = true; });
   } catch (err) {
@@ -152,7 +152,7 @@ app.get('/api/checkUser', async (req, res) => {
  * @param matchNumber is the number of the match scouted: e.g. '1'.
  * @returns back to the client let resobj (competition id, match number, and reccoemendation) and HTTP Status Code 200 OK.
  */
-app.get('/api/fetchScouterSuggestions', async (req, res) => {
+app.get('/api/fetchScouterSuggestions', async (req: any, res:any) => {
   let val;
   const competition = String(req.query.competition);
   const matchNumber = parseInt(req.query.match_number, 10);
@@ -192,7 +192,7 @@ app.get('/api/fetchScouterSuggestions', async (req, res) => {
  * @param matchNumber is the number of the match scouted: e.g. '1'.
  * @returns back to the client let resobj (competition id, array containing scouter information, and corresponding index teams) and HTTP Status Code 200 OK.
  */
-app.get('/api/fetchScouterUIDs', async (req, res) => {
+app.get('/api/fetchScouterUIDs', async (req: any, res:any) => {
   let val;
   const competition = String(req.query.competition);
   const matchNumber = parseInt(req.query.match_number, 10);
@@ -233,7 +233,7 @@ app.get('/api/fetchScouterUIDs', async (req, res) => {
  * @param competition is the identifier for the competition: e.g. '2020ilch'.
  * @returns back to the client let resobj (competition id, JSON of the team number and nicknames) and HTTP Status Code 200 OK.
  */
-app.get('/api/fetchAllTeamNicknamesAtCompetition', async (req, res) => {
+app.get('/api/fetchAllTeamNicknamesAtCompetition', async (req: any, res:any) => {
   let val;
   const competition = String(req.query.competition);
   try {
@@ -263,9 +263,9 @@ app.get('/api/fetchAllTeamNicknamesAtCompetition', async (req, res) => {
  * @param teamNum is the FRC team number: e.g. '2022'.
  * @returns back to the client let resobj (team number and nickname) and HTTP Status Code 200 OK.
  */
-app.get('/api/findTeamNickname', async (req, res) => {
+app.get('/api/findTeamNickname', async (req: any, res:any) => {
   let val;
-  const teamNumber = String(req.query.team_number);
+  const teamNumber = req.query.team_number;
   try {
     val = await dbHandler.findTeamNickname(req.db, teamNumber).catch((e) => { console.error(e); val.err_occur = true; });
   } catch (e) {
@@ -293,7 +293,7 @@ app.get('/api/findTeamNickname', async (req, res) => {
  * @param competition is the Competition id: e.g. '2020ilch'.
  * @returns back to the client let resobj (competition and ) and HTTP Status Code 200 OK.
  */
-app.get('/api/fetchCompetitionSchedule', async (req, res) => {
+app.get('/api/fetchCompetitionSchedule', async (req: any, res:any) => {
   let val;
   const competition = String(req.query.competition);
   try {
@@ -317,7 +317,7 @@ app.get('/api/fetchCompetitionSchedule', async (req, res) => {
   }
   res.json(resobj);
 });
-app.get('/api/fetch2022Schedule', async (req, res) => {
+app.get('/api/fetch2022Schedule', async (req: any, res:any) => {
   let val;
   const competition = String(req.query.competition);
   try {
@@ -342,7 +342,7 @@ app.get('/api/fetch2022Schedule', async (req, res) => {
   res.json(resobj);
 });
 
-app.get('/api/fetchMatchData', async (req, res) => {
+app.get('/api/fetchMatchData', async (req: any, res:any) => {
   let val;
   const competitionID = String(req.query.competition);
   const matchNumber = parseInt(req.query.match_number, 10);
@@ -378,7 +378,7 @@ app.get('/api/fetchMatchData', async (req, res) => {
   res.json(resobj);
 });
 
-// app.get('/api/fetchShotChartData', async (req, res) => {
+// app.get('/api/fetchShotChartData', async (req: any, res:any) => {
 //   let val;
 //   const competitionID = String(req.body.competitionID);
 //   const matchNumber = parseInt(req.body.matchNumber, 10);
@@ -406,7 +406,7 @@ app.get('/api/fetchMatchData', async (req, res) => {
 //   }
 //   res.json(resobj);
 // });
-// app.post('/api/submitShotChartData', auth.checkAuth, async (req, res) => {
+// app.post('/api/submitShotChartData', auth.checkAuth, async (req: any, res:any) => {
 //   let val;
 //   const scouter = { name: String(res.locals.name), id: String(res.locals.id) };
 //   const competitionID = String(req.body.competitionID);
@@ -440,7 +440,7 @@ app.get('/api/fetchMatchData', async (req, res) => {
  * @param token in form of header with title 'token' and value of JWT provided by Google OAuth
  * @returns back to the client let resobj (success, client id, and client secret generated) and HTTP Status Code 200 OK.
  */
-app.post('/api/addAPIKey', auth.noAPIKey, auth.checkAuth, async (req, res) => {
+app.post('/api/addAPIKey', auth.noAPIKey, auth.checkAuth, async (req: any, res:any) => {
   let val;
   const clientInfo = await uuidAPIKey.create();
   try {
@@ -465,7 +465,7 @@ app.post('/api/addAPIKey', auth.noAPIKey, auth.checkAuth, async (req, res) => {
   res.json(resobj);
 });
 
-app.post('/api/addScouterToMatch', auth.checkAuth, async (req, res) => {
+app.post('/api/addScouterToMatch', auth.checkAuth, async (req: any, res:any) => {
   let val;
   const match = String(req.body.match);
   const user = parseInt(res.locals.id, 10);
@@ -491,7 +491,7 @@ app.post('/api/addScouterToMatch', auth.checkAuth, async (req, res) => {
   res.json(resobj);
 });
 
-app.post('/api/removeScouterFromMatch', auth.checkAuth, async (req, res) => {
+app.post('/api/removeScouterFromMatch', auth.checkAuth, async (req: any, res:any) => {
   let val;
   const match = String(req.body.match);
   const user = parseInt(res.locals.id, 10);
@@ -516,7 +516,7 @@ app.post('/api/removeScouterFromMatch', auth.checkAuth, async (req, res) => {
   res.json(resobj);
 });
 
-app.post('/api/submitStrategy', auth.checkAuth, async (req, res) => {
+app.post('/api/submitStrategy', auth.checkAuth, async (req: any, res:any) => {
   let val;
   const scouter = String(res.locals.name);
   const comp = String(req.body.competition);
@@ -554,7 +554,7 @@ app.post('/api/submitStrategy', auth.checkAuth, async (req, res) => {
   res.json(resobj);
 });
 
-app.get('/api/fetchStrategy', async (req, res) => {
+app.get('/api/fetchStrategy', async (req: any, res:any) => {
   let val;
   const comp = String(req.query.competition);
   const match = String(req.query.match);
@@ -587,7 +587,7 @@ app.get('/api/fetchStrategy', async (req, res) => {
   res.json(resobj);
 });
 
-app.get('/api/getUserStrategy', auth.checkAuth, async (req, res) => {
+app.get('/api/getUserStrategy', auth.checkAuth, async (req: any, res:any) => {
   let val;
   const comp = String(req.query.competition);
   const match = String(req.query.match_number);
@@ -621,11 +621,11 @@ app.get('/api/getUserStrategy', auth.checkAuth, async (req, res) => {
 });
 
 // Privacy Policy
-app.get('/privacy-policy', (req, res) => {
+app.get('/privacy-policy', (req: any, res:any) => {
   res.redirect('https://drive.google.com/a/imsa.edu/file/d/11_cAuaerCrQ3BBXNx_G_zw1ZyGaTWx0z/view?usp=sharing');
 });
 
-app.get('/api/fetchMatchConfig', async (req, res) => {
+app.get('/api/fetchMatchConfig', async (req: any, res:any) => {
   const response = [
     {
       Auto: [
@@ -736,7 +736,7 @@ app.get('/api/fetchMatchConfig', async (req, res) => {
   res.json(response);
 });
 
-app.get('/api/fetchPitConfig', async (req, res) => {
+app.get('/api/fetchPitConfig', async (req: any, res:any) => {
   const response = [
     {
       Pit: [
@@ -805,7 +805,7 @@ app.get('/api/fetchPitConfig', async (req, res) => {
   res.json(response);
 });
 
-app.post('/api/submitPitData', auth.checkAuth, async (req, res) => {
+app.post('/api/submitPitData', auth.checkAuth, async (req: any, res:any) => {
   let val;
   const scouter = { name: String(res.locals.name), id: String(res.locals.id) };
   const competitionID = String(req.body.competitionID);
@@ -835,7 +835,7 @@ app.post('/api/submitPitData', auth.checkAuth, async (req, res) => {
   res.json(resobj);
 });
 
-app.get('/api/fetchPitData', async (req, res) => {
+app.get('/api/fetchPitData', async (req: any, res:any) => {
   let val;
   const competitionID = String(req.query.competition);
   const matchNumber = parseInt(req.query.match_number, 10);

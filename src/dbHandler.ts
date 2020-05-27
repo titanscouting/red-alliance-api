@@ -1,5 +1,5 @@
 // Not implemented in this year's version of the API.
-// exports.addUserToTeam = (db, idin, namein, teamin) => {
+// export const addUserToTeam = (db, idin, namein, teamin) => {
 //     idin = String(idin)
 //     var dbo = db.db("userlist");
 //     var myobj = { "$set": {_id: idin, id: idin, name: namein, team: teamin}};
@@ -12,7 +12,9 @@
 //     });
 // }
 
-// exports.getCompetitions = async (db, idin) => {
+import { stringify } from "querystring";
+
+// export const getCompetitions = async (db, idin) => {
 //     let rval;
 //     idin = String(idin)
 //     // Get the competitions for a team member. Currently, one user can only be part of one team.
@@ -25,10 +27,8 @@
 // const globalCompetition = '2020ilch';
 const bcrypt = require('bcrypt');
 
-exports.addKey = async (db, clientID, clientKey) => {
-  const data = {};
-  data.err_occur = false;
-  data.err_reasons = [];
+export const addKey = async (db, clientID, clientKey) => {
+  const data = {err_occur: false, err_reasons: [], data: {}}
   const dbo = db.db('userlist');
   const hashedClientKey = bcrypt.hashSync(clientKey, 12);
   const myobj = {
@@ -46,19 +46,11 @@ exports.addKey = async (db, clientID, clientKey) => {
   return data;
 };
 
-exports.checkKey = async (db, clientID, clientKey) => {
-  const data = {};
-  data.err_occur = false;
-  data.err_reasons = [];
+export const checkKey = async (db, clientID: string, clientKey: string) => {
+  const data = {err_occur: false, err_reasons: [], data: {hashedClientKey: undefined}}
   const dbo = db.db('userlist');
   const myobj = { clientID };
-  try {
-    data.data = await dbo.collection('api_keys').findOne(myobj).catch((e) => { console.error(e); data.err_occur = true; throw new Error('Database error'); });
-  } catch (err) {
-    data.err_occur = true;
-    data.err_reasons.push(err);
-    console.error(err);
-  }
+  data.data = dbo.collection('api_keys').findOne(myobj).catch((e) => { console.error(e); data.err_occur = true; throw new Error('Database error'); });
   if (data.data == null) {
     data.data = { hashedClientKey: 'obvsnotrightlfojdslf2e980' };
   }
@@ -66,30 +58,16 @@ exports.checkKey = async (db, clientID, clientKey) => {
   return isAuthorized;
 };
 
-exports.submitMatchData = async (db, scouter, competition, match, team_scouted, matchdata) => {
-  const data = {};
-  data.err_occur = false;
-  data.err_reasons = [];
+export const submitMatchData = async (db: any, scouter: object, competition: string, match: number, team_scouted: number, matchdata: object) => {
+  const data = {err_occur: false, err_reasons: [], data: {}}
   const dbo = db.db('data_scouting');
-  const myobj = {
-    $set: {
-      scouter, competition, match, team_scouted, data: matchdata,
-    },
-  };
-  try {
-    await dbo.collection('matchdata').updateOne({ _id: competition + match + team_scouted }, myobj, { upsert: true }).catch((e) => { console.error(e); data.err_occur = true; });
-  } catch (err) {
-    data.err_occur = true;
-    data.err_reasons.push(err);
-    console.error(err);
-  }
+  const myobj = { $set: { scouter, competition, match, team_scouted, data: matchdata, } };
+  dbo.collection('matchdata').updateOne({ _id: competition + match + team_scouted }, myobj, { upsert: true }).catch((e) => { console.error(e); data.err_occur = true; data.err_reasons.push});
   return data;
 };
 
-exports.submitShotChartData = async (db, scouter, competition, match, team_scouted, datain) => {
-  const data = {};
-  data.err_occur = false;
-  data.err_reasons = [];
+export const submitShotChartData = async (db, scouter, competition, match, team_scouted, datain) => {
+  const data = {err_occur: false, err_reasons: [], data: {}};
   const dbo = db.db('data_scouting');
   const myobj = {
     $set: {
@@ -106,16 +84,13 @@ exports.submitShotChartData = async (db, scouter, competition, match, team_scout
   return data;
 };
 
-exports.fetchMatchesForCompetition = async (db, compIdIn1) => {
-  const data = {};
-  data.err_occur = false;
-  data.err_reason = [];
+export const fetchMatchesForCompetition = async (db, compIdIn1) => {
+  const data = {err_occur: false, err_reasons: [], data: {competition: undefined, data: undefined}}
   const compIdIn = String(compIdIn1);
   const dbo = db.db('data_scouting');
   const myobj = { competition: String(compIdIn) };
   let interim = null;
   try {
-    data.data = [];
     interim = await dbo.collection('matches').find(myobj).toArray();
     data.data.competition = String(compIdIn);
     data.data.data = [];
@@ -136,10 +111,9 @@ exports.fetchMatchesForCompetition = async (db, compIdIn1) => {
 };
 
 
-exports.getNumberScouts = async (db, compIdIn1) => {
-  const data = {};
-  data.err_occur = false;
-  data.err_reasons = [];
+export const getNumberScouts = async (db, compIdIn1) => {
+  const data = {err_occur: false, err_reasons: [], data: {}}
+
   const compIdIn = String(compIdIn1);
   const dbo = db.db('data_scouting');
   const myobj = { competition: String(compIdIn) };
@@ -155,45 +129,30 @@ exports.getNumberScouts = async (db, compIdIn1) => {
   return data;
 };
 
-
-exports.fetchAllTeamNicknamesAtCompetition = async (db, compIdIn1) => {
-  const data = {};
-  data.err_occur = false;
-  data.err_reason = [];
-  const compIdIn = String(compIdIn1);
+export const fetchAllTeamNicknamesAtCompetition = async (db, compIdIn: string) => {
+  const data = {err_occur: false, err_reasons: [], data: {}}
   const dbo = db.db('data_scouting');
   const myobj = { competition: String(compIdIn) };
-  try {
-    data.data = await dbo.collection('teamlist').findOne(myobj).catch((e) => { console.error(e); data.err_occur = true; });
-  } catch (err) {
-    data.err_occur = true;
-    data.err_reasons.push(err);
-    console.error(err);
-  }
+  data.data = await dbo.collection('teamlist').findOne(myobj).catch((e) => { console.error(e); data.err_occur = true; data.err_reasons.push(e)});
   return data;
 };
 
-exports.findTeamNickname = async (db, teamNumber) => {
-  const data = {};
-  data.err_occur = false;
-  data.err_reason = [];
+export const findTeamNickname = async (db, teamNumber: number) => {
+  const data = {err_occur: false, err_reasons: [], data: {}}
   const dbo = db.db('data_scouting');
   const myobj = {};
-  try {
-    const teamlist = await dbo.collection('teamlist').findOne(myobj).catch((e) => { console.error(e); data.err_occur = true; });
-    data.data = teamlist[teamNumber];
-  } catch (err) {
-    data.err_occur = true;
-    data.err_reasons.push(err);
-    console.error(err);
-  }
+  await dbo.collection('teamlist').findOne(myobj).then((value: any) => {
+    data.data = value.teamNumber
+  }).catch((e: string) => { 
+    data.err_occur = true
+    data.err_reasons.push(e)
+  });
   return data;
 };
 
-exports.fetchMatchData = async (db, compIdIn, matchNumberIn, teamScoutedIn) => {
-  const data = {};
-  data.err_occur = false;
-  data.err_reasons = [];
+export const fetchMatchData = async (db, compIdIn, matchNumberIn, teamScoutedIn) => {
+  const data = {err_occur: false, err_reasons: [], data: {}}
+
   const dbo = db.db('data_scouting');
   // var myobj = {_id: compIdIn + teamScoutedIn + matchNumberIn};
   const myobj = { competition: String(compIdIn), match: parseInt(matchNumberIn, 10), team_scouted: parseInt(teamScoutedIn, 10) };
@@ -207,10 +166,9 @@ exports.fetchMatchData = async (db, compIdIn, matchNumberIn, teamScoutedIn) => {
   return data;
 };
 
-exports.fetchCompetitionSchedule = async (db, compIdIn) => {
-  const data = {};
-  data.err_occur = false;
-  data.err_reasons = [];
+export const fetchCompetitionSchedule = async (db, compIdIn) => {
+  const data = {err_occur: false, err_reasons: [], data: {}}
+
   const dbo = db.db('data_scouting');
   const passin = { competition: String(compIdIn) };
   try {
@@ -223,10 +181,9 @@ exports.fetchCompetitionSchedule = async (db, compIdIn) => {
   return data;
 };
 
-exports.fetch2022Schedule = async (db, compIdIn) => {
-  const data = {};
-  data.err_occur = false;
-  data.err_reasons = [];
+export const fetch2022Schedule = async (db, compIdIn) => {
+  const data = {err_occur: false, err_reasons: [], data: {}}
+
   const dbo = db.db('data_scouting');
   const myobj = { teams: { $all: ['2022'] }, competition: String(compIdIn) };
   try {
@@ -239,10 +196,9 @@ exports.fetch2022Schedule = async (db, compIdIn) => {
   return data;
 };
 
-exports.fetchShotChartData = async (db, compIdIn, matchNumberIn, teamScoutedIn) => {
-  const data = {};
-  data.err_occur = false;
-  data.err_reasons = [];
+export const fetchShotChartData = async (db, compIdIn, matchNumberIn, teamScoutedIn) => {
+  const data = {err_occur: false, err_reasons: [], data: {}}
+
   const dbo = db.db('data_scouting');
   // var myobj = {_id: compIdIn + teamScoutedIn + matchNumberIn};
   const myobj = { competition: String(compIdIn), match: parseInt(matchNumberIn, 10), team_scouted: parseInt(teamScoutedIn, 10) };
@@ -255,10 +211,9 @@ exports.fetchShotChartData = async (db, compIdIn, matchNumberIn, teamScoutedIn) 
   }
   return data;
 };
-exports.fetchScouterSuggestions = async (db, compIdIn, matchNumberIn) => {
-  const data = {};
-  data.err_occur = false;
-  data.err_reasons = [];
+export const fetchScouterSuggestions = async (db, compIdIn, matchNumberIn) => {
+  const data = {err_occur: false, err_reasons: [], data: {}}
+
   const dbo = db.db('data_scouting');
   const myobj = { competition: String(compIdIn), match: parseInt(matchNumberIn, 10) };
   try {
@@ -278,10 +233,8 @@ exports.fetchScouterSuggestions = async (db, compIdIn, matchNumberIn) => {
   return data;
 };
 
-exports.fetchScouterUIDs = async (db, competition, matchNumberIn) => {
-  const data = {};
-  data.err_occur = false;
-  data.err_reason = [];
+export const fetchScouterUIDs = async (db, competition, matchNumberIn) => {
+  const data = {err_occur: false, err_reasons: [], data: {}, scouters: 0, teams: []}
   const dbo = db.db('data_scouting');
   const myobj = { competition, match: parseInt(matchNumberIn, 10) };
   try {
@@ -296,10 +249,8 @@ exports.fetchScouterUIDs = async (db, competition, matchNumberIn) => {
   return data;
 };
 
-exports.addScouterToMatch = async (db, userin, namein, matchin, teamScouted) => {
-  const data = {};
-  data.err_occur = false;
-  data.err_reasons = [];
+export const addScouterToMatch = async (db, userin, namein, matchin, teamScouted) => {
+  const data = {err_occur: false, err_reasons: [], data: {}}
   const dbo = db.db('data_scouting');
   const myobj = { match: parseInt(matchin, 10) };
   try {
@@ -320,10 +271,9 @@ exports.addScouterToMatch = async (db, userin, namein, matchin, teamScouted) => 
   return data;
 };
 
-exports.removeScouterFromMatch = async (db, userin, matchin, teamScouted) => {
-  const data = {};
-  data.err_occur = false;
-  data.err_reasons = [];
+export const removeScouterFromMatch = async (db, userin, matchin, teamScouted) => {
+  const data = {err_occur: false, err_reasons: [], data: {}}
+
   const dbo = db.db('data_scouting');
   const myobj = { match: parseInt(matchin, 10) };
   try {
@@ -345,10 +295,9 @@ exports.removeScouterFromMatch = async (db, userin, matchin, teamScouted) => {
 };
 
 
-exports.submitStrategy = async (db, scouterin, matchin, compin, datain) => {
-  const data = {};
-  data.err_occur = false;
-  data.err_reasons = [];
+export const submitStrategy = async (db, scouterin, matchin, compin, datain) => {
+  const data = {err_occur: false, err_reasons: [], data: {}}
+
   const dbo = db.db('strategies');
   const myobj = {
     $set: {
@@ -365,10 +314,9 @@ exports.submitStrategy = async (db, scouterin, matchin, compin, datain) => {
   return data;
 };
 
-exports.fetchStrategy = async (db, compIdIn, matchIdIn) => {
-  const data = {};
-  data.err_occur = false;
-  data.err_reasons = [];
+export const fetchStrategy = async (db, compIdIn, matchIdIn) => {
+  const data = {err_occur: false, err_reasons: [], data: {}}
+
   const dbo = db.db('strategies');
   const myobj = { competition: String(compIdIn), match: String(matchIdIn) };
   try {
@@ -381,10 +329,9 @@ exports.fetchStrategy = async (db, compIdIn, matchIdIn) => {
   return data;
 };
 
-exports.getUserStrategy = async (db, compIdIn, matchIdIn, namein) => {
-  const data = {};
-  data.err_occur = false;
-  data.err_reasons = [];
+export const getUserStrategy = async (db, compIdIn, matchIdIn, namein) => {
+  const data = {err_occur: false, err_reasons: [], data: {}}
+
   const dbo = db.db('strategies');
   const myobj = { competition: String(compIdIn), match: String(matchIdIn), scouter: String(namein) };
   console.log(myobj);
@@ -399,10 +346,9 @@ exports.getUserStrategy = async (db, compIdIn, matchIdIn, namein) => {
   return data;
 };
 
-exports.submitPitData = async (db, scouterin, competitionin, matchin, teamin, datain) => {
-  const data = {};
-  data.err_occur = false;
-  data.err_reasons = [];
+export const submitPitData = async (db, scouterin, competitionin, matchin, teamin, datain) => {
+  const data = {err_occur: false, err_reasons: [], data: {}}
+
   const dbo = db.db('data_scouting');
   const myobj = {
     $set: {
@@ -419,10 +365,9 @@ exports.submitPitData = async (db, scouterin, competitionin, matchin, teamin, da
   return data;
 };
 
-exports.fetchPitData = async (db, compIdIn, matchNumberIn, teamScoutedIn) => {
-  const data = {};
-  data.err_occur = false;
-  data.err_reasons = [];
+export const fetchPitData = async (db, compIdIn, matchNumberIn, teamScoutedIn) => {
+  const data = {err_occur: false, err_reasons: [], data: {}}
+
   const dbo = db.db('data_scouting');
   // var myobj = {_id: compIdIn + teamScoutedIn + matchNumberIn};
   const myobj = { competition: String(compIdIn), match: parseInt(matchNumberIn, 10), team_scouted: parseInt(teamScoutedIn, 10) };
