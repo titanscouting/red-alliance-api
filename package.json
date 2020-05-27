@@ -8,7 +8,7 @@
   "license": "BSD-3-Clause",
   "private": false,
   "scripts": {
-    "start": "ts-node src/index.ts",
+    "start": "ts-node-script src/index.ts",
     "start:prod": "node built/index.js",
     "build": "tsc",
     "lint": "./node_modules/.bin/eslint",

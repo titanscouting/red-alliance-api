@@ -35,24 +35,27 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-var express = require("express");
-var bodyParser = require("body-parser");
-var expressMongoDb = require("express-mongo-db");
-var uuidAPIKey = require("uuid-apikey");
-var dbHandler = require("./dbHandler.js");
-var auth = require("./authHandler.js");
+var express_1 = __importDefault(require("express"));
+var body_parser_1 = __importDefault(require("body-parser"));
+var express_mongo_db_1 = __importDefault(require("express-mongo-db"));
+var uuid_apikey_1 = __importDefault(require("uuid-apikey"));
+var dbHandler = require("./dbHandler");
+var auth = require("./authHandler");
 var port = process.env.PORT || 8190;
-var app = express();
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+var app = express_1.default();
+app.use(body_parser_1.default.json());
+app.use(body_parser_1.default.urlencoded({ extended: true }));
 var options = {
     keepAlive: 1, connectTimeoutMS: 30000,
 };
 // Make sure to set the connection string as an environment variable
 // e.g export REDALLIANCEDBKEY='fjsldjfksldfjaklfjsdalkfd'
 try {
-    app.use(expressMongoDb(process.env.REDALLIANCEDBKEY, options));
+    app.use(express_mongo_db_1.default(process.env.REDALLIANCEDBKEY, options));
 }
 catch (e) {
     console.log('Could not connect to the MongoDB instance');
@@ -609,7 +612,7 @@ app.post('/api/addAPIKey', auth.noAPIKey, auth.checkAuth, function (req, res) { 
     var val, clientInfo, err_6, resobj;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, uuidAPIKey.create()];
+            case 0: return [4 /*yield*/, uuid_apikey_1.default.create()];
             case 1:
                 clientInfo = _a.sent();
                 _a.label = 2;
