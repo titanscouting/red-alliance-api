@@ -1,9 +1,9 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const expressMongoDb = require('express-mongo-db');
-const uuidAPIKey = require('uuid-apikey');
-const dbHandler = require('./dbHandler.js');
-const auth = require('./authHandler.js');
+import express = require('express');
+import bodyParser = require('body-parser');
+import expressMongoDb = require('express-mongo-db');
+import uuidAPIKey = require('uuid-apikey');
+import dbHandler = require('./dbHandler.js');
+import auth = require('./authHandler.js');
 
 const port = process.env.PORT || 8190;
 

@@ -8,7 +8,7 @@
   "license": "BSD-3-Clause",
   "private": false,
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "ts-node src/index.ts",
     "start:prod": "node index.js",
     "lint": "./node_modules/.bin/eslint",
     "test-lint": "./node_modules/.bin/eslint *.js",
@@ -17,6 +17,7 @@
   "dependencies": {
     "@babel/register": "^7.9.0",
     "@istanbuljs/nyc-config-babel": "^3.0.0",
+    "@types/node": "^14.0.5",
     "bcrypt": "^3.0.7",
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
@@ -27,6 +28,8 @@
     "jwks-rsa": "^1.6.0",
     "mongodb": "^3.5.2",
     "nodemon": "^2.0.2",
+    "ts-node": "^8.10.1",
+    "typescript": "^3.9.3",
     "uuid": "^7.0.1",
     "uuid-apikey": "^1.4.6",
     "validator": "^12.0.0"
