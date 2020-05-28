@@ -388,7 +388,7 @@ exports.fetchScouterUIDs = function (db, competition, matchNumberIn) { return __
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                data = { err_occur: false, err_reasons: [], data: {}, scouters: 0, teams: [] };
+                data = { err_occur: false, err_reasons: [], data: {}, scouters: undefined, teams: undefined };
                 dbo = db.db('data_scouting');
                 myobj = { competition: competition, match: parseInt(matchNumberIn, 10) };
                 _a.label = 1;

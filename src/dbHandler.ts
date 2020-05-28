@@ -234,7 +234,7 @@ export const fetchScouterSuggestions = async (db, compIdIn, matchNumberIn) => {
 };
 
 export const fetchScouterUIDs = async (db, competition, matchNumberIn) => {
-  const data = {err_occur: false, err_reasons: [], data: {}, scouters: 0, teams: []}
+  const data = {err_occur: false, err_reasons: [], data: {}, scouters: undefined, teams: undefined}
   const dbo = db.db('data_scouting');
   const myobj = { competition, match: parseInt(matchNumberIn, 10) };
   try {
@@ -251,6 +251,7 @@ export const fetchScouterUIDs = async (db, competition, matchNumberIn) => {
 
 export const addScouterToMatch = async (db, userin, namein, matchin, teamScouted) => {
   const data = {err_occur: false, err_reasons: [], data: {}}
+
   const dbo = db.db('data_scouting');
   const myobj = { match: parseInt(matchin, 10) };
   try {
