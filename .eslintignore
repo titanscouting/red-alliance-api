@@ -1,0 +1,4 @@
+# We don't care about the tests
+test/*
+# TypeScript compilation may have own lint issues
+built/*
