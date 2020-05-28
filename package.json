@@ -13,7 +13,21 @@
     "build": "tsc",
     "lint": "./node_modules/.bin/eslint",
     "test-lint": "./node_modules/.bin/eslint *.js",
-    "test": "npm run build && nyc --reporter=text mocha --timeout 10000 --exit"
+    "test": "nyc mocha -r ts-node/register --timeout 10000 --exit"
+  },
+  "nyc": {
+    "extension": [
+      ".ts",
+      ".tsx"
+    ],
+    "exclude": [
+      "test/**.js",
+      "src/**.ts"
+    ],
+    "reporter": [
+      "html"
+    ],
+    "all": true  
   },
   "dependencies": {
     "@babel/register": "^7.9.0",
@@ -30,13 +44,13 @@
     "jwks-rsa": "^1.6.0",
     "mongodb": "^3.5.2",
     "nodemon": "^2.0.2",
-    "ts-node": "^8.10.1",
     "typescript": "^3.9.3",
     "uuid": "^7.0.1",
     "uuid-apikey": "^1.4.6",
     "validator": "^12.0.0"
   },
   "devDependencies": {
+    "@istanbuljs/nyc-config-typescript": "^1.0.1",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
     "eslint": "^6.8.0",
@@ -48,6 +62,8 @@
     "minimist": ">=1.2.3",
     "mocha": "^7.1.2",
     "nyc": "^15.0.1",
+    "source-map-support": "^0.5.19",
+    "ts-node": "^8.10.1",
     "validator": "^12.0.0"
   }
 }
