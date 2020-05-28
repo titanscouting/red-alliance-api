@@ -37,8 +37,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.noAPIKey = exports.checkAuth = void 0;
-var OAuth2Client = require('google-auth-library');
-var dbHandler_1 = require("./dbHandler");
+var OAuth2Client = require('google-auth-library').OAuth2Client;
+var dbHandler = require('./dbHandler.js');
 var CLIENT_ID = '291863698243-obu2fpbfpr7ul9db9lm7rmc1e4r3oeag.apps.googleusercontent.com';
 var client = new OAuth2Client(CLIENT_ID);
 exports.checkAuth = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
@@ -48,7 +48,7 @@ exports.checkAuth = function (req, res, next) { return __awaiter(void 0, void 0,
             case 0:
                 extUsers = ['Jon Abend', 'Robyn Abend', 'Dev Singh', 'Jacob Levine', 'Arthur Lu', 'Ian Fowler'];
                 if (!req.query.CLIENT_ID) return [3 /*break*/, 2];
-                return [4 /*yield*/, dbHandler_1.checkKey(req.db, req.query.CLIENT_ID, req.query.CLIENT_SECRET)];
+                return [4 /*yield*/, dbHandler.checkKey(req.db, req.query.CLIENT_ID, req.query.CLIENT_SECRET)];
             case 1:
                 isAuthorized = _a.sent();
                 if (isAuthorized) {
