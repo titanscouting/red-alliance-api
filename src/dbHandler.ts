@@ -118,7 +118,7 @@ export const getNumberScouts = async (db, compIdIn1) => {
   let inval;
   try {
     data.data = await dbo.collection('schedule').findOne(myobj).catch((data: any) => {
-      inval = data.data.reduce((partialSum, a) => partialSum + a, 0);
+      inval = data.data.reduce((partialSum: number, a: number) => partialSum + a, 0);
     })
   } catch (e) {
     data.err_occur = true;
