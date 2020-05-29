@@ -22,10 +22,6 @@ try {
   console.log('Could not connect to the MongoDB instance');
 }
 
-require('./routes/base')(app);
-require('./routes/fetchMatches')(app, dbHandler);
-require('./routes/submitMatchData')(app, dbHandler, auth);
-
 /**
  * NOTE TO DEVELOPERS: the `auth.checkAuth` statement is simply middleware which contacts
  * authHandler.js to ensure that the user has a valid authentication token.
@@ -33,112 +29,14 @@ require('./routes/submitMatchData')(app, dbHandler, auth);
  * (routes which require authentication) will be referred to as @param token.
 */
 
-/**
- * GET route '/api/checkUser'
- * Allows the application to fetch the list of matches and the number of scouters for the match.
- * @param token is the token obtained from Google OAuth and the JWT.
- * @returns back to the client let resobj (name and Google ID of user) and HTTP Status Code 200 OK.
- */
+require('./routes/base')(app);
+require('./routes/fetchMatches')(app, dbHandler);
+require('./routes/submitMatchData')(app, dbHandler, auth);
+require('./routes/checkUser')(app, dbHandler, auth);
+require('./routes/fetchScouterSuggestions')(app, dbHandler);
+require('./routes/fetchScouterUIDs')(app, dbHandler);
 
-app.get('/api/checkUser', async (req: any, res:any) => {
-  const val = {data: undefined, err_occur: false, err_reasons: []};
-  val.data = await dbHandler.checkKey(req.db, req.query.CLIENT_ID, req.query.CLIENT_SECRET).catch((e) => { console.error(e); val.err_reasons.push(e); val.err_occur = true; });
-  let resobj = null;
-  if (!val.err_occur) {
-    resobj = {
-      success: true,
-      isAuth: val.data,
-    };
-  } else {
-    resobj = {
-      success: false,
-      reasons: val.err_reasons,
-    };
-  }
-  res.json(resobj);
-});
-/**
- * GET route '/api/fetchScouterSuggestions'
- * Allows the application to fetch the suggestions that a scouter made for a match (presumably one that Titan Robotics is part of, or else why would they make suggestions?).
- * @param competition is the identifier for the competition: e.g. '2020ilch'.
- * @param matchNumber is the number of the match scouted: e.g. '1'.
- * @returns back to the client let resobj (competition id, match number, and reccoemendation) and HTTP Status Code 200 OK.
- */
-app.get('/api/fetchScouterSuggestions', async (req: any, res:any) => {
-  let val;
-  const competition = String(req.query.competition);
-  const matchNumber = parseInt(req.query.match_number, 10);
 
-  try {
-    val = await dbHandler.fetchScouterSuggestions(req.db, competition, matchNumber).catch((e) => { console.error(e); val.err_occur = true; });
-  } catch (err) {
-    console.error(err);
-    val.err_occur = true;
-  }
-  let dataInterim;
-  try {
-    dataInterim = val.data;
-  } catch (e) {
-    val.err_occur = true;
-  }
-  let resobj = null;
-  if (val.err_occur === false) {
-    resobj = {
-      success: true,
-      competition,
-      matchNumber,
-      data: dataInterim,
-    };
-  } else {
-    resobj = {
-      success: false,
-      reasons: val.err_reasons,
-    };
-  }
-  res.json(resobj);
-});
-/**
- * GET route '/api/fetchScouterUIDs'
- * Allows the application to fetch which users are scouting a given match.
- * @param competition is the identifier for the competition: e.g. '2020ilch'.
- * @param matchNumber is the number of the match scouted: e.g. '1'.
- * @returns back to the client let resobj (competition id, array containing scouter information, and corresponding index teams) and HTTP Status Code 200 OK.
- */
-app.get('/api/fetchScouterUIDs', async (req: any, res:any) => {
-  let val;
-  const competition = String(req.query.competition);
-  const matchNumber = parseInt(req.query.match_number, 10);
-  try {
-    val = await dbHandler.fetchScouterUIDs(req.db, competition, matchNumber).catch((e) => { console.error(e); val.err_occur = true; });
-  } catch (e) {
-    console.error(e);
-    val.err_occur = true;
-  }
-  // the try...catch is the next few lines serves to ensure the application doesn't just crash if scouters or teams were not returned by the DB handler.
-  let scoutersInterim;
-  let teamsInterim;
-  try {
-    scoutersInterim = val.scouters;
-    teamsInterim = val.teams;
-  } catch (e) {
-    val.err_occur = true;
-  }
-  let resobj = null;
-  if (val.err_occur === false) {
-    resobj = {
-      success: true,
-      competition,
-      scouters: scoutersInterim,
-      teams: teamsInterim,
-    };
-  } else {
-    resobj = {
-      success: false,
-      reasons: val.err_reasons,
-    };
-  }
-  res.json(resobj);
-});
 /**
  * GET route '/api/fetchAllTeamNicknamesAtCompetition'
  * Allows the application to fetch the nicknames for all the teams which are at a competition. (For example, Team 2022 = Titan Robotics)
