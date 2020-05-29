@@ -1,26 +1,22 @@
 import express from 'express'
 import bodyParser from 'body-parser'
 import expressMongoDb from 'express-mongo-db'
-import uuidAPIKey from 'uuid-apikey'
 import dbHandler = require('./dbHandler');
 import auth = require('./authHandler');
-import UserReturnData from './routes/UserReturnData'
 
 const port = process.env.PORT || 8190;
 
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-const options = {
-  keepAlive: 1, connectTimeoutMS: 30000,
-};
 
 // Make sure to set the connection string as an environment variable
 // e.g export REDALLIANCEDBKEY='fjsldjfksldfjaklfjsdalkfd'
 try {
-  app.use(expressMongoDb(process.env.REDALLIANCEDBKEY, options));
+  app.use(expressMongoDb(process.env.REDALLIANCEDBKEY, { keepAlive: 1, connectTimeoutMS: 30000 }));
 } catch (e) {
   console.log('Could not connect to the MongoDB instance');
+  process.exit(1)
 }
 
 /**
@@ -43,75 +39,10 @@ require('./routes/fetchAllTeamNicknamesAtCompetition')(app, dbHandler);
 require('./routes/fetchMatchConfig')(app);
 require('./routes/fetchCompetitionSchedule')(app, dbHandler);
 require('./routes/fetch2022Schedule')(app, dbHandler);
+require('./routes/fetchMatchData')(app, dbHandler);
+require('./routes/addAPIKey')(app, dbHandler, auth);
 
 
-app.get('/api/fetchMatchData', async (req: any, res:any) => {
-  let val;
-  const competitionID = String(req.query.competition);
-  const matchNumber = parseInt(req.query.match_number, 10);
-  const teamScouted = parseInt(req.query.team_scouted, 10);
-  try {
-    val = await dbHandler.fetchMatchData(req.db, competitionID, matchNumber, teamScouted).catch((e) => { console.error(e); val.err_occur = true; });
-  } catch (err) {
-    console.error(err);
-    val.err_occur = true;
-  }
-  // the try...catch is the next few lines serves to ensure the application doesn't just crash if scouters or teams were not returned by the DB handler.
-  let dataInterim;
-  try {
-    dataInterim = val.data.data;
-  } catch (e) {
-    val.err_occur = true;
-  }
-  let resobj = null;
-  if (val.err_occur === false) {
-    resobj = {
-      success: true,
-      competition: competitionID,
-      matchNumber,
-      teamScouted,
-      data: dataInterim,
-    };
-  } else {
-    resobj = {
-      success: false,
-      reasons: val.err_reasons,
-    };
-  }
-  res.json(resobj);
-});
-
-
-/**
- * POST route '/api/addAPIKey'
- * Allows the creation of API keys from current OAuth users.
- * @param token in form of header with title 'token' and value of JWT provided by Google OAuth
- * @returns back to the client let resobj (success, client id, and client secret generated) and HTTP Status Code 200 OK.
- */
-app.post('/api/addAPIKey', auth.noAPIKey, auth.checkAuth, async (req: any, res:any) => {
-  let val;
-  const clientInfo = await uuidAPIKey.create();
-  try {
-    val = await dbHandler.addKey(req.db, clientInfo.uuid, clientInfo.apiKey).catch((e) => { console.error(e); val.err_occur = true; });
-  } catch (err) {
-    console.error(err);
-    val.err_occur = true;
-  }
-  let resobj = null;
-  if (val.err_occur === false) {
-    resobj = {
-      success: true,
-      CLIENT_ID: clientInfo.uuid,
-      CLIENT_SECRET: clientInfo.apiKey,
-    };
-  } else {
-    resobj = {
-      success: false,
-      reasons: val.err_reasons,
-    };
-  }
-  res.json(resobj);
-});
 
 app.post('/api/addScouterToMatch', auth.checkAuth, async (req: any, res:any) => {
   let val;
