@@ -27,7 +27,7 @@
     "reporter": [
       "html"
     ],
-    "all": true  
+    "all": true
   },
   "dependencies": {
     "@babel/register": "^7.9.0",
