@@ -117,7 +117,7 @@ export const getNumberScouts = async (db, compIdIn1) => {
   const myobj = { competition: String(compIdIn) };
   let inval;
   try {
-    data.data = await dbo.collection('schedule').findOne(myobj).catch((data: object) => {
+    data.data = await dbo.collection('schedule').findOne(myobj).catch((data: any) => {
       inval = data.data.reduce((partialSum, a) => partialSum + a, 0);
     })
   } catch (e) {
