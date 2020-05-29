@@ -21,6 +21,11 @@ try {
 } catch (e) {
   console.log('Could not connect to the MongoDB instance');
 }
+
+require('./routes/base')(app);
+require('./routes/fetchMatches')(app, dbHandler);
+require('./routes/submitMatchData')(app, dbHandler, auth);
+
 /**
  * NOTE TO DEVELOPERS: the `auth.checkAuth` statement is simply middleware which contacts
  * authHandler.js to ensure that the user has a valid authentication token.
@@ -28,94 +33,6 @@ try {
  * (routes which require authentication) will be referred to as @param token.
 */
 
-/**
- * GET route '/'
- * Base route; allows the frontend application and/or developer to sanity check
- * to ensure the API is live.
- * @returns HTTP Status Code 200 OK
- */
-app.get('/', (req: any, res:any) => {
-  res.send('The Red Alliance API. Copyright 2020 Titan Scouting.');
-  res.status(200);
-});
-
-
-/**
- * POST route '/api/submitMatchData'
- * Allows the application to submit data to the API, with some key data seperated within the
- * JSON and the rest submitted as arbirtary structures within the data key.
- * @param token in form of header with title 'token' and value of JWT provided by Google OAuth
- * @param competitionID is the identifier for the competition: e.g. '2020ilch'.
- * @param matchNumber is the number of the match scouted: e.g. '1'.
- * @param teamScouted is the team that was being scouted: e.g. '3061'.
- * @param data is the arbritrary other data that needs to be recorded for the match.
- * @returns back to the client resobj (success boolean, competition id, and match number)
- * and HTTP Status Code 200 OK.
- */
-app.post('/api/submitMatchData', auth.checkAuth, async (req: any, res: any) => {
-  let val;
-  const scouter = { name: String(res.locals.name), id: String(res.locals.id) };
-  const competitionID = String(req.body.competitionID);
-  const matchNumber = parseInt(req.body.matchNumber, 10);
-  const teamScouted = parseInt(req.body.teamScouted, 10);
-  const { data } = req.body;
-  try {
-    val = await dbHandler.submitMatchData(req.db, scouter,
-      competitionID, matchNumber, teamScouted, data).catch(
-      (e) => {
-        console.error(e); val.err_occur = true;
-      },
-    );
-  } catch (err) {
-    console.error(err);
-    val.err_occur = true;
-  }
-  let resobj = null;
-  if (val.err_occur === false) {
-    resobj = {
-      success: true,
-      competition: competitionID,
-      matchNumber,
-    };
-  } else {
-    resobj = {
-      success: false,
-      reasons: val.err_reasons,
-    };
-  }
-  res.json(resobj);
-});
-
-/**
- * GET route '/api/fetchMatches'
- * Allows the application to fetch the list of matches and the number of scouters for the match.
- * @param competitionID is the identifier for the competition: e.g. '2020ilch'.
- * @returns back to the client resobj (competition, list of matches, andn number of scouters) and 200 OK.
- */
-app.get('/api/fetchMatches', async (req: any, res:any) => {
-  let val;
-  const competition = String(req.query.competition);
-  try {
-    val = await dbHandler.fetchMatchesForCompetition(req.db, competition).catch((e) => { console.error(e); val.err_occur = true; });
-  } catch (err) {
-    console.error(err);
-    val.err_occur = true;
-  }
-  let resobj = null;
-  if (val.err_occur === false) {
-    resobj = {
-      success: true,
-      competition,
-      data: val.data.data,
-    };
-  } else {
-    resobj = {
-      success: false,
-      reasons: val.err_reasons,
-    };
-  }
-  res.json(resobj);
-});
 /**
  * GET route '/api/checkUser'
  * Allows the application to fetch the list of matches and the number of scouters for the match.

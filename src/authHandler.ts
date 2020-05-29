@@ -1,5 +1,5 @@
 const { OAuth2Client } = require('google-auth-library');
-const dbHandler = require('./dbHandler.js');
+const dbHandler = require('./dbHandler');
 
 const CLIENT_ID = '291863698243-obu2fpbfpr7ul9db9lm7rmc1e4r3oeag.apps.googleusercontent.com';
 const client = new OAuth2Client(CLIENT_ID);
