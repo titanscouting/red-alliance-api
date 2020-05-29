@@ -4,6 +4,7 @@ import expressMongoDb from 'express-mongo-db'
 import uuidAPIKey from 'uuid-apikey'
 import dbHandler = require('./dbHandler');
 import auth = require('./authHandler');
+import UserReturnData from './routes/UserReturnData'
 
 const port = process.env.PORT || 8190;
 
@@ -29,6 +30,7 @@ try {
  * (routes which require authentication) will be referred to as @param token.
 */
 
+// All the routes should be written in different files so that this file doesn't become a behemoth
 require('./routes/base')(app);
 require('./routes/fetchMatches')(app, dbHandler);
 require('./routes/submitMatchData')(app, dbHandler, auth);
@@ -39,61 +41,9 @@ require('./routes/fetchPitConfig')(app);
 require('./routes/findTeamNickname')(app, dbHandler);
 require('./routes/fetchAllTeamNicknamesAtCompetition')(app, dbHandler);
 require('./routes/fetchMatchConfig')(app);
+require('./routes/fetchCompetitionSchedule')(app, dbHandler);
+require('./routes/fetch2022Schedule')(app, dbHandler);
 
-/**
- * GET route '/api/fetchCompetitionSchedule'
- * Allows the application to get all the matches for a given competition.
- * @param competition is the Competition id: e.g. '2020ilch'.
- * @returns back to the client let resobj (competition and ) and HTTP Status Code 200 OK.
- */
-app.get('/api/fetchCompetitionSchedule', async (req: any, res:any) => {
-  let val;
-  const competition = String(req.query.competition);
-  try {
-    val = await dbHandler.fetchCompetitionSchedule(req.db, competition).catch((e) => { console.error(e); val.err_occur = true; });
-  } catch (e) {
-    console.error(e);
-    val.err_occur = true;
-  }
-  let resobj = null;
-  if (val.err_occur === false) {
-    resobj = {
-      success: true,
-      competition,
-      data: val.data,
-    };
-  } else {
-    resobj = {
-      success: false,
-      reasons: val.err_reasons,
-    };
-  }
-  res.json(resobj);
-});
-app.get('/api/fetch2022Schedule', async (req: any, res:any) => {
-  let val;
-  const competition = String(req.query.competition);
-  try {
-    val = await dbHandler.fetch2022Schedule(req.db, competition).catch((e) => { console.error(e); val.err_occur = true; });
-  } catch (e) {
-    console.error(e);
-    val.err_occur = true;
-  }
-  let resobj = null;
-  if (val.err_occur === false) {
-    resobj = {
-      success: true,
-      competition,
-      data: val.data,
-    };
-  } else {
-    resobj = {
-      success: false,
-      reasons: val.err_reasons,
-    };
-  }
-  res.json(resobj);
-});
 
 app.get('/api/fetchMatchData', async (req: any, res:any) => {
   let val;
@@ -131,62 +81,7 @@ app.get('/api/fetchMatchData', async (req: any, res:any) => {
   res.json(resobj);
 });
 
-// app.get('/api/fetchShotChartData', async (req: any, res:any) => {
-//   let val;
-//   const competitionID = String(req.body.competitionID);
-//   const matchNumber = parseInt(req.body.matchNumber, 10);
-//   const teamScouted = parseInt(req.body.teamScouted, 10);
-//   try {
-//     val = await dbHandler.fetchShotChartData(req.db, competitionID, matchNumber, teamScouted).catch((e) => { console.error(e); val.err_occur = true; });
-//   } catch (err) {
-//     console.error(err);
-//     val.err_occur = true;
-//   }
-//   let resobj = null;
-//   if (val.err_occur === false) {
-//     resobj = {
-//       success: true,
-//       competition: competitionID,
-//       matchNumber,
-//       teamScouted,
-//       data: val.data.data,
-//     };
-//   } else {
-//     resobj = {
-//       success: false,
-//       reasons: val.err_reasons,
-//     };
-//   }
-//   res.json(resobj);
-// });
-// app.post('/api/submitShotChartData', auth.checkAuth, async (req: any, res:any) => {
-//   let val;
-//   const scouter = { name: String(res.locals.name), id: String(res.locals.id) };
-//   const competitionID = String(req.body.competitionID);
-//   const matchNumber = parseInt(req.body.matchNumber, 10);
-//   const teamScouted = parseInt(req.body.teamScouted, 10);
-//   const { data } = req.body;
-//   try {
-//     val = await dbHandler.submitShotChartData(req.db, scouter, competitionID, matchNumber, teamScouted, data).catch((e) => { console.error(e); val.err_occur = true; });
-//   } catch (err) {
-//     console.error(err);
-//     val.err_occur = true;
-//   }
-//   let resobj = null;
-//   if (val.err_occur === false) {
-//     resobj = {
-//       success: true,
-//       competition: competitionID,
-//       matchNumber,
-//     };
-//   } else {
-//     resobj = {
-//       success: false,
-//       reasons: val.err_reasons,
-//     };
-//   }
-//   res.json(resobj);
-// });
+
 /**
  * POST route '/api/addAPIKey'
  * Allows the creation of API keys from current OAuth users.

@@ -1,3 +1,5 @@
+import UserReturnData from "./UserReturnData";
+
 /**
  * GET route '/api/fetchAllTeamNicknamesAtCompetition'
  * Allows the application to fetch the nicknames for all the teams which are at a competition. (For example, Team 2022 = Titan Robotics)
@@ -6,10 +8,10 @@
  */
 module.exports = (app, dbHandler) => {
     app.get('/api/fetchAllTeamNicknamesAtCompetition', async (req: any, res:any) => {
-        let val;
+        let val: UserReturnData =  new UserReturnData();
         const competition = String(req.query.competition);
         try {
-        val = await dbHandler.fetchAllTeamNicknamesAtCompetition(req.db, competition).catch((e) => { console.error(e); val.err_occur = true; });
+        val.data = await dbHandler.fetchAllTeamNicknamesAtCompetition(req.db, competition).catch((e) => { console.error(e); val.err_occur = true; });
         } catch (e) {
         console.error(e);
         val.err_occur = true;
@@ -19,7 +21,7 @@ module.exports = (app, dbHandler) => {
         resobj = {
             success: true,
             competition,
-            data: val.data,
+            data: val.data.data,
         };
         } else {
         resobj = {
