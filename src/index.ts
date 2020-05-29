@@ -124,13 +124,8 @@ app.get('/api/fetchMatches', async (req: any, res:any) => {
  */
 
 app.get('/api/checkUser', async (req: any, res:any) => {
-  const val = {data: {}, err_occur: false, err_reasons: []};
-  try {
-    val.data = await dbHandler.checkKey(req.db, req.query.CLIENT_ID, req.query.CLIENT_SECRET).catch((e) => { console.error(e); val.err_occur = true; });
-  } catch (err) {
-    console.error(err);
-    val.err_occur = true;
-  }
+  const val = {data: undefined, err_occur: false, err_reasons: []};
+  val.data = await dbHandler.checkKey(req.db, req.query.CLIENT_ID, req.query.CLIENT_SECRET).catch((e) => { console.error(e); val.err_reasons.push(e); val.err_occur = true; });
   let resobj = null;
   if (!val.err_occur) {
     resobj = {
