@@ -3,9 +3,7 @@ import bodyParser from 'body-parser'
 import expressMongoDb from 'express-mongo-db'
 import dbHandler = require('./dbHandler');
 import auth = require('./authHandler');
-
 const port = process.env.PORT || 8190;
-
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -27,6 +25,10 @@ try {
 */
 
 // All the routes should be written in different files so that this file doesn't become a behemoth
+//requiring path and fs modules
+
+
+// TODO: find a way to loop through this without a bunch of require(). A simple for loop results in `require() not found`.
 require('./routes/base')(app);
 require('./routes/fetchMatches')(app, dbHandler);
 require('./routes/submitMatchData')(app, dbHandler, auth);
@@ -44,177 +46,11 @@ require('./routes/addAPIKey')(app, dbHandler, auth);
 require('./routes/privacyPolicy')(app);
 require('./routes/addScouterToMatch')(app, dbHandler, auth);
 require('./routes/removeScouterFromMatch')(app, dbHandler, auth);
-
-app.post('/api/submitStrategy', auth.checkAuth, async (req: any, res:any) => {
-  let val;
-  const scouter = String(res.locals.name);
-  const comp = String(req.body.competition);
-  const data = String(req.body.data);
-  let doGet = true;
-  // Application exhibits unpredicatble behavior if `if` evaluates to true, so we just filter that out.
-  if (data === 'null' || scouter === 'undefined') {
-    doGet = false;
-  }
-  const match = String(req.body.match);
-  let resobj = null;
-  if (doGet === true) {
-    try {
-      val = await dbHandler.submitStrategy(req.db, scouter, match, comp, data);
-    } catch (err) {
-      console.error(err);
-      val.err_occur = true;
-    }
-    if (val.err_occur === false) {
-      resobj = {
-        success: true,
-      };
-    } else {
-      resobj = {
-        success: false,
-        reasons: val.err_reasons,
-      };
-    }
-  } else {
-    resobj = {
-      success: false,
-      reasons: 'Data is null',
-    };
-  }
-  res.json(resobj);
-});
-
-app.get('/api/fetchStrategy', async (req: any, res:any) => {
-  let val;
-  const comp = String(req.query.competition);
-  const match = String(req.query.match);
-
-  try {
-    val = await dbHandler.fetchStrategy(req.db, comp, match).catch((e) => { console.error(e); val.err_occur = true; });
-  } catch (err) {
-    console.error(err);
-    val.err_occur = true;
-  }
-  // the try...catch is the next few lines serves to ensure the application doesn't just crash if scouters or teams were not returned by the DB handler.
-  let dataInterim;
-  try {
-    dataInterim = val.data;
-  } catch (e) {
-    val.err_occur = true;
-  }
-  let resobj = null;
-  if (val.err_occur === false) {
-    resobj = {
-      success: true,
-      data: dataInterim,
-    };
-  } else {
-    resobj = {
-      success: false,
-      reasons: val.err_reasons,
-    };
-  }
-  res.json(resobj);
-});
-
-app.get('/api/getUserStrategy', auth.checkAuth, async (req: any, res:any) => {
-  let val;
-  const comp = String(req.query.competition);
-  const match = String(req.query.match_number);
-  const name = String(res.locals.name);
-  try {
-    val = await dbHandler.getUserStrategy(req.db, comp, match, name).catch((e) => { console.error(e); val.err_occur = true; });
-  } catch (err) {
-    console.error(err);
-    val.err_occur = true;
-  }
-  // the try...catch is the next few lines serves to ensure the application doesn't just crash if scouters or teams were not returned by the DB handler.
-  let dataInterim;
-  try {
-    dataInterim = val.data;
-  } catch (e) {
-    val.err_occur = true;
-  }
-  let resobj = null;
-  if (val.err_occur === false) {
-    resobj = {
-      success: true,
-      data: dataInterim,
-    };
-  } else {
-    resobj = {
-      success: false,
-      reasons: val.err_reasons,
-    };
-  }
-  res.json(resobj);
-});
-
-
-app.post('/api/submitPitData', auth.checkAuth, async (req: any, res:any) => {
-  let val;
-  const scouter = { name: String(res.locals.name), id: String(res.locals.id) };
-  const competitionID = String(req.body.competitionID);
-  const matchNumber = parseInt(req.body.matchNumber, 10);
-  const teamScouted = parseInt(req.body.teamScouted, 10);
-  const { data } = req.body;
-  try {
-    val = await dbHandler.submitPitData(req.db, scouter, competitionID, matchNumber, teamScouted, data).catch((e) => { console.error(e); val.err_occur = true; });
-  } catch (err) {
-    console.error(err);
-    val.err_occur = true;
-  }
-
-  let resobj = null;
-  if (val.err_occur === false) {
-    resobj = {
-      success: true,
-      competition: competitionID,
-      matchNumber,
-    };
-  } else {
-    resobj = {
-      success: false,
-      reasons: val.err_reasons,
-    };
-  }
-  res.json(resobj);
-});
-
-app.get('/api/fetchPitData', async (req: any, res:any) => {
-  let val;
-  const competitionID = String(req.query.competition);
-  const matchNumber = parseInt(req.query.match_number, 10);
-  const teamScouted = parseInt(req.query.team_scouted, 10);
-  try {
-    val = await dbHandler.fetchPitData(req.db, competitionID, matchNumber, teamScouted).catch((e) => { console.error(e); val.err_occur = true; });
-  } catch (err) {
-    console.error(err);
-    val.err_occur = true;
-  }
-  // the try...catch is the next few lines serves to ensure the application doesn't just crash if scouters or teams were not returned by the DB handler.
-  let dataInterim;
-  try {
-    dataInterim = val.data.data;
-  } catch (e) {
-    val.err_occur = true;
-  }
-  let resobj = null;
-  if (val.err_occur === false) {
-    resobj = {
-      success: true,
-      competition: competitionID,
-      matchNumber,
-      teamScouted,
-      data: dataInterim,
-    };
-  } else {
-    resobj = {
-      success: false,
-      reasons: val.err_reasons,
-    };
-  }
-  res.json(resobj);
-});
+require('./routes/submitStrategy')(app, dbHandler, auth);
+require('./routes/fetchStrategy')(app, dbHandler);
+require('./routes/getUserStrategy')(app, dbHandler, auth);
+require('./routes/fetchPitData')(app, dbHandler);
+require('./routes/submitPitData')(app, dbHandler, auth);
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
