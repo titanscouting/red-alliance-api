@@ -1,3 +1,6 @@
+import Scouter from "./Scouter";
+import UserReturnData from "./UserReturnData";
+
 /**
  * POST route '/api/submitMatchData'
  * Allows the application to submit data to the API, with some key data seperated within the
@@ -11,18 +14,19 @@
  * and HTTP Status Code 200 OK.
  */
 
+
 module.exports = (app: any, dbHandler: any, auth: any) => {
     app.post('/api/submitMatchData', auth.checkAuth, async (req: any, res: any) => {
-        let val;
-        const scouter = { name: String(res.locals.name), id: String(res.locals.id) };
-        const competitionID = String(req.body.competitionID);
-        const matchNumber = parseInt(req.body.matchNumber, 10);
-        const teamScouted = parseInt(req.body.teamScouted, 10);
+        let val: UserReturnData = new UserReturnData();
+        const scouter: Scouter = { name: String(res.locals.name), id: String(res.locals.id) };
+        const competitionID: string = String(req.body.competitionID);
+        const matchNumber: number = parseInt(req.body.matchNumber, 10);
+        const teamScouted: number = parseInt(req.body.teamScouted, 10);
         const { data } = req.body;
         try {
           val = await dbHandler.submitMatchData(req.db, scouter,
             competitionID, matchNumber, teamScouted, data).catch(
-            (e) => {
+            (e: string) => {
               console.error(e); val.err_occur = true;
             },
           );

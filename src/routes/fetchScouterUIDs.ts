@@ -1,3 +1,5 @@
+import UserReturnData from './UserReturnData'
+
 /**
  * GET route '/api/fetchScouterUIDs'
  * Allows the application to fetch which users are scouting a given match.
@@ -8,21 +10,21 @@
 
 module.exports = (app: any, dbHandler: any) => {
     app.get('/api/fetchScouterUIDs', async (req: any, res:any) => {
-        let val;
+        let val: UserReturnData = new UserReturnData();
         const competition = String(req.query.competition);
         const matchNumber = parseInt(req.query.match_number, 10);
         try {
-        val = await dbHandler.fetchScouterUIDs(req.db, competition, matchNumber).catch((e) => { console.error(e); val.err_occur = true; });
+            val.data = await dbHandler.fetchScouterUIDs(req.db, competition, matchNumber).catch((e) => { console.error(e); val.err_occur = true; });
         } catch (e) {
-        console.error(e);
-        val.err_occur = true;
+            console.error(e);
+            val.err_occur = true;
         }
         // the try...catch is the next few lines serves to ensure the application doesn't just crash if scouters or teams were not returned by the DB handler.
-        let scoutersInterim;
-        let teamsInterim;
+        let scoutersInterim: Array<object>;
+        let teamsInterim: Array<string>;
         try {
-        scoutersInterim = val.scouters;
-        teamsInterim = val.teams;
+        scoutersInterim = val.data.scouters;
+        teamsInterim = val.data.teams;
         } catch (e) {
         val.err_occur = true;
         }

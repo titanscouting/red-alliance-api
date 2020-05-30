@@ -1,3 +1,5 @@
+import UserReturnData from "./UserReturnData";
+
 /**
  * GET route '/api/findTeamNickname'
  * Allows the application to get the nickname for a team, given the team number.
@@ -7,10 +9,10 @@
 
 module.exports = (app: any, dbHandler: any) => {
     app.get('/api/findTeamNickname', async (req: any, res:any) => {
-        let val;
+        let val: UserReturnData = new UserReturnData();
         const teamNumber = req.query.team_number;
         try {
-        val = await dbHandler.findTeamNickname(req.db, teamNumber).catch((e) => { console.error(e); val.err_occur = true; });
+        val.data = await dbHandler.findTeamNickname(req.db, teamNumber).catch((e) => { console.error(e); val.err_occur = true; });
         } catch (e) {
         console.error(e);
         val.err_occur = true;
@@ -20,7 +22,7 @@ module.exports = (app: any, dbHandler: any) => {
         resobj = {
             success: true,
             teamNum: teamNumber,
-            nickname: val.data,
+            nickname: val.data.data,
         };
         } else {
         resobj = {

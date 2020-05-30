@@ -9,7 +9,7 @@ import UserReturnData from "./UserReturnData";
 module.exports = (app, dbHandler) => {
     app.get('/api/fetchAllTeamNicknamesAtCompetition', async (req: any, res:any) => {
         let val: UserReturnData =  new UserReturnData();
-        const competition = String(req.query.competition);
+        const competition: string = String(req.query.competition);
         try {
         val.data = await dbHandler.fetchAllTeamNicknamesAtCompetition(req.db, competition).catch((e) => { console.error(e); val.err_occur = true; });
         } catch (e) {
