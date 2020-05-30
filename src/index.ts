@@ -41,59 +41,9 @@ require('./routes/fetchCompetitionSchedule')(app, dbHandler);
 require('./routes/fetch2022Schedule')(app, dbHandler);
 require('./routes/fetchMatchData')(app, dbHandler);
 require('./routes/addAPIKey')(app, dbHandler, auth);
-
-
-
-app.post('/api/addScouterToMatch', auth.checkAuth, async (req: any, res:any) => {
-  let val;
-  const match = String(req.body.match);
-  const user = parseInt(res.locals.id, 10);
-  const teamScouted = parseInt(req.body.team_scouting, 10);
-  const userName = String(res.locals.name);
-  try {
-    val = await dbHandler.addScouterToMatch(req.db, user, userName, match, teamScouted).catch((e) => { console.error(e); val.err_occur = true; });
-  } catch (err) {
-    console.error(err);
-    val.err_occur = true;
-  }
-  let resobj = null;
-  if (val.err_occur === false) {
-    resobj = {
-      success: true,
-    };
-  } else {
-    resobj = {
-      success: false,
-      reasons: val.err_reasons,
-    };
-  }
-  res.json(resobj);
-});
-
-app.post('/api/removeScouterFromMatch', auth.checkAuth, async (req: any, res:any) => {
-  let val;
-  const match = String(req.body.match);
-  const user = parseInt(res.locals.id, 10);
-  const teamScouted = parseInt(req.body.team_scouting, 10);
-  try {
-    val = await dbHandler.removeScouterFromMatch(req.db, user, match, teamScouted).catch((e) => { console.error(e); val.err_occur = true; });
-  } catch (err) {
-    console.error(err);
-    val.err_occur = true;
-  }
-  let resobj = null;
-  if (val.err_occur === false) {
-    resobj = {
-      success: true,
-    };
-  } else {
-    resobj = {
-      success: false,
-      reasons: val.err_reasons,
-    };
-  }
-  res.json(resobj);
-});
+require('./routes/privacyPolicy')(app);
+require('./routes/addScouterToMatch')(app, dbHandler, auth);
+require('./routes/removeScouterFromMatch')(app, dbHandler, auth);
 
 app.post('/api/submitStrategy', auth.checkAuth, async (req: any, res:any) => {
   let val;
@@ -197,11 +147,6 @@ app.get('/api/getUserStrategy', auth.checkAuth, async (req: any, res:any) => {
     };
   }
   res.json(resobj);
-});
-
-// Privacy Policy
-app.get('/privacy-policy', (req: any, res:any) => {
-  res.status(301).redirect('https://drive.google.com/a/imsa.edu/file/d/11_cAuaerCrQ3BBXNx_G_zw1ZyGaTWx0z/view?usp=sharing');
 });
 
 
