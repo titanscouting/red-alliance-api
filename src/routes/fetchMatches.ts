@@ -1,3 +1,5 @@
+import UserReturnData from './UserReturnData'
+
 /**
  * GET route '/api/fetchMatches'
  * Allows the application to fetch the list of matches and the number of scouters for the match.
@@ -6,20 +8,20 @@
  */
 module.exports = (app: any, dbHandler: any) => {
     app.get('/api/fetchMatches', async (req: any, res:any) => {
-        let val;
+        let val: UserReturnData = new UserReturnData();
         const competition = String(req.query.competition);
         try {
-        val = await dbHandler.fetchMatchesForCompetition(req.db, competition).catch((e) => { console.error(e); val.err_occur = true; });
+            val.data = await dbHandler.fetchMatchesForCompetition(req.db, competition).catch((e) => { console.error(e); val.err_occur = true; });
         } catch (err) {
-        console.error(err);
-        val.err_occur = true;
+            console.error(err);
+            val.err_occur = true;
         }
         let resobj = null;
         if (val.err_occur === false) {
         resobj = {
             success: true,
             competition,
-            data: val.data.data,
+            data: val.data.data.data, // TODO: Fix that structure up a bit
         };
         } else {
         resobj = {

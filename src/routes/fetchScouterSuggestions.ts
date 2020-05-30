@@ -1,3 +1,5 @@
+import UserReturnData from './UserReturnData'
+
 /**
  * GET route '/api/fetchScouterSuggestions'
  * Allows the application to fetch the suggestions that a scouter made for a match (presumably one that Titan Robotics is part of, or else why would they make suggestions?).
@@ -7,21 +9,20 @@
  */
 module.exports = (app: any, dbHandler: any) => {
     app.get('/api/fetchScouterSuggestions', async (req: any, res:any) => {
-        let val;
+        let val: UserReturnData = new UserReturnData();
         const competition = String(req.query.competition);
         const matchNumber = parseInt(req.query.match_number, 10);
-    
         try {
-        val = await dbHandler.fetchScouterSuggestions(req.db, competition, matchNumber).catch((e) => { console.error(e); val.err_occur = true; });
+            val.data = await dbHandler.fetchScouterSuggestions(req.db, competition, matchNumber).catch((e) => { console.error(e); val.err_occur = true; });
         } catch (err) {
-        console.error(err);
-        val.err_occur = true;
+            console.error(err);
+            val.err_occur = true;
         }
-        let dataInterim;
+        let dataInterim: object;
         try {
-        dataInterim = val.data;
+            dataInterim = val.data.data;
         } catch (e) {
-        val.err_occur = true;
+            val.err_occur = true;
         }
         let resobj = null;
         if (val.err_occur === false) {

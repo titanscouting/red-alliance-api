@@ -1,3 +1,5 @@
+import UserReturnData from './UserReturnData'
+
 /**
  * GET route '/api/checkUser'
  * Allows the application to fetch the list of matches and the number of scouters for the match.
@@ -6,7 +8,7 @@
  */
 module.exports = (app: any, dbHandler: any) => {
     app.get('/api/checkUser', async (req: any, res:any) => {
-        const val = {data: undefined, err_occur: false, err_reasons: []};
+        const val: UserReturnData = new UserReturnData();
         val.data = await dbHandler.checkKey(req.db, req.query.CLIENT_ID, req.query.CLIENT_SECRET).catch((e) => { console.error(e); val.err_reasons.push(e); val.err_occur = true; });
         let resobj = null;
         if (!val.err_occur) {

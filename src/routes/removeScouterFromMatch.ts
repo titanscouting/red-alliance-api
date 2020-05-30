@@ -1,13 +1,13 @@
 import UserReturnData from './UserReturnData'
-
+import Scouter from './Scouter'
 module.exports = (app: any, dbHandler: any, auth: any) => {
     app.post('/api/removeScouterFromMatch', auth.checkAuth, async (req: any, res:any) => {
         let val: UserReturnData = new UserReturnData();
-        const match = String(req.body.match);
-        const user = parseInt(res.locals.id, 10);
-        const teamScouted = parseInt(req.body.team_scouting, 10);
+        const scouter: Scouter = { name: String(res.locals.name), id: String(res.locals.id) };
+        const match: string = String(req.body.match);
+        const teamScouted: number = parseInt(req.body.team_scouting, 10);
         try {
-          val.data = await dbHandler.removeScouterFromMatch(req.db, user, match, teamScouted).catch((e) => { console.error(e); val.err_occur = true; });
+          val.data = await dbHandler.removeScouterFromMatch(req.db, scouter.id, match, teamScouted).catch((e) => { console.error(e); val.err_occur = true; });
         } catch (err) {
           console.error(err);
           val.err_occur = true;
