@@ -6,3 +6,4 @@ module.exports = (app: any, auth: any) => {
         let scouter: Scouter = {id: res.locals.id, name: res.locals.name};
         res.json({success: true, data: scouter})
 }
+}
