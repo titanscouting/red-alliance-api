@@ -53,6 +53,7 @@ require('./routes/fetchStrategy')(app, dbHandler);
 require('./routes/getUserStrategy')(app, dbHandler, auth);
 require('./routes/fetchPitData')(app, dbHandler);
 require('./routes/submitPitData')(app, dbHandler, auth);
+require('./routes/whoami')(app, auth);
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
