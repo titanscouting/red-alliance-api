@@ -1,4 +1,3 @@
-
 module.exports = (app: any) => {
   app.get('/api/fetchPitConfig', async (req: any, res:any) => {
     const response = [
