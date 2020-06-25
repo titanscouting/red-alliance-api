@@ -12,7 +12,6 @@
 //     });
 // }
 
-
 // export const getCompetitions = async (db, idin) => {
 //     let rval;
 //     idin = String(idin)
