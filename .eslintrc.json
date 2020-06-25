@@ -1,9 +1,25 @@
 {
-    "extends": "airbnb",
+    "extends":  [
+        "airbnb",
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@typescript-eslint/recommended"
+      ],
     "rules": {
         "no-console": "off",
         "max-len": "off",
         "no-restricted-syntax": "off",
-        "camelcase": "off"
-    }
+        "camelcase": "off",
+        "@typescript-eslint/no-explicit-any": "off",
+        "import/extensions": "off",
+        "import/no-unresolved": "off",
+        "@typescript-eslint/no-var-requires": "off",
+        "no-shadow": "off",
+        "semi": "off" // use the typescript semicolon rule instead
+
+        
+    },
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+      "@typescript-eslint"
+    ]
 }

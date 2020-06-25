@@ -1,4 +1,4 @@
-import UserReturnData from './UserReturnData'
+import UserReturnData from './UserReturnData';
 
 /**
  * GET route '/api/fetchScouterUIDs'
@@ -9,39 +9,39 @@ import UserReturnData from './UserReturnData'
 */
 
 module.exports = (app: any, dbHandler: any) => {
-    app.get('/api/fetchScouterUIDs', async (req: any, res:any) => {
-        let val: UserReturnData = new UserReturnData();
-        const competition = String(req.query.competition);
-        const matchNumber = parseInt(req.query.match_number, 10);
-        try {
-            val.data = await dbHandler.fetchScouterUIDs(req.db, competition, matchNumber).catch((e) => { console.error(e); val.err_occur = true; });
-        } catch (e) {
-            console.error(e);
-            val.err_occur = true;
-        }
-        // the try...catch is the next few lines serves to ensure the application doesn't just crash if scouters or teams were not returned by the DB handler.
-        let scoutersInterim: Array<object>;
-        let teamsInterim: Array<string>;
-        try {
-        scoutersInterim = val.data.scouters;
-        teamsInterim = val.data.teams;
-        } catch (e) {
-        val.err_occur = true;
-        }
-        let resobj = null;
-        if (val.err_occur === false) {
-        resobj = {
-            success: true,
-            competition,
-            scouters: scoutersInterim,
-            teams: teamsInterim,
-        };
-        } else {
-        resobj = {
-            success: false,
-            reasons: val.err_reasons,
-        };
-        }
-        res.json(resobj);
-    });
-}
+  app.get('/api/fetchScouterUIDs', async (req: any, res:any) => {
+    const val: UserReturnData = new UserReturnData();
+    const competition = String(req.query.competition);
+    const matchNumber = parseInt(req.query.match_number, 10);
+    try {
+      val.data = await dbHandler.fetchScouterUIDs(req.db, competition, matchNumber).catch((e) => { console.error(e); val.err_occur = true; });
+    } catch (e) {
+      console.error(e);
+      val.err_occur = true;
+    }
+    // the try...catch is the next few lines serves to ensure the application doesn't just crash if scouters or teams were not returned by the DB handler.
+    let scoutersInterim: Array<Record<string, unknown>>;
+    let teamsInterim: Array<string>;
+    try {
+      scoutersInterim = val.data.scouters;
+      teamsInterim = val.data.teams;
+    } catch (e) {
+      val.err_occur = true;
+    }
+    let resobj = null;
+    if (val.err_occur === false) {
+      resobj = {
+        success: true,
+        competition,
+        scouters: scoutersInterim,
+        teams: teamsInterim,
+      };
+    } else {
+      resobj = {
+        success: false,
+        reasons: val.err_reasons,
+      };
+    }
+    res.json(resobj);
+  });
+};

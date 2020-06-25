@@ -1,6 +1,7 @@
-import express from 'express'
-import bodyParser from 'body-parser'
-import expressMongoDb from 'express-mongo-db'
+import express from 'express';
+import bodyParser from 'body-parser';
+import expressMongoDb from 'express-mongo-db';
+
 import dbHandler = require('./dbHandler');
 import auth = require('./authHandler');
 const port = process.env.PORT || 8190;
@@ -14,7 +15,7 @@ try {
   app.use(expressMongoDb(process.env.REDALLIANCEDBKEY, { keepAlive: 1, connectTimeoutMS: 30000 }));
 } catch (e) {
   console.log('Could not connect to the MongoDB instance');
-  process.exit(1)
+  process.exit(1);
 }
 
 /**
@@ -25,7 +26,7 @@ try {
 */
 
 // All the routes should be written in different files so that this file doesn't become a behemoth
-//requiring path and fs modules
+// requiring path and fs modules
 
 
 // TODO: find a way to loop through this without a bunch of require(). A simple for loop results in `require() not found`.
@@ -53,7 +54,6 @@ require('./routes/fetchStrategy')(app, dbHandler);
 require('./routes/getUserStrategy')(app, dbHandler, auth);
 require('./routes/fetchPitData')(app, dbHandler);
 require('./routes/submitPitData')(app, dbHandler, auth);
-require('./routes/whoami')(app, auth);
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
 

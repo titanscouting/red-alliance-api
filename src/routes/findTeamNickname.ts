@@ -1,4 +1,4 @@
-import UserReturnData from "./UserReturnData";
+import UserReturnData from './UserReturnData';
 
 /**
  * GET route '/api/findTeamNickname'
@@ -8,28 +8,28 @@ import UserReturnData from "./UserReturnData";
 */
 
 module.exports = (app: any, dbHandler: any) => {
-    app.get('/api/findTeamNickname', async (req: any, res:any) => {
-        let val: UserReturnData = new UserReturnData();
-        const teamNumber = req.query.team_number;
-        try {
-        val.data = await dbHandler.findTeamNickname(req.db, teamNumber).catch((e) => { console.error(e); val.err_occur = true; });
-        } catch (e) {
-        console.error(e);
-        val.err_occur = true;
-        }
-        let resobj = null;
-        if (val.err_occur === false) {
-        resobj = {
-            success: true,
-            teamNum: teamNumber,
-            nickname: val.data.data,
-        };
-        } else {
-        resobj = {
-            success: false,
-            reasons: val.err_reasons,
-        };
-        }
-        res.json(resobj);
-    });
-}
+  app.get('/api/findTeamNickname', async (req: any, res:any) => {
+    const val: UserReturnData = new UserReturnData();
+    const teamNumber = req.query.team_number;
+    try {
+      val.data = await dbHandler.findTeamNickname(req.db, teamNumber).catch((e) => { console.error(e); val.err_occur = true; });
+    } catch (e) {
+      console.error(e);
+      val.err_occur = true;
+    }
+    let resobj = null;
+    if (val.err_occur === false) {
+      resobj = {
+        success: true,
+        teamNum: teamNumber,
+        nickname: val.data.data,
+      };
+    } else {
+      resobj = {
+        success: false,
+        reasons: val.err_reasons,
+      };
+    }
+    res.json(resobj);
+  });
+};

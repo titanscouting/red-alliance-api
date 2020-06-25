@@ -1,4 +1,4 @@
-import UserReturnData from './UserReturnData'
+import UserReturnData from './UserReturnData';
 
 /**
  * GET route '/api/checkUser'
@@ -7,21 +7,21 @@ import UserReturnData from './UserReturnData'
  * @returns back to the client let resobj (name and Google ID of user) and HTTP Status Code 200 OK.
  */
 module.exports = (app: any, dbHandler: any) => {
-    app.get('/api/checkUser', async (req: any, res:any) => {
-        const val: UserReturnData = new UserReturnData();
-        val.data = await dbHandler.checkKey(req.db, req.query.CLIENT_ID, req.query.CLIENT_SECRET).catch((e) => { console.error(e); val.err_reasons.push(e); val.err_occur = true; });
-        let resobj = null;
-        if (!val.err_occur) {
-        resobj = {
-            success: true,
-            isAuth: val.data,
-        };
-        } else {
-        resobj = {
-            success: false,
-            reasons: val.err_reasons,
-        };
-        }
-        res.json(resobj);
-    });
-}
+  app.get('/api/checkUser', async (req: any, res:any) => {
+    const val: UserReturnData = new UserReturnData();
+    val.data = await dbHandler.checkKey(req.db, req.query.CLIENT_ID, req.query.CLIENT_SECRET).catch((e) => { console.error(e); val.err_reasons.push(e); val.err_occur = true; });
+    let resobj = null;
+    if (!val.err_occur) {
+      resobj = {
+        success: true,
+        isAuth: val.data,
+      };
+    } else {
+      resobj = {
+        success: false,
+        reasons: val.err_reasons,
+      };
+    }
+    res.json(resobj);
+  });
+};

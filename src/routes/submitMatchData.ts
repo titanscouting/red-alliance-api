@@ -1,5 +1,5 @@
-import Scouter from "./Scouter";
-import UserReturnData from "./UserReturnData";
+import Scouter from './Scouter';
+import UserReturnData from './UserReturnData';
 
 /**
  * POST route '/api/submitMatchData'
@@ -16,37 +16,37 @@ import UserReturnData from "./UserReturnData";
 
 
 module.exports = (app: any, dbHandler: any, auth: any) => {
-    app.post('/api/submitMatchData', auth.checkAuth, async (req: any, res: any) => {
-        let val: UserReturnData = new UserReturnData();
-        const scouter: Scouter = { name: String(res.locals.name), id: String(res.locals.id) };
-        const competitionID: string = String(req.body.competitionID);
-        const matchNumber: number = parseInt(req.body.matchNumber, 10);
-        const teamScouted: number = parseInt(req.body.teamScouted, 10);
-        const { data } = req.body;
-        try {
-          val = await dbHandler.submitMatchData(req.db, scouter,
-            competitionID, matchNumber, teamScouted, data).catch(
-            (e: string) => {
-              console.error(e); val.err_occur = true;
-            },
-          );
-        } catch (err) {
-          console.error(err);
-          val.err_occur = true;
-        }
-        let resobj = null;
-        if (val.err_occur === false) {
-          resobj = {
-            success: true,
-            competition: competitionID,
-            matchNumber,
-          };
-        } else {
-          resobj = {
-            success: false,
-            reasons: val.err_reasons,
-          };
-        }
-        res.json(resobj);
-    });
-}
+  app.post('/api/submitMatchData', auth.checkAuth, async (req: any, res: any) => {
+    let val: UserReturnData = new UserReturnData();
+    const scouter: Scouter = { name: String(res.locals.name), id: String(res.locals.id) };
+    const competitionID = String(req.body.competitionID);
+    const matchNumber: number = parseInt(req.body.matchNumber, 10);
+    const teamScouted: number = parseInt(req.body.teamScouted, 10);
+    const { data } = req.body;
+    try {
+      val = await dbHandler.submitMatchData(req.db, scouter,
+        competitionID, matchNumber, teamScouted, data).catch(
+        (e: string) => {
+          console.error(e); val.err_occur = true;
+        },
+      );
+    } catch (err) {
+      console.error(err);
+      val.err_occur = true;
+    }
+    let resobj = null;
+    if (val.err_occur === false) {
+      resobj = {
+        success: true,
+        competition: competitionID,
+        matchNumber,
+      };
+    } else {
+      resobj = {
+        success: false,
+        reasons: val.err_reasons,
+      };
+    }
+    res.json(resobj);
+  });
+};

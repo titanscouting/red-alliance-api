@@ -1,9 +1,9 @@
-import UserReturnData from './UserReturnData'
+import UserReturnData from './UserReturnData';
 import Scouter from './Scouter';
 
 module.exports = (app: any, dbHandler: any, auth: any) => {
   app.post('/api/submitStrategy', auth.checkAuth, async (req: any, res:any) => {
-    let val: UserReturnData = new UserReturnData();
+    const val: UserReturnData = new UserReturnData();
     const scouter: Scouter = { name: String(res.locals.name), id: String(res.locals.id) };
     const comp = String(req.body.competition);
     const data = String(req.body.data);
@@ -39,6 +39,4 @@ module.exports = (app: any, dbHandler: any, auth: any) => {
     }
     res.json(resobj);
   });
-}
-
-  
+};
