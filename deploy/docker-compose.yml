@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  red-alliance-api:
+    build: .
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - 8190:8190
+      - 9229:9229
+    environment:
+      - REDALLIANCEDBKEY
+    command: npm start
+    
