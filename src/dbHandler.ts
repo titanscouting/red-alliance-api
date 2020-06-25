@@ -111,7 +111,6 @@ export const fetchMatchesForCompetition = async (db, compIdIn1) => {
   return data;
 };
 
-
 export const getNumberScouts = async (db, compIdIn1) => {
   const data = { err_occur: false, err_reasons: [], data: {} };
 
@@ -298,7 +297,6 @@ export const removeScouterFromMatch = async (db, userin, matchin, teamScouted) =
   }
   return data;
 };
-
 
 export const submitStrategy = async (db, scouterin, matchin, compin, datain) => {
   const data = { err_occur: false, err_reasons: [], data: {} };

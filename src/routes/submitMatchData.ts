@@ -14,7 +14,6 @@ import UserReturnData from './UserReturnData';
  * and HTTP Status Code 200 OK.
  */
 
-
 module.exports = (app: any, dbHandler: any, auth: any) => {
   app.post('/api/submitMatchData', auth.checkAuth, async (req: any, res: any) => {
     let val: UserReturnData = new UserReturnData();

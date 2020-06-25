@@ -1,9 +1,9 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import expressMongoDb from 'express-mongo-db';
-
 import dbHandler = require('./dbHandler');
 import auth = require('./authHandler');
+
 const port = process.env.PORT || 8190;
 const app = express();
 app.use(bodyParser.json());
@@ -27,7 +27,6 @@ try {
 
 // All the routes should be written in different files so that this file doesn't become a behemoth
 // requiring path and fs modules
-
 
 // TODO: find a way to loop through this without a bunch of require(). A simple for loop results in `require() not found`.
 // TODO: use the UserReturnData class when returning data in all these apis
