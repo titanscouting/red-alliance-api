@@ -11,9 +11,8 @@
     "start": "ts-node-dev src/index.ts",
     "start:prod": "npm run build && node built/index.js",
     "build": "tsc",
-    "lint": "./node_modules/.bin/eslint",
-    "test-lint": "./node_modules/.bin/eslint *.js",
-    "test": "nyc mocha -r ts-node/register --timeout 10000 --exit"
+    "test-lint": "eslint . --ext .ts",
+    "test": "nyc ts-mocha --timeout 10000 --exit"
   },
   "nyc": {
     "extension": [
@@ -51,9 +50,13 @@
   },
   "devDependencies": {
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
+    "@types/expect": "^24.3.0",
+    "@types/mocha": "^7.0.2",
+    "@typescript-eslint/eslint-plugin": "^3.4.0",
+    "@typescript-eslint/parser": "^3.4.0",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
-    "eslint": "^6.8.0",
+    "eslint": "^7.3.1",
     "eslint-config-airbnb": "^18.1.0",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
@@ -63,6 +66,7 @@
     "mocha": "^7.1.2",
     "nyc": "^15.0.1",
     "source-map-support": "^0.5.19",
+    "ts-mocha": "^7.0.0",
     "ts-node": "^8.10.1",
     "ts-node-dev": "^1.0.0-pre.44",
     "validator": "^12.0.0"

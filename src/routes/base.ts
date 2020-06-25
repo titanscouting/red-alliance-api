@@ -6,8 +6,8 @@
  */
 
 module.exports = (app: any) => {
-    app.get('/', (req: any, res:any) => {
-        res.send('The Red Alliance API. Copyright 2020 Titan Scouting.');
-        res.status(200);
-    });
-}
+  app.get('/', (req: any, res:any) => {
+    res.send('The Red Alliance API. Copyright 2020 Titan Scouting.');
+    res.status(200);
+  });
+};

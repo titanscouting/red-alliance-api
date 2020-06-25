@@ -1,11 +1,11 @@
-import UserReturnData from './UserReturnData'
+import UserReturnData from './UserReturnData';
 import Scouter from './Scouter';
 
-module.exports =(app:any, dbHandler:any, auth: any) => {
+module.exports = (app:any, dbHandler:any, auth: any) => {
   app.post('/api/addScouterToMatch', auth.checkAuth, async (req: any, res:any) => {
-    let val: UserReturnData =  new UserReturnData();
+    const val: UserReturnData = new UserReturnData();
     const scouter: Scouter = { name: String(res.locals.name), id: String(res.locals.id) };
-    const match: string = String(req.body.match);
+    const match = String(req.body.match);
     const teamScouted: number = parseInt(req.body.team_scouting, 10);
     try {
       val.data = await dbHandler.addScouterToMatch(req.db, scouter.id, scouter.name, match, teamScouted).catch((e) => { console.error(e); val.err_occur = true; });
@@ -25,5 +25,5 @@ module.exports =(app:any, dbHandler:any, auth: any) => {
       };
     }
     res.json(resobj);
-  });   
-}
+  });
+};
