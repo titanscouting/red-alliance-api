@@ -9,7 +9,7 @@ module.exports = (app: any, dbHandler: any) => {
     if (!(competitionID && matchNumber && teamScouted)) {
       res.json({
         success: false,
-        reasons: ["A required parameter (competition ID, match number, or team scouted) was not provided"],
+        reasons: ['A required parameter (competition ID, match number, or team scouted) was not provided'],
       })
     }
     try {

@@ -13,7 +13,7 @@ module.exports = (app: any, dbHandler: any) => {
     if (!competition) {
       res.json({
         success: false,
-        reasons: ["A competition was not provided"],
+        reasons: ['A competition ID was not provided'],
       })
     }
     try {
