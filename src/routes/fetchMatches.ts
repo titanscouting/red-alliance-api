@@ -10,6 +10,12 @@ module.exports = (app: any, dbHandler: any) => {
   app.get('/api/fetchMatches', async (req: any, res:any) => {
     const val: UserReturnData = new UserReturnData();
     const competition = String(req.query.competition);
+    if (!competition) {
+      res.json({
+        success: false,
+        reasons: ["A competition was not provided"],
+      })
+    }
     try {
       val.data = await dbHandler.fetchMatchesForCompetition(req.db, competition).catch((e) => { console.error(e); val.err_occur = true; });
     } catch (err) {

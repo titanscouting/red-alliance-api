@@ -6,6 +6,12 @@ module.exports = (app: any, dbHandler: any) => {
     const competitionID = String(req.query.competition);
     const matchNumber = parseInt(req.query.match_number, 10);
     const teamScouted = parseInt(req.query.team_scouted, 10);
+    if (!(competitionID && matchNumber && teamScouted)) {
+      res.json({
+        success: false,
+        reasons: ["A required parameter (competition ID, match number, or team scouted) was not provided"],
+      })
+    }
     try {
       val.data = await dbHandler.fetchMatchData(req.db, competitionID, matchNumber, teamScouted).catch((e) => { console.error(e); val.err_occur = true; val.err_reasons.push(e); });
     } catch (err) {

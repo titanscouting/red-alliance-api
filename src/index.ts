@@ -1,6 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import expressMongoDb from 'express-mongo-db';
+import expressMongoDb from 'mongo-express-req';
 import dbHandler = require('./dbHandler');
 import auth = require('./authHandler');
 
