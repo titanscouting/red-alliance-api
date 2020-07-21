@@ -3,7 +3,7 @@ process.env.NODE_ENV = 'test';
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 
-const server = require('../built/index.js');
+const server = require('../src/index.ts');
 
 const should = chai.should();
 
