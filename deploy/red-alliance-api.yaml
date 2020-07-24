@@ -26,7 +26,7 @@ spec:
     spec:
       containers:
         - name: api
-          image: docker.pkg.github.com/titanscout2022/red-alliance-api/red-alliance-api:536de8f0d3f0c7bcc5e8fb073a741c05c836718d
+          image: titanscout2022/red-alliance-api:latest
           ports:
             - containerPort: 8190
           env:
