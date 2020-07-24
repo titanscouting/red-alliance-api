@@ -12,7 +12,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Make sure to set the connection string as an environment variable
 // e.g export REDALLIANCEDBKEY='mongodb+srv://<user>:<pass>@<url>/<path>?<opts>'
 try {
-  app.use(expressMongoDb(process.env.REDALLIANCEDBKEY, { keepAlive: 1, connectTimeoutMS: 30000 }));
+  app.use(expressMongoDb(process.env.REDALLIANCEDBKEY, { keepAlive: 1, connectTimeoutMS: 30000, useUnifiedTopology: true }));
 } catch (e) {
   console.log('Could not connect to the MongoDB instance');
   process.exit(1);
