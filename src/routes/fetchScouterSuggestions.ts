@@ -12,12 +12,7 @@ module.exports = (app: any, dbHandler: any) => {
     const val: UserReturnData = new UserReturnData();
     const competition = String(req.query.competition);
     const matchNumber = parseInt(req.query.match_number, 10);
-    try {
-      val.data = await dbHandler.fetchScouterSuggestions(req.db, competition, matchNumber).catch((e) => { console.error(e); val.err_occur = true; });
-    } catch (err) {
-      console.error(err);
-      val.err_occur = true;
-    }
+    val.data = await dbHandler.fetchScouterSuggestions(req.db, competition, matchNumber).catch((e) => { console.error(e); val.err_occur = true; });
     let dataInterim: Record<string, unknown>;
     try {
       dataInterim = val.data.data;

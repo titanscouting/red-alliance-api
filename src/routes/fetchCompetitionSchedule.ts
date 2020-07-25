@@ -9,12 +9,7 @@ module.exports = (app: any, dbHandler: any) => {
   app.get('/api/fetchCompetitionSchedule', async (req: any, res:any) => {
     const val: UserReturnData = new UserReturnData();
     const competition = String(req.query.competition);
-    try {
-      val.data = await dbHandler.fetchCompetitionSchedule(req.db, competition).catch((e) => { console.error(e); val.err_occur = true; return {}; });
-    } catch (e) {
-      console.error(e);
-      val.err_occur = true;
-    }
+    val.data = await dbHandler.fetchCompetitionSchedule(req.db, competition).catch((e) => { console.error(e); val.err_occur = true; return {}; });
     let resobj = null;
     if (val.err_occur === false) {
       resobj = {

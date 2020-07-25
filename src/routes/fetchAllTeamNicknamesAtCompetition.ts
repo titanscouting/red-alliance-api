@@ -10,12 +10,7 @@ module.exports = (app, dbHandler) => {
   app.get('/api/fetchAllTeamNicknamesAtCompetition', async (req: any, res:any) => {
     const val: UserReturnData = new UserReturnData();
     const competition = String(req.query.competition);
-    try {
-      val.data = await dbHandler.fetchAllTeamNicknamesAtCompetition(req.db, competition).catch((e) => { console.error(e); val.err_occur = true; });
-    } catch (e) {
-      console.error(e);
-      val.err_occur = true;
-    }
+    val.data = await dbHandler.fetchAllTeamNicknamesAtCompetition(req.db, competition).catch((e) => { console.error(e); val.err_occur = true; });
     let resobj = null;
     if (val.err_occur === false) {
       resobj = {

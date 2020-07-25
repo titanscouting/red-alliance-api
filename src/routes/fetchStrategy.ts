@@ -5,12 +5,7 @@ module.exports = (app: any, dbHandler: any) => {
     const val: UserReturnData = new UserReturnData();
     const comp = String(req.query.competition);
     const match = String(req.query.match);
-    try {
-      val.data = await dbHandler.fetchStrategy(req.db, comp, match).catch((e) => { console.error(e); val.err_occur = true; });
-    } catch (err) {
-      console.error(err);
-      val.err_occur = true;
-    }
+    val.data = await dbHandler.fetchStrategy(req.db, comp, match).catch((e) => { console.error(e); val.err_occur = true; });
     // the try...catch is the next few lines serves to ensure the application doesn't just crash if scouters or teams were not returned by the DB handler.
     let dataInterim: Array<any>;
     try {
