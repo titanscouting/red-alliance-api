@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable import/order */
+
 import UserReturnData from './routes/UserReturnData';
 
 import bcrypt = require('bcrypt');
