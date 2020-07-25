@@ -16,12 +16,7 @@ module.exports = (app: any, dbHandler: any) => {
         reasons: ['A competition ID was not provided'],
       })
     }
-    try {
-      val.data = await dbHandler.fetchMatchesForCompetition(req.db, competition).catch((e) => { console.error(e); val.err_occur = true; });
-    } catch (err) {
-      console.error(err);
-      val.err_occur = true;
-    }
+    val.data = await dbHandler.fetchMatchesForCompetition(req.db, competition).catch((e) => { console.error(e); val.err_occur = true; });
     let resobj = null;
     if (val.err_occur === false) {
       resobj = {
