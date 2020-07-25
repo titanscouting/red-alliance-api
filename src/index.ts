@@ -16,6 +16,7 @@ try {
   app.use(expressMongoDb(process.env.REDALLIANCEDBKEY, { keepAlive: 1, connectTimeoutMS: 30000, useUnifiedTopology: true }));
 } catch (e) {
   console.log('Could not connect to the MongoDB instance');
+  console.error(e)
   process.exit(1);
 }
 
