@@ -123,23 +123,6 @@ export const fetchMatchesForCompetition = async (db, competition: string): Promi
   return data;
 };
 
-export const getNumberScouts = async (db, competition: string): Promise<UserReturnData> => {
-  const data: UserReturnData = { err_occur: false, err_reasons: [], data: {} };
-  const dbo = db.db('data_scouting');
-  const myobj = { competition };
-  let inval;
-  try {
-    data.data = await dbo.collection('schedule').findOne(myobj).catch((data: any) => {
-      inval = data.data.reduce((partialSum: number, a: number) => partialSum + a, 0);
-    });
-  } catch (e) {
-    data.err_occur = true;
-    data.err_reasons.push(e);
-    console.error(e);
-  }
-  return data;
-};
-
 export const fetchAllTeamNicknamesAtCompetition = async (db, compIdIn: string): Promise<UserReturnData> => {
   const data: UserReturnData = { err_occur: false, err_reasons: [], data: {} };
   const dbo = db.db('data_scouting');
