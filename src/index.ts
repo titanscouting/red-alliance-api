@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import expressMongoDb from 'mongo-express-req';
+
 import dbHandler = require('./dbHandler');
 import auth = require('./authHandler');
 
@@ -53,6 +54,7 @@ require('./routes/fetchStrategy')(app, dbHandler);
 require('./routes/getUserStrategy')(app, dbHandler, auth);
 require('./routes/fetchPitData')(app, dbHandler);
 require('./routes/submitPitData')(app, dbHandler, auth);
+require('./routes/addUserToTeam')(app, dbHandler, auth);
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
