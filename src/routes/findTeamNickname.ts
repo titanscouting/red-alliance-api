@@ -11,13 +11,8 @@ module.exports = (app: any, dbHandler: any) => {
   app.get('/api/findTeamNickname', async (req: any, res:any) => {
     const val: UserReturnData = new UserReturnData();
     const { competition, team_number } = req.query;
-    try {
-      const interim = await dbHandler.fetchAllTeamNicknamesAtCompetition(req.db, competition).catch((e) => { console.error(e); val.err_occur = true; });
-      val.data = { team_nickname: interim.data[team_number] };
-    } catch (e) {
-      console.error(e);
-      val.err_occur = true;
-    }
+    const interim = await dbHandler.fetchAllTeamNicknamesAtCompetition(req.db, competition).catch((e) => { console.error(e); val.err_occur = true; });
+    val.data = { team_nickname: interim.data[team_number] };
     let resobj = null;
     if (val.err_occur === false) {
       resobj = {
