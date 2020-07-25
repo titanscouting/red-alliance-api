@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import './dbHandler';
 
 const { OAuth2Client } = require('google-auth-library');
@@ -5,7 +6,7 @@ const dbHandler = require('./dbHandler');
 
 const CLIENT_ID = '291863698243-obu2fpbfpr7ul9db9lm7rmc1e4r3oeag.apps.googleusercontent.com';
 const client: any = new OAuth2Client(CLIENT_ID);
-export const checkAuth = async (req, res, next) => {
+export const checkAuth = async (req: any, res: any, next: any): Promise<void> => {
   const extUsers = ['Jon Abend', 'Robyn Abend', 'Dev Singh', 'Jacob Levine', 'Arthur Lu', 'Ian Fowler'];
   if (req.query.CLIENT_ID) {
     const isAuthorized = await dbHandler.checkKey(req.db, req.query.CLIENT_ID, req.query.CLIENT_SECRET);
