@@ -14,6 +14,7 @@ import UserReturnData from './routes/UserReturnData';
 
 import bcrypt = require('bcrypt');
 
+
 export const addKey = async (db: any, clientID: string, clientKey: string): Promise<UserReturnData> => {
   const data: UserReturnData = { err_occur: false, err_reasons: [], data: {} };
   const dbo = db.db('userlist');
@@ -150,9 +151,9 @@ export const fetchAllTeamNicknamesAtCompetition = async (db, compIdIn: string): 
 export const findTeamNickname = async (db, teamNumber: number) => {
   const data = { err_occur: false, err_reasons: [], data: {} };
   const dbo = db.db('data_scouting');
-  const myobj = {};
+  const myobj = { team_num: { $exists: true } };
   await dbo.collection('teamlist').findOne(myobj).then((value: any) => {
-    data.data = value.teamNumber;
+    data.data = value[teamNumber];
   }).catch((e: string) => {
     data.err_occur = true;
     data.err_reasons.push(e);
