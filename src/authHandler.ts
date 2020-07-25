@@ -32,6 +32,7 @@ export const checkAuth = async (req, res, next) => {
       if (payload.hd === 'imsa.edu' || extUsers.indexOf(payload.name) > -1 || extUsers.indexOf(payload.sub) > -1) {
         res.locals.id = payload.sub;
         res.locals.name = payload.name;
+        res.locals.team = dbHandler.getUserTeam(req.db, res.locals.id)
       } else {
         res.status(401);
         res.json({
