@@ -1,19 +1,7 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-// export const getCompetitions = async (db, idin) => {
-//     let rval;
-//     idin = String(idin)
-//     // Get the competitions for a team member. Currently, one user can only be part of one team.
-//     var dbo = db.db("data_scouting");
-//     var myobj = { id: idin};
-//     var data = await dbo.collection("userlist").findOne(myobj)
-//     return rval
-// }
-
-// const globalCompetition = '2020ilch';
 import UserReturnData from './routes/UserReturnData';
 
 import bcrypt = require('bcrypt');
-
 
 export const addKey = async (db: any, clientID: string, clientKey: string): Promise<UserReturnData> => {
   const data: UserReturnData = { err_occur: false, err_reasons: [], data: {} };
@@ -371,3 +359,14 @@ export const fetchPitData = async (db, compIdIn, matchNumberIn, teamScoutedIn) =
   }
   return data;
 };
+// export const getCompetitions = async (db, idin) => {
+//     let rval;
+//     idin = String(idin)
+//     // Get the competitions for a team member. Currently, one user can only be part of one team.
+//     var dbo = db.db("data_scouting");
+//     var myobj = { id: idin};
+//     var data = await dbo.collection("userlist").findOne(myobj)
+//     return rval
+// }
+
+// const globalCompetition = '2020ilch';
