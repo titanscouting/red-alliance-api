@@ -18,6 +18,8 @@ describe('/GET /api/fetchMatchData', () => {
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.have.property('data');
+        res.body.data._id.should.eql('2020ilch18160');
+        res.body.data.match.should.eql(1);
         res.body.should.have.property('success').eql(true);
         done();
       });

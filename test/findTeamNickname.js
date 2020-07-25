@@ -14,10 +14,11 @@ chai.use(chaiHttp);
 describe('/GET /api/findTeamNickname', () => {
   it('it should GET the team nickname for a team', (done) => {
     chai.request(server)
-      .get('/api/findTeamNickname?team_number=2022')
+      .get('/api/findTeamNickname?team_number=2022&competition=2020ilch')
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.have.property('success').eql(true);
+        res.body.should.have.property('data').eql({team_nickname: "Titan Robotics"});
         done();
       });
   });
