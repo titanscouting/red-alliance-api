@@ -1,11 +1,15 @@
 import UserReturnData from './UserReturnData';
 
+// FIXME: Add correct documentation
 /**
  * GET route '/api/checkUser'
  * Allows the application to fetch the list of matches and the number of scouters for the match.
  * @param token is the token obtained from Google OAuth and the JWT.
  * @returns back to the client let resobj (name and Google ID of user) and HTTP Status Code 200 OK.
  */
+
+// TODO: Write tests for this
+
 module.exports = (app: any, dbHandler: any) => {
   app.get('/api/checkUser', async (req: any, res:any) => {
     const val: UserReturnData = new UserReturnData();
