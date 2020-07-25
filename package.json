@@ -12,7 +12,7 @@
     "start:prod": "npm run build && node built/index.js",
     "build": "tsc",
     "test-lint": "eslint . --ext .ts",
-    "test": "nyc ts-mocha --timeout 10000 --exit"
+    "test": "nyc --reporter=text ts-mocha --timeout 10000 --exit"
   },
   "nyc": {
     "extension": [
