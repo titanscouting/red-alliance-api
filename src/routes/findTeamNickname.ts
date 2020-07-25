@@ -10,9 +10,10 @@ import UserReturnData from './UserReturnData';
 module.exports = (app: any, dbHandler: any) => {
   app.get('/api/findTeamNickname', async (req: any, res:any) => {
     const val: UserReturnData = new UserReturnData();
-    const teamNumber = req.query.team_number;
+    const { competition, team_number } = req.query;
     try {
-      val.data = await dbHandler.findTeamNickname(req.db, teamNumber).catch((e) => { console.error(e); val.err_occur = true; });
+      const interim = await dbHandler.fetchAllTeamNicknamesAtCompetition(req.db, competition).catch((e) => { console.error(e); val.err_occur = true; });
+      val.data = { team_nickname: interim.data[team_number] };
     } catch (e) {
       console.error(e);
       val.err_occur = true;
@@ -21,8 +22,8 @@ module.exports = (app: any, dbHandler: any) => {
     if (val.err_occur === false) {
       resobj = {
         success: true,
-        teamNum: teamNumber,
-        nickname: val.data.data,
+        competition,
+        data: val.data,
       };
     } else {
       resobj = {
