@@ -1,4 +1,5 @@
 import UserReturnData from './UserReturnData';
+import StatusCodes from './StatusCodes';
 
 /**
  * GET route '/api/fetchScouterSuggestions'
@@ -12,6 +13,12 @@ module.exports = (app: any, dbHandler: any) => {
     const val: UserReturnData = new UserReturnData();
     const competition = String(req.query.competition);
     const matchNumber = parseInt(req.query.match_number, 10);
+    if (!(competition && matchNumber)) {
+      res.status(StatusCodes.not_enough_info).json({
+        success: false,
+        reasons: ['A required parameter (competition ID or match number) was not provided'],
+      })
+    }
     val.data = await dbHandler.fetchScouterSuggestions(req.db, competition, matchNumber).catch((e) => { console.error(e); val.err_occur = true; });
     let dataInterim: Record<string, unknown>;
     try {
@@ -19,20 +26,18 @@ module.exports = (app: any, dbHandler: any) => {
     } catch (e) {
       val.err_occur = true;
     }
-    let resobj = null;
     if (val.err_occur === false) {
-      resobj = {
+      res.json({
         success: true,
         competition,
         matchNumber,
         data: dataInterim,
-      };
+      });
     } else {
-      resobj = {
+      res.status(StatusCodes.no_data).json({
         success: false,
         reasons: val.err_reasons,
-      };
+      });
     }
-    res.json(resobj);
   });
 };

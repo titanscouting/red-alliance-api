@@ -10,6 +10,12 @@ import StatusCodes from './StatusCodes';
 module.exports = (app: any, dbHandler: any, auth: any) => {
   app.post('/api/addUserToTeam', auth.checkAuth, async (req, res) => {
     const team = parseInt(req.body.team, 10)
+    if (!(team)) {
+      res.status(StatusCodes.not_enough_info).json({
+        success: false,
+        reasons: ['A team number was not provided'],
+      })
+    }
     let err_occur;
     const returns: UserReturnData = await dbHandler.addUserToTeam(req.db, res.locals.id, res.locals.name, team).catch((e) => { console.error(e); err_occur = true; });
     const err = returns.err_occur || err_occur;
