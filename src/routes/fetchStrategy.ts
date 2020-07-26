@@ -21,12 +21,12 @@ module.exports = (app: any, dbHandler: any) => {
       val.err_occur = true;
     }
     if (val.err_occur === false) {
-      res.status(StatusCodes.no_data).json({
+      res.json({
         success: true,
         data: dataInterim,
       });
     } else {
-      res.json({
+      res.status(StatusCodes.no_data).json({
         success: false,
         reasons: val.err_reasons,
       });

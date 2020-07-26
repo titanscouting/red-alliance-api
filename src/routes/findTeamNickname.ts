@@ -10,7 +10,8 @@ import StatusCodes from './StatusCodes';
 module.exports = (app: any, dbHandler: any) => {
   app.get('/api/findTeamNickname', async (req: any, res:any) => {
     const val: UserReturnData = new UserReturnData();
-    const { competition, teamNumber } = req.query;
+    const { competition } = req.query;
+    const teamNumber = req.query.team_number;
     if (!(competition && teamNumber)) {
       res.status(StatusCodes.not_enough_info).json({
         success: false,
