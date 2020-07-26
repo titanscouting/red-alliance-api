@@ -1,4 +1,5 @@
 import UserReturnData from './UserReturnData';
+import StatusCodes from './StatusCodes';
 
 /**
  * GET route '/api/fetchScouterUIDs'
@@ -13,6 +14,12 @@ module.exports = (app: any, dbHandler: any) => {
     const val: UserReturnData = new UserReturnData();
     const competition = String(req.query.competition);
     const matchNumber = parseInt(req.query.match_number, 10);
+    if (!(competition && matchNumber)) {
+      res.status(StatusCodes.not_enough_info).json({
+        success: false,
+        reasons: ['A required parameter (competition ID or match number) was not provided'],
+      })
+    }
     val.data = await dbHandler.fetchScouterUIDs(req.db, competition, matchNumber).catch((e) => { console.error(e); val.err_occur = true; });
     // the try...catch is the next few lines serves to ensure the application doesn't just crash if scouters or teams were not returned by the DB handler.
     let scoutersInterim: Array<Record<string, unknown>>;
@@ -23,20 +30,18 @@ module.exports = (app: any, dbHandler: any) => {
     } catch (e) {
       val.err_occur = true;
     }
-    let resobj = null;
     if (val.err_occur === false) {
-      resobj = {
+      res.json({
         success: true,
         competition,
         scouters: scoutersInterim,
         teams: teamsInterim,
-      };
+      });
     } else {
-      resobj = {
+      res.status(StatusCodes.no_data).json({
         success: false,
         reasons: val.err_reasons,
-      };
+      });
     }
-    res.json(resobj);
   });
 };

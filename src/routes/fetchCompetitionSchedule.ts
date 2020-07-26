@@ -1,4 +1,5 @@
 import UserReturnData from './UserReturnData';
+import StatusCodes from './StatusCodes';
 /**
  * GET route '/api/fetchCompetitionSchedule'
  * Allows the application to get all the matches for a given competition.
@@ -8,21 +9,25 @@ import UserReturnData from './UserReturnData';
 module.exports = (app: any, dbHandler: any) => {
   app.get('/api/fetchCompetitionSchedule', async (req: any, res:any) => {
     const val: UserReturnData = new UserReturnData();
-    const competition = String(req.query.competition);
+    const { competition }: Record<string, string> = req.query;
+    if (!(competition)) {
+      res.status(StatusCodes.not_enough_info).json({
+        success: false,
+        reasons: ['A competition ID was not provided'],
+      })
+    }
     val.data = await dbHandler.fetchCompetitionSchedule(req.db, competition).catch((e) => { console.error(e); val.err_occur = true; return {}; });
-    let resobj = null;
     if (val.err_occur === false) {
-      resobj = {
+      res.json({
         success: true,
         competition,
         data: val.data.data,
-      };
+      });
     } else {
-      resobj = {
+      res.status(StatusCodes.no_data).json({
         success: false,
         reasons: val.err_reasons,
-      };
+      });
     }
-    res.json(resobj);
   });
 };

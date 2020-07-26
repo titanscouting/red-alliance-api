@@ -1,4 +1,5 @@
 import UserReturnData from './UserReturnData';
+import StatusCodes from './StatusCodes';
 
 module.exports = (app: any, dbHandler: any) => {
   app.get('/api/fetchMatchData', async (req: any, res:any) => {
@@ -7,7 +8,7 @@ module.exports = (app: any, dbHandler: any) => {
     const matchNumber = parseInt(req.query.match_number, 10);
     const teamScouted = parseInt(req.query.team_scouted, 10);
     if (!(competitionID && matchNumber && teamScouted)) {
-      res.json({
+      res.status(StatusCodes.not_enough_info).json({
         success: false,
         reasons: ['A required parameter (competition ID, match number, or team scouted) was not provided'],
       })
@@ -20,21 +21,19 @@ module.exports = (app: any, dbHandler: any) => {
     } catch (e) {
       val.err_occur = true;
     }
-    let resobj = null;
     if (val.err_occur === false) {
-      resobj = {
+      res.json({
         success: true,
         competition: competitionID,
         matchNumber,
         teamScouted,
         data: dataInterim,
-      };
+      });
     } else {
-      resobj = {
+      res.status().json({
         success: false,
         reasons: val.err_reasons,
-      };
+      });
     }
-    res.json(resobj);
   });
 };

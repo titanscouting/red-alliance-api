@@ -310,7 +310,7 @@ export const fetchStrategy = async (db, compIdIn, matchIdIn) => {
   return data;
 };
 
-export const getUserStrategy = async (db, compIdIn, matchIdIn, namein) => {
+export const fetchUserStrategy = async (db, compIdIn, matchIdIn, namein) => {
   const data = { err_occur: false, err_reasons: [], data: {} };
 
   const dbo = db.db('strategies');

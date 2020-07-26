@@ -1,11 +1,18 @@
 import UserReturnData from './UserReturnData';
+import StatusCodes from './StatusCodes';
 
 module.exports = (app: any, dbHandler: any) => {
   app.get('/api/fetchStrategy', async (req: any, res:any) => {
     const val: UserReturnData = new UserReturnData();
-    const comp = String(req.query.competition);
-    const match = String(req.query.match);
-    val.data = await dbHandler.fetchStrategy(req.db, comp, match).catch((e) => { console.error(e); val.err_occur = true; });
+    const { competition } = req.query;
+    const matchNumber = String(req.query.match);
+    if (!(competition && matchNumber)) {
+      res.status(StatusCodes.not_enough_info).json({
+        success: false,
+        reasons: ['A required parameter (competition ID or match number) was not provided'],
+      })
+    }
+    val.data = await dbHandler.fetchStrategy(req.db, competition, matchNumber).catch((e) => { console.error(e); val.err_occur = true; });
     // the try...catch is the next few lines serves to ensure the application doesn't just crash if scouters or teams were not returned by the DB handler.
     let dataInterim: Array<any>;
     try {
@@ -13,18 +20,16 @@ module.exports = (app: any, dbHandler: any) => {
     } catch (e) {
       val.err_occur = true;
     }
-    let resobj = null;
     if (val.err_occur === false) {
-      resobj = {
+      res.json({
         success: true,
         data: dataInterim,
-      };
+      });
     } else {
-      resobj = {
+      res.status(StatusCodes.no_data).json({
         success: false,
         reasons: val.err_reasons,
-      };
+      });
     }
-    res.json(resobj);
   });
 };

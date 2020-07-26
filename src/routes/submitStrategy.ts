@@ -1,42 +1,31 @@
 import UserReturnData from './UserReturnData';
 import Scouter from './Scouter';
+import StatusCodes from './StatusCodes';
 
 module.exports = (app: any, dbHandler: any, auth: any) => {
   app.post('/api/submitStrategy', auth.checkAuth, async (req: any, res:any) => {
     const val: UserReturnData = new UserReturnData();
     const scouter: Scouter = { name: String(res.locals.name), id: String(res.locals.id) };
-    const comp = String(req.body.competition);
+    const competitionID = String(req.body.competition);
     const data = String(req.body.data);
-    let doGet = true;
-    // Application exhibits unpredicatble behavior if `if` evaluates to true, so we just filter that out.
-    if (data === 'null' || scouter.name === 'undefined') {
-      doGet = false;
-    }
-    const match = String(req.body.match);
-    let resobj = null;
-    if (doGet === true) {
-      try {
-        val.data = await dbHandler.submitStrategy(req.db, scouter.name, match, comp, data);
-      } catch (err) {
-        console.error(err);
-        val.err_occur = true;
-      }
-      if (val.err_occur === false) {
-        resobj = {
-          success: true,
-        };
-      } else {
-        resobj = {
-          success: false,
-          reasons: val.err_reasons,
-        };
-      }
-    } else {
-      resobj = {
+    const matchNumber = String(req.body.match);
+    if (!(competitionID && data && matchNumber) || data === null) {
+      res.status(StatusCodes.not_enough_info).json({
         success: false,
-        reasons: 'Data is null',
-      };
+        reasons: ['A required parameter (competition ID, data, or match number) was not provided'],
+      })
     }
-    res.json(resobj);
+    // Application exhibits unpredicatble behavior if `if` evaluates to true, so we just filter that out.
+    val.data = await dbHandler.submitStrategy(req.db, scouter.name, matchNumber, competitionID, data);
+    if (val.err_occur === false) {
+      res.json({
+        success: true,
+      });
+    } else {
+      res.status(StatusCodes.no_data).json({
+        success: false,
+        reasons: val.err_reasons,
+      });
+    }
   });
 };

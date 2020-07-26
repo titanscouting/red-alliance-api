@@ -1,4 +1,5 @@
 import UserReturnData from './UserReturnData';
+import StatusCodes from './StatusCodes';
 
 // FIXME: Add correct documentation
 /**
@@ -14,18 +15,16 @@ module.exports = (app: any, dbHandler: any) => {
   app.get('/api/checkUser', async (req: any, res:any) => {
     const val: UserReturnData = new UserReturnData();
     val.data = await dbHandler.checkKey(req.db, req.query.CLIENT_ID, req.query.CLIENT_SECRET).catch((e) => { console.error(e); val.err_reasons.push(e); val.err_occur = true; });
-    let resobj = null;
     if (!val.err_occur) {
-      resobj = {
+      res.json({
         success: true,
         isAuth: val.data,
-      };
+      });
     } else {
-      resobj = {
+      res.status(StatusCodes.no_data).json({
         success: false,
         reasons: val.err_reasons,
-      };
+      });
     }
-    res.json(resobj);
   });
 };
