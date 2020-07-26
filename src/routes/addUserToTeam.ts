@@ -1,4 +1,5 @@
 import UserReturnData from './UserReturnData';
+import StatusCodes from './StatusCodes';
 
 /**
   * POST route "/api/addUserToTeam"
@@ -9,14 +10,20 @@ import UserReturnData from './UserReturnData';
 module.exports = (app: any, dbHandler: any, auth: any) => {
   app.post('/api/addUserToTeam', auth.checkAuth, async (req, res) => {
     const team = parseInt(req.body.team, 10)
-    const returns: UserReturnData = await dbHandler.addUserToTeam(req.db, res.locals.id, res.locals.name, team);
-    const err = returns.err_occur;
-    const resobj = {
-      success: !err,
-      name: res.locals.name,
-      id: res.locals.id,
-      team: req.body.team,
+    let err_occur;
+    const returns: UserReturnData = await dbHandler.addUserToTeam(req.db, res.locals.id, res.locals.name, team).catch((e) => { console.error(e); err_occur = true; });
+    const err = returns.err_occur || err_occur;
+    if (err) {
+      res.status(StatusCodes.no_data).json({
+        success: false,
+      });
+    } else {
+      res.json({
+        success: true,
+        name: res.locals.name,
+        id: res.locals.id,
+        team: req.body.team,
+      })
     }
-    res.json(resobj)
   })
 };

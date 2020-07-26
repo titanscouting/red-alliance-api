@@ -1,5 +1,6 @@
 import UserReturnData from './UserReturnData';
 import Scouter from './Scouter';
+import StatusCodes from './StatusCodes';
 
 module.exports = (app:any, dbHandler:any, auth: any) => {
   app.post('/api/addScouterToMatch', auth.checkAuth, async (req: any, res:any) => {
@@ -7,23 +8,16 @@ module.exports = (app:any, dbHandler:any, auth: any) => {
     const scouter: Scouter = { name: String(res.locals.name), id: String(res.locals.id), team: String(res.locals.team) };
     const match = String(req.body.match);
     const teamScouted: number = parseInt(req.body.team_scouting, 10);
-    try {
-      val.data = await dbHandler.addScouterToMatch(req.db, scouter.id, scouter.name, match, teamScouted).catch((e) => { console.error(e); val.err_occur = true; });
-    } catch (err) {
-      console.error(err);
-      val.err_occur = true;
-    }
-    let resobj = null;
+    val.data = await dbHandler.addScouterToMatch(req.db, scouter.id, scouter.name, match, teamScouted).catch((e) => { console.error(e); val.err_occur = true; });
     if (val.err_occur === false) {
-      resobj = {
+      res.json({
         success: true,
-      };
+      });
     } else {
-      resobj = {
+      res.status(StatusCodes.no_data).json({
         success: false,
         reasons: val.err_reasons,
-      };
+      });
     }
-    res.json(resobj);
   });
 };

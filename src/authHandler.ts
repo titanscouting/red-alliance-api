@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import './dbHandler';
+import StatusCodes from './routes/StatusCodes';
 
 const { OAuth2Client } = require('google-auth-library');
 const dbHandler = require('./dbHandler');
@@ -14,7 +15,7 @@ export const checkAuth = async (req: any, res: any, next: any): Promise<void> =>
       res.locals.id = 0;
       res.locals.name = 'API User';
     } else {
-      res.status(401);
+      res.status(StatusCodes.not_authorized);
       res.json({
         success: false,
         reason: 'User could not be authenticated',
@@ -35,7 +36,7 @@ export const checkAuth = async (req: any, res: any, next: any): Promise<void> =>
         res.locals.name = payload.name;
         res.locals.team = dbHandler.getUserTeam(req.db, res.locals.id)
       } else {
-        res.status(401);
+        res.status(StatusCodes.not_authorized);
         res.json({
           success: false,
           reason: 'User is not part of imsa.edu domain',
@@ -44,7 +45,7 @@ export const checkAuth = async (req: any, res: any, next: any): Promise<void> =>
       }
     } catch (e) {
       console.error(`Could not get payload from ticket for reason: ${e}`);
-      res.status(401);
+      res.status(StatusCodes.not_authorized);
       res.json({
         success: false,
         reason: 'User could not be authenticated',
@@ -56,7 +57,7 @@ export const checkAuth = async (req: any, res: any, next: any): Promise<void> =>
 
 export const noAPIKey = async (req, res, next) => {
   if (req.query.CLIENT_ID || req.query.CLIENT_SECRET) {
-    res.status(401);
+    res.status(StatusCodes.no_key_auth);
     res.json({ success: false, reason: 'This route does not allow authentication via API key' });
   }
 
