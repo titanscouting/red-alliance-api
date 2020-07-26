@@ -13,3 +13,5 @@ NodeJS REST API for interacting with MongoDB. Backend database for TRA.
 ![Linting](https://github.com/titanscout2022/red-alliance-api/workflows/Lint%20the%20APi/badge.svg)
 
 ![Dependencies](https://david-dm.org/titanscout2022/red-alliance-api.svg)
+
+[![Known Vulnerabilities](https://snyk.io/test/github/titanscout2022/red-alliance-api/badge.svg?targetFile=package.json)](https://snyk.io/test/github/titanscout2022/red-alliance-api?targetFile=package.json)
