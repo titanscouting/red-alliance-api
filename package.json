@@ -12,7 +12,8 @@
     "start:prod": "npm run build && node built/index.js",
     "build": "tsc",
     "test-lint": "eslint . --ext .ts",
-    "test": "nyc --reporter=text ts-mocha --timeout 10000 --exit"
+    "test": "nyc --reporter=text ts-mocha --timeout 10000 --exit",
+    "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "nyc": {
     "extension": [
@@ -57,6 +58,7 @@
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
     "chai-json": "^1.0.0",
+    "coveralls": "^3.1.0",
     "eslint": "^7.5.0",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-plugin-import": "^2.22.0",
