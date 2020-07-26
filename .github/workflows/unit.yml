@@ -20,19 +20,17 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Coveralls GitHub Action
-      uses: coverallsapp/github-action@v1.1.1
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm install
-    - name: Run unit tests
-      run: npm test
-      env:
-        REDALLIANCEDBKEY: ${{ secrets.REDALLIANCEDBKEY }}
-    - name: Output to lcov
+    - name: Run unit tests and output to lcov
       run: npm run coverage
+        REDALLIANCEDBKEY: ${{ secrets.REDALLIANCEDBKEY }}
+    - name: Coveralls GitHub Action
+      uses: coverallsapp/github-action@v1.1.1
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+
 
