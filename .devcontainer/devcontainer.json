@@ -21,7 +21,7 @@
 		"dbaeumer.vscode-eslint",
 		"eamodio.gitlens",
 		"github.vscode-pull-request-github",
-		"ms-vscode.vscode-typescript-tslint-plugin"],
+		"ms-vscode.vscode-typescript-tslint-plugin", "gruntfuggly.todo-tree"],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	"forwardPorts": [8190],
