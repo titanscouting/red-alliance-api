@@ -41,18 +41,7 @@ export const getUserTeam = async (db: any, id: string): Promise<UserReturnData> 
   data.data = await dbo.collection('associations').findOne(myobj).catch((e) => { console.error(e); data.err_occur = true; data.err_reasons.push(e); });
   return data;
 };
-// export const checkKey = async (db, clientID: string, clientKey: string): Promise<boolean> => {
-//   const dbo = db.db('userlist');
-//   const myobj = { clientID };
-//   let hashedClientKey: any;
-//   dbo.collection('api_keys').findOne(myobj).catch((e) => {
-//     console.error(e); throw new Error('Database error');
-//   }).then((value: Record<string, unknown>) => {
-//     hashedClientKey = value.hashedClientKey;
-//   });
-//   console.log(hashedClientKey)
-//   return bcrypt.compareSync(clientKey, hashedClientKey);
-// };
+
 export const checkKey = async (db, clientID: string, clientKey: string) => {
   const data = { err_occur: false, err_reasons: [], data: {} };
   const dbo = db.db('userlist');
@@ -316,10 +305,8 @@ export const fetchUserStrategy = async (db, compIdIn, matchIdIn, namein) => {
 
   const dbo = db.db('strategies');
   const myobj = { competition: String(compIdIn), match: String(matchIdIn), scouter: String(namein) };
-  console.log(myobj);
   try {
     data.data = await dbo.collection('data').find(myobj).toArray();
-    console.log(data.data);
   } catch (err) {
     data.err_occur = true;
     data.err_reasons.push(err);
