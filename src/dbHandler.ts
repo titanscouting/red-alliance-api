@@ -41,29 +41,30 @@ export const getUserTeam = async (db: any, id: string): Promise<UserReturnData> 
   data.data = await dbo.collection('associations').findOne(myobj).catch((e) => { console.error(e); data.err_occur = true; data.err_reasons.push(e); });
   return data;
 };
-export const checkKey = async (db, clientID: string, clientKey: string): Promise<boolean> => {
-  const data = { err_occur: false, err_reasons: [], data: { hashedClientKey: undefined } };
+// export const checkKey = async (db, clientID: string, clientKey: string): Promise<boolean> => {
+//   const dbo = db.db('userlist');
+//   const myobj = { clientID };
+//   let hashedClientKey: any;
+//   dbo.collection('api_keys').findOne(myobj).catch((e) => {
+//     console.error(e); throw new Error('Database error');
+//   }).then((value: Record<string, unknown>) => {
+//     hashedClientKey = value.hashedClientKey;
+//   });
+//   console.log(hashedClientKey)
+//   return bcrypt.compareSync(clientKey, hashedClientKey);
+// };
+export const checkKey = async (db, clientID: string, clientKey: string) => {
+  const data = { err_occur: false, err_reasons: [], data: {} };
   const dbo = db.db('userlist');
   const myobj = { clientID };
-  dbo.collection('api_keys').findOne(myobj).catch((e) => {
-    console.error(e); data.err_occur = true; throw new Error('Database error');
-  }).then((value: Record<string, unknown>) => {
-    data.data.hashedClientKey = value;
+  await dbo.collection('api_keys').findOne(myobj).then((value: any) => {
+    data.data = value.hashedClientKey;
+  }).catch((e: string) => {
+    data.err_occur = true;
+    data.err_reasons.push(e);
   });
-  if (data.data == null) {
-    data.data.hashedClientKey = 'obvsnotrightlfojdslf2e980';
-  }
-  let isAuthorized: boolean;
-  await bcrypt.compare(clientKey, data.data.hashedClientKey, (err, res: boolean) => {
-    if (err) {
-      throw new Error('Error authing the key');
-    } else {
-      isAuthorized = res;
-    }
-  });
-  return isAuthorized;
+  return bcrypt.compareSync(clientKey, data.data);
 };
-
 export const submitMatchData = async (db: any, scouter: Record<string, unknown>, competition: string, match: number, team_scouted: number, matchdata: Record<string, unknown>): Promise<UserReturnData> => {
   const data: UserReturnData = { err_occur: false, err_reasons: [], data: {} };
   const dbo = db.db('data_scouting');
