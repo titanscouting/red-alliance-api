@@ -23,7 +23,6 @@ describe('POST /api/addUserToTeam', () => {
         res.body.should.have.property('success').eql(true);
         res.body.should.have.property('id').eql(0);
         res.body.should.have.property('team').eql("2022");
-        done();
       });
     chai.request(server)
       .post(`/api/addUserToTeam?CLIENT_ID=foo&CLIENT_SECRET=foo`)
@@ -33,5 +32,6 @@ describe('POST /api/addUserToTeam', () => {
         res.should.have.status(200);
         res.body.should.have.property('success').eql(false);
       });
+      done();
   });
 });
