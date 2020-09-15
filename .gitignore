@@ -65,3 +65,5 @@ built/
 deploy/secret.yml
 #Exclude env file for devcontainer
 .devcontainer/.env
+deploy/.secret.yml.swp
+deploy/secret.yml
