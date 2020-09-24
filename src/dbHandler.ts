@@ -1,82 +1,12 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable import/order */
 
-import UserReturnData from './routes/UserReturnData';
-
-import bcrypt = require('bcrypt');
-
-export const addKey = async (db: any, clientID: string, clientKey: string): Promise<UserReturnData> => {
-  const data: UserReturnData = { err_occur: false, err_reasons: [], data: {} };
-  const dbo = db.db('userlist');
-  const hashedClientKey = bcrypt.hashSync(clientKey, 12);
-  const myobj = {
-    $set: {
-      clientID, hashedClientKey,
-    },
-  };
-  await dbo.collection('api_keys').updateOne({ _id: clientID }, myobj, { upsert: true }).catch((e) => { console.error(e); data.err_reasons.push(e); data.err_occur = true; });
-  return data;
-};
-export const addUserToTeam = async (db: any, id: string, name: string, team: string): Promise<UserReturnData> => {
-  const data: UserReturnData = { err_occur: false, err_reasons: [], data: {} };
-  const dbo = db.db('userlist');
-  const myobj: Record<string, Record<string, string>> = {
-    $set: {
-      id, name, team,
-    },
-  };
-  try {
-    await dbo.collection('data').updateOne({ _id: id }, myobj, { upsert: true });
-  } catch (err) {
-    data.err_occur = true;
-    data.err_reasons.push(err);
-    console.error(err);
-  }
-  return data;
-};
-export const getUserTeam = async (db: any, id: string): Promise<UserReturnData> => {
-  const data: UserReturnData = { err_occur: false, err_reasons: [], data: {} };
-  const dbo = db.db('userlist');
-  const myobj = { id };
-  data.data = await dbo.collection('associations').findOne(myobj).catch((e) => { console.error(e); data.err_occur = true; data.err_reasons.push(e); });
-  return data;
-};
-
-export const checkKey = async (db, clientID: string, clientKey: string) => {
-  const data = { err_occur: false, err_reasons: [], data: {} };
-  const dbo = db.db('userlist');
-  const myobj = { clientID };
-  await dbo.collection('api_keys').findOne(myobj).then((value: any) => {
-    data.data = value.hashedClientKey;
-  }).catch((e: string) => {
-    data.err_occur = true;
-    data.err_reasons.push(e);
-  });
-  return bcrypt.compareSync(clientKey, data.data);
-};
-export const submitMatchData = async (db: any, scouter: Record<string, unknown>, competition: string, match: number, team_scouted: number, matchdata: Record<string, unknown>): Promise<UserReturnData> => {
-  const data: UserReturnData = { err_occur: false, err_reasons: [], data: {} };
-  const dbo = db.db('data_scouting');
-  const myobj = {
-    $set: {
-      scouter, competition, match, team_scouted, data: matchdata,
-    },
-  };
-  dbo.collection('matchdata').updateOne({ _id: competition + match + team_scouted }, myobj, { upsert: true }).catch((e: string) => { console.error(e); data.err_occur = true; data.err_reasons.push(e); });
-  return data;
-};
-
-export const submitShotChartData = async (db, scouter, competition, match, team_scouted, datain): Promise<UserReturnData> => {
-  const data: UserReturnData = { err_occur: false, err_reasons: [], data: {} };
-  const dbo = db.db('data_scouting');
-  const myobj = {
-    $set: {
-      scouter, competition, match, team_scouted, data: datain,
-    },
-  };
-  await dbo.collection('shotchart').updateOne({ _id: competition + match + team_scouted }, myobj, { upsert: true }).catch((e) => { console.error(e); data.err_reasons.push(e); data.err_occur = true; });
-  return data;
-};
+export { default as addKey } from './db-handlers/addKey';
+export { default as addUserToTeam } from './db-handlers/addUserToTeam';
+export { default as getUserTeam } from './db-handlers/getUserTeam';
+export { default as checkKey } from './db-handlers/checkKey';
+export { default as submitMatchData } from './db-handlers/submitMatchData';
+export { default as submitShotChartData } from './db-handlers/submitShotChartData';
 
 export const fetchMatchesForCompetition = async (db, competition: string): Promise<UserReturnData> => {
   const data: UserReturnData = { err_occur: false, err_reasons: [], data: { competition: undefined, data: undefined } };
