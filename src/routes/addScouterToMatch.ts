@@ -7,10 +7,11 @@ module.exports = (app:any, dbHandler:any, auth: any) => {
     const val: UserReturnData = new UserReturnData();
     const scouter: Scouter = { name: String(res.locals.name), id: String(res.locals.id), team: String(res.locals.team) };
     const match = String(req.body.match);
-    if (!(match)) {
+    const competition = String(req.body.competition);
+    if (!(match && competition)) {
       res.status(StatusCodes.not_enough_info).json({
         success: false,
-        reasons: ['A match number was not provided'],
+        reasons: ['A match number or competition ID was not provided'],
       })
     }
     const teamScouted: number = parseInt(req.body.team_scouting, 10);

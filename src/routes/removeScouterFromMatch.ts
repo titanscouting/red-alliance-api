@@ -8,10 +8,11 @@ module.exports = (app: any, dbHandler: any, auth: any) => {
     const scouter: Scouter = { name: String(res.locals.name), id: String(res.locals.id) };
     const match = String(req.body.match);
     const teamScouted: number = parseInt(req.body.team_scouting, 10);
-    if (!(match && teamScouted)) {
+    const competition = String(req.body.competition);
+    if (!(match && teamScouted && competition)) {
       res.status(StatusCodes.not_enough_info).json({
         success: false,
-        reasons: ['A required parameter (match or team scouted) was not provided'],
+        reasons: ['A required parameter (match, team scouted, or competition) was not provided'],
       })
     }
     val.data = await dbHandler.removeScouterFromMatch(req.db, scouter.id, match, teamScouted).catch((e) => { console.error(e); val.err_occur = true; });
