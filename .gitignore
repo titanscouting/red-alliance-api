@@ -63,3 +63,7 @@ typings/
 built/
 # Exclude Kubernetes Secret for DB Connection
 deploy/secret.yml
+#Exclude env file for devcontainer
+deploy/.secret.yml.swp
+deploy/secret.yml
+.devcontainer/.env
