@@ -17,7 +17,9 @@ describe('GET/api/fetchMatches', () => {
       .get('/api/fetchMatches?competition=2020ilch')
       .end((err, res) => {
         res.should.have.status(200);
-        res.body.should.eql({"success":true,"competition":"2020ilch","data":[6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,5,5,5,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,4,2,2,3,2,2,1,1,1,0,1,0,1,1,1,0,0,0,0,0,0,0,0,2,1,0,0]})
+        res.body.should.be.an('object');
+        res.body.should.have.property('success').equal(true);
+        res.body.should.have.property('data').with.lengthOf(90);
         done();
       });
   });
