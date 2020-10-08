@@ -9,7 +9,7 @@ const should = chai.should();
 
 chai.use(chaiHttp);
 /*
-  * Test the /GET route
+  * Test the GETroute
   */
 describe('GET /api/fetchPitData', () => {
   it('it should GET the pit data for a given team', (done) => {
