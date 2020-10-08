@@ -20,6 +20,12 @@ describe('/GET /api/fetchMatches', () => {
         res.body.should.be.an('object');
         res.body.should.have.property('success').equal(true);
         res.body.should.have.property('data').with.lengthOf(90);
+      });
+      chai.request(server)
+      .get('/api/fetchMatches')
+      .end((err, res) => {
+        res.should.have.status(404);
+        res.body.should.have.property('success').equal(false);
         done();
       });
   });

@@ -4,8 +4,8 @@ import StatusCodes from './StatusCodes';
 module.exports = (app: any, dbHandler: any) => {
   app.get('/api/fetchStrategy', async (req: any, res:any) => {
     const val: UserReturnData = new UserReturnData();
-    const { competition } = req.query;
-    const matchNumber = String(req.query.match);
+    const { competition }: Record<string, string> = req.query;
+    const matchNumber: number = req.query.match;
     if (!(competition && matchNumber)) {
       val.err_occur = true;
       val.err_reasons.push('A required parameter (competition ID or match number) was not provided')
