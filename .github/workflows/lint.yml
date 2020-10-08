@@ -29,3 +29,5 @@ jobs:
       run: npm run test-lint
       env:
         REDALLIANCEDBKEY: ${{ secrets.REDALLIANCEDBKEY }}
+        CLIENT_ID: ${{ secrets.TRA_CLIENTID }}
+        CLIENT_SECRET: ${{ secrets.TRA_CLIENTSECRET }}

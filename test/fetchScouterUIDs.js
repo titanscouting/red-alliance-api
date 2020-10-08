@@ -9,9 +9,9 @@ const should = chai.should();
 
 chai.use(chaiHttp);
 /*
-  * Test the /GET route
+  * Test the GETroute
   */
-describe('/GET /api/fetchScouterUIDs', () => {
+describe('GET/api/fetchScouterUIDs', () => {
   it('it should GET the users who are scouting a match', (done) => {
     chai.request(server)
       .get('/api/fetchScouterUIDs?competition=2020ilch&match_number=1')
@@ -31,6 +31,12 @@ describe('/GET /api/fetchScouterUIDs', () => {
           teams: ['5350', '5133', '3734', '63', '1675', '8160'],
         });
         res.body.should.have.property('success').eql(true);
+      });
+      chai.request(server)
+      .get('/api/fetchScouterUIDs')
+      .end((err, res) => {
+        res.should.have.status(404);
+        res.body.should.have.property('success').eql(false);
         done();
       });
   });

@@ -9,7 +9,7 @@ const should = chai.should();
 
 chai.use(chaiHttp);
 /*
-  * Test the /GET route
+  * Test the GETroute
   */
 describe('GET /api/fetchPitData', () => {
   it('it should GET the pit data for a given team', (done) => {
@@ -22,6 +22,12 @@ describe('GET /api/fetchPitData', () => {
       });
       chai.request(server)
       .get('/api/fetchPitData?competition=2020ilch&team_scouted=200000')
+      .end((err, res) => {
+        res.should.have.status(404);
+        res.body.should.have.property('success').eql(false);
+      });
+      chai.request(server)
+      .get('/api/fetchPitData')
       .end((err, res) => {
         res.should.have.status(404);
         res.body.should.have.property('success').eql(false);

@@ -1,6 +1,6 @@
 {
   "name": "red-alliance-api",
-  "version": "0.8.1",
+  "version": "0.9.0",
   "description": "FRC 2022 Scouting API",
   "main": "index.js",
   "repository": "https://github.com/titanscout2022/red-alliance-api",
@@ -40,7 +40,7 @@
     "express-jwt": "^6.0.0",
     "google-auth-library": "^6.0.6",
     "jsonwebtoken": "^8.5.1",
-    "jwks-rsa": "^1.8.1",
+    "jwks-rsa": "^1.9.0",
     "mongo-express-req": "^3.0.1",
     "mongodb": "^3.6.0",
     "nodemon": "^2.0.2",

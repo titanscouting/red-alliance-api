@@ -1,5 +1,5 @@
-import UserReturnData from './UserReturnData';
-import StatusCodes from './StatusCodes';
+import UserReturnData from '../UserReturnData';
+import StatusCodes from '../StatusCodes';
 /**
  * GET route '/api/findTeamNickname'
  * Allows the application to get the nickname for a team, given the team number.
@@ -10,16 +10,15 @@ import StatusCodes from './StatusCodes';
 module.exports = (app: any, dbHandler: any) => {
   app.get('/api/findTeamNickname', async (req: any, res:any) => {
     const val: UserReturnData = new UserReturnData();
-    const { competition } = req.query;
+    const competition = '2020ilch';
     const teamNumber = req.query.team_number;
-    if (!(competition && teamNumber)) {
-      res.status(StatusCodes.not_enough_info).json({
-        success: false,
-        reasons: ['A required parameter (competition ID or match number) was not provided'],
-      })
+    if (!(teamNumber)) {
+      val.err_occur = true;
+      val.err_reasons.push('A team number was not provided')
+    } else {
+      const interim = await dbHandler.fetchAllTeamNicknamesAtCompetition(req.db, competition).catch((e) => { console.error(e); val.err_occur = true; });
+      val.data = { team_nickname: interim.data[teamNumber] };
     }
-    const interim = await dbHandler.fetchAllTeamNicknamesAtCompetition(req.db, competition).catch((e) => { console.error(e); val.err_occur = true; });
-    val.data = { team_nickname: interim.data[teamNumber] };
     if (val.err_occur === false) {
       res.json({
         success: true,

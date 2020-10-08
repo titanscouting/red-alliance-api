@@ -10,7 +10,7 @@ NodeJS REST API for interacting with MongoDB. Backend database for TRA.
 ## Status Badges
 ![Unit Testing](https://github.com/titanscout2022/red-alliance-api/workflows/Run%20Unit%20tests/badge.svg)
 
-![Linting](https://github.com/titanscout2022/red-alliance-api/workflows/Lint%20the%20APi/badge.svg)
+![Linting](https://github.com/titanscout2022/red-alliance-api/workflows/Lint%20the%20API/badge.svg)
 
 ![Dependencies](https://david-dm.org/titanscout2022/red-alliance-api.svg)
 

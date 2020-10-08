@@ -1,5 +1,5 @@
-import UserReturnData from './UserReturnData';
-import StatusCodes from './StatusCodes';
+import UserReturnData from '../UserReturnData';
+import StatusCodes from '../StatusCodes';
 
 /**
  * GET route '/api/fetchScouterUIDs'
@@ -14,22 +14,22 @@ module.exports = (app: any, dbHandler: any) => {
     const val: UserReturnData = new UserReturnData();
     const competition = String(req.query.competition);
     const matchNumber = parseInt(req.query.match_number, 10);
-    if (!(competition && matchNumber)) {
-      res.status(StatusCodes.not_enough_info).json({
-        success: false,
-        reasons: ['A required parameter (competition ID or match number) was not provided'],
-      })
-    }
-    val.data = await dbHandler.fetchScouterUIDs(req.db, competition, matchNumber).catch((e) => { console.error(e); val.err_occur = true; });
-    // the try...catch is the next few lines serves to ensure the application doesn't just crash if scouters or teams were not returned by the DB handler.
     let scoutersInterim: Array<Record<string, unknown>>;
     let teamsInterim: Array<string>;
-    try {
-      scoutersInterim = val.data.scouters;
-      teamsInterim = val.data.teams;
-    } catch (e) {
+    if (!(competition && matchNumber)) {
       val.err_occur = true;
+      val.err_reasons.push('A required parameter (competition ID or match number) was not provided')
+    } else {
+      val.data = await dbHandler.fetchScouterUIDs(req.db, competition, matchNumber).catch((e) => { console.error(e); val.err_occur = true; });
+      // the try...catch is the next few lines serves to ensure the application doesn't just crash if scouters or teams were not returned by the DB handler.
+      try {
+        scoutersInterim = val.data.scouters;
+        teamsInterim = val.data.teams;
+      } catch (e) {
+        val.err_occur = true;
+      }
     }
+
     if (val.err_occur === false) {
       res.json({
         success: true,

@@ -1,5 +1,5 @@
-import UserReturnData from './UserReturnData';
-import StatusCodes from './StatusCodes';
+import UserReturnData from '../UserReturnData';
+import StatusCodes from '../StatusCodes';
 
 /**
  * GET route '/api/fetchAllTeamNicknamesAtCompetition'
@@ -11,7 +11,12 @@ module.exports = (app, dbHandler) => {
   app.get('/api/fetchAllTeamNicknamesAtCompetition', async (req: any, res:any) => {
     const val: UserReturnData = new UserReturnData();
     const competition = String(req.query.competition);
-    val.data = await dbHandler.fetchAllTeamNicknamesAtCompetition(req.db, competition).catch((e) => { console.error(e); val.err_occur = true; });
+    if (!(competition)) {
+      val.err_occur = true;
+      val.err_reasons.push('A required parameter (competition ID) was not provided');
+    } else {
+      val.data = await dbHandler.fetchAllTeamNicknamesAtCompetition(req.db, competition).catch((e) => { console.error(e); val.err_occur = true; });
+    }
     if (val.err_occur === false) {
       res.json({
         success: true,

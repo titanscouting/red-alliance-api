@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import './dbHandler';
-import StatusCodes from './routes/StatusCodes';
+import StatusCodes from './StatusCodes';
 
 const { OAuth2Client } = require('google-auth-library');
 const dbHandler = require('./dbHandler');
@@ -12,7 +12,7 @@ export const checkAuth = async (req: any, res: any, next: any): Promise<void> =>
   if (req.query.CLIENT_ID) {
     const isAuthorized = await dbHandler.checkKey(req.db, req.query.CLIENT_ID, req.query.CLIENT_SECRET);
     if (isAuthorized) {
-      res.locals.id = 0;
+      res.locals.id = req.query.CLIENT_ID;
       res.locals.name = 'API User';
     } else {
       res.status(StatusCodes.not_authorized);
@@ -32,9 +32,9 @@ export const checkAuth = async (req: any, res: any, next: any): Promise<void> =>
     try {
       const payload = ticket.getPayload();
       if (payload.hd === 'imsa.edu' || extUsers.indexOf(payload.name) > -1 || extUsers.indexOf(payload.sub) > -1) {
-        res.locals.id = payload.sub;
-        res.locals.name = payload.name;
-        res.locals.team = dbHandler.getUserTeam(req.db, res.locals.id)
+        res.locals.id = payload.sub.toString();
+        res.locals.name = payload.name.toString();
+        res.locals.team = parseInt(dbHandler.getUserTeam(req.db, res.locals.id), 10)
       } else {
         res.status(StatusCodes.not_authorized);
         res.json({
