@@ -19,6 +19,12 @@ describe('/GET /api/fetchCompetitionSchedule', () => {
         res.should.have.status(200);
         res.body.should.have.property('data');
         res.body.should.have.property('success').eql(true);
+      });
+      chai.request(server)
+      .get('/api/fetchCompetitionSchedule')
+      .end((err, res) => {
+        res.should.have.status(404);
+        res.body.should.have.property('success').eql(false);
         done();
       });
   });
