@@ -9,10 +9,8 @@ module.exports = (app:any, dbHandler:any, auth: any) => {
     const match = String(req.body.match);
     const competition = String(req.body.competition);
     if (!(match && competition)) {
-      res.status(StatusCodes.not_enough_info).json({
-        success: false,
-        reasons: ['A match number or competition ID was not provided'],
-      })
+      val.err_occur = true;
+      val.err_reasons.push('A required parameter (match number or competition ID) was not provided');
     }
     const teamScouted: number = parseInt(req.body.team_scouting, 10);
     val.data = await dbHandler.addScouterToMatch(req.db, scouter.id, scouter.name, match, teamScouted).catch((e) => { console.error(e); val.err_occur = true; });

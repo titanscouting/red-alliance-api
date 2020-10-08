@@ -6,10 +6,8 @@ module.exports = (app:any, dbHandler:any, auth: any) => {
     const val: UserReturnData = new UserReturnData();
     const { competition, matchNumber }: Record<string, string> = req.query;
     if (!(competition && matchNumber)) {
-      res.status(StatusCodes.not_enough_info).json({
-        success: false,
-        reasons: ['A required parameter (competition ID or match number) was not provided'],
-      })
+      val.err_occur = true;
+      val.err_reasons.push('A required parameter (competition ID or match number) was not provided')
     }
     const { name }: Record<string, string> = res.locals;
     val.data = await dbHandler.fetchUserStrategy(req.db, competition, matchNumber, name).catch((e) => { console.error(e); val.err_occur = true; });

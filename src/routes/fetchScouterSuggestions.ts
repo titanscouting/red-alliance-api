@@ -15,19 +15,11 @@ module.exports = (app: any, dbHandler: any) => {
     matchNumber = parseInt(matchNumber, 10);
     const val: UserReturnData = new UserReturnData();
     if ((competition === undefined || matchNumber === undefined)) {
-      res.status(StatusCodes.not_enough_info).json({
-        success: false,
-        reasons: ['A required parameter (competition ID or match number) was not provided'],
-      })
+      val.err_occur = true;
+      val.err_reasons.push('A required parameter (competition ID or match number) was not provided')
     }
     val.data = await dbHandler.fetchScouterSuggestions(req.db, competition, matchNumber).catch((e) => { console.error(e); val.err_occur = true; });
-    let dataInterim: Record<string, unknown>;
-    try {
-      dataInterim = val.data.data;
-    } catch (e) {
-      val.err_occur = true;
-      val.err_reasons.push(e)
-    }
+    const dataInterim: Record<string, unknown> = val.data.data;
     if (val.err_occur === false) {
       res.json({
         success: true,

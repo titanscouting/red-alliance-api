@@ -7,10 +7,8 @@ module.exports = (app: any, dbHandler: any) => {
     const { competition } = req.query;
     const matchNumber = String(req.query.match);
     if (!(competition && matchNumber)) {
-      res.status(StatusCodes.not_enough_info).json({
-        success: false,
-        reasons: ['A required parameter (competition ID or match number) was not provided'],
-      })
+      val.err_occur = true;
+      val.err_reasons.push('A required parameter (competition ID or match number) was not provided')
     }
     val.data = await dbHandler.fetchStrategy(req.db, competition, matchNumber).catch((e) => { console.error(e); val.err_occur = true; });
     // the try...catch is the next few lines serves to ensure the application doesn't just crash if scouters or teams were not returned by the DB handler.

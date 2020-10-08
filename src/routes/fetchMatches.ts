@@ -11,10 +11,8 @@ module.exports = (app: any, dbHandler: any) => {
     const val: UserReturnData = new UserReturnData();
     const competition = String(req.query.competition);
     if (!competition) {
-      res.json({
-        success: false,
-        reasons: ['A competition ID was not provided'],
-      })
+      val.err_occur = true;
+      val.err_reasons.push('A required parameter (competition ID) was not provided')
     }
     val.data = await dbHandler.fetchMatchesForCompetition(req.db, competition).catch((e) => { console.error(e); val.err_occur = true; });
     let resobj = null;
