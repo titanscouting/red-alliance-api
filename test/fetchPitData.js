@@ -25,6 +25,12 @@ describe('GET /api/fetchPitData', () => {
       .end((err, res) => {
         res.should.have.status(404);
         res.body.should.have.property('success').eql(false);
+      });
+      chai.request(server)
+      .get('/api/fetchPitData')
+      .end((err, res) => {
+        res.should.have.status(404);
+        res.body.should.have.property('success').eql(false);
         done();
       });
   });

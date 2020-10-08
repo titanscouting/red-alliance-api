@@ -6,10 +6,8 @@ module.exports = (app: any, dbHandler: any) => {
     const val: UserReturnData = new UserReturnData();
     const { competition }: Record<string, string> = req.query;
     if (!(competition)) {
-      res.status(StatusCodes.not_enough_info).json({
-        success: false,
-        reasons: ['A competition ID was not provided'],
-      })
+      val.err_occur = true;
+      val.err_reasons.push('A required parameter (competition ID) was not provided')
     }
     const teamScouted = parseInt(req.query.team_scouted, 10);
     val.data = await dbHandler.fetchPitData(req.db, competition, 0, teamScouted).catch((e) => { console.error(e); val.err_occur = true; });

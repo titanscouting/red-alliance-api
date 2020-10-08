@@ -1,5 +1,5 @@
 import UserReturnData from './UserReturnData';
-
+import StatusCodes from './StatusCodes';
 /**
  * GET route '/api/fetchMatches'
  * Allows the application to fetch the list of matches and the number of scouters for the match.
@@ -9,27 +9,23 @@ import UserReturnData from './UserReturnData';
 module.exports = (app: any, dbHandler: any) => {
   app.get('/api/fetchMatches', async (req: any, res:any) => {
     const val: UserReturnData = new UserReturnData();
-    const competition = String(req.query.competition);
+    const { competition }: Record<string, string> = req.query;
     if (!competition) {
-      res.json({
-        success: false,
-        reasons: ['A competition ID was not provided'],
-      })
+      val.err_occur = true;
+      val.err_reasons.push('A required parameter (competition ID) was not provided')
     }
     val.data = await dbHandler.fetchMatchesForCompetition(req.db, competition).catch((e) => { console.error(e); val.err_occur = true; });
-    let resobj = null;
     if (val.err_occur === false) {
-      resobj = {
+      res.json({
         success: true,
         competition,
         data: val.data.data.data, // TODO: Fix that structure up a bit
-      };
+      });
     } else {
-      resobj = {
+      res.status(StatusCodes.no_data).json({
         success: false,
         reasons: val.err_reasons,
-      };
+      });
     }
-    res.json(resobj);
   });
 };

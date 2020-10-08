@@ -1,5 +1,4 @@
 import UserReturnData from './UserReturnData';
-import Scouter from './Scouter';
 import StatusCodes from './StatusCodes';
 
 module.exports = (app: any, dbHandler: any, auth: any) => {
@@ -9,10 +8,8 @@ module.exports = (app: any, dbHandler: any, auth: any) => {
     const teamScouted: number = parseInt(req.body.team_scouting, 10);
     const competition = String(req.body.competition);
     if (!(match && teamScouted && competition)) {
-      res.status(StatusCodes.not_enough_info).json({
-        success: false,
-        reasons: ['A required parameter (match, team scouted, or competition) was not provided'],
-      })
+      val.err_occur = true;
+      val.err_reasons.push('A required parameter (match, team scouted, or competition) was not provided')
     }
     val.data = await dbHandler.removeScouterFromMatch(req.db, match, teamScouted).catch((e) => { console.error(e); val.err_occur = true; });
     if (val.err_occur === false) {
