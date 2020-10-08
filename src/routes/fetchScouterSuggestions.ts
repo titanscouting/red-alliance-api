@@ -10,10 +10,11 @@ import StatusCodes from './StatusCodes';
  */
 module.exports = (app: any, dbHandler: any) => {
   app.get('/api/fetchScouterSuggestions', async (req: any, res:any) => {
+    const { competition }: Record<string, string> = req.query;
+    let { matchNumber }: Record<string, any> = req.query;
+    matchNumber = parseInt(matchNumber, 10);
     const val: UserReturnData = new UserReturnData();
-    const competition = String(req.query.competition);
-    const matchNumber = parseInt(req.query.match_number, 10);
-    if (!(competition && matchNumber)) {
+    if ((competition === undefined || matchNumber === undefined)) {
       res.status(StatusCodes.not_enough_info).json({
         success: false,
         reasons: ['A required parameter (competition ID or match number) was not provided'],
@@ -25,6 +26,7 @@ module.exports = (app: any, dbHandler: any) => {
       dataInterim = val.data.data;
     } catch (e) {
       val.err_occur = true;
+      val.err_reasons.push(e)
     }
     if (val.err_occur === false) {
       res.json({
