@@ -31,6 +31,12 @@ describe('GET/api/fetchScouterUIDs', () => {
           teams: ['5350', '5133', '3734', '63', '1675', '8160'],
         });
         res.body.should.have.property('success').eql(true);
+      });
+      chai.request(server)
+      .get('/api/fetchScouterUIDs')
+      .end((err, res) => {
+        res.should.have.status(404);
+        res.body.should.have.property('success').eql(false);
         done();
       });
   });

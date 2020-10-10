@@ -9,7 +9,7 @@ module.exports = (app: any, dbHandler: any, auth: any) => {
     const competitionID = String(req.body.competitionID);
     const matchNumber: number = parseInt(req.body.matchNumber, 10);
     const teamScouted: number = parseInt(req.body.teamScouted, 10);
-    const { data } = req.body;
+    const { data }: Record<string, any> = req.body;
     if (!(matchNumber && teamScouted && competitionID && data)) {
       res.status(StatusCodes.not_enough_info).json({
         success: false,

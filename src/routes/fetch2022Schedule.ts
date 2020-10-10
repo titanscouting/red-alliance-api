@@ -6,10 +6,8 @@ module.exports = (app: any, dbHandler: any) => {
     const val: UserReturnData = new UserReturnData();
     const competition = String(req.query.competition);
     if (!(competition)) {
-      res.status(StatusCodes.not_enough_info).json({
-        success: false,
-        reasons: ['A competition ID was not provided'],
-      })
+      val.err_occur = true;
+      val.err_reasons.push('A required parameter (competition) was not provided');
     }
     val.data = await dbHandler.fetch2022Schedule(req.db, competition).catch((e) => { console.error(e); val.err_occur = true; });
     if (val.err_occur === false) {
