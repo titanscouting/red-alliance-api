@@ -39,7 +39,7 @@ require('./routes/submitMatchData')(app, dbHandler, auth);
 require('./routes/checkUser')(app, dbHandler, auth);
 require('./routes/fetchScouterSuggestions')(app, dbHandler);
 require('./routes/fetchScouterUIDs')(app, dbHandler);
-require('./routes/fetchPitConfig')(app);
+require('./routes/fetchPitConfig')(app, dbHandler);
 require('./routes/findTeamNickname')(app, dbHandler);
 require('./routes/fetchAllTeamNicknamesAtCompetition')(app, dbHandler);
 require('./routes/fetchMatchConfig')(app);

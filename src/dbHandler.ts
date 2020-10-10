@@ -20,3 +20,4 @@ export { default as fetchStrategy } from './db-handlers/fetchStrategy';
 export { default as fetchUserStrategy } from './db-handlers/fetchUserStrategy';
 export { default as fetchPitData } from './db-handlers/fetchPitData';
 export { default as submitPitData } from './db-handlers/submitPitData';
+export { default as fetchPitConfig } from './db-handlers/fetchPitConfig';
