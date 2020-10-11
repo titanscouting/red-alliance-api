@@ -5,7 +5,7 @@ import StatusCodes from './StatusCodes';
 module.exports = (app:any, dbHandler:any, auth: any) => {
   app.post('/api/addScouterToMatch', auth.checkAuth, async (req: any, res:any) => {
     const val: UserReturnData = new UserReturnData();
-    const scouter: Scouter = { name: String(res.locals.name), id: String(res.locals.id), team: String(res.locals.team) };
+    const scouter: Scouter = { name: String(res.locals.name), id: String(res.locals.id), team: parseInt(res.locals.team, 10) };
     const match = String(req.body.match);
     const competition = String(req.body.competition);
     if (!(match && competition)) {
