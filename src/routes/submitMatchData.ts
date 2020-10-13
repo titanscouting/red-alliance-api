@@ -1,5 +1,5 @@
-import Scouter from './Scouter';
-import UserReturnData from './UserReturnData';
+import Scouter from '../Scouter';
+import UserReturnData from '../UserReturnData';
 import StatusCodes from './StatusCodes';
 /**
  * POST route '/api/submitMatchData'

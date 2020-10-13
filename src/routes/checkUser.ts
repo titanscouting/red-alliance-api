@@ -1,4 +1,4 @@
-import UserReturnData from './UserReturnData';
+import UserReturnData from '../UserReturnData';
 import StatusCodes from './StatusCodes';
 
 // FIXME: Add correct documentation
