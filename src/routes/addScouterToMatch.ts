@@ -1,5 +1,5 @@
-import UserReturnData from '../UserReturnData';
-import Scouter from '../Scouter';
+import UserReturnData from './UserReturnData';
+import Scouter from './Scouter';
 import StatusCodes from './StatusCodes';
 
 module.exports = (app:any, dbHandler:any, auth: any) => {

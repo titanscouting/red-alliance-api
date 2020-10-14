@@ -1,5 +1,5 @@
 import * as bcrypt from 'bcrypt';
-import UserReturnData from '../UserReturnData';
+import UserReturnData from '../routes/UserReturnData';
 
 export default async (db, clientID: string, clientKey: string): Promise<boolean> => {
   const data: UserReturnData = { err_occur: false, err_reasons: [], data: {} };

@@ -32,6 +32,8 @@ try {
 
 // TODO: find a way to loop through this without a bunch of require(). A simple for loop results in `require() not found`.
 // TODO: use the UserReturnData class when returning data in all these apis
+
+require('./routes/base')(app);
 require('./routes/fetchMatches')(app, dbHandler);
 require('./routes/submitMatchData')(app, dbHandler, auth);
 require('./routes/checkUser')(app, dbHandler, auth);
@@ -55,6 +57,7 @@ require('./routes/fetchPitData')(app, dbHandler);
 require('./routes/submitPitData')(app, dbHandler, auth);
 require('./routes/addUserToTeam')(app, dbHandler, auth);
 require('./routes/fetchMatchConfig')(app, dbHandler);
+
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
 

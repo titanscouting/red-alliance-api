@@ -1,4 +1,4 @@
-import UserReturnData from '../UserReturnData';
+import UserReturnData from '../routes/UserReturnData';
 
 export default async (db: any, competition: string, match: string, scouter: string): Promise<UserReturnData> => {
   const data: UserReturnData = { err_occur: false, err_reasons: [], data: {} };
