@@ -1,5 +1,5 @@
-import UserReturnData from './UserReturnData';
-import StatusCodes from './StatusCodes';
+import UserReturnData from '../UserReturnData';
+import StatusCodes from '../StatusCodes';
 /**
  * GET route '/api/fetchMatches'
  * Allows the application to fetch the list of matches and the number of scouters for the match.

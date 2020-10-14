@@ -1,6 +1,6 @@
-import UserReturnData from './UserReturnData';
-import Scouter from './Scouter';
-import StatusCodes from './StatusCodes';
+import UserReturnData from '../UserReturnData';
+import Scouter from '../Scouter';
+import StatusCodes from '../StatusCodes';
 
 module.exports = (app:any, dbHandler:any, auth: any) => {
   app.post('/api/addScouterToMatch', auth.checkAuth, async (req: any, res:any) => {

@@ -1,5 +1,5 @@
-import UserReturnData from './UserReturnData';
-import StatusCodes from './StatusCodes';
+import UserReturnData from '../UserReturnData';
+import StatusCodes from '../StatusCodes';
 
 module.exports = (app: any, dbHandler: any) => {
   app.get('/api/fetch2022Schedule', async (req: any, res:any) => {

@@ -1,6 +1,6 @@
-import Scouter from './Scouter';
-import UserReturnData from './UserReturnData';
-import StatusCodes from './StatusCodes';
+import Scouter from '../Scouter';
+import UserReturnData from '../UserReturnData';
+import StatusCodes from '../StatusCodes';
 /**
  * POST route '/api/submitMatchData'
  * Allows the application to submit data to the API, with some key data seperated within the

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import './dbHandler';
-import StatusCodes from './routes/StatusCodes';
+import StatusCodes from './StatusCodes';
 
 const { OAuth2Client } = require('google-auth-library');
 const dbHandler = require('./dbHandler');
