@@ -20,6 +20,9 @@ module.exports = (app: any, dbHandler: any) => {
     }
     if (val.err_occur === false) {
       res.json({
+        success: true,
+        competition,
+        team_number,
         config: dataInterim,
       });
     } else {
