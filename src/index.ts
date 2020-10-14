@@ -42,7 +42,6 @@ require('./routes/fetchScouterUIDs')(app, dbHandler);
 require('./routes/fetchPitConfig')(app, dbHandler);
 require('./routes/findTeamNickname')(app, dbHandler);
 require('./routes/fetchAllTeamNicknamesAtCompetition')(app, dbHandler);
-require('./routes/fetchMatchConfig')(app);
 require('./routes/fetchCompetitionSchedule')(app, dbHandler);
 require('./routes/fetch2022Schedule')(app, dbHandler);
 require('./routes/fetchMatchData')(app, dbHandler);
