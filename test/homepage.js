@@ -9,9 +9,9 @@ const should = chai.should();
 
 chai.use(chaiHttp);
 /*
-  * Test the GETroute
+  * Test the /GET route
   */
-describe('GET/', () => {
+describe('/GET /', () => {
   it('it should GET the homepage', (done) => {
     chai.request(server)
       .get('/')

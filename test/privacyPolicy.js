@@ -9,9 +9,9 @@ const should = chai.should();
 
 chai.use(chaiHttp);
 /*
-  * Test the GETroute
+  * Test the /GET route
   */
-describe('GET/privacy-policy', () => {
+describe('/GET /privacy-policy', () => {
   it('it should GET the privacy policy', (done) => {
     chai.request(server)
       .get('/privacy-policy')
