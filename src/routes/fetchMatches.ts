@@ -10,12 +10,17 @@ module.exports = (app: any, dbHandler: any) => {
   app.get('/api/fetchMatches', async (req: any, res:any) => {
     const val: UserReturnData = new UserReturnData();
     const { competition }: Record<string, string> = req.query;
-    val.data = await dbHandler.fetchMatchesForCompetition(competition).catch((e) => { console.error(e); val.err_occur = true; });
+    if (!(competition)) {
+      val.err_occur = true;
+      val.err_reasons.push('A competition ID was not provided')
+    } else {
+      val.data = await dbHandler.fetchMatchesForCompetition(req.db, competition).catch((e) => { console.error(e); val.err_occur = true; });
+    }
     if (val.err_occur === false) {
       res.json({
         success: true,
         competition,
-        data: val.data, // TODO: Fix that structure up a bit
+        data: val.data.data.data, // TODO: Fix that structure up a bit
       });
     } else {
       res.status(StatusCodes.no_data).json({
