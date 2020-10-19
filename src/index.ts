@@ -1,7 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import expressMongoDb from 'mongo-express-req';
-
 import dbHandler = require('./dbHandler');
 import auth = require('./authHandler');
 
@@ -32,17 +31,15 @@ try {
 
 // TODO: find a way to loop through this without a bunch of require(). A simple for loop results in `require() not found`.
 // TODO: use the UserReturnData class when returning data in all these apis
-
 require('./routes/base')(app);
 require('./routes/fetchMatches')(app, dbHandler);
 require('./routes/submitMatchData')(app, dbHandler, auth);
 require('./routes/checkUser')(app, dbHandler, auth);
 require('./routes/fetchScouterSuggestions')(app, dbHandler);
 require('./routes/fetchScouterUIDs')(app, dbHandler);
-require('./routes/fetchPitConfig')(app);
+require('./routes/fetchPitConfig')(app, dbHandler);
 require('./routes/findTeamNickname')(app, dbHandler);
 require('./routes/fetchAllTeamNicknamesAtCompetition')(app, dbHandler);
-require('./routes/fetchMatchConfig')(app);
 require('./routes/fetchCompetitionSchedule')(app, dbHandler);
 require('./routes/fetch2022Schedule')(app, dbHandler);
 require('./routes/fetchMatchData')(app, dbHandler);
@@ -56,6 +53,7 @@ require('./routes/fetchUserStrategy')(app, dbHandler, auth);
 require('./routes/fetchPitData')(app, dbHandler);
 require('./routes/submitPitData')(app, dbHandler, auth);
 require('./routes/addUserToTeam')(app, dbHandler, auth);
+require('./routes/fetchMatchConfig')(app, dbHandler);
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
 

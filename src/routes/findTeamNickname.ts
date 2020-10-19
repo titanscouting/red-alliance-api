@@ -1,5 +1,5 @@
-import UserReturnData from './UserReturnData';
-import StatusCodes from './StatusCodes';
+import UserReturnData from '../UserReturnData';
+import StatusCodes from '../StatusCodes';
 /**
  * GET route '/api/findTeamNickname'
  * Allows the application to get the nickname for a team, given the team number.

@@ -1,5 +1,5 @@
 import * as bcrypt from 'bcrypt';
-import UserReturnData from '../routes/UserReturnData';
+import UserReturnData from '../UserReturnData';
 
 export default async (db, clientID: string, clientKey: string): Promise<boolean> => {
   const data: UserReturnData = { err_occur: false, err_reasons: [], data: {} };
@@ -11,5 +11,9 @@ export default async (db, clientID: string, clientKey: string): Promise<boolean>
     data.err_occur = true;
     data.err_reasons.push(e);
   });
-  return bcrypt.compareSync(clientKey, data.data);
+  try {
+    return bcrypt.compareSync(clientKey, data.data).catch(() => false);
+  } catch {
+    return false
+  }
 };

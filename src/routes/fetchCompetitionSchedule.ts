@@ -1,5 +1,5 @@
-import UserReturnData from './UserReturnData';
-import StatusCodes from './StatusCodes';
+import UserReturnData from '../UserReturnData';
+import StatusCodes from '../StatusCodes';
 /**
  * GET route '/api/fetchCompetitionSchedule'
  * Allows the application to get all the matches for a given competition.

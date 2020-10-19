@@ -26,14 +26,19 @@ chai.use(require('chai-json'));
 describe('/GET /fetchMatchConfig', () => {
   it('it should GET the match scout config', (done) => {
     chai.request(server)
-      .get('/api/fetchMatchConfig')
+      .get('/api/fetchMatchConfig?competition=2020ilch&team=2022')
       .end((err, res) => {
         res.should.have.status(200);
-        expect(res.body).to.be.an('array');
+        expect(res.body.config).to.be.an('array');
         // make sure that each screen has a valid config
-        for (const screenConfig of res.body) {
+        for (const screenConfig of res.body.config) {
           expect(isJson(JSON.stringify(screenConfig))).to.eql(true);
         }
+      });
+    chai.request(server)
+      .get('/api/fetchMatchConfig')
+      .end((err, res) => {
+        res.should.have.status(404);
         done();
       });
   });

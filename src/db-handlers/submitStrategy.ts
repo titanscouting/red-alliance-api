@@ -1,20 +1,20 @@
-import UserReturnData from '../routes/UserReturnData';
+import Scouter from '../Scouter';
+import UserReturnData from '../UserReturnData';
 
-export default async (db, scouterin, matchin, compin, datain): Promise<UserReturnData> => {
-  const data: UserReturnData = { err_occur: false, err_reasons: [], data: {} };
-
+export default async (db: any, scouter: Scouter, match: string, competition: string, data: string): Promise<UserReturnData> => {
+  const dataReturn: UserReturnData = { err_occur: false, err_reasons: [], data: {} };
   const dbo = db.db('strategies');
   const myobj = {
     $set: {
-      scouter: scouterin, competition: compin, match: matchin, data: datain,
+      scouter, competition, match, data,
     },
   };
   try {
-    await dbo.collection('data').updateOne({ _id: compin + scouterin + matchin }, myobj, { upsert: true });
+    await dbo.collection('data').updateOne({ _id: competition + scouter.id + match }, myobj, { upsert: true });
   } catch (err) {
-    data.err_occur = true;
-    data.err_reasons.push(err);
+    dataReturn.err_occur = true;
+    dataReturn.err_reasons.push(err);
     console.error(err);
   }
-  return data;
+  return dataReturn;
 };
