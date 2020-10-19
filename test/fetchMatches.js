@@ -9,9 +9,9 @@ const should = chai.should();
 
 chai.use(chaiHttp);
 /*
-  * Test the GETroute
+  * Test the /GET route
   */
-describe('GET/api/fetchMatches', () => {
+describe('/GET /api/fetchMatches', () => {
   it('it should GET the number of scouters for each match', (done) => {
     chai.request(server)
       .get('/api/fetchMatches?competition=2020ilch')
