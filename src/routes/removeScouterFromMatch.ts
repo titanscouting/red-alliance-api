@@ -10,8 +10,10 @@ module.exports = (app: any, dbHandler: any, auth: any) => {
     if (!(match && teamScouted && competition)) {
       val.err_occur = true;
       val.err_reasons.push('A required parameter (match, team scouted, or competition) was not provided')
+    } else {
+      val.data = await dbHandler.removeScouterFromMatch(req.db, match, teamScouted).catch((e) => { console.error(e); val.err_occur = true; });
     }
-    val.data = await dbHandler.removeScouterFromMatch(req.db, match, teamScouted).catch((e) => { console.error(e); val.err_occur = true; });
+
     if (val.err_occur === false) {
       res.json({
         success: true,
