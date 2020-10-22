@@ -13,8 +13,9 @@ module.exports = (app: any, dbHandler: any) => {
     if (!(competition)) {
       val.err_occur = true;
       val.err_reasons.push('A required parameter (competition ID) was not provided')
+    } else {
+      val.data = await dbHandler.fetchCompetitionSchedule(req.db, competition).catch((e) => { console.error(e); val.err_occur = true; return {}; });
     }
-    val.data = await dbHandler.fetchCompetitionSchedule(req.db, competition).catch((e) => { console.error(e); val.err_occur = true; return {}; });
     if (val.err_occur === false) {
       res.json({
         success: true,
