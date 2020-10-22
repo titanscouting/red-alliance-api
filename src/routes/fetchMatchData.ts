@@ -10,8 +10,9 @@ module.exports = (app: any, dbHandler: any) => {
     if (!(competitionID && matchNumber && teamScouted)) {
       val.err_occur = true;
       val.err_reasons.push('A required parameter (competition ID, match number, or team scouted) was not provided')
+    } else {
+      val.data = await dbHandler.fetchMatchData(req.db, competitionID, matchNumber, teamScouted).catch((e) => { console.error(e); val.err_occur = true; val.err_reasons.push(e); });
     }
-    val.data = await dbHandler.fetchMatchData(req.db, competitionID, matchNumber, teamScouted).catch((e) => { console.error(e); val.err_occur = true; val.err_reasons.push(e); });
     // the try...catch is the next few lines serves to ensure the application doesn't just crash if scouters or teams were not returned by the DB handler.
     let dataInterim;
     try {

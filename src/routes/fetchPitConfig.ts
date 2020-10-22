@@ -9,8 +9,9 @@ module.exports = (app: any, dbHandler: any) => {
     if (!(competition && team_number)) {
       val.err_occur = true;
       val.err_reasons.push('A required parameter (competition ID or team number) was not provided');
+    } else {
+      val.data = await dbHandler.fetchPitConfig(req.db, competition, team_number).catch((e) => { console.error(e); val.err_occur = true; });
     }
-    val.data = await dbHandler.fetchPitConfig(req.db, competition, team_number).catch((e) => { console.error(e); val.err_occur = true; });
     // the try...catch is the next few lines serves to ensure the application doesn't just crash if scouters or teams were not returned by the DB handler.
     let dataInterim: Record<string, unknown>;
     try {

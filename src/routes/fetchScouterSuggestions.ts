@@ -17,8 +17,9 @@ module.exports = (app: any, dbHandler: any) => {
     if ((competition === undefined || matchNumber === undefined)) {
       val.err_occur = true;
       val.err_reasons.push('A required parameter (competition ID or match number) was not provided')
+    } else {
+      val.data = await dbHandler.fetchScouterSuggestions(req.db, competition, matchNumber).catch((e) => { console.error(e); val.err_occur = true; });
     }
-    val.data = await dbHandler.fetchScouterSuggestions(req.db, competition, matchNumber).catch((e) => { console.error(e); val.err_occur = true; });
     const dataInterim: Record<string, unknown> = val.data.data;
     if (val.err_occur === false) {
       res.json({
