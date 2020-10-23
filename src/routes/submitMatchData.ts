@@ -16,7 +16,7 @@ import StatusCodes from '../StatusCodes';
 
 module.exports = (app: any, dbHandler: any, auth: any) => {
   app.post('/api/submitMatchData', auth.checkAuth, async (req: any, res: any) => {
-    let val: UserReturnData = new UserReturnData();
+    const val: UserReturnData = new UserReturnData();
     const scouter: Scouter = { name: String(res.locals.name), id: String(res.locals.id) };
     const { competitionID, data }: Record<string, string> = req.body;
     const matchNumber: number = parseInt(req.body.matchNumber, 10);
@@ -26,13 +26,14 @@ module.exports = (app: any, dbHandler: any, auth: any) => {
         success: false,
         reasons: ['A required parameter (match number, team scouted, competition ID, or data) was not provided'],
       })
+    } else {
+      val.data = await dbHandler.submitMatchData(req.db, scouter,
+        competitionID, matchNumber, teamScouted, data).catch(
+        (e: string) => {
+          console.error(e); val.err_occur = true;
+        },
+      );
     }
-    val = await dbHandler.submitMatchData(req.db, scouter,
-      competitionID, matchNumber, teamScouted, data).catch(
-      (e: string) => {
-        console.error(e); val.err_occur = true;
-      },
-    );
     if (val.err_occur === false) {
       res.json({
         success: true,

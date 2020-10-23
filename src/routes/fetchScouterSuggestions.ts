@@ -14,11 +14,13 @@ module.exports = (app: any, dbHandler: any) => {
     let { matchNumber }: Record<string, any> = req.query;
     matchNumber = parseInt(matchNumber, 10);
     const val: UserReturnData = new UserReturnData();
+    let dataInterim: Record<string, unknown>;
     if ((competition === undefined || matchNumber === undefined)) {
       val.err_occur = true;
       val.err_reasons.push('A required parameter (competition ID or match number) was not provided')
     } else {
       val.data = await dbHandler.fetchScouterSuggestions(req.db, competition, matchNumber).catch((e) => { console.error(e); val.err_occur = true; });
+      dataInterim = val.data.data;
     }
     const dataInterim: Record<string, unknown> = val.data.data;
     if (val.err_occur === false) {
