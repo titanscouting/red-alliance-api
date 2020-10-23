@@ -15,9 +15,10 @@ module.exports = (app: any, dbHandler: any) => {
     if (!(teamNumber)) {
       val.err_occur = true;
       val.err_reasons.push('A team number was not provided')
+    } else {
+      const interim = await dbHandler.fetchAllTeamNicknamesAtCompetition(req.db, competition).catch((e) => { console.error(e); val.err_occur = true; });
+      val.data = { team_nickname: interim.data[teamNumber] };
     }
-    const interim = await dbHandler.fetchAllTeamNicknamesAtCompetition(req.db, competition).catch((e) => { console.error(e); val.err_occur = true; });
-    val.data = { team_nickname: interim.data[teamNumber] };
     if (val.err_occur === false) {
       res.json({
         success: true,
