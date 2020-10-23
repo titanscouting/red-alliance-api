@@ -12,7 +12,7 @@ chai.use(chaiHttp);
 chai.use(require('chai-json'));
 
 /*
-  * Test the /GET route
+  * Test the GETroute
   */
  function isJson(str) {
   try {
@@ -23,7 +23,7 @@ chai.use(require('chai-json'));
   return true;
 }
 
-describe('/GET /fetchMatchConfig', () => {
+describe('GET/fetchMatchConfig', () => {
   it('it should GET the match scout config', (done) => {
     chai.request(server)
       .get('/api/fetchMatchConfig?competition=2020ilch&team=2022')
@@ -34,11 +34,6 @@ describe('/GET /fetchMatchConfig', () => {
         for (const screenConfig of res.body.config) {
           expect(isJson(JSON.stringify(screenConfig))).to.eql(true);
         }
-      });
-    chai.request(server)
-      .get('/api/fetchMatchConfig')
-      .end((err, res) => {
-        res.should.have.status(404);
         done();
       });
   });

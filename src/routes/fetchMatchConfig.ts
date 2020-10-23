@@ -6,18 +6,20 @@ module.exports = (app: any, dbHandler: any) => {
     const val: UserReturnData = new UserReturnData();
     const competition = String(req.query.competition);
     const team: number = parseInt(req.query.team, 10);
+    let dataInterim: Record<string, unknown>;
     if (!(competition && team)) {
       val.err_occur = true;
       val.err_reasons.push('A required parameter (competition ID or team number) was not provided');
+    } else {
+      val.data = await dbHandler.fetchMatchConfig(req.db, competition, team).catch((e) => { console.error(e); val.err_occur = true; });
+      try {
+        dataInterim = val.data.data.config;
+      } catch (e) {
+        val.err_occur = true;
+      }
     }
-    val.data = await dbHandler.fetchMatchConfig(req.db, competition, team).catch((e) => { console.error(e); val.err_occur = true; });
+
     // the try...catch is the next few lines serves to ensure the application doesn't just crash if scouters or teams were not returned by the DB handler.
-    let dataInterim: Record<string, unknown>;
-    try {
-      dataInterim = val.data.data.config;
-    } catch (e) {
-      val.err_occur = true;
-    }
     if (val.err_occur === false) {
       res.json({
         success: true,

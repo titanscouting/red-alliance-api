@@ -15,8 +15,9 @@ module.exports = (app: any, dbHandler: any, auth: any) => {
         success: false,
         reasons: ['A required parameter (match number, team scouted, competition ID, or data) was not provided'],
       })
+    } else {
+      val.data = await dbHandler.submitPitData(req.db, scouter, competitionID, matchNumber, teamScouted, data).catch((e) => { console.error(e); val.err_occur = true; });
     }
-    val.data = await dbHandler.submitPitData(req.db, scouter, competitionID, matchNumber, teamScouted, data).catch((e) => { console.error(e); val.err_occur = true; });
     if (val.err_occur === false) {
       res.json({
         success: true,

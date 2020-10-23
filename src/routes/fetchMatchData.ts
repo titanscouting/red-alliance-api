@@ -7,17 +7,18 @@ module.exports = (app: any, dbHandler: any) => {
     const competitionID = String(req.query.competition);
     const matchNumber = parseInt(req.query.match_number, 10);
     const teamScouted = parseInt(req.query.team_scouted, 10);
+    let dataInterim;
     if (!(competitionID && matchNumber && teamScouted)) {
       val.err_occur = true;
       val.err_reasons.push('A required parameter (competition ID, match number, or team scouted) was not provided')
-    }
-    val.data = await dbHandler.fetchMatchData(req.db, competitionID, matchNumber, teamScouted).catch((e) => { console.error(e); val.err_occur = true; val.err_reasons.push(e); });
-    // the try...catch is the next few lines serves to ensure the application doesn't just crash if scouters or teams were not returned by the DB handler.
-    let dataInterim;
-    try {
-      dataInterim = val.data.data;
-    } catch (e) {
-      val.err_occur = true;
+    } else {
+      val.data = await dbHandler.fetchMatchData(req.db, competitionID, matchNumber, teamScouted).catch((e) => { console.error(e); val.err_occur = true; val.err_reasons.push(e); });
+      // the try...catch is the next few lines serves to ensure the application doesn't just crash if scouters or teams were not returned by the DB handler.
+      try {
+        dataInterim = val.data.data;
+      } catch (e) {
+        val.err_occur = true;
+      }
     }
     if (val.err_occur === false) {
       res.json({
