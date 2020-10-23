@@ -24,6 +24,7 @@ describe('GET/api/fetchMatches', () => {
       chai.request(server)
       .get('/api/fetchMatches')
       .end((err, res) => {
+        
         res.should.have.status(404);
         res.body.should.have.property('success').equal(false);
         done();
