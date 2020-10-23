@@ -72,6 +72,6 @@
     "ts-mocha": "^7.0.0",
     "ts-node": "^8.10.1",
     "ts-node-dev": "^1.0.0-pre.56",
-    "validator": "^13.1.1"
+    "validator": "^13.1.7"
   }
 }
