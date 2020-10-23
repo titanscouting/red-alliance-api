@@ -9,6 +9,7 @@ const should = chai.should();
 
 chai.use(chaiHttp);
 /*
+
   * Test the GETroute
   */
 describe('GET/api/fetchStrategy', () => {

@@ -22,6 +22,8 @@ module.exports = (app: any, dbHandler: any) => {
       val.data = await dbHandler.fetchScouterSuggestions(req.db, competition, matchNumber).catch((e) => { console.error(e); val.err_occur = true; });
       dataInterim = val.data.data;
     }
+    val.data = await dbHandler.fetchScouterSuggestions(req.db, competition, matchNumber).catch((e) => { console.error(e); val.err_occur = true; });
+    const dataInterim: Record<string, unknown> = val.data.data;
     if (val.err_occur === false) {
       res.json({
         success: true,
