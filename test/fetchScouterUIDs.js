@@ -7,7 +7,6 @@ const server = require('../src/index.ts');
 
 const should = chai.should();
 
-
 chai.use(chaiHttp);
 /*
   * Test the GETroute
