@@ -7,7 +7,7 @@ module.exports = (app:any, auth: any) => {
     const { id, team, name } = res.locals;
     if (!(team)) {
       val.err_occur = true;
-      val.err_reasons.push('Team not known for user');
+      val.err_reasons.push('User team not known.');
     }
     if (val.err_occur === false) {
       res.json({
