@@ -54,6 +54,7 @@ require('./routes/fetchPitData')(app, dbHandler);
 require('./routes/submitPitData')(app, dbHandler, auth);
 require('./routes/addUserToTeam')(app, dbHandler, auth);
 require('./routes/fetchMatchConfig')(app, dbHandler);
+require('./routes/checkUserTeam')(app, auth);
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
