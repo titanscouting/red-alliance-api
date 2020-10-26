@@ -34,7 +34,7 @@ export const checkAuth = async (req: any, res: any, next: any): Promise<void> =>
       if (payload.hd === 'imsa.edu' || extUsers.indexOf(payload.name) > -1 || extUsers.indexOf(payload.sub) > -1) {
         res.locals.id = payload.sub.toString();
         res.locals.name = payload.name.toString();
-        res.locals.team = parseInt(dbHandler.getUserTeam(req.db, res.locals.id), 10)
+        res.locals.team = await dbHandler.getUserTeam(req.db, res.locals.id)
       } else {
         res.status(StatusCodes.not_authorized);
         res.json({
