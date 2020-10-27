@@ -10,11 +10,11 @@ import StatusCodes from '../StatusCodes';
  */
 module.exports = (app, dbHandler, auth) => {
   app.post('/api/addAPIKey', auth.noAPIKey, auth.checkAuth, async (req: any, res:any) => {
-    const team: number = req.body.team;
-    if (!team){
+    const { team } = req.body;
+    if (!team) {
       req.status(StatusCodes.no_data).json({
         success: false,
-        err_reasons: ["Team not provided"]
+        err_reasons: ['Team not provided'],
       })
     }
     const val: UserReturnData = new UserReturnData();
@@ -25,7 +25,7 @@ module.exports = (app, dbHandler, auth) => {
         success: true,
         CLIENT_ID: clientInfo.uuid,
         CLIENT_SECRET: clientInfo.apiKey,
-        team: req.body.team
+        team: req.body.team,
       });
     } else {
       res.status(StatusCodes.no_data).json({
