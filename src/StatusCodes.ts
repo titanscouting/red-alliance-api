@@ -3,5 +3,5 @@ export default {
   no_data: 404,
   not_authorized: 401,
   no_key_auth: 403,
-  not_enough_info: 404,
+  not_enough_info: 400,
 }
