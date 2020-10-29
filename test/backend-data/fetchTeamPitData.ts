@@ -11,10 +11,10 @@ chai.use(chaiHttp);
 /*
   * Test the GETroute
   */
-describe('GET /api/backend-data/fetchTeamMetricsData', () => {
+describe('GET /api/backend-data/fetchTeamPitData', () => {
   it('it should GET the pit data for any team, in the backend format', (done) => {
     chai.request(server)
-      .get('/api/backend-data/fetchTeamMetricsData?competition=2020ilch&team=2022')
+      .get('/api/backend-data/fetchTeamPitData?competition=2020ilch&team=2022')
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.have.property('data');
