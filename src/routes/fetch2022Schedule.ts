@@ -1,10 +1,17 @@
+import { validate, Joi } from 'express-validation';
 import UserReturnData from '../UserReturnData';
 import StatusCodes from '../StatusCodes';
 
 module.exports = (app: any, dbHandler: any) => {
-  app.get('/api/fetch2022Schedule', async (req: any, res:any) => {
+  const validation = {
+    query: Joi.object({
+      competition: Joi.string().required(),
+    }),
+  }
+  app.get('/api/fetch2022Schedule', validate(validation, { keyByField: true }, {}), async (req: any, res:any) => {
     const val: UserReturnData = new UserReturnData();
     const competition = String(req.query.competition);
+
     if (!(competition)) {
       val.err_occur = true;
       val.err_reasons.push('A required parameter (competition) was not provided');
