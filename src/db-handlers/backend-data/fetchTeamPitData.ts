@@ -5,10 +5,7 @@ export default async (db: any, competition: string, team_num: string): Promise<U
   const dbo = db.db('data_scouting');
   const myobj = { "competition": competition, "team_scouted": team_num };
   try {
-    team_array = await dbo.collection('matchdata').find(myobj).toArray();
-    team_array.array.forEach(match => {
-      data.data[match.match] = match.data;
-    });
+    data.data = await dbo.collection('pitdata').find_one(myobj);
   } catch (err) {
     data.err_occur = true;
     data.err_reasons.push(err);
