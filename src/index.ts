@@ -57,11 +57,19 @@ require('./routes/addUserToTeam')(app, dbHandler, auth);
 require('./routes/fetchMatchConfig')(app, dbHandler);
 require('./routes/checkUserTeam')(app, auth);
 
+class CustomValidationError extends ValidationError {
+  success?: Boolean
+  constructor() {
+    super();
+    this.success = false;
+  }
+}
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use((err: any, req, res, next) => {
   if (err instanceof ValidationError) {
     // eslint-disable-next-line
-    err.success = false;
+    const err2: CustomValidationError = err
+    err2.success = false;
     return res.status(err.statusCode).json(err)
   }
 
