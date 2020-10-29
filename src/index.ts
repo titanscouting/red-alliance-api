@@ -70,7 +70,7 @@ app.use((err: any, req, res, next) => {
     // eslint-disable-next-line
     const err2: CustomValidationError = err
     err2.success = false;
-    return res.status(err.statusCode).json(err)
+    return res.status(err.statusCode).json(err2)
   }
 
   return res.status(500).json(err)
