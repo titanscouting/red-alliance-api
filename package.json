@@ -46,7 +46,7 @@
     "nodemon": "^2.0.2",
     "typescript": "^3.9.7",
     "uuid": "^8.3.1",
-    "uuid-apikey": "^1.4.6",
+    "uuid-apikey": "^1.5.1",
     "validator": "^13.1.7"
   },
   "devDependencies": {
