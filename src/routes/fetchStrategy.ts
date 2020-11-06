@@ -1,8 +1,15 @@
+import { validate, Joi } from 'express-validation';
 import UserReturnData from '../UserReturnData';
 import StatusCodes from '../StatusCodes';
 
 module.exports = (app: any, dbHandler: any) => {
-  app.get('/api/fetchStrategy', async (req: any, res:any) => {
+  const validation = {
+    query: Joi.object({
+      competition: Joi.string().required(),
+      matchNumber: Joi.number().required(),
+    }),
+  }
+  app.get('/api/fetchStrategy', validate(validation, { keyByField: true }, {}), async (req: any, res:any) => {
     const val: UserReturnData = new UserReturnData();
     const { competition }: Record<string, string> = req.query;
     const matchNumber: number = req.query.match;

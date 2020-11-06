@@ -1,3 +1,4 @@
+import { validate, Joi } from 'express-validation';
 import UserReturnData from '../UserReturnData';
 import StatusCodes from '../StatusCodes';
 
@@ -10,7 +11,13 @@ import StatusCodes from '../StatusCodes';
 */
 
 module.exports = (app: any, dbHandler: any) => {
-  app.get('/api/fetchScouterUIDs', async (req: any, res:any) => {
+  const validation = {
+    query: Joi.object({
+      competition: Joi.string().required(),
+      matchNumber: Joi.number().required(),
+    }),
+  }
+  app.get('/api/fetchScouterUIDs', validate(validation, { keyByField: true }, {}), async (req: any, res:any) => {
     const val: UserReturnData = new UserReturnData();
     const competition = String(req.query.competition);
     const matchNumber = parseInt(req.query.match_number, 10);
