@@ -1,3 +1,4 @@
+import { validate, Joi } from 'express-validation';
 import UserReturnData from '../UserReturnData';
 import StatusCodes from '../StatusCodes';
 /**
@@ -7,15 +8,15 @@ import StatusCodes from '../StatusCodes';
  * @returns back to the client resobj (competition, list of matches, andn number of scouters) and 200 OK.
  */
 module.exports = (app: any, dbHandler: any) => {
-  app.get('/api/fetchMatches', async (req: any, res:any) => {
+  const validation = {
+    query: Joi.object({
+      competition: Joi.string().required(),
+    }),
+  }
+  app.get('/api/fetchMatches', validate(validation, { keyByField: true }, {}), async (req: any, res:any) => {
     const val: UserReturnData = new UserReturnData();
     const { competition }: Record<string, string> = req.query;
-    if (!(competition)) {
-      val.err_occur = true;
-      val.err_reasons.push('A competition ID was not provided')
-    } else {
-      val.data = await dbHandler.fetchMatchesForCompetition(req.db, competition).catch((e) => { console.error(e); val.err_occur = true; });
-    }
+    val.data = await dbHandler.fetchMatchesForCompetition(req.db, competition).catch((e) => { console.error(e); val.err_occur = true; });
     if (val.err_occur === false) {
       res.json({
         success: true,
