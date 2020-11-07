@@ -1,3 +1,4 @@
+import { validate, Joi } from 'express-validation';
 import UserReturnData from '../UserReturnData';
 import StatusCodes from '../StatusCodes';
 
@@ -8,13 +9,14 @@ import StatusCodes from '../StatusCodes';
   * @returns back to the client resobj and 200 OK.
  */
 module.exports = (app: any, dbHandler: any, auth: any) => {
-  app.post('/api/addUserToTeam', auth.checkAuth, async (req, res) => {
+  const validation = {
+    query: Joi.object({
+      team: Joi.string().required(),
+    }),
+  }
+  app.post('/api/addUserToTeam', auth.checkAuth, validate(validation, { keyByField: true }, {}), async (req, res) => {
     const val: UserReturnData = new UserReturnData();
     const team = parseInt(req.body.team, 10)
-    if (!(team)) {
-      val.err_occur = true;
-      val.err_reasons.push('A required parameter (team) was not provided')
-    }
     val.data = await dbHandler.addUserToTeam(req.db, res.locals.id, res.locals.name, team).catch((e) => { console.error(e); val.err_occur = true; });
     if (val.err_occur) {
       res.status(StatusCodes.no_data).json({

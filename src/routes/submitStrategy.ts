@@ -1,9 +1,17 @@
+import { validate, Joi } from 'express-validation';
 import UserReturnData from '../UserReturnData';
 import Scouter from '../Scouter';
 import StatusCodes from '../StatusCodes';
 
 module.exports = (app: any, dbHandler: any, auth: any) => {
-  app.post('/api/submitStrategy', auth.checkAuth, async (req: any, res:any) => {
+  const validation = {
+    query: Joi.object({
+      match: Joi.number().required(),
+      competition: Joi.string().required(),
+      data: Joi.string().required(),
+    }),
+  }
+  app.post('/api/submitStrategy', validate(validation, { keyByField: true }, {}), auth.checkAuth, async (req: any, res:any) => {
     const val: UserReturnData = new UserReturnData();
     const scouter: Scouter = { name: String(res.locals.name), id: String(res.locals.id) };
     const competitionID = String(req.body.competition);
