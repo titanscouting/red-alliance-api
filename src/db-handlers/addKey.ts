@@ -4,7 +4,7 @@ import UserReturnData from '../UserReturnData';
 export default async (db: any, clientID: string, clientKey: string, team: number): Promise<UserReturnData> => {
   const data: UserReturnData = { err_occur: false, err_reasons: [], data: {} };
   const dbo = db.db('userlist');
-  const hashedClientKey = bcrypt.hashSync(clientKey, 12);
+  const hashedClientKey = await bcrypt.hash(clientKey, 12);
   const myobj = {
     $set: {
       clientID, hashedClientKey, team,
