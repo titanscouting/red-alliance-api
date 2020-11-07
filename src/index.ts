@@ -58,7 +58,8 @@ require('./routes/fetchMatchConfig')(app, dbHandler);
 require('./routes/checkUserTeam')(app, auth);
 
 class CustomValidationError extends ValidationError {
-  success?: Boolean
+  success?: boolean
+
   constructor() {
     super();
     this.success = false;
