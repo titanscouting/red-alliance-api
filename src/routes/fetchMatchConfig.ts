@@ -1,22 +1,25 @@
+import { validate, Joi } from 'express-validation';
 import UserReturnData from '../UserReturnData';
 import StatusCodes from '../StatusCodes';
 
 module.exports = (app: any, dbHandler: any) => {
-  app.get('/api/fetchMatchConfig', async (req: any, res:any) => {
+  const validation = {
+    query: Joi.object({
+      competition: Joi.string().required(),
+      team: Joi.string().required(),
+    }),
+  }
+  app.get('/api/fetchMatchConfig', validate(validation, { keyByField: true }, {}), async (req: any, res:any) => {
     const val: UserReturnData = new UserReturnData();
     const competition = String(req.query.competition);
     const team: number = parseInt(req.query.team, 10);
     let dataInterim: Record<string, unknown>;
-    if (!(competition && team)) {
+
+    val.data = await dbHandler.fetchMatchConfig(req.db, competition, team).catch((e) => { console.error(e); val.err_occur = true; });
+    try {
+      dataInterim = val.data.data.config;
+    } catch (e) {
       val.err_occur = true;
-      val.err_reasons.push('A required parameter (competition ID or team number) was not provided');
-    } else {
-      val.data = await dbHandler.fetchMatchConfig(req.db, competition, team).catch((e) => { console.error(e); val.err_occur = true; });
-      try {
-        dataInterim = val.data.data.config;
-      } catch (e) {
-        val.err_occur = true;
-      }
     }
 
     // the try...catch is the next few lines serves to ensure the application doesn't just crash if scouters or teams were not returned by the DB handler.
