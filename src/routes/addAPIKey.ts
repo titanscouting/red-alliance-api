@@ -9,7 +9,7 @@ import StatusCodes from '../StatusCodes';
  * @returns back to the client let resobj (success, client id, and client secret generated) and HTTP Status Code 200 OK.
  */
 module.exports = (app, dbHandler, auth) => {
-  app.post('/api/addAPIKey', auth.noAPIKey, auth.checkAuth, async (req: any, res:any) => {
+  app.post('/api/addAPIKey', auth.noAPIKey, auth.checkAuth, async (req: any, res:any): Promise<void> => {
     const { team } = req.body;
     if (!team) {
       req.status(StatusCodes.no_data).json({
