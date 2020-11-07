@@ -23,7 +23,6 @@ module.exports = (app: any, dbHandler: any) => {
     const matchNumber = parseInt(req.query.match_number, 10);
     let scoutersInterim: Array<Record<string, unknown>>;
     let teamsInterim: Array<string>;
-
     val.data = await dbHandler.fetchScouterUIDs(req.db, competition, matchNumber).catch((e) => { console.error(e); val.err_occur = true; });
     // the try...catch is the next few lines serves to ensure the application doesn't just crash if scouters or teams were not returned by the DB handler.
     try {
