@@ -22,7 +22,7 @@ describe('GET/api/fetchStrategy', () => {
       chai.request(server)
       .get('/api/fetchStrategy')
       .end((err, res) => {
-        res.should.have.status(404);
+        res.should.have.status(400);
         res.body.should.have.property('success').equal(false);
         done();
       });

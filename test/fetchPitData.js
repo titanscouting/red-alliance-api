@@ -23,13 +23,13 @@ describe('GET /api/fetchPitData', () => {
       chai.request(server)
       .get('/api/fetchPitData?competition=2020ilch&team_scouted=200000')
       .end((err, res) => {
-        res.should.have.status(404);
+        res.should.have.status(400);
         res.body.should.have.property('success').eql(false);
       });
       chai.request(server)
       .get('/api/fetchPitData')
       .end((err, res) => {
-        res.should.have.status(404);
+        res.should.have.status(400);
         res.body.should.have.property('success').eql(false);
         done();
       });

@@ -6,7 +6,7 @@ module.exports = (app:any, dbHandler:any) => {
   const validation = {
     query: Joi.object({
       competition: Joi.string().required(),
-      matchNumber: Joi.number().required(),
+      match_number: Joi.number().required(),
     }),
   }
   app.get('/api/fetchUserStrategy', validate(validation, { keyByField: true }, {}), async (req: any, res:any) => {
