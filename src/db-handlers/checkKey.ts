@@ -11,9 +11,6 @@ export default async (db, clientID: string, clientKey: string): Promise<boolean>
     data.err_occur = true;
     data.err_reasons.push(e);
   });
-  try {
-    return bcrypt.compareSync(clientKey, data.data).catch(() => false);
-  } catch {
-    return false
-  }
+  const isAuth = await bcrypt.compare(clientKey, data.data).catch(() => false);
+  return isAuth
 };
