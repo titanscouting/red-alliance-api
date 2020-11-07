@@ -1,3 +1,4 @@
+import { validate, Joi } from 'express-validation';
 import UserReturnData from '../UserReturnData';
 import StatusCodes from '../StatusCodes';
 /**
@@ -8,17 +9,17 @@ import StatusCodes from '../StatusCodes';
 */
 
 module.exports = (app: any, dbHandler: any) => {
-  app.get('/api/findTeamNickname', async (req: any, res:any) => {
+  const validation = {
+    query: Joi.object({
+      team_number: Joi.string().required(),
+    }),
+  }
+  app.get('/api/findTeamNickname', validate(validation, { keyByField: true }, {}), async (req: any, res:any) => {
     const val: UserReturnData = new UserReturnData();
     const competition = '2020ilch';
     const teamNumber = req.query.team_number;
-    if (!(teamNumber)) {
-      val.err_occur = true;
-      val.err_reasons.push('A team number was not provided')
-    } else {
-      const interim = await dbHandler.fetchAllTeamNicknamesAtCompetition(req.db, competition).catch((e) => { console.error(e); val.err_occur = true; });
-      val.data = { team_nickname: interim.data[teamNumber] };
-    }
+    const interim = await dbHandler.fetchAllTeamNicknamesAtCompetition(req.db, competition).catch((e) => { console.error(e); val.err_occur = true; });
+    val.data = { team_nickname: interim.data[teamNumber] };
     if (val.err_occur === false) {
       res.json({
         success: true,
