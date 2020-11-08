@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import expressMongoDb from 'mongo-express-req';
+import path from 'path';
 import dbHandler = require('./dbHandler');
 import auth = require('./authHandler');
 
@@ -8,6 +9,8 @@ const port = process.env.PORT || 8190;
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'hbs');
 
 // Make sure to set the connection string as an environment variable
 // e.g export REDALLIANCEDBKEY='mongodb+srv://<user>:<pass>@<url>/<path>?<opts>'
