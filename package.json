@@ -44,7 +44,7 @@
     "jwks-rsa": "^1.9.0",
     "mongo-express-req": "^3.0.1",
     "mongodb": "^3.6.0",
-    "nodemon": "^2.0.2",
+    "nodemon": "^2.0.5",
     "typescript": "^3.9.7",
     "uuid": "^8.3.1",
     "uuid-apikey": "^1.5.1",
