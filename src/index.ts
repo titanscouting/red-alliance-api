@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import expressMongoDb from 'mongo-express-req';
+import { ValidationError } from 'express-validation';
 import path from 'path';
 import dbHandler = require('./dbHandler');
 import auth = require('./authHandler');
@@ -59,6 +60,25 @@ require('./routes/addUserToTeam')(app, dbHandler, auth);
 require('./routes/fetchMatchConfig')(app, dbHandler);
 require('./routes/checkUserTeam')(app, auth);
 
+class CustomValidationError extends ValidationError {
+  success?: boolean
+
+  constructor() {
+    super();
+    this.success = false;
+  }
+}
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+app.use((err: any, req, res, next) => {
+  if (err instanceof ValidationError) {
+    // eslint-disable-next-line
+    const err2: CustomValidationError = err
+    err2.success = false;
+    return res.status(err.statusCode).json(err2)
+  }
+
+  return res.status(500).json(err)
+})
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
 module.exports = app;

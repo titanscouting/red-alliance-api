@@ -28,7 +28,7 @@ describe('/GET /api/fetchScouterSuggestions', () => {
     chai.request(server)
         .get('/api/fetchScouterSuggestions?matchNumber=2')
         .end((err, res) => {
-          res.should.have.status(404);
+          res.should.have.status(400);
           res.body.should.have.property('success').eql(false);
           done();
         });
