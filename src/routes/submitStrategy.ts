@@ -17,15 +17,8 @@ module.exports = (app: any, dbHandler: any, auth: any) => {
     const competitionID = String(req.body.competition);
     const data = String(req.body.data);
     const matchNumber = String(req.body.match);
-    if (!(competitionID && data && matchNumber) || data === null) {
-      res.status(StatusCodes.not_enough_info).json({
-        success: false,
-        reasons: ['A required parameter (competition ID, data, or match number) was not provided'],
-      })
-    } else {
       // Application exhibits unpredicatble behavior if `if` evaluates to true, so we just filter that out.
       val.data = await dbHandler.submitStrategy(req.db, scouter.name, matchNumber, competitionID, data);
-    }
 
     if (val.err_occur === false) {
       res.json({

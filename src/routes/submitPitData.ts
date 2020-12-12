@@ -20,17 +20,5 @@ module.exports = (app: any, dbHandler: any, auth: any) => {
     const teamScouted: number = parseInt(req.body.teamScouted, 10);
     const { data }: Record<string, any> = req.body;
     val.data = await dbHandler.submitPitData(req.db, scouter, competitionID, matchNumber, teamScouted, data).catch((e) => { console.error(e); val.err_occur = true; });
-    if (val.err_occur === false) {
-      res.json({
-        success: true,
-        competition: competitionID,
-        matchNumber,
-      });
-    } else {
-      res.status(StatusCodes.no_data).json({
-        success: false,
-        reasons: val.err_reasons,
-      });
-    }
   });
 };
