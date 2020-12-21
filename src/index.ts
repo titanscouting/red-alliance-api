@@ -56,6 +56,12 @@ require('./routes/submitPitData')(app, dbHandler, auth);
 require('./routes/addUserToTeam')(app, dbHandler, auth);
 require('./routes/fetchMatchConfig')(app, dbHandler);
 require('./routes/checkUserTeam')(app, auth);
+require('./routes/fetchMetricsData')(app, dbHandler);
+require('./routes/fetchAnalysisFlags')(app, dbHandler);
+require('./routes/fetchMatchDataAllTeams')(app, dbHandler);
+require('./routes/fetchPitDataAllTeams')(app, dbHandler);
+require('./routes/fetchPitVariableData')(app, dbHandler);
+require('./routes/fetchPitVariableDataFormatted')(app, dbHandler);
 
 class CustomValidationError extends ValidationError {
   success?: boolean
