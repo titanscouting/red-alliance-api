@@ -29,3 +29,4 @@ export { default as fetchPitDataAllTeams } from './db-handlers/fetchPitDataAllTe
 export { default as fetchPitVariableData } from './db-handlers/fetchPitVariableData';
 export { default as fetchPitVariableDataFormatted } from './db-handlers/fetchPitVariableDataFormatted';
 export { default as submitTeamTestsData } from './db-handlers/submitTeamTestsData';
+export { default as submitTeamPitData } from './db-handlers/submitTeamPitData';

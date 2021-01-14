@@ -9,7 +9,7 @@ export default async (db: any, team_number: number, competition: string, data: R
     },
   };
   try {
-    await dbo.collection('team_metrics').updateOne({
+    await dbo.collection('team_pit').updateOne({
       _id: competition + team_number, competition, team: team_number, data,
     }, myobj, { upsert: true });
   } catch (err) {
