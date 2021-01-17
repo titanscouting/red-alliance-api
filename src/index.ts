@@ -5,6 +5,9 @@ import { ValidationError } from 'express-validation';
 import path from 'path';
 import dbHandler = require('./dbHandler');
 import auth = require('./authHandler');
+import swaggerJSDoc = require('swagger-jsdoc');
+import swaggerUi = require('swagger-ui-express');
+import * as swaggerDefinition from './routes/swagger.json';
 
 const port = process.env.PORT || 8190;
 const app = express();
@@ -23,6 +26,16 @@ try {
   process.exit(1);
 }
 
+
+
+const options = {
+  swaggerDefinition,
+  // Paths to files containing OpenAPI definitions
+  apis: ['./routes/*.ts'],
+};
+
+const swaggerSpec = swaggerJSDoc(options);
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 /**
  * NOTE TO DEVELOPERS: the `auth.checkAuth` statement is simply middleware which contacts
  * authHandler.ts to ensure that the user has a valid authentication token.
@@ -35,6 +48,7 @@ try {
 
 // TODO: find a way to loop through this without a bunch of require(). A simple for loop results in `require() not found`.
 // TODO: use the UserReturnData class when returning data in all these apis
+
 require('./routes/base')(app);
 require('./routes/fetchMatches')(app, dbHandler);
 require('./routes/submitMatchData')(app, dbHandler, auth);

@@ -1,0 +1,100 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "version": "0.9.0",
+        "title": "The Red Alliance API",
+        "description": "An API to submit and retrieve data for and from The Red Alliance family of products.",
+        "license": {
+            "name": "BSD 3-Clause",
+            "url": "https://raw.githubusercontent.com/titanscouting/red-alliance-api/master/LICENSE"
+        }
+    },
+    "servers": [
+        {
+            "url": "https://titanscouting.epochml.org",
+            "description": "Production environment"
+        }
+    ],
+    "tags": [
+        {
+            "name": "Authenticated Routes",
+            "description": "Routes which require authentication to interact with"
+        },
+        {
+            "name": "Non-Authenticated Routes",
+            "description": "Routes which do not require authentication to interact with"
+        }
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/api/addAPIKey": {
+            "post": {
+                "summary": "Create API Key",
+                "description": "Allows currently authenticated (via Google OAuth) users to create API keys to access the API programatically.",
+                "tags": ["Authenticated Routes"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "team",
+                        "required": true, 
+                        "description": "FRC team number of the team that the user belongs to.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "definitions": {
+        "id": {
+            "properties": {
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "Cat": {
+            "type": "object",
+            "properties": {
+                "genus": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "isHungry": {
+                    "type": "boolean"
+                },
+                "lastFedDate": {
+                    "type": "string"
+                }
+            }
+        },
+        "Cats": {
+            "type": "object",
+            "properties": {
+                "cats": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/Cat"
+                    }
+                }
+            }
+        }
+    }
+}
