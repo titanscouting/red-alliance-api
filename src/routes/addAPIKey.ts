@@ -5,7 +5,7 @@ import StatusCodes from '../StatusCodes';
 
 module.exports = (app, dbHandler, auth) => {
   const validation = {
-    query: Joi.object({
+    body: Joi.object({
       team: Joi.string().required(),
     }),
   }

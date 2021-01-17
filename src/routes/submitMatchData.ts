@@ -2,18 +2,6 @@ import { validate, Joi } from 'express-validation';
 import Scouter from '../Scouter';
 import UserReturnData from '../UserReturnData';
 import StatusCodes from '../StatusCodes';
-/**
- * POST route '/api/submitMatchData'
- * Allows the application to submit data to the API, with some key data seperated within the
- * JSON and the rest submitted as arbirtary structures within the data key.
- * @param token in form of header with title 'token' and value of JWT provided by Google OAuth
- * @param competition is the identifier for the competition: e.g. '2020ilch'.
- * @param match is the number of the match scouted: e.g. '1'.
- * @param teamScouted is the team that was being scouted: e.g. '3061'.
- * @param data is the arbritrary other data that needs to be recorded for the match.
- * @returns back to the client resobj (success boolean, competition id, and match number)
- * and HTTP Status Code 200 OK.
- */
 
 module.exports = (app: any, dbHandler: any, auth: any) => {
   const validation = {
@@ -39,7 +27,7 @@ module.exports = (app: any, dbHandler: any, auth: any) => {
     if (val.err_occur === false) {
       res.json({
         success: true,
-        competition: competition,
+        competition,
         match,
       });
     } else {

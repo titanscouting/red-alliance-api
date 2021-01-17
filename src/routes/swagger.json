@@ -52,7 +52,6 @@
     }
   },
   "components": {
-
     "securitySchemes": {
       "GoogleAuth": {
         "type": "apiKey",
@@ -106,20 +105,40 @@
         ],
         "parameters": [
           {
-            "in": "query",
+            "in": "body",
             "name": "team",
             "required": true,
             "description": "FRC team number of the team that the user belongs to.",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "example": "2022"
             }
           }
         ],
         "responses": {
           "200": {
             "description": "The API key was created. Returns the issued client ID, client secret, and team with which the key is registered.",
-            "content": {
-              "application/json": {}
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": true,
+                  "description": "Describes whether the request completed successfully."
+                },
+                "CLIENT_ID": {
+                  "type": "string",
+                  "example": "4972e853-6cef-4e24-9aaa-cbe781bc98c7"
+                },
+                "CLIENT_SECRET": {
+                  "type": "string",
+                  "example": "055aa2a5-5387-43a7-990d-6e29e276d540"
+                },
+                "team": {
+                  "type": "string",
+                  "example": "2022"
+                }
+              }
             }
           },
           "400": {
@@ -154,21 +173,33 @@
         ],
         "parameters": [
           {
-            "in": "query",
+            "in": "body",
             "name": "team_scouting",
             "required": true,
             "description": "FRC team number of the team that the scouter is scouting.",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "example": "2022"
             }
           },
           {
-            "in": "query",
+            "in": "body",
             "name": "competition",
             "required": true,
             "description": "FRC competition code at which the user is scouting.",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "example": "2020ilch"
+            }
+          },
+          {
+            "in": "body",
+            "name": "match",
+            "required": true,
+            "description": "FRC match which the user is scouting.",
+            "schema": {
+              "type": "string",
+              "example": "2"
             }
           }
         ],
@@ -179,7 +210,16 @@
         ],
         "responses": {
           "200": {
-            "description": "The user was added as a scouter to the match."
+            "description": "The user was added as a scouter to the match.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": true
+                }
+              }
+            }
           },
           "400": {
             "description": "The user was not added as a scouter to the match. Returns the reasons for the error.",
@@ -211,12 +251,13 @@
         ],
         "parameters": [
           {
-            "in": "query",
+            "in": "body",
             "name": "team",
             "required": true,
             "description": "FRC team number of the team that the scouter belongs to.",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "example": "2022"
             }
           }
         ],
@@ -227,7 +268,32 @@
         ],
         "responses": {
           "200": {
-            "description": "The user was added to the team. Returns the name, Google ID, and team of the newly-registered user."
+            "description": "The user was added to the team. Returns the name, Google ID, and team of the newly-registered user.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": true,
+                  "description": "Describes whether the request completed successfully."
+                },
+                "id": {
+                  "type": "string",
+                  "example": "114979123360880121338",
+                  "description": "Google user ID."
+                },
+                "team": {
+                  "type": "string",
+                  "example": "2022",
+                  "description": "FRC team number which the user is a member of."
+                },
+                "name": {
+                  "type": "string",
+                  "example": "Dev Singh",
+                  "description": "First and last name of the user."
+                }
+              }
+            }
           },
           "400": {
             "description": "The user was not added to the team. Returns the reasons for the error.",
@@ -264,7 +330,32 @@
         ],
         "responses": {
           "200": {
-            "description": "The user was added to the team. Returns the name, Google ID, and team of the user."
+            "description": "The user team association was retrieved.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": true,
+                  "description": "Describes whether the request completed successfully."
+                },
+                "id": {
+                  "type": "string",
+                  "example": "114979123360880121338",
+                  "description": "Google user ID."
+                },
+                "team": {
+                  "type": "string",
+                  "example": "2022",
+                  "description": "FRC team number which the user is a member of."
+                },
+                "name": {
+                  "type": "string",
+                  "example": "Dev Singh",
+                  "description": "First and last name of the user."
+                }
+              }
+            }
           },
           "400": {
             "description": "The user team association could not be retrieved. Returns the reason for the error.",
@@ -289,7 +380,27 @@
           "Authenticated Routes"
         ],
         "parameters": [
-          
+          {
+            "in": "body",
+            "name": "match",
+            "type": "string",
+            "example": "2",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "competition",
+            "type": "string",
+            "example": "2020ilch",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "team_scouting",
+            "type": "string",
+            "example": "2022",
+            "required": true
+          }
         ],
         "security": [
           {
@@ -298,7 +409,17 @@
         ],
         "responses": {
           "200": {
-            "description": "The user was removed as a scouter to the match."
+            "description": "The user was removed as a scouter to the match.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": true,
+                  "description": "Describes whether the request completed successfully."
+                }
+              }
+            }
           },
           "400": {
             "description": "The user was not removed as a scouter to the match. Returns the reasons for the error.",
@@ -365,7 +486,7 @@
           }
         ],
         "security": [
-          { 
+          {
             "GoogleAuth": []
           },
           {
