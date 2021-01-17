@@ -8,6 +8,7 @@ module.exports = (app:any, dbHandler:any, auth: any) => {
     query: Joi.object({
       match: Joi.string().required(),
       competition: Joi.string().required(),
+      team_scouting: Joi.string().required()
     }),
   }
   app.post('/api/addScouterToMatch', auth.noAPIKey, auth.checkAuth, validate(validation, { keyByField: true }, {}), async (req: any, res:any) => {
