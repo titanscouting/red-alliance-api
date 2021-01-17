@@ -69,6 +69,24 @@
                         }
                     }
                 ],
+                "responses": {
+                    "200": {
+                        "description": "Returns the issued client ID, client secret, and team with which the key is registered.",
+                        "content": {
+                            "application/json": {
+                                
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "The API key could not be created.",
+                        "content": {
+                            "application/json": {
+                                
+                            }
+                        }
+                    }
+                },
                 "security": [
                     {
                         "GoogleAuth": []
