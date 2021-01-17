@@ -3,11 +3,12 @@ import bodyParser from 'body-parser';
 import expressMongoDb from 'mongo-express-req';
 import { ValidationError } from 'express-validation';
 import path from 'path';
-import dbHandler = require('./dbHandler');
-import auth = require('./authHandler');
 import swaggerJSDoc = require('swagger-jsdoc');
 import swaggerUi = require('swagger-ui-express');
+// eslint-disable-next-line
 import * as swaggerDefinition from './routes/swagger.json';
+import dbHandler = require('./dbHandler');
+import auth = require('./authHandler');
 
 const port = process.env.PORT || 8190;
 const app = express();
@@ -25,8 +26,6 @@ try {
   console.error(e)
   process.exit(1);
 }
-
-
 
 const options = {
   swaggerDefinition,
