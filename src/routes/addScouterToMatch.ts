@@ -10,7 +10,7 @@ module.exports = (app:any, dbHandler:any, auth: any) => {
       competition: Joi.string().required(),
     }),
   }
-  app.post('/api/addScouterToMatch', auth.checkAuth, validate(validation, { keyByField: true }, {}), async (req: any, res:any) => {
+  app.post('/api/addScouterToMatch', auth.noAPIKey, auth.checkAuth, validate(validation, { keyByField: true }, {}), async (req: any, res:any) => {
     const val: UserReturnData = new UserReturnData();
     const scouter: Scouter = { name: String(res.locals.name), id: String(res.locals.id), team: parseInt(res.locals.team, 10) };
     const match = String(req.body.match);
