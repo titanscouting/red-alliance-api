@@ -1,0 +1,37 @@
+{
+	"tags":
+	{
+		"allowUnknownTags" : true
+	},
+	"plugins":[
+		 "plugins/markdown"
+		,"/home/dsingh/source/red-alliance-api/node_modules/tsdoc/template/plugins/TSDoc.js"
+	],
+	"opts":
+	{
+		"template"	:"/home/dsingh/source/red-alliance-api/node_modules/tsdoc/template",
+		"recurse"	:"true"
+	},
+	"templates" : {
+		"cleverLinks"     : false,
+		"monospaceLinks"  : false
+	},
+	"source":
+	{
+		"includePattern": "(\\.d)?\\.ts$"
+	},
+	"markdown"  : {
+		"parser"   : "gfm",
+		"hardwrap" : true
+	},
+	"tsdoc":{
+		"source"		:"/home/dsingh/source/red-alliance-api/src/",
+		"destination"	:"/home/dsingh/source/red-alliance-api/docs",
+		"tutorials"		:"",
+		"systemName"	: "red-alliance-api",
+		"footer"		: "",
+		"copyright"		: "red-alliance-api Copyright © 2021 Titan Scouting.",
+		"outputSourceFiles" : true,
+		"commentsOnly": true
+	}
+}
