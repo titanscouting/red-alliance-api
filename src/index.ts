@@ -34,7 +34,7 @@ const options = {
 };
 
 const swaggerSpec = swaggerJSDoc(options);
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 /**
  * NOTE TO DEVELOPERS: the `auth.checkAuth` statement is simply middleware which contacts
  * authHandler.ts to ensure that the user has a valid authentication token.
@@ -48,7 +48,6 @@ app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 // TODO: find a way to loop through this without a bunch of require(). A simple for loop results in `require() not found`.
 // TODO: use the UserReturnData class when returning data in all these apis
 
-require('./routes/base')(app);
 require('./routes/fetchMatches')(app, dbHandler);
 require('./routes/submitMatchData')(app, dbHandler, auth);
 require('./routes/checkUser')(app, dbHandler, auth);
