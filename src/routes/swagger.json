@@ -1,0 +1,534 @@
+{
+  "info": {
+    "version": "0.9.0",
+    "title": "The Red Alliance API",
+    "description": "An API to submit and retrieve data for and from The Red Alliance family of products.",
+    "license": {
+      "name": "Licensed under the BSD 3-Clause license",
+      "url": "https://raw.githubusercontent.com/titanscouting/red-alliance-api/master/LICENSE"
+    }
+  },
+  "definitions": {
+    "NoAuth": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "example": false
+        },
+        "reason": {
+          "type": "string",
+          "example": "User could not be authenticated"
+        }
+      }
+    },
+    "KeysNotAllowed": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "example": false
+        },
+        "reason": {
+          "type": "string",
+          "example": "This route does not allow authentication via API key"
+        }
+      }
+    },
+    "NoData": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "example": false
+        },
+        "reasons": {
+          "type": "array",
+          "example": [
+            "Could not connect to the DB"
+          ]
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "GoogleAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "token",
+        "description": "Use the Backend Authenticaation JWT provided to you by the frontend Google OAuth flow."
+      },
+      "CLIENT_ID": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "CLIENT_ID",
+        "description": "Use the Client ID issued to you. MUST BE USED IN CONJUNCTION WITH CLIENT_SECRET."
+      },
+      "CLIENT_SECRET": {
+        "type": "apiKey",
+        "in": "query",
+        "name": "CLIENT_SECRET",
+        "description": "Use the Client secret issued to you. MUST BE USED IN CONJUNCTION WITH CLIENT_ID."
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "https://titanscouting.epochml.org",
+      "description": "Production environment"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Authenticated Routes",
+      "description": "Routes which require authentication to interact with"
+    },
+    {
+      "name": "Non-Authenticated Routes",
+      "description": "Routes which do not require authentication to interact with"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/addAPIKey": {
+      "post": {
+        "summary": "Create API Key",
+        "description": "Allows currently authenticated (via Google OAuth) users to create API keys to access the API programatically.",
+        "tags": [
+          "Authenticated Routes"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "team",
+            "required": true,
+            "description": "FRC team number of the team that the user belongs to.",
+            "schema": {
+              "type": "string",
+              "example": "2022"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The API key was created. Returns the issued client ID, client secret, and team with which the key is registered.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": true,
+                  "description": "Describes whether the request completed successfully."
+                },
+                "CLIENT_ID": {
+                  "type": "string",
+                  "example": "4972e853-6cef-4e24-9aaa-cbe781bc98c7"
+                },
+                "CLIENT_SECRET": {
+                  "type": "string",
+                  "example": "055aa2a5-5387-43a7-990d-6e29e276d540"
+                },
+                "team": {
+                  "type": "string",
+                  "example": "2022"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The API key was not created. Returns the reasons the API key was not created."
+          },
+          "401": {
+            "description": "The current user is not authorized to perform this action.",
+            "schema": {
+              "$ref": "#/definitions/NoAuth"
+            }
+          },
+          "403": {
+            "description": "Key-based authentication is not allowed for this route",
+            "schema": {
+              "$ref": "#/definitions/KeysNotAllowed"
+            }
+          }
+        },
+        "security": [
+          {
+            "GoogleAuth": []
+          }
+        ]
+      }
+    },
+    "/api/addScouterToMatch": {
+      "post": {
+        "summary": "Add current user as scouter to a match",
+        "description": "Registers the currently signed-in user as the scouter for a given match and a team at a given competition.",
+        "tags": [
+          "Authenticated Routes"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "team_scouting",
+            "required": true,
+            "description": "FRC team number of the team that the scouter is scouting.",
+            "schema": {
+              "type": "string",
+              "example": "2022"
+            }
+          },
+          {
+            "in": "body",
+            "name": "competition",
+            "required": true,
+            "description": "FRC competition code at which the user is scouting.",
+            "schema": {
+              "type": "string",
+              "example": "2020ilch"
+            }
+          },
+          {
+            "in": "body",
+            "name": "match",
+            "required": true,
+            "description": "FRC match which the user is scouting.",
+            "schema": {
+              "type": "string",
+              "example": "2"
+            }
+          }
+        ],
+        "security": [
+          {
+            "GoogleAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The user was added as a scouter to the match.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": true
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The user was not added as a scouter to the match. Returns the reasons for the error.",
+            "schema": {
+              "$ref": "#/definitions/NoData"
+            }
+          },
+          "401": {
+            "description": "The current user is not authorized to perform this action.",
+            "schema": {
+              "$ref": "#/definitions/NoAuth"
+            }
+          },
+          "403": {
+            "description": "Key-based authentication is not allowed for this route",
+            "schema": {
+              "$ref": "#/definitions/KeysNotAllowed"
+            }
+          }
+        }
+      }
+    },
+    "/api/addUserToTeam": {
+      "post": {
+        "summary": "Add user association to team",
+        "description": "Stores that the currently signed-in user is a member of the given team.",
+        "tags": [
+          "Authenticated Routes"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "team",
+            "required": true,
+            "description": "FRC team number of the team that the scouter belongs to.",
+            "schema": {
+              "type": "string",
+              "example": "2022"
+            }
+          }
+        ],
+        "security": [
+          {
+            "GoogleAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The user was added to the team. Returns the name, Google ID, and team of the newly-registered user.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": true,
+                  "description": "Describes whether the request completed successfully."
+                },
+                "id": {
+                  "type": "string",
+                  "example": "114979123360880121338",
+                  "description": "Google user ID."
+                },
+                "team": {
+                  "type": "string",
+                  "example": "2022",
+                  "description": "FRC team number which the user is a member of."
+                },
+                "name": {
+                  "type": "string",
+                  "example": "Dev Singh",
+                  "description": "First and last name of the user."
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The user was not added to the team. Returns the reasons for the error.",
+            "schema": {
+              "$ref": "#/definitions/NoData"
+            }
+          },
+          "401": {
+            "description": "The current user is not authorized to perform this action.",
+            "schema": {
+              "$ref": "#/definitions/NoAuth"
+            }
+          },
+          "403": {
+            "description": "Key-based authentication is not allowed for this route",
+            "schema": {
+              "$ref": "#/definitions/KeysNotAllowed"
+            }
+          }
+        }
+      }
+    },
+    "/api/getUserTeam": {
+      "get": {
+        "summary": "Get user team association",
+        "description": "Returns the name, Google ID, and team number for the currently authenticated user.",
+        "tags": [
+          "Authenticated Routes"
+        ],
+        "security": [
+          {
+            "GoogleAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The user team association was retrieved.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": true,
+                  "description": "Describes whether the request completed successfully."
+                },
+                "id": {
+                  "type": "string",
+                  "example": "114979123360880121338",
+                  "description": "Google user ID."
+                },
+                "team": {
+                  "type": "string",
+                  "example": "2022",
+                  "description": "FRC team number which the user is a member of."
+                },
+                "name": {
+                  "type": "string",
+                  "example": "Dev Singh",
+                  "description": "First and last name of the user."
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The user team association could not be retrieved. Returns the reason for the error.",
+            "schema": {
+              "$ref": "#/definitions/NoData"
+            }
+          },
+          "401": {
+            "description": "The current user is not authorized to perform this action.",
+            "schema": {
+              "$ref": "#/definitions/NoAuth"
+            }
+          }
+        }
+      }
+    },
+    "/api/removeScouterFromMatch": {
+      "post": {
+        "summary": "Remove current user as scouter to a match",
+        "description": "Removes the currently signed-in user as a scouter for a given match and team at a given competition.",
+        "tags": [
+          "Authenticated Routes"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "match",
+            "type": "string",
+            "example": "2",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "competition",
+            "type": "string",
+            "example": "2020ilch",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "team_scouting",
+            "type": "string",
+            "example": "2022",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "GoogleAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The user was removed as a scouter to the match.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": true,
+                  "description": "Describes whether the request completed successfully."
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The user was not removed as a scouter to the match. Returns the reasons for the error.",
+            "schema": {
+              "$ref": "#/definitions/NoData"
+            }
+          },
+          "401": {
+            "description": "The current user is not authorized to perform this action.",
+            "schema": {
+              "$ref": "#/definitions/NoAuth"
+            }
+          },
+          "403": {
+            "description": "Key-based authentication is not allowed for this route",
+            "schema": {
+              "$ref": "#/definitions/KeysNotAllowed"
+            }
+          }
+        }
+      }
+    },
+    "/api/submitMatchData": {
+      "post": {
+        "summary": "Submit scouted data",
+        "description": "Stores the scouted match data for a given match and team.",
+        "tags": [
+          "Authenticated Routes"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "match",
+            "required": true,
+            "type": "string",
+            "example": "2"
+          },
+          {
+            "in": "body",
+            "name": "teamScouted",
+            "required": true,
+            "type": "string",
+            "example": "2022"
+          },
+          {
+            "in": "body",
+            "name": "competition",
+            "required": true,
+            "type": "string",
+            "example": "2020ilch"
+          },
+          {
+            "in": "body",
+            "name": "data",
+            "type": "object",
+            "required": true,
+            "example": {
+              "balls-started": 3,
+              "balls-collected": 0,
+              "climb": "No attempt",
+              "speed": "Slow"
+            },
+            "description": "Match data of arbitrary JSON structure to store."
+          }
+        ],
+        "security": [
+          {
+            "GoogleAuth": []
+          },
+          {
+            "CLIENT_ID": [],
+            "CLIENT_SECRET": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The data was submitted. Returns the comeptition and match that was scouted.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "competition": {
+                  "type": "string",
+                  "example": "2020ilch"
+                },
+                "match": {
+                  "type": "number",
+                  "example": 2
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The data was not submitted. Returns the reasons for the error.",
+            "schema": {
+              "$ref": "#/definitions/NoData"
+            }
+          },
+          "401": {
+            "description": "The current user is not authorized to perform this action.",
+            "schema": {
+              "$ref": "#/definitions/NoAuth"
+            }
+          }
+        }
+      }
+    }
+  }
+}
