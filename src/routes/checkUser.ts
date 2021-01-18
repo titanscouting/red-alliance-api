@@ -18,7 +18,7 @@ module.exports = (app: any, dbHandler: any) => {
     if (!val.err_occur) {
       res.json({
         success: true,
-        isAuth: val.data,
+        isAuth: val,
       });
     } else {
       res.status(StatusCodes.no_data).json({

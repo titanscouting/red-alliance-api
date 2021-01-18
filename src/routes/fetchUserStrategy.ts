@@ -2,24 +2,24 @@ import { validate, Joi } from 'express-validation';
 import UserReturnData from '../UserReturnData';
 import StatusCodes from '../StatusCodes';
 
-module.exports = (app:any, dbHandler:any) => {
+module.exports = (app:any, dbHandler:any, auth:any) => {
   const validation = {
     query: Joi.object({
       competition: Joi.string().required(),
-      match_number: Joi.number().required(),
+      match: Joi.number().required(),
     }),
   }
-  app.get('/api/fetchUserStrategy', validate(validation, { keyByField: true }, {}), async (req: any, res:any) => {
+  app.get('/api/fetchUserStrategy', auth.checkAuth, validate(validation, { keyByField: true }, {}), async (req: any, res:any) => {
     let val: UserReturnData = new UserReturnData();
-    const { competition, matchNumber }: Record<string, string> = req.query;
+    const { competition, match }: Record<string, string> = req.query;
     const { name }: Record<string, string> = res.locals;
     let dataInterim: Array<any>;
 
-    val = await dbHandler.fetchUserStrategy(req.db, competition, matchNumber, name).catch((e) => { console.error(e); val.err_occur = true; });
+    val = await dbHandler.fetchUserStrategy(req.db, competition, match, name).catch((e) => { console.error(e); val.err_occur = true; });
     // the try...catch is the next few lines serves to ensure the application doesn't just crash if scouters or teams were not returned by the DB handler.
 
     try {
-      dataInterim = val.data.data;
+      dataInterim = val.data;
     } catch (e) {
       val.err_occur = true;
     }

@@ -18,11 +18,12 @@ module.exports = (app, dbHandler) => {
     let val: UserReturnData = new UserReturnData();
     const competition = String(req.query.competition);
     val = await dbHandler.fetchAllTeamNicknamesAtCompetition(req.db, competition).catch((e) => { console.error(e); val.err_occur = true; });
+    console.log(val)
     if (val.err_occur === false) {
       res.json({
         success: true,
         competition,
-        data: val.data.data,
+        data: val.data,
       });
     } else {
       res.status(StatusCodes.no_data).json({

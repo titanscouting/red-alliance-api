@@ -19,7 +19,7 @@ module.exports = (app: any, dbHandler: any) => {
     // the try...catch is the next few lines serves to ensure the application doesn't just crash if scouters or teams were not returned by the DB handler.
 
     try {
-      dataInterim = val.data.data;
+      dataInterim = val.data;
     } catch (e) {
       val.err_occur = true;
     }
