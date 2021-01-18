@@ -9,7 +9,7 @@ export default async (db: any, competition: string, match: number): Promise<User
     const toProcess = await dbo.collection('matchdata').find(myobj).toArray().catch((e) => { console.error(e); data.err_occur = true; });
     for (const scoutSub of toProcess) {
       if (scoutSub.data['strategy-notes']) {
-        out.push({ scouter: scoutSub.scouter.name, strategy: scoutSub.data['strategy-notes'] });
+        out.push({ team_scouted: scoutSub.team_scouted, scouter: scoutSub.scouter.name, strategy: scoutSub.data['strategy-notes'] });
       }
     }
     data.data = out;
