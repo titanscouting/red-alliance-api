@@ -17,7 +17,7 @@ module.exports = (app: any, dbHandler: any) => {
 
     val = await dbHandler.fetchMatchConfig(req.db, competition, team).catch((e) => { console.error(e); val.err_occur = true; });
     try {
-      dataInterim = val.data.data.config;
+      dataInterim = val.data.config
     } catch (e) {
       val.err_occur = true;
     }

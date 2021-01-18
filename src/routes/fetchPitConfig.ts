@@ -16,7 +16,7 @@ module.exports = (app: any, dbHandler: any) => {
     let dataInterim: Record<string, unknown>;
     val = await dbHandler.fetchPitConfig(req.db, competition, team_number).catch((e) => { console.error(e); val.err_occur = true; });
     try {
-      dataInterim = val.data.data.config;
+      dataInterim = val.data.config;
     } catch (e) {
       val.err_occur = true;
     }
