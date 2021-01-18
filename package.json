@@ -14,7 +14,7 @@
     "test-lint": "eslint . --ext .ts",
     "test": "nyc --reporter=text ts-mocha --timeout 10000 --exit",
     "coverage": "npm test && nyc report --reporter=lcov",
-    "doc": "typedoc --out docs src/ --exclude src/routes/ --exclude src/routes/index.ts"
+    "doc": "typedoc --out docs src/ --exclude src/routes/ --exclude src/routes/index.ts --name 'The Red Alliance API' --includeVersion --hideGenerator"
   },
   "nyc": {
     "extension": [
