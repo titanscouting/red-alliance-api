@@ -3,7 +3,7 @@ import StatusCodes from '../StatusCodes';
 
 module.exports = (app:any, auth: any) => {
   app.get('/api/getUserTeam', auth.checkAuth, async (req: any, res:any) => {
-    const val: UserReturnData = new UserReturnData();
+    let val: UserReturnData = new UserReturnData();
     const { id, team, name } = res.locals;
     if (val.err_occur === false) {
       res.json({

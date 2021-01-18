@@ -11,12 +11,12 @@ module.exports = (app: any, dbHandler: any) => {
     }),
   }
   app.get('/api/fetchMatchData', validate(validation, { keyByField: true }, {}), async (req: any, res:any) => {
-    const val: UserReturnData = new UserReturnData();
+    let val: UserReturnData = new UserReturnData();
     const competitionID = String(req.query.competition);
     const matchNumber = parseInt(req.query.match_number, 10);
     const teamScouted = parseInt(req.query.team_scouted, 10);
     let dataInterim;
-    val.data = await dbHandler.fetchMatchData(req.db, competitionID, matchNumber, teamScouted).catch((e) => { console.error(e); val.err_occur = true; val.err_reasons.push(e); });
+    val = await dbHandler.fetchMatchData(req.db, competitionID, matchNumber, teamScouted).catch((e) => { console.error(e); val.err_occur = true; val.err_reasons.push(e); });
     // the try...catch is the next few lines serves to ensure the application doesn't just crash if scouters or teams were not returned by the DB handler.
     try {
       dataInterim = val.data.data;

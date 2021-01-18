@@ -13,8 +13,8 @@ import StatusCodes from '../StatusCodes';
 
 module.exports = (app: any, dbHandler: any) => {
   app.get('/api/checkUser', async (req: any, res:any) => {
-    const val: UserReturnData = new UserReturnData();
-    val.data = await dbHandler.checkKey(req.db, req.query.CLIENT_ID, req.query.CLIENT_SECRET).catch((e) => { console.error(e); val.err_reasons.push(e); val.err_occur = true; });
+    let val: UserReturnData = new UserReturnData();
+    val = await dbHandler.checkKey(req.db, req.query.CLIENT_ID, req.query.CLIENT_SECRET).catch((e) => { console.error(e); val.err_reasons.push(e); val.err_occur = true; });
     if (!val.err_occur) {
       res.json({
         success: true,

@@ -14,9 +14,9 @@ module.exports = (app: any, dbHandler: any) => {
     }),
   }
   app.get('/api/fetchCompetitionSchedule', validate(validation, { keyByField: true }, {}), async (req: any, res:any) => {
-    const val: UserReturnData = new UserReturnData();
+    let val: UserReturnData = new UserReturnData();
     const { competition }: Record<string, string> = req.query;
-    val.data = await dbHandler.fetchCompetitionSchedule(req.db, competition).catch((e) => { console.error(e); val.err_occur = true; return {}; });
+    val = await dbHandler.fetchCompetitionSchedule(req.db, competition).catch((e) => { console.error(e); val.err_occur = true; return {}; });
     if (val.err_occur === false) {
       res.json({
         success: true,

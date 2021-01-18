@@ -10,12 +10,12 @@ module.exports = (app: any, dbHandler: any) => {
     }),
   }
   app.get('/api/fetchStrategy', validate(validation, { keyByField: true }, {}), async (req: any, res:any) => {
-    const val: UserReturnData = new UserReturnData();
+    let val: UserReturnData = new UserReturnData();
     const { competition }: Record<string, string> = req.query;
     const matchNumber: number = req.query.match;
     let dataInterim: Array<any>;
 
-    val.data = await dbHandler.fetchStrategy(req.db, competition, matchNumber).catch((e) => { console.error(e); val.err_occur = true; });
+    val = await dbHandler.fetchStrategy(req.db, competition, matchNumber).catch((e) => { console.error(e); val.err_occur = true; });
     // the try...catch is the next few lines serves to ensure the application doesn't just crash if scouters or teams were not returned by the DB handler.
 
     try {

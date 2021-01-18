@@ -12,7 +12,7 @@ module.exports = (app: any, dbHandler: any, auth: any) => {
     }),
   }
   app.post('/api/submitStrategy', validate(validation, { keyByField: true }, {}), auth.checkAuth, async (req: any, res:any) => {
-    const val: UserReturnData = new UserReturnData();
+    let val: UserReturnData = new UserReturnData();
     const scouter: Scouter = { name: String(res.locals.name), id: String(res.locals.id) };
     const competitionID = String(req.body.competition);
     const data = String(req.body.data);
@@ -24,7 +24,7 @@ module.exports = (app: any, dbHandler: any, auth: any) => {
       })
     } else {
       // Application exhibits unpredicatble behavior if `if` evaluates to true, so we just filter that out.
-      val.data = await dbHandler.submitStrategy(req.db, scouter.name, matchNumber, competitionID, data);
+      val = await dbHandler.submitStrategy(req.db, scouter.name, matchNumber, competitionID, data);
     }
 
     if (val.err_occur === false) {

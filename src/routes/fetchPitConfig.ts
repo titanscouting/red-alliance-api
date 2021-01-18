@@ -10,11 +10,11 @@ module.exports = (app: any, dbHandler: any) => {
     }),
   }
   app.get('/api/fetchPitConfig', validate(validation, { keyByField: true }, {}), async (req: any, res:any) => {
-    const val: UserReturnData = new UserReturnData();
+    let val: UserReturnData = new UserReturnData();
     const { competition }: Record<string, string> = req.query;
     const team_number: number = parseInt(req.query.team, 10);
     let dataInterim: Record<string, unknown>;
-    val.data = await dbHandler.fetchPitConfig(req.db, competition, team_number).catch((e) => { console.error(e); val.err_occur = true; });
+    val = await dbHandler.fetchPitConfig(req.db, competition, team_number).catch((e) => { console.error(e); val.err_occur = true; });
     try {
       dataInterim = val.data.data.config;
     } catch (e) {

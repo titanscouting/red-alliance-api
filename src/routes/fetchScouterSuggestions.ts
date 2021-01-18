@@ -20,9 +20,9 @@ module.exports = (app: any, dbHandler: any) => {
     const { competition }: Record<string, string> = req.query;
     let { matchNumber }: Record<string, any> = req.query;
     matchNumber = parseInt(matchNumber, 10);
-    const val: UserReturnData = new UserReturnData();
+    let val: UserReturnData = new UserReturnData();
     let dataInterim: Record<string, unknown>;
-    val.data = await dbHandler.fetchScouterSuggestions(req.db, competition, matchNumber).catch((e) => { console.error(e); val.err_occur = true; });
+    val = await dbHandler.fetchScouterSuggestions(req.db, competition, matchNumber).catch((e) => { console.error(e); val.err_occur = true; });
     try {
       dataInterim = val.data.data;
     } catch (e) {

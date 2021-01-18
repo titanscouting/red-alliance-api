@@ -11,9 +11,9 @@ module.exports = (app, dbHandler, auth) => {
   }
   app.post('/api/addAPIKey', auth.noAPIKey, auth.checkAuth, validate(validation, { keyByField: true }, {}), async (req: any, res:any) => {
     const { team } = req.body;
-    const val: UserReturnData = new UserReturnData();
+    let val: UserReturnData = new UserReturnData();
     const clientInfo = await uuidAPIKey.create();
-    val.data = await dbHandler.addKey(req.db, clientInfo.uuid, clientInfo.apiKey, team).catch((e) => { console.error(e); val.err_occur = true; });
+    val = await dbHandler.addKey(req.db, clientInfo.uuid, clientInfo.apiKey, team).catch((e) => { console.error(e); val.err_occur = true; });
     if (val.err_occur === false) {
       res.json({
         success: true,
