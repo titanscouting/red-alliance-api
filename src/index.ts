@@ -34,7 +34,6 @@ const options = {
 };
 
 const swaggerSpec = swaggerJSDoc(options);
-app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 /**
  * NOTE TO DEVELOPERS: the `auth.checkAuth` statement is simply middleware which contacts
  * authHandler.ts to ensure that the user has a valid authentication token.
@@ -91,6 +90,8 @@ app.use((err: any, req, res, next) => {
 
   return res.status(500).json(err)
 })
+app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
 module.exports = app;
