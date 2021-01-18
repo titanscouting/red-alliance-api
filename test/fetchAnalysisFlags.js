@@ -11,10 +11,10 @@ chai.use(chaiHttp);
 /*
   * Test the GETroute
   */
-describe('GET/api/fetchAnalysisFlags', () => {
+describe('GET /api/fetchAnalysisFlags', () => {
   it('it should GET the data for the flag', (done) => {
     chai.request(server)
-      .get('/api/fetchAnalysisFlags?flags=1')
+      .get('/api/fetchAnalysisFlags?flag=latest_update')
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.have.property('data');
