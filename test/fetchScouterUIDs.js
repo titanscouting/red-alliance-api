@@ -14,7 +14,7 @@ chai.use(chaiHttp);
 describe('GET/api/fetchScouterUIDs', () => {
   it('it should GET the users who are scouting a match', (done) => {
     chai.request(server)
-      .get('/api/fetchScouterUIDs?competition=2020ilch&match_number=1')
+      .get('/api/fetchScouterUIDs?competition=2020ilch&match=1')
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.be.eql({

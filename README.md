@@ -7,6 +7,17 @@ NodeJS REST API for interacting with MongoDB. Backend database for TRA.
 ## Unit Testing 
 * Run `npm test` to run the Mocha/Chai tests.
 
+## Documenation 
+
+**REST API Documentation**
+
+The REST API documention can be found [here](https://titanscouting.epochml.org/).
+
+**Database handlers and internal documentation**
+
+Documentation for internal APIs can be found [here](https://titanscouting.github.io/red-alliance-api/).
+
+
 ## Status Badges
 ![Unit Testing](https://github.com/titanscout2022/red-alliance-api/workflows/Run%20Unit%20tests/badge.svg)
 

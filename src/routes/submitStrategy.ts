@@ -11,14 +11,14 @@ module.exports = (app: any, dbHandler: any, auth: any) => {
       data: Joi.string().required(),
     }),
   }
-  app.post('/api/submitStrategy', validate(validation, { keyByField: true }, {}), auth.checkAuth, async (req: any, res:any) => {
-    const val: UserReturnData = new UserReturnData();
+  app.post('/api/submitStrategy', auth.checkAuth, validate(validation, { keyByField: true }, {}), auth.checkAuth, async (req: any, res:any) => {
+    let val: UserReturnData = new UserReturnData();
     const scouter: Scouter = { name: String(res.locals.name), id: String(res.locals.id) };
     const competitionID = String(req.body.competition);
     const data = String(req.body.data);
     const matchNumber = String(req.body.match);
     // Application exhibits unpredicatble behavior if `if` evaluates to true, so we just filter that out.
-    val.data = await dbHandler.submitStrategy(req.db, scouter.name, matchNumber, competitionID, data);
+    val = await dbHandler.submitStrategy(req.db, scouter.name, matchNumber, competitionID, data);
 
     if (val.err_occur === false) {
       res.json({

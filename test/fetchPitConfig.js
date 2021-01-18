@@ -23,7 +23,7 @@ chai.use(require('chai-json'));
   return true;
 }
 
-describe('GET/fetchPitConfig', () => {
+describe('GET /api/fetchPitConfig', () => {
   it('it should GET the pit scout config', (done) => {
     chai.request(server)
       .get('/api/fetchPitConfig?competition=2020ilch&team=2022')

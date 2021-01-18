@@ -13,12 +13,12 @@ module.exports = (app: any, dbHandler: any, auth: any) => {
     }),
   }
   app.post('/api/submitMatchData', auth.checkAuth, validate(validation, { keyByField: true }, {}), async (req: any, res: any) => {
-    const val: UserReturnData = new UserReturnData();
+    let val: UserReturnData = new UserReturnData();
     const scouter: Scouter = { name: String(res.locals.name), id: String(res.locals.id) };
     const { competition, data }: Record<string, string> = req.body;
     const match: number = parseInt(req.body.match, 10);
     const teamScouted: number = parseInt(req.body.teamScouted, 10);
-    val.data = await dbHandler.submitMatchData(req.db, scouter,
+    val = await dbHandler.submitMatchData(req.db, scouter,
       competition, match, teamScouted, data).catch(
       (e: string) => {
         console.error(e); val.err_occur = true;

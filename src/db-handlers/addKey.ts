@@ -1,5 +1,17 @@
 import * as bcrypt from 'bcrypt';
 import UserReturnData from '../UserReturnData';
+/**
+ * @async
+ * @memberof module:dbHandler
+ * @desc Hashes and adds an API key to the database
+ * @author Dev Singh <dsingh@imsa.edu>
+ * @license BSD-3-Clause
+ * @param db - instance of the DB object
+ * @param {string} clientID - Client ID issued to user
+ * @param {string} clientKey - Client secret issued to user
+ * @returns {Promise<UserReturnData>} - See definition of UserReturnData
+ * @see /api/addAPIKey endpoint
+ */
 
 export default async (db: any, clientID: string, clientKey: string, team: number): Promise<UserReturnData> => {
   const data: UserReturnData = { err_occur: false, err_reasons: [], data: {} };

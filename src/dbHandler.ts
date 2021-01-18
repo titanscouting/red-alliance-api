@@ -1,5 +1,8 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable import/order */
+/**
+ * @module dbHandler
+ */
 export { default as addKey } from './db-handlers/addKey';
 export { default as addUserToTeam } from './db-handlers/addUserToTeam';
 export { default as getUserTeam } from './db-handlers/getUserTeam';

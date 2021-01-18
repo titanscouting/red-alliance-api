@@ -13,15 +13,15 @@ module.exports = (app: any, dbHandler: any) => {
       competition: Joi.string().required(),
     }),
   }
-  app.get('/api/fetchMatches', validate(validation, { keyByField: true }, {}), async (req: any, res:any) => {
-    const val: UserReturnData = new UserReturnData();
+  app.get('/api/fetchScouters', validate(validation, { keyByField: true }, {}), async (req: any, res:any) => {
+    let val: UserReturnData = new UserReturnData();
     const { competition }: Record<string, string> = req.query;
-    val.data = await dbHandler.fetchMatchesForCompetition(req.db, competition).catch((e) => { console.error(e); val.err_occur = true; });
+    val = await dbHandler.fetchMatchesForCompetition(req.db, competition).catch((e) => { console.error(e); val.err_occur = true; });
     if (val.err_occur === false) {
       res.json({
         success: true,
         competition,
-        data: val.data.data.data, // TODO: Fix that structure up a bit
+        data: val.data.data, // TODO: Fix that structure up a bit
       });
     } else {
       res.status(StatusCodes.no_data).json({
