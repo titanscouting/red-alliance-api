@@ -23,7 +23,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm install
-    - name: Run unit tests and output to lcov
+    - name: Run typedoc to generate docs page
       run: npm run doc
     - uses: stefanzweifel/git-auto-commit-action@v4
       with:
