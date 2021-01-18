@@ -1,6 +1,17 @@
 import * as bcrypt from 'bcrypt';
 import UserReturnData from '../UserReturnData';
-
+/**
+ * @async
+ * @memberof module:dbHandler
+ * @desc Check whether the given client ID and secret is currently valid
+ * @author Dev Singh <dsingh@imsa.edu>
+ * @license BSD-3-Clause
+ * @param db - instance of the DB object
+ * @param {string} clientID - Client ID issued to user
+ * @param {string} clientKey - Client secret issued to user
+ * @returns {Promise<UserReturnData>} - See definition of UserReturnData
+ * @see /api/checkKey endpoint
+ */
 export default async (db, clientID: string, clientKey: string): Promise<boolean> => {
   const data: UserReturnData = { err_occur: false, err_reasons: [], data: {} };
   const dbo = db.db('userlist');
