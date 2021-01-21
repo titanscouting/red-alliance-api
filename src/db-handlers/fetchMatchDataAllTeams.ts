@@ -9,19 +9,11 @@ export default async (db: any, compID: string): Promise<UserReturnData> => {
     const teamsSeen = [];
     const toProcess = await dbo.collection('matchdata').find(myobj).toArray();
     for (const element of toProcess) {
-      //  console.log(element);
       if (teamsSeen.indexOf(element.team_scouted) === -1) {
-        console.log('not previously seen team');
-        out[`${element.team_scouted}`] = [];
+        out[`${element.team_scouted}`] = {};
         teamsSeen.push(element.team_scouted);
       }
-      console.log(element.team_scouted, element.match)
-      out[`${element.team_scouted}`].push({ data: toProcess.data, match: toProcess.match })
-      // for (const group of toProcess) {
-      //   if (element.team_scouted === group.team_scouted) {
-      //     out.push({ teamNum: { matchNum: element.match, data: element.data } });
-      //   }
-      // }
+      out[`${element.team_scouted}`][`${element.match}`] = element.data;
     }
     data.data = out;
   } catch (err) {
