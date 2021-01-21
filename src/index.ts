@@ -3,6 +3,10 @@ import bodyParser from 'body-parser';
 import expressMongoDb from 'mongo-express-req';
 import { ValidationError } from 'express-validation';
 import path from 'path';
+import swaggerJSDoc = require('swagger-jsdoc');
+import swaggerUi = require('swagger-ui-express');
+// eslint-disable-next-line
+import * as swaggerDefinition from './routes/swagger.json';
 import dbHandler = require('./dbHandler');
 import auth = require('./authHandler');
 
@@ -23,6 +27,13 @@ try {
   process.exit(1);
 }
 
+const options = {
+  swaggerDefinition,
+  // Paths to files containing OpenAPI definitions
+  apis: ['./routes/*.ts'],
+};
+
+const swaggerSpec = swaggerJSDoc(options);
 /**
  * NOTE TO DEVELOPERS: the `auth.checkAuth` statement is simply middleware which contacts
  * authHandler.ts to ensure that the user has a valid authentication token.
@@ -35,8 +46,8 @@ try {
 
 // TODO: find a way to loop through this without a bunch of require(). A simple for loop results in `require() not found`.
 // TODO: use the UserReturnData class when returning data in all these apis
-require('./routes/base')(app);
-require('./routes/fetchMatches')(app, dbHandler);
+
+require('./routes/fetchScouters')(app, dbHandler);
 require('./routes/submitMatchData')(app, dbHandler, auth);
 require('./routes/checkUser')(app, dbHandler, auth);
 require('./routes/fetchScouterSuggestions')(app, dbHandler);
@@ -58,13 +69,15 @@ require('./routes/fetchPitData')(app, dbHandler);
 require('./routes/submitPitData')(app, dbHandler, auth);
 require('./routes/addUserToTeam')(app, dbHandler, auth);
 require('./routes/fetchMatchConfig')(app, dbHandler);
-require('./routes/checkUserTeam')(app, auth);
 require('./routes/fetchMetricsData')(app, dbHandler);
 require('./routes/fetchAnalysisFlags')(app, dbHandler);
 require('./routes/fetchMatchDataAllTeams')(app, dbHandler);
 require('./routes/fetchPitDataAllTeams')(app, dbHandler);
 require('./routes/fetchPitVariableData')(app, dbHandler);
 require('./routes/fetchPitVariableDataFormatted')(app, dbHandler);
+require('./routes/submitTeamTestsData')(app, dbHandler, auth);
+require('./routes/submitTeamPitData')(app, dbHandler, auth);
+require('./routes/getUserTeam')(app, auth);
 
 class CustomValidationError extends ValidationError {
   success?: boolean
@@ -85,6 +98,8 @@ app.use((err: any, req, res, next) => {
 
   return res.status(500).json(err)
 })
+app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
 module.exports = app;

@@ -1,5 +1,8 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable import/order */
+/**
+ * @module dbHandler
+ */
 export { default as addKey } from './db-handlers/addKey';
 export { default as addUserToTeam } from './db-handlers/addUserToTeam';
 export { default as getUserTeam } from './db-handlers/getUserTeam';
@@ -28,3 +31,5 @@ export { default as fetchMatchDataAllTeams } from './db-handlers/fetchMatchDataA
 export { default as fetchPitDataAllTeams } from './db-handlers/fetchPitDataAllTeams';
 export { default as fetchPitVariableData } from './db-handlers/fetchPitVariableData';
 export { default as fetchPitVariableDataFormatted } from './db-handlers/fetchPitVariableDataFormatted';
+export { default as submitTeamTestsData } from './db-handlers/submitTeamTestsData';
+export { default as submitTeamPitData } from './db-handlers/submitTeamPitData';

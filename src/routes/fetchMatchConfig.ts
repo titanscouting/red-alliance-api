@@ -10,14 +10,14 @@ module.exports = (app: any, dbHandler: any) => {
     }),
   }
   app.get('/api/fetchMatchConfig', validate(validation, { keyByField: true }, {}), async (req: any, res:any) => {
-    const val: UserReturnData = new UserReturnData();
+    let val: UserReturnData = new UserReturnData();
     const { competition }: Record<string, string> = req.query;
     const team: number = parseInt(req.query.team, 10);
     let dataInterim: Record<string, unknown>;
 
-    val.data = await dbHandler.fetchMatchConfig(req.db, competition, team).catch((e) => { console.error(e); val.err_occur = true; });
+    val = await dbHandler.fetchMatchConfig(req.db, competition, team).catch((e) => { console.error(e); val.err_occur = true; });
     try {
-      dataInterim = val.data.data.config;
+      dataInterim = val.data.config
     } catch (e) {
       val.err_occur = true;
     }

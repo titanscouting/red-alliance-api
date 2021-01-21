@@ -5,17 +5,19 @@ import StatusCodes from '../StatusCodes';
 
 module.exports = (app:any, dbHandler:any, auth: any) => {
   const validation = {
-    query: Joi.object({
+    body: Joi.object({
       match: Joi.string().required(),
       competition: Joi.string().required(),
+      team_scouting: Joi.string().required(),
     }),
   }
-  app.post('/api/addScouterToMatch', auth.checkAuth, validate(validation, { keyByField: true }, {}), async (req: any, res:any) => {
-    const val: UserReturnData = new UserReturnData();
+  app.post('/api/addScouterToMatch', auth.noAPIKey, auth.checkAuth, validate(validation, { keyByField: true }, {}), async (req: any, res:any) => {
+    let val: UserReturnData = new UserReturnData();
     const scouter: Scouter = { name: String(res.locals.name), id: String(res.locals.id), team: parseInt(res.locals.team, 10) };
-    const match = String(req.body.match);
-    const teamScouted: number = parseInt(req.body.team_scouting, 10);
-    val.data = await dbHandler.addScouterToMatch(req.db, scouter.id, scouter.name, match, teamScouted).catch((e) => { console.error(e); val.err_occur = true; });
+    const { competition } = req.body;
+    const match = parseInt(req.body.match, 10)
+    const teamScouted: string = req.body.team_scouting
+    val = await dbHandler.addScouterToMatch(req.db, scouter.id, scouter.name, match, teamScouted, competition).catch((e) => { console.error(e); val.err_occur = true; });
     if (val.err_occur === false) {
       res.json({
         success: true,

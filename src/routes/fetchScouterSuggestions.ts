@@ -13,18 +13,18 @@ module.exports = (app: any, dbHandler: any) => {
   const validation = {
     query: Joi.object({
       competition: Joi.string().required(),
-      matchNumber: Joi.number().required(),
+      match: Joi.string().required(),
     }),
   }
   app.get('/api/fetchScouterSuggestions', validate(validation, { keyByField: true }, {}), async (req: any, res:any) => {
     const { competition }: Record<string, string> = req.query;
-    let { matchNumber }: Record<string, any> = req.query;
-    matchNumber = parseInt(matchNumber, 10);
-    const val: UserReturnData = new UserReturnData();
+    const { match }: Record<string, any> = req.query;
+    const matchNumber = parseInt(match, 10);
+    let val: UserReturnData = new UserReturnData();
     let dataInterim: Record<string, unknown>;
-    val.data = await dbHandler.fetchScouterSuggestions(req.db, competition, matchNumber).catch((e) => { console.error(e); val.err_occur = true; });
+    val = await dbHandler.fetchScouterSuggestions(req.db, competition, matchNumber).catch((e) => { console.error(e); val.err_occur = true; });
     try {
-      dataInterim = val.data.data;
+      dataInterim = val.data;
     } catch (e) {
       val.err_occur = true;
     }
@@ -32,7 +32,7 @@ module.exports = (app: any, dbHandler: any) => {
       res.json({
         success: true,
         competition,
-        matchNumber,
+        match: matchNumber,
         data: dataInterim,
       });
     } else {
