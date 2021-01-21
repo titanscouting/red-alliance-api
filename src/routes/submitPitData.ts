@@ -5,11 +5,11 @@ import StatusCodes from '../StatusCodes';
 
 module.exports = (app: any, dbHandler: any, auth: any) => {
   const validation = {
-    query: Joi.object({
+    body: Joi.object({
       matchNumber: Joi.number().required(),
       teamScouted: Joi.number().required(),
-      competitionID: Joi.string().required(),
-      data: Joi.string().required(),
+      competition: Joi.string().required(),
+      data: Joi.object().required(),
     }),
   }
   app.post('/api/submitPitData', auth.checkAuth, validate(validation, { keyByField: true }, {}), async (req: any, res:any) => {

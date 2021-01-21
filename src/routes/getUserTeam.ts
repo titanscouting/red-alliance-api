@@ -7,7 +7,7 @@ module.exports = (app:any, auth: any) => {
     const { id, team, name } = res.locals;
     if (team === undefined || id === undefined || name === undefined) {
       val.err_occur = true
-      val.err_reasons.push("Could not get user data.")
+      val.err_reasons.push('Could not get user data.')
     }
     if (val.err_occur === false) {
       res.json({

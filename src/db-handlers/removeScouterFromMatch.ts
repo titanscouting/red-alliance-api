@@ -4,7 +4,7 @@ export default async (db: any, match: number, teamScouted: string, competition: 
   const data: UserReturnData = { err_occur: false, err_reasons: [], data: {} };
 
   const dbo = db.db('data_scouting');
-  const myobj = { match };
+  const myobj = { match, competition };
   try {
     const interim = await dbo.collection('matches').findOne(myobj).catch((e) => { console.error(e); data.err_occur = true; });
     const index = interim.teams.indexOf(teamScouted);

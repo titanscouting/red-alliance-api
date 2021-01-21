@@ -13,12 +13,12 @@ module.exports = (app: any, dbHandler: any) => {
   const validation = {
     query: Joi.object({
       competition: Joi.string().required(),
-      match: Joi.number().required(),
+      match: Joi.string().required(),
     }),
   }
   app.get('/api/fetchScouterSuggestions', validate(validation, { keyByField: true }, {}), async (req: any, res:any) => {
     const { competition }: Record<string, string> = req.query;
-    let { match }: Record<string, any> = req.query;
+    const { match }: Record<string, any> = req.query;
     const matchNumber = parseInt(match, 10);
     let val: UserReturnData = new UserReturnData();
     let dataInterim: Record<string, unknown>;

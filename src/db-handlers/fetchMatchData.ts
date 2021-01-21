@@ -1,9 +1,9 @@
 import UserReturnData from '../UserReturnData';
 
-export default async (db: any, compID: string, matchNum: string, teamScouted: string): Promise<UserReturnData> => {
+export default async (db: any, competition: string, matchNum: string, teamScouted: string): Promise<UserReturnData> => {
   const data: UserReturnData = { err_occur: false, err_reasons: [], data: {} };
   const dbo = db.db('data_scouting');
-  const myobj = { competition: String(compID), match: parseInt(matchNum, 10), team_scouted: parseInt(teamScouted, 10) };
+  const myobj = { competition, match: parseInt(matchNum, 10), team_scouted: parseInt(teamScouted, 10) };
   try {
     data.data = await dbo.collection('matchdata').findOne(myobj).catch((e) => { console.error(e); data.err_occur = true; throw new Error('Database error'); });
   } catch (err) {
