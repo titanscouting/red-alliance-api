@@ -8,7 +8,6 @@ export default async (db: any, compID: string, teamScouted: string): Promise<Use
     myobj = { competition: String(compID), team_scouted: parseInt(teamScouted, 10) };
   } else {
     myobj = { competition: String(compID) };
-
   }
   try {
     const out = {};

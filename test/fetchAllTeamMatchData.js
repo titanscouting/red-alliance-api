@@ -28,6 +28,7 @@ describe('GET/api/fetchAllTeamMatchData', () => {
         res.should.have.status(200);
         res.body.should.have.property('data');
         res.body.data.should.have.property('63');
+        res.body.data.should.not.have.property('2022');
         res.body.should.have.property('success').eql(true);
       });
       chai.request(server)

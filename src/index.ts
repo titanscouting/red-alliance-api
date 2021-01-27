@@ -72,7 +72,7 @@ require('./routes/fetchMatchConfig')(app, dbHandler);
 require('./routes/fetchMetricsData')(app, dbHandler);
 require('./routes/fetchAnalysisFlags')(app, dbHandler);
 require('./routes/fetchAllTeamMatchData')(app, dbHandler);
-require('./routes/fetchPitDataAllTeams')(app, dbHandler);
+require('./routes/fetchAllTeamPitData')(app, dbHandler);
 require('./routes/fetchPitVariableData')(app, dbHandler);
 require('./routes/fetchPitVariableDataFormatted')(app, dbHandler);
 require('./routes/submitTeamTestsData')(app, dbHandler, auth);
