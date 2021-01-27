@@ -11,10 +11,10 @@ chai.use(chaiHttp);
 /*
   * Test the GETroute
   */
-describe('GET/api/fetchPitVariableDataFormatted', () => {
+describe('GET /api/fetchPitVariableData', () => {
   it('it should GET the data for the pit variables', (done) => {
     chai.request(server)
-      .get('/api/fetchPitVariableDataFormatted?competition=2020ilch')
+      .get('/api/fetchPitVariableData?competition=2020ilch')
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.have.property('data');
