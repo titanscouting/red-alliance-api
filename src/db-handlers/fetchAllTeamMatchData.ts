@@ -1,9 +1,15 @@
 import UserReturnData from '../UserReturnData';
 
-export default async (db: any, compID: string): Promise<UserReturnData> => {
+export default async (db: any, compID: string, teamScouted: string): Promise<UserReturnData> => {
   const data: UserReturnData = { err_occur: false, err_reasons: [], data: {} };
   const dbo = db.db('data_scouting');
-  const myobj = { competition: String(compID) };
+  let myobj;
+  if (teamScouted) {
+    myobj = { competition: String(compID), team_scouted: parseInt(teamScouted, 10) };
+  } else {
+    myobj = { competition: String(compID) };
+
+  }
   try {
     const out = {};
     const teamsSeen = [];

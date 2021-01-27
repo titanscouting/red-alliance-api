@@ -27,7 +27,7 @@ export { default as fetchPitConfig } from './db-handlers/fetchPitConfig';
 export { default as fetchMatchConfig } from './db-handlers/fetchMatchConfig';
 export { default as fetchMetricsData } from './db-handlers/fetchMatchConfig';
 export { default as fetchAnalysisFlags } from './db-handlers/fetchAnalysisFlags';
-export { default as fetchMatchDataAllTeams } from './db-handlers/fetchMatchDataAllTeams';
+export { default as fetchAllTeamMatchData } from './db-handlers/fetchAllTeamMatchData';
 export { default as fetchPitDataAllTeams } from './db-handlers/fetchPitDataAllTeams';
 export { default as fetchPitVariableData } from './db-handlers/fetchPitVariableData';
 export { default as fetchPitVariableDataFormatted } from './db-handlers/fetchPitVariableDataFormatted';
