@@ -14,7 +14,9 @@
     "test-lint": "eslint . --ext .ts",
     "test": "nyc --reporter=text ts-mocha --timeout 10000 --exit",
     "coverage": "npm test && nyc report --reporter=lcov",
-    "doc": "typedoc --out docs src/ --exclude src/routes/ --exclude src/routes/index.ts --name 'The Red Alliance API' --includeVersion --hideGenerator"
+    "doc": "typedoc --out docs src/ --exclude src/routes/ --exclude src/routes/index.ts --name 'The Red Alliance API' --includeVersion --hideGenerator",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "nyc": {
     "extension": [
@@ -54,7 +56,8 @@
     "typescript": "^3.9.7",
     "uuid": "^8.3.2",
     "uuid-apikey": "^1.5.1",
-    "validator": "^13.5.2"
+    "validator": "^13.5.2",
+    "snyk": "^1.437.4"
   },
   "devDependencies": {
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
@@ -81,5 +84,6 @@
     "ts-node-dev": "^1.0.0-pre.56",
     "typedoc": "^0.20.16",
     "validator": "^13.5.2"
-  }
+  },
+  "snyk": true
 }
