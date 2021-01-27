@@ -21,7 +21,7 @@ describe('GET /api/fetchPitVariableData', () => {
         res.body.should.have.property('success').eql(true);
       });
       chai.request(server)
-      .get('/api/fetchPitVariableDataFormatted')
+      .get('/api/fetchPitVariableData')
       .end((err, res) => {
         res.should.have.status(400);
         res.body.should.have.property('success').eql(false);
