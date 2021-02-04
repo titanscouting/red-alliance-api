@@ -10,13 +10,13 @@ module.exports = (app: any, dbHandler: any, auth: any) => {
       data: Joi.object().required(),
     }),
   }
-  app.post('/api/submitTeamTestsData', validate(validation, { keyByField: true }, {}), auth.checkAuth, async (req: any, res:any) => {
+  app.post('/api/submitTeamMetricsData', validate(validation, { keyByField: true }, {}), auth.checkAuth, async (req: any, res:any) => {
     let val: UserReturnData = new UserReturnData();
     const competitionID: string = req.body.competition;
     const { team_number } = req.body;
     const { data } = req.body;
     // Application exhibits unpredicatble behavior if `if` evaluates to true, so we just filter that out.
-    val = await dbHandler.submitTeamTestsData(req.db, team_number, competitionID, data);
+    val = await dbHandler.submitTeamMetricsData(req.db, team_number, competitionID, data);
 
     if (val.err_occur === false) {
       res.json({
