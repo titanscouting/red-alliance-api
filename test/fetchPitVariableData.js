@@ -18,6 +18,9 @@ describe('GET /api/fetchPitVariableData', () => {
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.have.property('data');
+        res.body.data.should.have.property('wheel-mechanism');
+        res.body.data.should.have.property('low-balls');
+        res.body.data.should.have.property('high-balls');
         res.body.should.have.property('success').eql(true);
       });
       chai.request(server)
