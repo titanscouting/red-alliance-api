@@ -14,7 +14,7 @@ chai.use(chaiHttp);
 describe('GET /api/fetchMetricsData', () => {
   it('it should GET the metrics data for a team', (done) => {
     chai.request(server)
-      .get('/api/fetchMetricsData?competition=2020ilch&team_number=8160')
+      .get('/api/fetchMetricsData?competition=2020ilch&team=8160')
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.have.property('metrics');

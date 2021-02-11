@@ -6,20 +6,20 @@ module.exports = (app: any, dbHandler: any) => {
   const validation = {
     query: Joi.object({
       competition: Joi.string().required(),
-      team_number: Joi.string().required(),
+      team: Joi.string().required(),
     }),
   }
   app.get('/api/fetchMetricsData', validate(validation, { keyByField: true }, {}), async (req: any, res:any) => {
     const val: UserReturnData = new UserReturnData();
     const { competition }: Record<string, string> = req.query;
-    const teamNumber = parseInt(req.query.team_scouted, 10);
-    val.data = await dbHandler.fetchMetricsData(req.db, competition, teamNumber).catch((e) => { console.error(e); val.err_occur = true; });
+    const team = parseInt(req.query.team, 10);
+    val.data = await dbHandler.fetchMetricsData(req.db, competition, team).catch((e) => { console.error(e); val.err_occur = true; });
     if (val.err_occur === false) {
       res.json({
         success: true,
         competition,
-        teamNumber,
-        metrics: val.data,
+        team,
+        metrics: val.data.data,
       });
     } else {
       res.status(StatusCodes.no_data).json({

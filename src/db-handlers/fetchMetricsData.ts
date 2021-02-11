@@ -6,6 +6,7 @@ export default async (db: any, compID: string, teamNumber: string): Promise<User
   const myobj = { competition: String(compID), team_number: parseInt(teamNumber, 10) };
   try {
     data.data = await dbo.collection('team_metrics').findOne(myobj).catch((e) => { console.error(e); data.err_occur = true; throw new Error('Database error'); });
+    console.log(data.data);
   } catch (err) {
     data.err_occur = true;
     data.err_reasons.push(err);
