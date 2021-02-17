@@ -42,7 +42,7 @@
     "express": "^4.17.1",
     "express-jwt": "^6.0.0",
     "express-validation": "^3.0.6",
-    "google-auth-library": "^6.1.0",
+    "google-auth-library": "^6.1.6",
     "hbs": "^4.1.1",
     "jsdoc": "^3.6.6",
     "jsonwebtoken": "^8.5.1",
