@@ -75,6 +75,9 @@ require('./routes/fetchAllTeamMatchData')(app, dbHandler);
 require('./routes/fetchAllTeamPitData')(app, dbHandler);
 require('./routes/fetchPitVariableData')(app, dbHandler);
 require('./routes/getUserTeam')(app, auth);
+require('./routes/submitTeamPitData')(app, dbHandler, auth);
+require('./routes/submitTeamTestsData')(app, dbHandler, auth);
+require('./routes/submitTeamMetricsData')(app, dbHandler, auth);
 
 class CustomValidationError extends ValidationError {
   success?: boolean

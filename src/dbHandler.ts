@@ -30,3 +30,6 @@ export { default as fetchAnalysisFlags } from './db-handlers/fetchAnalysisFlags'
 export { default as fetchAllTeamMatchData } from './db-handlers/fetchAllTeamMatchData';
 export { default as fetchAllTeamPitData } from './db-handlers/fetchAllTeamPitData';
 export { default as fetchPitVariableData } from './db-handlers/fetchPitVariableData';
+export { default as submitTeamPitData } from './db-handlers/submitTeamTestsData';
+export { default as submitTeamTestsData } from './db-handlers/submitTeamTestsData';
+export { default as submitTeamMetricsData } from './db-handlers/submitTeamTestsData';
