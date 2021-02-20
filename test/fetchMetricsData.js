@@ -14,10 +14,12 @@ chai.use(chaiHttp);
 describe('GET /api/fetchMetricsData', () => {
   it('it should GET the metrics data for a team', (done) => {
     chai.request(server)
-      .get('/api/fetchMetricsData?competition=2020ilch&team_number=8160')
+      .get('/api/fetchMetricsData?competition=2020ilch&team=8160')
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.have.property('metrics');
+        res.body.metrics.metrics.should.have.property('elo');
+        res.body.metrics.metrics.elo.should.have.property('score').eql(1478.9855779613563);
         res.body.competition.should.eql('2020ilch');
         res.body.should.have.property('success').eql(true);
       });
