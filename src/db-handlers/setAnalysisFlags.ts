@@ -5,13 +5,12 @@ export default async (db: any, flag: string, data: Record<string, any>): Promise
   const dbo = db.db('data_processing');
   const myobj = {
     $set: {
-      flag, data,
+      key: flag,
+      value: data,
     },
   };
   try {
-    await dbo.collection('flags').updateOne({
-      _id: competition + team_number, competition, team: team_number, data,
-    }, myobj, { upsert: true });
+    await dbo.collection('flags').updateOne({ _id: '5e6073c1b84e560b843689b7' }, myobj, { upsert: true });
   } catch (err) {
     dataReturn.err_occur = true;
     dataReturn.err_reasons.push(err);

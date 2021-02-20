@@ -11,8 +11,7 @@ module.exports = (app: any, dbHandler: any, auth: any) => {
   }
   app.post('/api/setAnalysisFlags', validate(validation, { keyByField: true }, {}), auth.checkAuth, async (req: any, res:any) => {
     let val: UserReturnData = new UserReturnData();
-    const { flag } = req.body;
-    const { data } = req.body;
+    const { flag, data } = req.body;
     // Application exhibits unpredicatble behavior if `if` evaluates to true, so we just filter that out.
     val = await dbHandler.setAnalysisFlags(req.db, flag, data);
 
