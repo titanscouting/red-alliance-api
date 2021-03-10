@@ -528,6 +528,199 @@
             }
           }
         }
+      },
+      "/api/fetch2022Schedule": {
+        "get": {
+          "summary": "Get the schedule for 2022",
+          "description": "Returns the competition schedule of 2022",
+          "responses": {
+            "200": {
+              "description": "The 2022  competition schedule was retrieved.",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "success": {
+                    "type": "boolean",
+                    "example": true,
+                    "description": "Describes whether the request completed successfully."
+                  },
+                  "competition": {
+                    "type": "string",
+                    "example": "2020ilch"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "The 2022 competition schedule could not be retrieved. Returns the reason for the error.",
+              "schema": {
+                "$ref": "#/definitions/NoData"
+              }
+            }
+          }
+        }
+        ,
+      "/api/fetchAllTeamMatchData": {
+        "get": {
+          "summary": "Gets all the team match data",
+          "description": "Returns all of the team match data",
+          "responses": {
+            "200": {
+              "description": "All team match data was retrieved.",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "success": {
+                    "type": "boolean",
+                    "example": true,
+                    "description": "Describes whether the request completed successfully."
+                  },
+                  "competition": {
+                    "type": "string",
+                    "example": "2020ilch"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "All team match data could not be retrieved. Returns the reason for the error.",
+              "schema": {
+                "$ref": "#/definitions/NoData"
+              }
+            }
+          }
+        }
+        },
+        "/api/fetchAllTeamPitData": {
+          "get": {
+            "summary": "Gets all the team pit data",
+            "description": "Returns all of the team pit data",
+            "responses": {
+              "200": {
+                "description": "All team pit data was retrieved.",
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true,
+                      "description": "Describes whether the request completed successfully."
+                    },
+                    "competition": {
+                      "type": "string",
+                      "example": "2020ilch"
+                    }
+                  }
+                }
+              },
+              "400": {
+                "description": "All team pit data could not be retrieved. Returns the reason for the error.",
+                "schema": {
+                  "$ref": "#/definitions/NoData"
+                }
+              }
+            }
+          }
+          },
+          "/api/fetchMetricsData": {
+            "get": {
+              "summary": "Get the metrics data for the team",
+              "description": "Returns the metrics data for the team",
+              "responses": {
+                "200": {
+                  "description": "The team metrics data was retrieved.",
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "success": {
+                        "type": "boolean",
+                        "example": true,
+                        "description": "Describes whether the request completed successfully."
+                      },
+                      "competition": {
+                        "type": "string",
+                        "example": "2020ilch"
+                      },
+                      "team": {
+                        "type": "string",
+                        "example": "2022",
+                        "description": "FRC team number which the user is a member of."
+                      }
+                    }
+                  }
+                },
+                "400": {
+                  "description": "The team metrics data could not be retrieved. Returns the reason for the error.",
+                  "schema": {
+                    "$ref": "#/definitions/NoData"
+                  }
+                }
+              }
+            }
+            },
+            "/api/fetchPitVariableData": {
+              "get": {
+                "summary": "Gets the data for the pit variables",
+                "description": "Returns the data for the pit variables",
+                "responses": {
+                  "200": {
+                    "description": "The pit variable data was retrieved.",
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "success": {
+                          "type": "boolean",
+                          "example": true,
+                          "description": "Describes whether the request completed successfully."
+                        },
+                        "competition": {
+                          "type": "string",
+                          "example": "2020ilch"
+                        }
+                      }
+                    }
+                  },
+                  "400": {
+                    "description": "The pit variable data could not be retrieved. Returns the reason for the error.",
+                    "schema": {
+                      "$ref": "#/definitions/NoData"
+                    }
+                  }
+                }
+              }
+              },
+              "/api/fetchAnalysisFlags": {
+                "get": {
+                  "summary": "Gets the data for the flag",
+                  "description": "Returns the data for the flag",
+                  "responses": {
+                    "200": {
+                      "description": "The flag data was retrieved.",
+                      "schema": {
+                        "type": "object",
+                        "properties": {
+                          "success": {
+                            "type": "boolean",
+                            "example": true,
+                            "description": "Describes whether the request completed successfully."
+                          },
+                          "flag": {
+                            "type": "string",
+                            "example": "latest_update"
+                          }
+                        }
+                      }
+                    },
+                    "400": {
+                      "description": "The flag data could not be retrieved. Returns the reason for the error.",
+                      "schema": {
+                        "$ref": "#/definitions/NoData"
+                      }
+                    }
+                  }
+                }
+                }
+              
       }
     }
   }
