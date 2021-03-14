@@ -24,13 +24,11 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm install
+    - run: yarn
     - name: Run unit tests and output to lcov
-      run: npm run coverage
+      run: yarn run coverage
       env:
         REDALLIANCEDBKEY: ${{ secrets.REDALLIANCEDBKEY }}
-    - name: Run typedoc to test generate docs page
-      run: npm run doc
     - name: Coveralls GitHub Action
       uses: coverallsapp/github-action@v1.1.1
       with:

@@ -22,9 +22,9 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm install
+    - run: yarn
     - name: Run typedoc to generate docs page
-      run: npm run doc
+      run: yarn run doc
     - uses: stefanzweifel/git-auto-commit-action@v4
       with:
         commit_message: Build documentation

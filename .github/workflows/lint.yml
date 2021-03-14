@@ -24,8 +24,8 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm install
+    - run: yarn
     - name: Lint the project
-      run: npm run test-lint
+      run: yarn run lint
       env:
         REDALLIANCEDBKEY: ${{ secrets.REDALLIANCEDBKEY }}
