@@ -19,7 +19,7 @@ describe('GET /api/fetchAnalysisFlags', () => {
         res.should.have.status(200);
         res.body.should.have.property('data');
         res.body.should.have.property('flag').eql("latest_update");
-        res.body.should.have.property('data').eql(1611721990.583423);
+        res.body.should.have.property('data').to.be.a('number');
         res.body.should.have.property('success').eql(true);
       });
       chai.request(server)

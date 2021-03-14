@@ -6,7 +6,7 @@ export default async (db: any, flag: string, data: Record<string, any>): Promise
   const myobj = {
     $set: {},
   };
-  
+
   myobj.$set[flag] = data;
 
   try {
