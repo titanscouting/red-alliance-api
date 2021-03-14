@@ -1,7 +1,6 @@
-FROM node:lts
+FROM node:lts-alpine
 WORKDIR /usr/src/app
-RUN apt-get update && apt-get install gnupg2 -y
 COPY package*.json ./
 RUN yarn
 COPY . .
-CMD [ "npm", "run", "start:prod" ]
+CMD [ "yarn", "run", "start:prod" ]
