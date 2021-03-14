@@ -1,6 +1,8 @@
 FROM node:lts-alpine
-WORKDIR /usr/src/app
 RUN apk add --no-cache git
+RUN adduser -D worker
+USER worker
+WORKDIR /home/worker
 COPY package*.json ./
 RUN yarn
 COPY . .
