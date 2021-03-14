@@ -15,8 +15,10 @@
     "lint": "eslint . --ext .ts",
     "test": "nyc --reporter=text ts-mocha --timeout 10000 --exit",
     "coverage": "npm test && nyc report --reporter=lcov",
-    "doc": "typedoc --out docs src/ --exclude src/routes/ --exclude src/routes/index.ts --name 'The Red Alliance API' --includeVersion --hideGenerator"
+    "doc": "typedoc --out docs src/ --exclude src/routes/ --exclude src/routes/index.ts --name 'The Red Alliance API' --includeVersion --hideGenerator",
+    "precommit-msg": "echo 'Pre-commit checks...' && exit 0"
   },
+  "pre-commit": [ "precommit-msg", "lint", "test" ],
   "nyc": {
     "extension": [
       ".ts",
@@ -49,14 +51,14 @@
     "mongo-express-req": "^3.0.1",
     "mongodb": "^3.6.4",
     "nodemon": "^2.0.5",
+    "snyk": "^1.458.0",
     "swagger-jsdoc": "^6.0.6",
     "swagger-ui-express": "^4.1.6",
     "tsdoc": "^0.0.4",
     "typescript": "^3.9.9",
     "uuid": "^8.3.2",
     "uuid-apikey": "^1.5.1",
-    "validator": "^13.5.2",
-    "snyk": "^1.458.0"
+    "validator": "^13.5.2"
   },
   "devDependencies": {
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
@@ -77,6 +79,7 @@
     "minimist": ">=1.2.3",
     "mocha": "^8.0.1",
     "nyc": "^15.1.0",
+    "pre-commit": "^1.2.2",
     "source-map-support": "^0.5.19",
     "ts-mocha": "^7.0.0",
     "ts-node": "^8.10.1",
