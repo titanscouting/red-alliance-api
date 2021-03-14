@@ -11,7 +11,7 @@ module.exports = (app: any, dbHandler: any) => {
   }
   app.get('/api/fetchMatchConfig', validate(validation, { keyByField: true }, {}), async (req: any, res:any) => {
     let val: UserReturnData = new UserReturnData();
-    const competition = String(req.query.competition);
+    const { competition }: Record<string, string> = req.query;
     const team: number = parseInt(req.query.team, 10);
     let dataInterim: Record<string, unknown>;
 

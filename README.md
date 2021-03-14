@@ -28,3 +28,4 @@ Documentation for internal APIs can be found [here](https://titanscouting.github
 [![Known Vulnerabilities](https://snyk.io/test/github/titanscout2022/red-alliance-api/badge.svg?targetFile=package.json)](https://snyk.io/test/github/titanscout2022/red-alliance-api?targetFile=package.json)
 
 [![Coverage Status](https://coveralls.io/repos/github/titanscout2022/red-alliance-api/badge.svg)](https://coveralls.io/github/titanscout2022/red-alliance-api)
+

@@ -1,24 +1,19 @@
 import { validate, Joi } from 'express-validation';
 import UserReturnData from '../UserReturnData';
-import Scouter from '../Scouter';
 import StatusCodes from '../StatusCodes';
 
 module.exports = (app: any, dbHandler: any, auth: any) => {
   const validation = {
     body: Joi.object({
-      match: Joi.number().required(),
-      competition: Joi.string().required(),
-      data: Joi.string().required(),
+      flag: Joi.string().required(),
+      data: Joi.object().required(),
     }),
   }
-  app.post('/api/submitStrategy', auth.checkAuth, validate(validation, { keyByField: true }, {}), auth.checkAuth, async (req: any, res:any) => {
+  app.post('/api/setAnalysisFlags', validate(validation, { keyByField: true }, {}), async (req: any, res:any) => {
     let val: UserReturnData = new UserReturnData();
-    const scouter: Scouter = { name: String(res.locals.name), id: String(res.locals.id) };
-    const competitionID = String(req.body.competition);
-    const data = String(req.body.data);
-    const matchNumber = String(req.body.match);
+    const { flag, data } = req.body;
     // Application exhibits unpredicatble behavior if `if` evaluates to true, so we just filter that out.
-    val = await dbHandler.submitStrategy(req.db, scouter.name, matchNumber, competitionID, data);
+    val = await dbHandler.setAnalysisFlags(req.db, flag, data);
 
     if (val.err_occur === false) {
       res.json({
