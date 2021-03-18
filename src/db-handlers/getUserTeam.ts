@@ -5,5 +5,10 @@ export default async (db: any, id: string): Promise<UserReturnData> => {
   const dbo = db.db('userlist');
   const myobj = { id };
   data.data = await dbo.collection('data').findOne(myobj).catch((e) => { console.error(e); data.err_occur = true; data.err_reasons.push(e); });
-  return data.data.team;
+  try {
+    return data.data.team;
+  } catch {
+    return null;
+  }
+  
 };
