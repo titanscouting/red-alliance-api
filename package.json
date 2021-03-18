@@ -13,12 +13,13 @@
     "build": "tsc",
     "test-lint": "eslint . --ext .ts",
     "lint": "eslint . --ext .ts",
+    "lint:fix": "eslint . --ext .ts --fix && git add .",
     "test": "nyc --reporter=text ts-mocha --timeout 10000 --exit",
     "coverage": "npm test && nyc report --reporter=lcov",
     "doc": "typedoc --out docs src/ --exclude src/routes/ --exclude src/routes/index.ts --name 'The Red Alliance API' --includeVersion --hideGenerator",
     "precommit-msg": "echo 'Pre-commit checks...' && exit 0"
   },
-  "pre-commit": [ "precommit-msg", "lint", "test" ],
+  "pre-commit": [ "precommit-msg", "lint:fix", "test" ],
   "nyc": {
     "extension": [
       ".ts",
