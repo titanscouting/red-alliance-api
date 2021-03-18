@@ -27,6 +27,7 @@ jobs:
       run: yarn run doc
     - uses: stefanzweifel/git-auto-commit-action@v4
       with:
+        commit_options: '--no-verify --signoff'
         commit_message: Build documentation
         commit_user_name: Documentation Builder
         commit_user_email: titanscout2022@gmail.com
