@@ -1,4 +1,5 @@
 {
+  "swagger": "2.0",
   "info": {
     "version": "0.10.0",
     "title": "The Red Alliance API",
@@ -316,6 +317,40 @@
         }
       }
     },
+    "/api/fetch2022Schedule": {
+      "get": {
+        "summary": "Get the schedule for 2022",
+        "description": "Returns the competition schedule of 2022",
+        "tags": [
+          "Non-Authenticated Routes"
+        ],
+        "responses": {
+          "200": {
+            "description": "The 2022  competition schedule was retrieved.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": true,
+                  "description": "Describes whether the request completed successfully."
+                },
+                "competition": {
+                  "type": "string",
+                  "example": "2020ilch"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The 2022 competition schedule could not be retrieved. Returns the reason for the error.",
+            "schema": {
+              "$ref": "#/definitions/NoData"
+            }
+          }
+        }
+      }
+    },
     "/api/getUserTeam": {
       "get": {
         "summary": "Get user team association",
@@ -525,40 +560,6 @@
             "description": "The current user is not authorized to perform this action.",
             "schema": {
               "$ref": "#/definitions/NoAuth"
-            }
-          }
-        }
-      }
-    },
-    "/api/fetch2022Schedule": {
-      "get": {
-        "summary": "Get the schedule for 2022",
-        "description": "Returns the competition schedule of 2022",
-        "tags": [
-          "Non-Authenticated Routes"
-        ],
-        "responses": {
-          "200": {
-            "description": "The 2022  competition schedule was retrieved.",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "success": {
-                  "type": "boolean",
-                  "example": true,
-                  "description": "Describes whether the request completed successfully."
-                },
-                "competition": {
-                  "type": "string",
-                  "example": "2020ilch"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "The 2022 competition schedule could not be retrieved. Returns the reason for the error.",
-            "schema": {
-              "$ref": "#/definitions/NoData"
             }
           }
         }
@@ -784,6 +785,102 @@
                 "config": {
                   "type": "object",
                   "example": [{"Auto":[{"name":"Passed Auto Line?","key":"pass-line","widget":"segment","options":["Don't Know","No","Yes"]},{"name":"Initial Balls Stored","key":"balls-started","widget":"stepper"},{"name":"Extra Balls Collected","key":"balls-collected","widget":"stepper"},{"name":"Balls Scored Upper","key":"balls-upper-auto","widget":"stepper"},{"name":"Balls Scored Lower","key":"balls-lower-auto","widget":"stepper"}]},{"Teleop":[{"name":"Spun Wheel?","key":"spun-wheel","widget":"segment","options":["Don't know","No","Position","Color"]},{"name":"Balls Scored Upper","key":"balls-upper-teleop","widget":"stepper"},{"name":"Balls Scored Lower","key":"balls-lower-teleop","widget":"stepper"},{"name":"Did they shoot from a vulnerable location??","key":"shooting-vulnerable","widget":"segment","options":["Don't know","No","Yes"]},{"name":"Where could they shoot from?","key":"shooting-notes","widget":"text-area"},{"name":"Did they climb?","key":"climb","widget":"segment","options":["Don't know","No Attempt","Failed","Yes"]},{"name":"Did they play defense?","key":"defense","widget":"segment","options":["Don't know","No","Yes"]},{"name":"What teams did this one play defense on?","key":"defense-notes","widget":"text-area"}]},{"Notes":[{"name":"Overall Competency","key":"competency","widget":"segment","options":["Don't know","Awful","Meh","Good","Best"]},{"name":"Speed","key":"speed","widget":"segment","options":["Don't know","Slow","Med.","Fast","Ludicrous"]},{"name":"Strategic Focus","key":"strategic-focus","widget":"segment","options":["Don't know","Offense","Defense","Hybrid"]},{"name":"How could we use this robot in a strategy?","key":"strategy-notes","widget":"text-area"}]}]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The match config data could not be retrieved. Returns the reason for the error.",
+            "schema": {
+              "$ref": "#/definitions/NoData"
+            }
+          }
+        }
+      }
+    },
+    "/api/fetchAllTeamNicknamesAtCompetition": {
+      "get": {
+        "summary": "Fetches the nicknames for all teams at a competition\n",
+        "description": "Fetches the nicknames for all teams at a competition\n",
+        "tags": [
+          "Non-Authenticated Routes"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "competition",
+            "required": true,
+            "type": "string",
+            "example": "2020ilch"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The nickname data was retrieved.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": true,
+                  "description": "Describes whether the request completed successfully."
+                },
+                "competition": {
+                  "type": "string",
+                  "example": "2020ilch",
+                  "description": "User-provided competition."
+                },
+                "data": {
+                  "type": "object",
+                  "example": {"63":"McDowell Robotics Team 63","101":"Striker","111":"WildStang","930":"Mukwonago BEARs","1625":"Winnovation","1675":"UPS (Ultimate Protection Squad)","1732":"Hilltoppers","1739":"Chicago Knights","1756":"Argos","1781":"Lindblom Electric Eagles","2022":"Titan Robotics","2039":"Rockford Robotics","2136":"Impossible Mission Force","2151":"Monty Pythons","2338":"Gear It Forward","2358":"Bearbotics","2451":"PWNAGE","2725":"Ice Princesses","3061":"Huskie Robotics","3067":"Robovikes","3110":"SeaBots","3197":"HexHounds","3352":"Flaming Monkeys 4-H Robotics Club","3410":"Miami MEngs","3488":"Eagle Army","3734":"Caxys","4096":"Ctrl-Z","4191":"IMC","4241":"Joliet Cyborgs ","4292":"PorterBots","4296":"Trident Robotics","4645":"The Chicago Style BotDogs","4702":"CyberDoggz","4787":"Axiom","5125":"Hawks on the Horizon","5133":"PrepaTec - Blue Steel","5148":"New Berlin Blitz","5350":"Hope Robotics","5822":"WolfByte","5847":"Ironclad","5934":"Crowbotics","6237":"Martin Motion","6381":"Red Raider Robotics","6906":"Reybots","7237":"UniBots","7411":"CrossThreaded","7560":"Doodle Bots","7608":"Owlenators","8014":"Fortitude Robotics","8029":"Mustang Mafia","8096":"Cache Money","8122":"Robotic Eagles ","8160":"Oly Rock Stars","8184":"ROBOTTACK","_id":"5e5e7b43705c112b54434809","competition":"2020ilch"}
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The match config data could not be retrieved. Returns the reason for the error.",
+            "schema": {
+              "$ref": "#/definitions/NoData"
+            }
+          }
+        }
+      }
+    },
+    "/api/fetchCompetitionSchedule": {
+      "get": {
+        "summary": "Fetches the competiton schedule for a given competition\n",
+        "description": "Fetches the competiton schedule for a given competition. Also provides scouting seat availability and filling.\n",
+        "tags": [
+          "Non-Authenticated Routes"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "competition",
+            "required": true,
+            "type": "string",
+            "example": "2020ilch"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The competition schedule data was retrieved.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": true,
+                  "description": "Describes whether the request completed successfully."
+                },
+                "competition": {
+                  "type": "string",
+                  "example": "2020ilch"
+                },
+
+                "data": {
+                  "type": "object",
+                  "example": [{"_id":"5e61b638a3dfe2b512d4ff3e","teams":["8184","1675","3197","7237","4787","5125"],"scouters":[{"name":"Sarah Oquendo","id":"116902796378120080000"},{"name":"Cordelia Sirais","id":"104097601226614030000"},{"name":"Alexander Wells","id":"113332350115233820000"},{"name":"Liam Nelson","id":"105420177494902540000"},{"name":"Dev Singh","id":"114979123360880120000"},{"name":"Jacob Levine","id":"118006453012298350000"}],"match":16,"competition":"2020ilch"}]
                 }
               }
             }
