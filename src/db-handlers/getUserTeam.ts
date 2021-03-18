@@ -10,5 +10,4 @@ export default async (db: any, id: string): Promise<UserReturnData> => {
   } catch {
     return null;
   }
-  
 };
