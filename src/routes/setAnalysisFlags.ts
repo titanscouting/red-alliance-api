@@ -2,7 +2,7 @@ import { validate, Joi } from 'express-validation';
 import UserReturnData from '../UserReturnData';
 import StatusCodes from '../StatusCodes';
 
-module.exports = (app: any, dbHandler: any, auth: any) => {
+module.exports = (app: any, dbHandler: any) => {
   const validation = {
     body: Joi.object({
       flag: Joi.string().required(),
