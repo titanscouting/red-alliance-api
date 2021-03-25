@@ -17,7 +17,7 @@
     "test": "nyc --reporter=text ts-mocha --timeout 10000 --exit",
     "coverage": "npm test && nyc report --reporter=lcov",
     "doc": "typedoc --out docs src/ --exclude src/routes/ --exclude src/routes/index.ts --name 'The Red Alliance API' --includeVersion --hideGenerator",
-    "doc:precommit": "typedoc --out docs src/ --exclude src/routes/ --exclude src/routes/index.ts --name 'The Red Alliance API' --includeVersion --hideGenerator && git add .",
+    "doc:precommit": "typedoc --out docs src/ --exclude src/routes/ --exclude src/routes/index.ts --name 'The Red Alliance API' --includeVersion --hideGenerator && git add docs/",
     "precommit-msg": "echo 'Pre-commit checks...' && exit 0"
   },
   "pre-commit": [ "precommit-msg", "doc:precommit", "lint:fix", "test" ],
