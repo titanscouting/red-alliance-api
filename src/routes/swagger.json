@@ -469,6 +469,58 @@
         }
       }
     },
+    "/api/fetchTeamCompetition": {
+      "get": {
+        "summary": "Get user current competition",
+        "description": "Get the competition a user is currently at based on the team association",
+        "tags": [
+          "Authenticated Routes"
+        ],
+        "security": [
+          {
+            "GoogleAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The user's competition was retrieved.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": true,
+                  "description": "Describes whether the request completed successfully."
+                },
+                "team": {
+                  "type": "string",
+                  "example": "2022",
+                  "description": "User's registered team."
+                },
+                "competition": {
+                  "type": "string",
+                  "example": "2020ilch",
+                  "description": "User's current competition."
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The user team association could not be retrieved. Returns the reason for the error.",
+            "schema": {
+              "$ref": "#/definitions/NoData"
+            }
+          },
+          "401": {
+            "description": "The current user is not authorized to perform this action.",
+            "schema": {
+              "$ref": "#/definitions/NoAuth"
+            }
+          }
+        }
+      }
+    },
     "/api/removeScouterFromMatch": {
       "post": {
         "summary": "Remove current user as scouter to a match",

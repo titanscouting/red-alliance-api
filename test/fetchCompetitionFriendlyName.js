@@ -17,7 +17,7 @@ describe('GET /api/fetchCompetitionFriendlyName', () => {
       .get('/api/fetchCompetitionFriendlyName?competition=2020ilch')
       .end((err, res) => {
         res.should.have.status(200);
-        res.body.should.be.eql({"success":true,"competition":"2020ilch","data":{"friendlyName":"2020 Midwest Regional"}});
+        res.body.should.be.eql({"success":true,"competition":"2020ilch","data":{"friendlyName":"2020 Midwest Reigonal - UIC Pavillion"}});
         res.body.should.have.property('success').eql(true);
         done();
       });

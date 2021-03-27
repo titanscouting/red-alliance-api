@@ -80,6 +80,7 @@ require('./routes/submitTeamMetricsData')(app, dbHandler, auth);
 require('./routes/setAnalysisFlags')(app, dbHandler);
 require('./routes/fetchAPIConfig')(app);
 require('./routes/fetchCompetitionFriendlyName')(app, dbHandler);
+require('./routes/fetchTeamCompetition')(app, dbHandler, auth);
 require('./routes/base')(app);
 
 class CustomValidationError extends ValidationError {

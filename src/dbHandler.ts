@@ -35,3 +35,4 @@ export { default as submitTeamTestsData } from './db-handlers/submitTeamTestsDat
 export { default as submitTeamMetricsData } from './db-handlers/submitTeamTestsData';
 export { default as setAnalysisFlags } from './db-handlers/setAnalysisFlags';
 export { default as fetchCompetitionFriendlyName } from './db-handlers/fetchCompetitionFriendlyName';
+export { default as fetchTeamCompetition } from './db-handlers/fetchTeamCompetition';

@@ -12,9 +12,9 @@ import UserReturnData from '../UserReturnData';
  */
 export default async (db, competition: string): Promise<UserReturnData> => {
   const data: UserReturnData = { err_occur: false, err_reasons: [], data: {} };
-  const dbo = db.db('data_scouting');
+  const dbo = db.db('complist');
   const myobj = { competition };
-  data.data = await dbo.collection('complist').findOne(myobj).catch((e) => { console.error(e); data.err_occur = true; data.err_reasons.push(e); });
+  data.data = await dbo.collection('data').findOne(myobj).catch((e) => { console.error(e); data.err_occur = true; data.err_reasons.push(e); });
   if (data.data == null) {
     data.data = { friendlyName: '' }
   } else {
