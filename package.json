@@ -9,11 +9,11 @@
   "private": false,
   "scripts": {
     "start": "ts-node-dev src/index.ts",
-    "start:prod": "npm run build && node built/index.js",
+    "start:prod": "node built/index.js",
     "build": "tsc",
     "test-lint": "eslint . --ext .ts",
     "lint": "eslint . --ext .ts",
-    "lint:fix": "eslint . --ext .ts --fix && git add .",
+    "lint:fix": "eslint . --ext .ts --fix",
     "test": "nyc --reporter=text ts-mocha --timeout 10000 --exit",
     "coverage": "npm test && nyc report --reporter=lcov",
     "doc": "typedoc --out docs src/ --exclude src/routes/ --exclude src/routes/index.ts --name 'The Red Alliance API' --includeVersion --hideGenerator",

@@ -1,6 +1,7 @@
-FROM node:lts
+FROM node:lts-alpine
+RUN apk add --no-cache git
 WORKDIR /usr/src/app
-RUN apt-get update && apt-get install gnupg2 -y
 COPY package*.json ./
+COPY yarn.lock ./
 RUN yarn
 COPY . .
