@@ -15,7 +15,7 @@ module.exports = (app: any, dbHandler: any, auth: any) => {
     if (val.err_occur === false) {
       res.json({
         success: true,
-        team: team,
+        team,
         competition: val.data,
       });
     } else {
