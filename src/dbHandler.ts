@@ -13,7 +13,7 @@ export { default as fetchAllTeamNicknamesAtCompetition } from './db-handlers/fet
 export { default as findTeamNickname } from './db-handlers/findTeamNickname';
 export { default as fetchMatchData } from './db-handlers/fetchMatchData';
 export { default as fetchCompetitionSchedule } from './db-handlers/fetchCompetitionSchedule';
-export { default as fetch2022Schedule } from './db-handlers/fetch2022Schedule';
+export { default as fetchTeamSchedule } from './db-handlers/fetchTeamSchedule';
 export { default as fetchScouterUIDs } from './db-handlers/fetchScouterUIDs';
 export { default as fetchScouterSuggestions } from './db-handlers/fetchScouterSuggestions';
 export { default as addScouterToMatch } from './db-handlers/addScouterToMatch';

@@ -317,16 +317,38 @@
         }
       }
     },
-    "/api/fetch2022Schedule": {
+    "/api/fetchTeamSchedule": {
       "get": {
-        "summary": "Get the schedule for 2022",
-        "description": "Returns the competition schedule of 2022",
+        "summary": "Get the schedule for a given team",
+        "description": "Returns the competition schedule for a given team",
         "tags": [
           "Non-Authenticated Routes"
         ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "team",
+            "required": true,
+            "description": "FRC team number of the team that the scouter belongs to.",
+            "schema": {
+              "type": "string",
+              "example": "2022"
+            }
+          },
+          {
+            "in": "query",
+            "name": "competition",
+            "required": true,
+            "description": "FRC competition ID.",
+            "schema": {
+              "type": "string",
+              "example": "2020ilch"
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": "The 2022  competition schedule was retrieved.",
+            "description": "The team competition schedule was retrieved.",
             "schema": {
               "type": "object",
               "properties": {
@@ -338,6 +360,46 @@
                 "competition": {
                   "type": "string",
                   "example": "2020ilch"
+                },
+                "team": {
+                  "type": "string",
+                  "example": "2022"
+                },
+                "data": {
+                  "type": "object",
+                  "example": [{
+                    "_id": "5e61b638a3dfe2b512d4ff73",
+                    "teams": [
+                      "2022",
+                      "1781",
+                      "930",
+                      "2039",
+                      "63",
+                      "4296"
+                    ],
+                    "scouters": [
+                      {
+                        "name": "John Doe",
+                        "id": "118039453938298350000"
+                      },
+                      {
+                        "name": "Jane Doe",
+                        "id": "109539256606510070000"
+                      },
+                      {
+                        "name": "John Doe",
+                        "id": "115872669838441320000"
+                      },
+                      {
+                        "name": "Jane Doe",
+                        "id": "113332030113723820000"
+                      },
+                      false,
+                      false
+                    ],
+                    "match": 64,
+                    "competition": "2020ilch"
+                  }]
                 }
               }
             }

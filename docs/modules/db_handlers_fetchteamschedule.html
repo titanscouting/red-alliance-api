@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>db-handlers/fetch2022Schedule | The Red Alliance API - v0.10.0</title>
+	<title>db-handlers/fetchTeamSchedule | The Red Alliance API - v0.10.0</title>
 	<meta name="description" content="Documentation for The Red Alliance API - v0.10.0">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -55,10 +55,10 @@
 					<a href="../modules.html">The Red Alliance API - v0.10.0</a>
 				</li>
 				<li>
-					<a href="db_handlers_fetch2022schedule.html">db-handlers/fetch2022Schedule</a>
+					<a href="db_handlers_fetchteamschedule.html">db-handlers/fetchTeamSchedule</a>
 				</li>
 			</ul>
-			<h1>Module db-handlers/fetch2022Schedule</h1>
+			<h1>Module db-handlers/fetchTeamSchedule</h1>
 		</div>
 	</div>
 </header>
@@ -72,7 +72,7 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-module"><a href="db_handlers_fetch2022schedule.html#default" class="tsd-kind-icon">default</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-module"><a href="db_handlers_fetchteamschedule.html#default" class="tsd-kind-icon">default</a></li>
 							</ul>
 						</section>
 					</div>
@@ -83,10 +83,10 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-module">
 					<a name="default" class="tsd-anchor"></a>
 					<h3>default</h3>
-					<div class="tsd-signature tsd-kind-icon">default<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>db<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, competition<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../classes/userreturndata.default.html" class="tsd-signature-type" data-tsd-kind="Class">default</a><span class="tsd-signature-symbol">&gt;</span></div>
+					<div class="tsd-signature tsd-kind-icon">default<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>db<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, competition<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, team<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../classes/userreturndata.default.html" class="tsd-signature-type" data-tsd-kind="Class">default</a><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/titanscouting/red-alliance-api/blob/f5ab386/src/dbHandler.ts#L16">dbHandler.ts:16</a></li>
+							<li>Defined in <a href="https://github.com/titanscouting/red-alliance-api/blob/e4e2265/src/dbHandler.ts#L16">dbHandler.ts:16</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -94,50 +94,23 @@
 						<ul class="tsd-parameters">
 							<li class="tsd-parameter-signature">
 								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-module">
-									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>db<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, competition<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../classes/userreturndata.default.html" class="tsd-signature-type" data-tsd-kind="Class">default</a><span class="tsd-signature-symbol">&gt;</span></li>
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>db<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, competition<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, team<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../classes/userreturndata.default.html" class="tsd-signature-type" data-tsd-kind="Class">default</a><span class="tsd-signature-symbol">&gt;</span></li>
 								</ul>
 								<ul class="tsd-descriptions">
 									<li class="tsd-description">
-										<div class="tsd-comment tsd-typography">
-											<dl class="tsd-comment-tags">
-												<dt>async</dt>
-												<dd></dd>
-												<dt>memberof</dt>
-												<dd><p>module:dbHandler</p>
-												</dd>
-												<dt>desc</dt>
-												<dd><p>Fetches the competition Schedule for FRC team 2022</p>
-												</dd>
-												<dt>author</dt>
-												<dd><p>Dev Singh <a href="mailto:dsingh@imsa.edu">dsingh@imsa.edu</a></p>
-												</dd>
-												<dt>license</dt>
-												<dd><p>BSD-3-Clause</p>
-												</dd>
-												<dt>see</dt>
-												<dd><p>/api/fetch2022Schedule endpoint</p>
-												</dd>
-											</dl>
-										</div>
 										<h4 class="tsd-parameters-title">Parameters</h4>
 										<ul class="tsd-parameters">
 											<li>
 												<h5>db: <span class="tsd-signature-type">any</span></h5>
-												<div class="tsd-comment tsd-typography">
-													<p>instance of the DB object</p>
-												</div>
 											</li>
 											<li>
 												<h5>competition: <span class="tsd-signature-type">string</span></h5>
-												<div class="tsd-comment tsd-typography">
-													<p>FRC competition code</p>
-												</div>
+											</li>
+											<li>
+												<h5>team: <span class="tsd-signature-type">string</span></h5>
 											</li>
 										</ul>
 										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../classes/userreturndata.default.html" class="tsd-signature-type" data-tsd-kind="Class">default</a><span class="tsd-signature-symbol">&gt;</span></h4>
-										<ul>
-											<li>See definition of UserReturnData</li>
-										</ul>
 									</li>
 								</ul>
 							</li>
@@ -153,14 +126,14 @@
 						<a href="../modules.html">Exports</a>
 					</li>
 					<li class="current tsd-kind-module">
-						<a href="db_handlers_fetch2022schedule.html">db-<wbr>handlers/fetch2022<wbr>Schedule</a>
+						<a href="db_handlers_fetchteamschedule.html">db-<wbr>handlers/fetch<wbr>Team<wbr>Schedule</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-property tsd-parent-kind-module">
-						<a href="db_handlers_fetch2022schedule.html#default" class="tsd-kind-icon">default</a>
+						<a href="db_handlers_fetchteamschedule.html#default" class="tsd-kind-icon">default</a>
 					</li>
 				</ul>
 			</nav>
