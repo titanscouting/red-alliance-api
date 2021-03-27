@@ -407,6 +407,68 @@
         }
       }
     },
+    "/api/fetchUserStrategy": {
+      "get": {
+        "summary": "Get user's submitted strategy for a given match and competition",
+        "description": "Get user's submitted strategy for a given match and competition",
+        "tags": [
+          "Authenticated Routes"
+        ],
+        "security": [
+          {
+            "GoogleAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "match",
+            "type": "string",
+            "example": "7",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "competition",
+            "type": "string",
+            "example": "2020ilch",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The user's submitted strategy was retrieved.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": true,
+                  "description": "Describes whether the request completed successfully."
+                },
+                "data": {
+                  "type": "object",
+                  "example": [{"_id":"2020ilchDev Singh7","competition":"2020ilch","data":"For testing","match":"7","scouter":"Dev Singh"}],
+                  "description": "Array of user submitted strategies for the given match."
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The user team association could not be retrieved. Returns the reason for the error.",
+            "schema": {
+              "$ref": "#/definitions/NoData"
+            }
+          },
+          "401": {
+            "description": "The current user is not authorized to perform this action.",
+            "schema": {
+              "$ref": "#/definitions/NoAuth"
+            }
+          }
+        }
+      }
+    },
     "/api/removeScouterFromMatch": {
       "post": {
         "summary": "Remove current user as scouter to a match",
