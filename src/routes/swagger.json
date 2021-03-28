@@ -403,6 +403,155 @@
         }
       }
     },
+    "/api/fetchPitConfig": {
+      "get": {
+        "summary": "Get the pit scouting configuration for the user's team",
+        "description": "Get the pit scouting configuration for the user's team",
+        "tags": [
+          "Authenticated Routes"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "competition",
+            "required": true,
+            "description": "FRC competition ID.",
+            "schema": {
+              "type": "string",
+              "example": "2020ilch"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The team pit scouting configuration was retrieved.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": true,
+                  "description": "Describes whether the request completed successfully."
+                },
+                "competition": {
+                  "type": "string",
+                  "example": "2020ilch"
+                },
+                "team": {
+                  "type": "string",
+                  "example": "2022"
+                },
+                "config": {
+                  "type": "object",
+                  "example": [
+                    {
+                        "Pit": [
+                            {
+                                "name": "Updated on Match",
+                                "key": "match-updated",
+                                "widget": "stepper"
+                            },
+                            {
+                                "name": "Can do low balls?",
+                                "key": "low-balls",
+                                "widget": "segment",
+                                "options": [
+                                    "Don't Know",
+                                    "Yes",
+                                    "No"
+                                ]
+                            },
+                            {
+                                "name": "Can do high balls?",
+                                "key": "high-balls",
+                                "widget": "segment",
+                                "options": [
+                                    "Don't Know",
+                                    "Yes",
+                                    "No"
+                                ]
+                            },
+                            {
+                                "name": "Has wheel mechanism?",
+                                "key": "wheel-mechanism",
+                                "widget": "segment",
+                                "options": [
+                                    "Don't Know",
+                                    "Yes",
+                                    "No"
+                                ]
+                            },
+                            {
+                                "name": "Demonstrated wheel success?",
+                                "key": "wheel-success",
+                                "widget": "segment",
+                                "options": [
+                                    "Don't Know",
+                                    "Yes",
+                                    "No"
+                                ]
+                            },
+                            {
+                                "name": "Strategic focus",
+                                "key": "strategic-focus",
+                                "widget": "segment",
+                                "options": [
+                                    "Unknown",
+                                    "Offense",
+                                    "Defense",
+                                    "Hybrid"
+                                ]
+                            },
+                            {
+                                "name": "Climb mechanism",
+                                "key": "climb-mechanism",
+                                "widget": "segment",
+                                "options": [
+                                    "Don't Know",
+                                    "x0",
+                                    "x1",
+                                    "x2",
+                                    "x3"
+                                ]
+                            },
+                            {
+                                "name": "Climb requirements (space? time?)",
+                                "key": "climb-requirements",
+                                "widget": "text-area"
+                            },
+                            {
+                                "name": "Attitude toward Titan Robotics",
+                                "key": "attitude",
+                                "widget": "segment",
+                                "options": [
+                                    "Don't Know",
+                                    "Negative",
+                                    "Neutral",
+                                    "Positive",
+                                    "Love"
+                                ]
+                            },
+                            {
+                                "name": "Other notes",
+                                "key": "defense-notes",
+                                "widget": "text-area"
+                            }
+                        ]
+                    }
+                ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The pit configuration could not be retrieved. Returns the reason for the error.",
+            "schema": {
+              "$ref": "#/definitions/NoData"
+            }
+          }
+        }
+      }
+    },
     "/api/getUserTeam": {
       "get": {
         "summary": "Get user team association",
