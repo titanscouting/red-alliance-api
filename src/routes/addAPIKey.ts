@@ -9,7 +9,7 @@ module.exports = (app, dbHandler, auth) => {
       team: Joi.string().required(),
     }),
   }
-  app.post('/api/addAPIKey', auth.noAPIKey, auth.checkAuth, validate(validation, { keyByField: true }, {}), async (req: any, res:any) => {
+  app.post('/api/addAPIKey', auth.noAPIKey, auth.checkAuth, validate(validation, { keyByField: true }, { allowUnknown: true }), async (req: any, res:any) => {
     const { team } = req.body;
     let val: UserReturnData = new UserReturnData();
     const clientInfo = await uuidAPIKey.create();

@@ -10,7 +10,7 @@ module.exports = (app: any, dbHandler: any) => {
       teamScouted: Joi.string().required(),
     }),
   }
-  app.get('/api/fetchMatchData', validate(validation, { keyByField: true }, {}), async (req: any, res:any) => {
+  app.get('/api/fetchMatchData', validate(validation, { keyByField: true }, { allowUnknown: true }), async (req: any, res:any) => {
     let val: UserReturnData = new UserReturnData();
     const competition = String(req.query.competition);
     const match = parseInt(req.query.match, 10);

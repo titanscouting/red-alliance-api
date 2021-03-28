@@ -16,7 +16,7 @@ module.exports = (app: any, dbHandler: any) => {
       match: Joi.string().required(),
     }),
   }
-  app.get('/api/fetchScouterSuggestions', validate(validation, { keyByField: true }, {}), async (req: any, res:any) => {
+  app.get('/api/fetchScouterSuggestions', validate(validation, { keyByField: true }, { allowUnknown: true }), async (req: any, res:any) => {
     const { competition }: Record<string, string> = req.query;
     const { match }: Record<string, any> = req.query;
     const matchNumber = parseInt(match, 10);

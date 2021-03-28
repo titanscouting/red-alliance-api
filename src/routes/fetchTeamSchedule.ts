@@ -8,7 +8,7 @@ module.exports = (app: any, dbHandler: any, auth: any) => {
       competition: Joi.string().required(),
     }),
   }
-  app.get('/api/fetchTeamSchedule', auth.checkAuth, validate(validation, { keyByField: true }, {}), async (req: any, res:any) => {
+  app.get('/api/fetchTeamSchedule', auth.checkAuth, validate(validation, { keyByField: true }, { allowUnknown: true }), async (req: any, res:any) => {
     const val: UserReturnData = new UserReturnData();
     const competition = String(req.query.competition);
     const team = String(res.locals.team);

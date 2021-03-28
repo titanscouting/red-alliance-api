@@ -8,7 +8,7 @@ module.exports = (app: any, dbHandler: any) => {
       flag: Joi.string().required(),
     }),
   }
-  app.get('/api/fetchAnalysisFlags', validate(validation, { keyByField: true }, {}), async (req: any, res:any) => {
+  app.get('/api/fetchAnalysisFlags', validate(validation, { keyByField: true }, { allowUnknown: true }), async (req: any, res:any) => {
     const val: UserReturnData = new UserReturnData();
     const { flag }: Record<string, string> = req.query;
     val.data = await dbHandler.fetchAnalysisFlags(req.db).catch((e) => { console.error(e); val.err_occur = true; });

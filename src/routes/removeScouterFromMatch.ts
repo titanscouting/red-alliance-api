@@ -10,7 +10,7 @@ module.exports = (app: any, dbHandler: any, auth: any) => {
       competition: Joi.string().required(),
     }),
   }
-  app.post('/api/removeScouterFromMatch', auth.checkAuth, validate(validation, { keyByField: true }, {}), async (req: any, res:any) => {
+  app.post('/api/removeScouterFromMatch', auth.checkAuth, validate(validation, { keyByField: true }, { allowUnknown: true }), async (req: any, res:any) => {
     let val: UserReturnData = new UserReturnData();
     const match = parseInt(req.body.match, 10);
     const teamScouted: string = req.body.team_scouting;

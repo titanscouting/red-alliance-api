@@ -11,7 +11,7 @@ module.exports = (app: any, dbHandler: any, auth: any) => {
       data: Joi.string().required(),
     }),
   }
-  app.post('/api/submitStrategy', auth.checkAuth, validate(validation, { keyByField: true }, {}), auth.checkAuth, async (req: any, res:any) => {
+  app.post('/api/submitStrategy', auth.checkAuth, validate(validation, { keyByField: true }, { allowUnknown: true }), auth.checkAuth, async (req: any, res:any) => {
     let val: UserReturnData = new UserReturnData();
     const scouter: Scouter = { name: String(res.locals.name), id: String(res.locals.id) };
     const competitionID = String(req.body.competition);

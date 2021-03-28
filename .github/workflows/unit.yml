@@ -29,6 +29,8 @@ jobs:
       run: yarn run coverage
       env:
         REDALLIANCEDBKEY: ${{ secrets.REDALLIANCEDBKEY }}
+        TRA_CLIENTID: ${{secrets.TRA_CLIENTID}}
+        TRA_CLIENTSECRET: ${{secrets.TRA_CLIENTSECRET}}
     - name: Coveralls GitHub Action
       uses: coverallsapp/github-action@v1.1.1
       with:

@@ -13,7 +13,7 @@ module.exports = (app: any, dbHandler: any) => {
       competition: Joi.string().required(),
     }),
   }
-  app.get('/api/fetchScouters', validate(validation, { keyByField: true }, {}), async (req: any, res:any) => {
+  app.get('/api/fetchScouters', validate(validation, { keyByField: true }, { allowUnknown: true }), async (req: any, res:any) => {
     let val: UserReturnData = new UserReturnData();
     const { competition }: Record<string, string> = req.query;
     val = await dbHandler.fetchMatchesForCompetition(req.db, competition).catch((e) => { console.error(e); val.err_occur = true; });

@@ -14,7 +14,7 @@ module.exports = (app: any, dbHandler: any) => {
       team: Joi.string().required(),
     }),
   }
-  app.get('/api/findTeamNickname', validate(validation, { keyByField: true }, {}), async (req: any, res:any) => {
+  app.get('/api/findTeamNickname', validate(validation, { keyByField: true }, { allowUnknown: true }), async (req: any, res:any) => {
     const val: UserReturnData = new UserReturnData();
     const competition = '2020ilch';
     const teamNumber = req.query.team;
