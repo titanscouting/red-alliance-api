@@ -1,6 +1,6 @@
 {
   "name": "red-alliance-api",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "description": "FRC 2022 Scouting API",
   "main": "index.js",
   "repository": "https://github.com/titanscout2022/red-alliance-api",
