@@ -324,6 +324,11 @@
         "tags": [
           "Authenticated Routes"
         ],
+        "security": [
+          {
+            "GoogleAuth": []
+          }
+        ],
         "parameters": [
           {
             "in": "query",
@@ -409,6 +414,11 @@
         "description": "Get the pit scouting configuration for the user's team",
         "tags": [
           "Authenticated Routes"
+        ],
+        "security": [
+          {
+            "GoogleAuth": []
+          }
         ],
         "parameters": [
           {
