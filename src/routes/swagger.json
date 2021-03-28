@@ -319,22 +319,12 @@
     },
     "/api/fetchTeamSchedule": {
       "get": {
-        "summary": "Get the schedule for a given team",
-        "description": "Returns the competition schedule for a given team",
+        "summary": "Get the schedule for the user's team",
+        "description": "Returns the competition schedule for the user's team",
         "tags": [
-          "Non-Authenticated Routes"
+          "Authenticated Routes"
         ],
         "parameters": [
-          {
-            "in": "query",
-            "name": "team",
-            "required": true,
-            "description": "FRC team number of the team that the scouter belongs to.",
-            "schema": {
-              "type": "string",
-              "example": "2022"
-            }
-          },
           {
             "in": "query",
             "name": "competition",

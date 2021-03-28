@@ -55,7 +55,7 @@ require('./routes/fetchPitConfig')(app, dbHandler);
 require('./routes/findTeamNickname')(app, dbHandler);
 require('./routes/fetchAllTeamNicknamesAtCompetition')(app, dbHandler);
 require('./routes/fetchCompetitionSchedule')(app, dbHandler);
-require('./routes/fetchTeamSchedule')(app, dbHandler);
+require('./routes/fetchTeamSchedule')(app, dbHandler, auth);
 require('./routes/fetchMatchData')(app, dbHandler);
 require('./routes/addAPIKey')(app, dbHandler, auth);
 require('./routes/privacyPolicy')(app);
