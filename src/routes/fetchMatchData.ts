@@ -21,7 +21,7 @@ module.exports = (app: any, dbHandler: any) => {
     try {
       dataInterim = val.data;
       if (dataInterim === null) {
-        dataInterim = {data: {}}
+        dataInterim = { data: {} }
       }
     } catch (e) {
       val.err_occur = true;
