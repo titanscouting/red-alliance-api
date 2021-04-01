@@ -67,7 +67,7 @@ require('./routes/fetchUserStrategy')(app, dbHandler, auth);
 require('./routes/fetchPitData')(app, dbHandler);
 require('./routes/submitPitData')(app, dbHandler, auth);
 require('./routes/addUserToTeam')(app, dbHandler, auth);
-require('./routes/fetchMatchConfig')(app, dbHandler);
+require('./routes/fetchMatchConfig')(app, dbHandler, auth);
 require('./routes/fetchMetricsData')(app, dbHandler);
 require('./routes/fetchAnalysisFlags')(app, dbHandler);
 require('./routes/fetchAllTeamMatchData')(app, dbHandler);

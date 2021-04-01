@@ -96,25 +96,13 @@
   "produces": [
     "application/json"
   ],
-  "paths": {
+  "paths": {    
     "/api/addAPIKey": {
       "post": {
         "summary": "Create API Key",
         "description": "Allows currently authenticated (via Google OAuth) users to create API keys to access the API programatically.",
         "tags": [
           "Authenticated Routes"
-        ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "team",
-            "required": true,
-            "description": "FRC team number of the team that the user belongs to.",
-            "schema": {
-              "type": "string",
-              "example": "2022"
-            }
-          }
         ],
         "responses": {
           "200": {
@@ -1070,7 +1058,7 @@
         "summary": "Fetches the match scouting config for a given team and competition\n",
         "description": "Fetches the match scouting config for a given team and competition\n",
         "tags": [
-          "Non-Authenticated Routes"
+          "Authenticated Routes"
         ],
         "parameters": [
           {
@@ -1079,13 +1067,6 @@
             "required": true,
             "type": "string",
             "example": "2020ilch"
-          },
-          {
-            "in": "query",
-            "name": "team",
-            "required": true,
-            "type": "string",
-            "example": "2022"
           }
         ],
         "responses": {

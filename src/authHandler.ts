@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { readSync } from 'node:fs';
 import './dbHandler';
 import StatusCodes from './StatusCodes';
 
@@ -91,6 +92,7 @@ export const checkAuthNoTeam = async (req: any, res: any, next: any): Promise<vo
       res.locals.id = payload.sub.toString();
       res.locals.name = payload.name.toString();
       res.locals.team = await dbHandler.getUserTeam(req.db, res.locals.id)
+      res.locals.team = parseInt(res.locals.team, 10);
     } catch (e) {
       console.error(`Could not get payload from ticket for reason: ${e}`);
       res.status(StatusCodes.not_authorized);
