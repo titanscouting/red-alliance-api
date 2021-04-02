@@ -15,13 +15,14 @@ export const checkAuth = async (req: any, res: any, next: any): Promise<void> =>
       res.locals.id = req.query.CLIENT_ID;
       res.locals.name = 'API User';
       res.locals.team = 2022;
-    } else {
-      res.status(StatusCodes.not_authorized);
-      res.json({
-        success: false,
-        reason: 'User could not be authenticated',
-      });
+      next();
+      return
     }
+    res.status(StatusCodes.not_authorized);
+    res.json({
+      success: false,
+      reason: 'User could not be authenticated',
+    });
   } else {
     const ticket = await client.verifyIdToken({
       idToken: String(req.header('token')),
