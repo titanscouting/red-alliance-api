@@ -35,6 +35,7 @@ export const checkAuth = async (req: any, res: any, next: any): Promise<void> =>
       const payload = ticket.getPayload();
       res.locals.id = payload.sub.toString();
       res.locals.name = payload.name.toString();
+      res.locals.email = payload.email.toString();
       res.locals.team = await dbHandler.getUserTeam(req.db, res.locals.id)
       if (res.locals.team == null) {
         res.status(StatusCodes.not_authorized);
@@ -92,6 +93,7 @@ export const checkAuthNoTeam = async (req: any, res: any, next: any): Promise<vo
       const payload = ticket.getPayload();
       res.locals.id = payload.sub.toString();
       res.locals.name = payload.name.toString();
+      res.locals.email = payload.email.toString();
       res.locals.team = await dbHandler.getUserTeam(req.db, res.locals.id)
       res.locals.team = parseInt(res.locals.team, 10);
     } catch (e) {

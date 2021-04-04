@@ -23,7 +23,7 @@ export default async (db: any, compID: string, teamScouted: string): Promise<Use
     data.data = out;
   } catch (err) {
     data.err_occur = true;
-    data.err_reasons.push(err);
+    data.err_reasons.push(err.toString());
     console.error(err);
   }
 

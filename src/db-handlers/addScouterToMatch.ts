@@ -28,7 +28,7 @@ export default async (db: any, id: string, name: string, match: number, teamScou
     await dbo.collection('matches').findOneAndReplace(myobj, interim, { upsert: true }).catch((e) => { console.error(e); data.err_occur = true; });
   } catch (err) {
     data.err_occur = true;
-    data.err_reasons.push(err);
+    data.err_reasons.push(err.toString());
     console.error(err);
   }
   return data;

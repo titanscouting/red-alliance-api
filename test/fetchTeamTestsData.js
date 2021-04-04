@@ -19,7 +19,7 @@ describe('GET /api/fetchTeamTestsData', () => {
       .end((err, res) => {
         res.should.have.status(200);
         expect(res.body.data).to.be.an('object');
-        res.body.team.should.eql(2022);
+        res.body.team.should.eql('2022');
         res.body.should.have.property('success').eql(true);
       });
       chai.request(server)
