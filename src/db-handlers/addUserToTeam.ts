@@ -24,7 +24,7 @@ export default async (db: any, id: string, email: string, name: string, team: st
     const teamAuthList = await db.db('teamlist').collection('competitions').findOne({ team });
     const { authorizedDomains } = teamAuthList;
     const userDomain = email.split('@').pop();
-    if (authorizedDomains.includes(userDomain)) {
+    if (!authorizedDomains.includes(userDomain)) {
       throw new Error(`Users from domain ${userDomain} are not authorized to join this team!`);
     } else {
       await dbo.collection('data').updateOne({ _id: id }, myobj, { upsert: true });
