@@ -14,7 +14,7 @@ module.exports = (app: any, dbHandler: any, auth: any) => {
     const { team } = res.locals;
     let dataInterim: Record<string, unknown>;
 
-    val = await dbHandler.fetchMatchConfig(req.db, competition, team).catch((e) => { console.error(e); val.err_occur = true; });
+    val = await dbHandler.fetchMatchConfig(req.db, competition, String(team)).catch((e) => { console.error(e); val.err_occur = true; });
     try {
       dataInterim = val.data.config
     } catch (e) {
