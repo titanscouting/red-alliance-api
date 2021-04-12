@@ -11,10 +11,11 @@ module.exports = (app: any, dbHandler: any, auth: any) => {
   app.get('/api/fetchMatchConfig', auth.checkAuth, validate(validation, { keyByField: true }, { allowUnknown: true }), async (req: any, res:any) => {
     let val: UserReturnData = new UserReturnData();
     const { competition }: Record<string, string> = req.query;
-    const { team } = res.locals;
+    let { team } = res.locals;
+    team = String(team);
     let dataInterim: Record<string, unknown>;
 
-    val = await dbHandler.fetchMatchConfig(req.db, competition, String(team)).catch((e) => { console.error(e); val.err_occur = true; });
+    val = await dbHandler.fetchMatchConfig(req.db, competition, team).catch((e) => { console.error(e); val.err_occur = true; });
     try {
       dataInterim = val.data.config
     } catch (e) {
