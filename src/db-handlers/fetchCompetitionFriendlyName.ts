@@ -10,7 +10,7 @@ import UserReturnData from '../UserReturnData';
  * @returns {Promise<UserReturnData>} - See definition of UserReturnData
  * @see /api/fetchCompetitionFriendlyName endpoint
  */
-module.exports = async (db, competition: string): Promise<UserReturnData> => {
+export default async (db, competition: string): Promise<UserReturnData> => {
   const data: UserReturnData = { err_occur: false, err_reasons: [], data: {} };
   const dbo = db.db('complist');
   const myobj = { competition };

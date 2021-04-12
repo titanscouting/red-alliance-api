@@ -12,7 +12,7 @@ import UserReturnData from '../UserReturnData';
  * @returns {Promise<UserReturnData>} - See definition of UserReturnData
  * @see authHandler.ts
  */
-module.exports = async (db, clientID: string, clientKey: string): Promise<boolean> => {
+export default async (db, clientID: string, clientKey: string): Promise<boolean> => {
   const data: UserReturnData = { err_occur: false, err_reasons: [], data: {} };
   const dbo = db.db('userlist');
   const myobj = { clientID };
