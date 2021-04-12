@@ -11,7 +11,7 @@ import UserReturnData from '../UserReturnData';
  * @returns {Promise<UserReturnData>} - See definition of UserReturnData
  * @see /api/fetchMatchConfig endpoint
  */
-export default async (db: any, competition: string, team: string): Promise<UserReturnData> => {
+module.exports = async (db: any, competition: string, team: string): Promise<UserReturnData> => {
   const data: UserReturnData = { err_occur: false, err_reasons: [], data: {} };
   const dbo = db.db('configs');
   const myobj = { competition, team };

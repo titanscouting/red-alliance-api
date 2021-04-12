@@ -2,12 +2,14 @@ import express from 'express';
 import expressMongoDb from 'mongo-express-req';
 import { ValidationError } from 'express-validation';
 import path from 'path';
+import fs = require('fs');
 import swaggerJSDoc = require('swagger-jsdoc');
 import swaggerUi = require('swagger-ui-express');
 // eslint-disable-next-line
 import * as swaggerDefinition from './routes/swagger.json';
-import dbHandler = require('./dbHandler');
 import auth = require('./authHandler');
+
+const dbHandler = require('./dbHandler'); // MUST USE const and not import - to facilitate dynamic exports, we use module.exports
 
 const port = process.env.PORT || 8190;
 const app = express();
@@ -33,56 +35,18 @@ const options = {
 };
 
 const swaggerSpec = swaggerJSDoc(options);
-/**
- * NOTE TO DEVELOPERS: the `auth.checkAuth` statement is simply middleware which contacts
- * authHandler.ts to ensure that the user has a valid authentication token.
- * Within the documentation, the token input for each authenticated route
- * (routes which require authentication) will be referred to as @param token.
-*/
 
 // All the routes should be written in different files so that this file doesn't become a behemoth
-// requiring path and fs modules
 
-// TODO: find a way to loop through this without a bunch of require(). A simple for loop results in `require() not found`.
 // TODO: use the UserReturnData class when returning data in all these apis
 app.use('/docs/', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-require('./routes/fetchScouters')(app, dbHandler);
-require('./routes/submitMatchData')(app, dbHandler, auth);
-require('./routes/fetchScouterSuggestions')(app, dbHandler);
-require('./routes/fetchScouterUIDs')(app, dbHandler);
-require('./routes/fetchPitConfig')(app, dbHandler, auth);
-require('./routes/findTeamNickname')(app, dbHandler);
-require('./routes/fetchAllTeamNicknamesAtCompetition')(app, dbHandler);
-require('./routes/fetchCompetitionSchedule')(app, dbHandler);
-require('./routes/fetchTeamSchedule')(app, dbHandler, auth);
-require('./routes/fetchMatchData')(app, dbHandler);
-require('./routes/addAPIKey')(app, dbHandler, auth);
-require('./routes/privacyPolicy')(app);
-require('./routes/addScouterToMatch')(app, dbHandler, auth);
-require('./routes/removeScouterFromMatch')(app, dbHandler, auth);
-require('./routes/submitStrategy')(app, dbHandler, auth);
-require('./routes/fetchStrategy')(app, dbHandler);
-require('./routes/fetchUserStrategy')(app, dbHandler, auth);
-require('./routes/fetchPitData')(app, dbHandler);
-require('./routes/submitPitData')(app, dbHandler, auth);
-require('./routes/addUserToTeam')(app, dbHandler, auth);
-require('./routes/fetchMatchConfig')(app, dbHandler, auth);
-require('./routes/fetchMetricsData')(app, dbHandler);
-require('./routes/fetchAnalysisFlags')(app, dbHandler);
-require('./routes/fetchAllTeamMatchData')(app, dbHandler);
-require('./routes/fetchAllTeamPitData')(app, dbHandler);
-require('./routes/fetchPitVariableData')(app, dbHandler);
-require('./routes/getUserTeam')(app, auth);
-require('./routes/submitTeamPitData')(app, dbHandler, auth);
-require('./routes/submitTeamTestsData')(app, dbHandler, auth);
-require('./routes/submitTeamMetricsData')(app, dbHandler, auth);
-require('./routes/setAnalysisFlags')(app, dbHandler);
-require('./routes/fetchAPIConfig')(app);
-require('./routes/fetchCompetitionFriendlyName')(app, dbHandler);
-require('./routes/fetchTeamCompetition')(app, dbHandler, auth);
-require('./routes/fetchTeamTestsData')(app, dbHandler, auth);
-require('./routes/base')(app);
+/* eslint-disable global-require */
+/* eslint-disable import/no-dynamic-require */
+const routes = fs.readdirSync(path.join(__dirname, 'routes')).filter((item) => item.includes('.ts'))
+routes.forEach((route) => {
+  require(path.join(__dirname, 'routes', route))(app, dbHandler, auth)
+})
 
 class CustomValidationError extends ValidationError {
   success?: boolean

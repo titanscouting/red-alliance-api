@@ -10,7 +10,7 @@ import UserReturnData from '../UserReturnData';
  * @returns {Promise<UserReturnData>} - See definition of UserReturnData
  * @see /api/fetchCompetitionSchedule endpoint
  */
-export default async (db: any, competition: string): Promise<UserReturnData> => {
+module.exports = async (db: any, competition: string): Promise<UserReturnData> => {
   const data: UserReturnData = { err_occur: false, err_reasons: [], data: {} };
   const dbo = db.db('data_scouting');
   try {

@@ -1,6 +1,6 @@
 import UserReturnData from '../UserReturnData';
 
-export default async (db: any, compID: string, teamScouted: string): Promise<UserReturnData> => {
+module.exports = async (db: any, compID: string, teamScouted: string): Promise<UserReturnData> => {
   const data: UserReturnData = { err_occur: false, err_reasons: [], data: {} };
   const dbo = db.db('data_scouting');
   let myobj;

@@ -12,7 +12,7 @@ import UserReturnData from '../UserReturnData';
  * @returns {Promise<UserReturnData>} - See definition of UserReturnData
  * @see /api/addUserToTeam endpoint
  */
-export default async (db: any, id: string, email: string, name: string, team: string): Promise<UserReturnData> => {
+module.exports = async (db: any, id: string, email: string, name: string, team: string): Promise<UserReturnData> => {
   const data: UserReturnData = { err_occur: false, err_reasons: [], data: {} };
   const dbo = db.db('userlist');
   const myobj: Record<string, Record<string, string>> = {
