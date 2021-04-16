@@ -8,12 +8,12 @@ const dbHandler = require('./dbHandler');
 const CLIENT_ID = '291863698243-obu2fpbfpr7ul9db9lm7rmc1e4r3oeag.apps.googleusercontent.com';
 const client: any = new OAuth2Client(CLIENT_ID);
 export const checkAuth = async (req: any, res: any, next: any): Promise<void> => {
-  const extUsers = ['Jon Abend', 'Robyn Abend', 'Dev Singh', 'Jacob Levine', 'Arthur Lu', 'Ian Fowler'];
   if (req.query.CLIENT_ID) {
     const isAuthorized = await dbHandler.checkKey(req.db, req.query.CLIENT_ID, req.query.CLIENT_SECRET);
     if (isAuthorized) {
       res.locals.id = req.query.CLIENT_ID;
       res.locals.name = 'API User';
+      res.locals.team = 2022;
     } else {
       res.status(StatusCodes.not_authorized);
       res.json({
@@ -31,17 +31,16 @@ export const checkAuth = async (req: any, res: any, next: any): Promise<void> =>
     }).catch((err) => { console.error(err); res.status(401); });
     try {
       const payload = ticket.getPayload();
-      if (payload.hd === 'imsa.edu' || extUsers.indexOf(payload.name) > -1 || extUsers.indexOf(payload.sub) > -1) {
-        res.locals.id = payload.sub.toString();
-        res.locals.name = payload.name.toString();
-        res.locals.team = await dbHandler.getUserTeam(req.db, res.locals.id)
-      } else {
+      res.locals.id = payload.sub.toString();
+      res.locals.name = payload.name.toString();
+      res.locals.team = await dbHandler.getUserTeam(req.db, res.locals.id)
+      if (res.locals.team == null) {
         res.status(StatusCodes.not_authorized);
         res.json({
           success: false,
-          reason: 'User is not part of imsa.edu domain',
+          reason: 'User is not registered to a team.',
         });
-        throw new Error('User is not part of imsa.edu domain');
+        return
       }
     } catch (e) {
       console.error(`Could not get payload from ticket for reason: ${e}`);
@@ -50,6 +49,7 @@ export const checkAuth = async (req: any, res: any, next: any): Promise<void> =>
         success: false,
         reason: 'User could not be authenticated',
       });
+      return
     }
   }
   next();

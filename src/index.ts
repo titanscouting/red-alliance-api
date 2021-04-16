@@ -49,7 +49,6 @@ const swaggerSpec = swaggerJSDoc(options);
 
 require('./routes/fetchScouters')(app, dbHandler);
 require('./routes/submitMatchData')(app, dbHandler, auth);
-require('./routes/checkUser')(app, dbHandler, auth);
 require('./routes/fetchScouterSuggestions')(app, dbHandler);
 require('./routes/fetchScouterUIDs')(app, dbHandler);
 require('./routes/fetchPitConfig')(app, dbHandler);
@@ -79,6 +78,7 @@ require('./routes/submitTeamPitData')(app, dbHandler, auth);
 require('./routes/submitTeamTestsData')(app, dbHandler, auth);
 require('./routes/submitTeamMetricsData')(app, dbHandler, auth);
 require('./routes/setAnalysisFlags')(app, dbHandler, auth);
+require('./routes/fetchAPIConfig')(app);
 
 class CustomValidationError extends ValidationError {
   success?: boolean
