@@ -13,7 +13,7 @@ export default async (db: any, scouter: Scouter, competition: string, match: num
     await dbo.collection('pitdata').updateOne({ _id: competition + match + team_scouted }, myobj, { upsert: true }).catch((e) => { console.error(e); data.err_occur = true; });
   } catch (err) {
     data.err_occur = true;
-    data.err_reasons.push(err);
+    data.err_reasons.push(err.toString());
     console.error(err);
   }
   return data;

@@ -13,7 +13,7 @@ export default async (db: any, competition: string, match: number): Promise<User
     data.data.teams = matchdata.teams;
   } catch (err) {
     data.err_occur = true;
-    data.err_reasons.push(err);
+    data.err_reasons.push(err.toString());
   }
   return data;
 };

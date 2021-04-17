@@ -12,7 +12,7 @@ import UserReturnData from '../UserReturnData';
  * @returns {Promise<UserReturnData>} - See definition of UserReturnData
  * @see /api/addUserToTeam endpoint
  */
-export default async (db: any, id: string, name: string, team: string): Promise<UserReturnData> => {
+export default async (db: any, id: string, email: string, name: string, team: string): Promise<UserReturnData> => {
   const data: UserReturnData = { err_occur: false, err_reasons: [], data: {} };
   const dbo = db.db('userlist');
   const myobj: Record<string, Record<string, string>> = {
@@ -21,10 +21,17 @@ export default async (db: any, id: string, name: string, team: string): Promise<
     },
   };
   try {
-    await dbo.collection('data').updateOne({ _id: id }, myobj, { upsert: true });
+    const teamAuthList = await db.db('teamlist').collection('competitions').findOne({ team });
+    const { authorizedDomains } = teamAuthList;
+    const userDomain = email.split('@').pop();
+    if (!authorizedDomains.includes(userDomain)) {
+      throw new Error(`Users from domain ${userDomain} are not authorized to join this team!`);
+    } else {
+      await dbo.collection('data').updateOne({ _id: id }, myobj, { upsert: true });
+    }
   } catch (err) {
     data.err_occur = true;
-    data.err_reasons.push(err);
+    data.err_reasons.push(err.toString());
     console.error(err);
   }
   return data;

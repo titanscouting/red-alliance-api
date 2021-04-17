@@ -9,7 +9,7 @@ module.exports = (app: any, dbHandler: any) => {
       teamScouted: Joi.number(),
     }),
   }
-  app.get('/api/fetchAllTeamPitData', validate(validation, { keyByField: true }, {}), async (req: any, res:any) => {
+  app.get('/api/fetchAllTeamPitData', validate(validation, { keyByField: true }, { allowUnknown: true }), async (req: any, res:any) => {
     const val: UserReturnData = new UserReturnData();
     const { competition, teamScouted }: Record<string, string> = req.query;
     let dataInterim;

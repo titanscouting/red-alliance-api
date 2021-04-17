@@ -10,7 +10,7 @@ module.exports = (app: any, dbHandler: any) => {
       teamScouted: Joi.string().required(),
     }),
   }
-  app.get('/api/fetchMatchData', validate(validation, { keyByField: true }, {}), async (req: any, res:any) => {
+  app.get('/api/fetchMatchData', validate(validation, { keyByField: true }, { allowUnknown: true }), async (req: any, res:any) => {
     let val: UserReturnData = new UserReturnData();
     const competition = String(req.query.competition);
     const match = parseInt(req.query.match, 10);
@@ -20,6 +20,9 @@ module.exports = (app: any, dbHandler: any) => {
     // the try...catch is the next few lines serves to ensure the application doesn't just crash if scouters or teams were not returned by the DB handler.
     try {
       dataInterim = val.data;
+      if (dataInterim === null) {
+        dataInterim = { data: {} }
+      }
     } catch (e) {
       val.err_occur = true;
     }

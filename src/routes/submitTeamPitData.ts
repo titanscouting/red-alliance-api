@@ -10,7 +10,7 @@ module.exports = (app: any, dbHandler: any, auth: any) => {
       data: Joi.object().required(),
     }),
   }
-  app.post('/api/submitTeamPitData', validate(validation, { keyByField: true }, {}), auth.checkAuth, async (req: any, res:any) => {
+  app.post('/api/submitTeamPitData', validate(validation, { keyByField: true }, { allowUnknown: true }), auth.checkAuth, async (req: any, res:any) => {
     const val: UserReturnData = new UserReturnData();
     const competitionID: string = req.body.competition;
     const { team_number } = req.body;

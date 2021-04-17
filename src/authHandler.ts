@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { readSync } from 'node:fs';
 import './dbHandler';
 import StatusCodes from './StatusCodes';
 
@@ -14,13 +15,14 @@ export const checkAuth = async (req: any, res: any, next: any): Promise<void> =>
       res.locals.id = req.query.CLIENT_ID;
       res.locals.name = 'API User';
       res.locals.team = 2022;
-    } else {
-      res.status(StatusCodes.not_authorized);
-      res.json({
-        success: false,
-        reason: 'User could not be authenticated',
-      });
+      next();
+      return
     }
+    res.status(StatusCodes.not_authorized);
+    res.json({
+      success: false,
+      reason: 'User could not be authenticated',
+    });
   } else {
     const ticket = await client.verifyIdToken({
       idToken: String(req.header('token')),
@@ -33,6 +35,7 @@ export const checkAuth = async (req: any, res: any, next: any): Promise<void> =>
       const payload = ticket.getPayload();
       res.locals.id = payload.sub.toString();
       res.locals.name = payload.name.toString();
+      res.locals.email = payload.email.toString();
       res.locals.team = await dbHandler.getUserTeam(req.db, res.locals.id)
       if (res.locals.team == null) {
         res.status(StatusCodes.not_authorized);
@@ -61,6 +64,48 @@ export const noAPIKey = async (req, res, next) => {
     res.json({ success: false, reason: 'This route does not allow authentication via API key' });
   }
 
+  next();
+};
+
+export const checkAuthNoTeam = async (req: any, res: any, next: any): Promise<void> => {
+  if (req.query.CLIENT_ID) {
+    const isAuthorized = await dbHandler.checkKey(req.db, req.query.CLIENT_ID, req.query.CLIENT_SECRET);
+    if (isAuthorized) {
+      res.locals.id = req.query.CLIENT_ID;
+      res.locals.name = 'API User';
+      res.locals.team = 2022;
+    } else {
+      res.status(StatusCodes.not_authorized);
+      res.json({
+        success: false,
+        reason: 'User could not be authenticated',
+      });
+    }
+  } else {
+    const ticket = await client.verifyIdToken({
+      idToken: String(req.header('token')),
+      audience: [CLIENT_ID, '291863698243-4bp5d86k6mo5dk5ief9ve9rq6d7l1fob.apps.googleusercontent.com', '291863698243-eg5i4fh001n7sl28b0bqgp4h2vae9gn2.apps.googleusercontent.com', '291863698243-ofnqubd0fh5dqfhjo368c39uto1fmudt.apps.googleusercontent.com', '291863698243-obu2fpbfpr7ul9db9lm7rmc1e4r3oeag.apps.googleusercontent.com', '291863698243-ovppseib28p6usahf60igsp7ia3ovq6l.apps.googleusercontent.com', '291863698243-0dsmvs8uetpd9odms7aqn63iknroi4op.apps.googleusercontent.com'],
+      // Specify the CLIENT_ID of the app that accesses the backend
+      // Or, if multiple clients access the backend:
+      // [CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
+    }).catch((err) => { console.error(err); res.status(401); });
+    try {
+      const payload = ticket.getPayload();
+      res.locals.id = payload.sub.toString();
+      res.locals.name = payload.name.toString();
+      res.locals.email = payload.email.toString();
+      res.locals.team = await dbHandler.getUserTeam(req.db, res.locals.id)
+      res.locals.team = parseInt(res.locals.team, 10);
+    } catch (e) {
+      console.error(`Could not get payload from ticket for reason: ${e}`);
+      res.status(StatusCodes.not_authorized);
+      res.json({
+        success: false,
+        reason: 'User could not be authenticated',
+      });
+      return
+    }
+  }
   next();
 };
 

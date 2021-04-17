@@ -14,7 +14,7 @@ module.exports = (app, dbHandler) => {
       competition: Joi.string().required(),
     }),
   }
-  app.get('/api/fetchAllTeamNicknamesAtCompetition', validate(validation, { keyByField: true }, {}), async (req: any, res:any) => {
+  app.get('/api/fetchAllTeamNicknamesAtCompetition', validate(validation, { keyByField: true }, { allowUnknown: true }), async (req: any, res:any) => {
     let val: UserReturnData = new UserReturnData();
     const competition = String(req.query.competition);
     val = await dbHandler.fetchAllTeamNicknamesAtCompetition(req.db, competition).catch((e) => { console.error(e); val.err_occur = true; });

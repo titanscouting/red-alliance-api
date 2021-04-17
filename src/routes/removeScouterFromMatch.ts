@@ -10,11 +10,12 @@ module.exports = (app: any, dbHandler: any, auth: any) => {
       competition: Joi.string().required(),
     }),
   }
-  app.post('/api/removeScouterFromMatch', auth.checkAuth, validate(validation, { keyByField: true }, {}), async (req: any, res:any) => {
+  app.post('/api/removeScouterFromMatch', auth.checkAuth, validate(validation, { keyByField: true }, { allowUnknown: true }), async (req: any, res:any) => {
     let val: UserReturnData = new UserReturnData();
     const match = parseInt(req.body.match, 10);
     const teamScouted: string = req.body.team_scouting;
-    val = await dbHandler.removeScouterFromMatch(req.db, match, teamScouted).catch((e) => { console.error(e); val.err_occur = true; });
+    const { competition } = req.body
+    val = await dbHandler.removeScouterFromMatch(req.db, match, teamScouted, competition).catch((e) => { console.error(e); val.err_occur = true; });
 
     if (val.err_occur === false) {
       res.json({

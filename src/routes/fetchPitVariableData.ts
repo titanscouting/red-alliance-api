@@ -8,7 +8,7 @@ module.exports = (app: any, dbHandler: any) => {
       competition: Joi.string().required(),
     }),
   }
-  app.get('/api/fetchPitVariableData', validate(validation, { keyByField: true }, {}), async (req: any, res:any) => {
+  app.get('/api/fetchPitVariableData', validate(validation, { keyByField: true }, { allowUnknown: true }), async (req: any, res:any) => {
     const val: UserReturnData = new UserReturnData();
     const { competition }: Record<string, string> = req.query;
     let dataInterim;

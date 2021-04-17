@@ -15,9 +15,8 @@
         "@typescript-eslint/no-var-requires": "off",
         "@typescript-eslint/explicit-module-boundary-types": "off",
         "no-shadow": "off",
-        "semi": "off" // use the typescript semicolon rule instead
-
-        
+        "semi": "off", // use the typescript semicolon rule instead,
+        "consistent-return": "off"
     },
     "parser": "@typescript-eslint/parser",
     "plugins": [

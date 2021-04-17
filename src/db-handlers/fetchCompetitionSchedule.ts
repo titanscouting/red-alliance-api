@@ -17,7 +17,7 @@ export default async (db: any, competition: string): Promise<UserReturnData> => 
     data.data = await dbo.collection('matches').find({ competition }).toArray();
   } catch (err) {
     data.err_occur = true;
-    data.err_reasons.push(err);
+    data.err_reasons.push(err.toString());
     console.error(err);
   }
   return data;

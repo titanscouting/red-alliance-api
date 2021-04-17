@@ -11,13 +11,13 @@ chai.use(chaiHttp);
 /*
   * Test the GETroute
   */
-describe('GET /api/fetch2022Schedule', () => {
-  it('it should GET the schedule for 2022', (done) => {
+describe('GET /api/fetchCompetitionFriendlyName', () => {
+  it('it should GET the friendly name for a given competition identifer', (done) => {
     chai.request(server)
-      .get('/api/fetch2022Schedule?competition=2020ilch')
+      .get('/api/fetchCompetitionFriendlyName?competition=2020ilch')
       .end((err, res) => {
         res.should.have.status(200);
-        res.body.should.have.property('data');
+        res.body.should.be.eql({"success":true,"competition":"2020ilch","data":{"friendlyName":"2020 Midwest Reigonal - UIC Pavillion"}});
         res.body.should.have.property('success').eql(true);
         done();
       });

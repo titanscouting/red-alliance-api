@@ -2,17 +2,16 @@ import { validate, Joi } from 'express-validation';
 import UserReturnData from '../UserReturnData';
 import StatusCodes from '../StatusCodes';
 
-module.exports = (app: any, dbHandler: any) => {
+module.exports = (app: any, dbHandler: any, auth: any) => {
   const validation = {
     query: Joi.object({
       competition: Joi.string().required(),
-      team: Joi.string().required(),
     }),
   }
-  app.get('/api/fetchPitConfig', validate(validation, { keyByField: true }, {}), async (req: any, res:any) => {
+  app.get('/api/fetchPitConfig', auth.checkAuth, validate(validation, { keyByField: true }, { allowUnknown: true }), async (req: any, res:any) => {
     let val: UserReturnData = new UserReturnData();
     const { competition }: Record<string, string> = req.query;
-    const team_number: number = parseInt(req.query.team, 10);
+    const team_number: number = parseInt(res.locals.team, 10);
     let dataInterim: Record<string, unknown>;
     val = await dbHandler.fetchPitConfig(req.db, competition, team_number).catch((e) => { console.error(e); val.err_occur = true; });
     try {
@@ -26,7 +25,7 @@ module.exports = (app: any, dbHandler: any) => {
       res.json({
         success: true,
         competition,
-        team_number,
+        team: String(team_number),
         config: dataInterim,
       });
     } else {

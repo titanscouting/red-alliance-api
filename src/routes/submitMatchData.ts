@@ -12,7 +12,7 @@ module.exports = (app: any, dbHandler: any, auth: any) => {
       data: Joi.object().required(),
     }),
   }
-  app.post('/api/submitMatchData', auth.checkAuth, validate(validation, { keyByField: true }, {}), async (req: any, res: any) => {
+  app.post('/api/submitMatchData', auth.checkAuth, validate(validation, { keyByField: true }, { allowUnknown: true }), async (req: any, res: any) => {
     let val: UserReturnData = new UserReturnData();
     const scouter: Scouter = { name: String(res.locals.name), id: String(res.locals.id) };
     const { competition, data }: Record<string, string> = req.body;

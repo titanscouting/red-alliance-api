@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "0.10.0",
+    "version": "0.11.0",
     "title": "The Red Alliance API",
     "description": "An API to submit and retrieve data for and from The Red Alliance family of products.",
     "license": {
@@ -96,25 +96,13 @@
   "produces": [
     "application/json"
   ],
-  "paths": {
+  "paths": {    
     "/api/addAPIKey": {
       "post": {
         "summary": "Create API Key",
         "description": "Allows currently authenticated (via Google OAuth) users to create API keys to access the API programatically.",
         "tags": [
           "Authenticated Routes"
-        ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "team",
-            "required": true,
-            "description": "FRC team number of the team that the user belongs to.",
-            "schema": {
-              "type": "string",
-              "example": "2022"
-            }
-          }
         ],
         "responses": {
           "200": {
@@ -317,16 +305,33 @@
         }
       }
     },
-    "/api/fetch2022Schedule": {
+    "/api/fetchTeamSchedule": {
       "get": {
-        "summary": "Get the schedule for 2022",
-        "description": "Returns the competition schedule of 2022",
+        "summary": "Get the schedule for the user's team",
+        "description": "Returns the competition schedule for the user's team",
         "tags": [
-          "Non-Authenticated Routes"
+          "Authenticated Routes"
+        ],
+        "security": [
+          {
+            "GoogleAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "competition",
+            "required": true,
+            "description": "FRC competition ID.",
+            "schema": {
+              "type": "string",
+              "example": "2020ilch"
+            }
+          }
         ],
         "responses": {
           "200": {
-            "description": "The 2022  competition schedule was retrieved.",
+            "description": "The team competition schedule was retrieved.",
             "schema": {
               "type": "object",
               "properties": {
@@ -338,12 +343,206 @@
                 "competition": {
                   "type": "string",
                   "example": "2020ilch"
+                },
+                "team": {
+                  "type": "string",
+                  "example": "2022"
+                },
+                "data": {
+                  "type": "object",
+                  "example": [{
+                    "_id": "5e61b638a3dfe2b512d4ff73",
+                    "teams": [
+                      "2022",
+                      "1781",
+                      "930",
+                      "2039",
+                      "63",
+                      "4296"
+                    ],
+                    "scouters": [
+                      {
+                        "name": "John Doe",
+                        "id": "118039453938298350000"
+                      },
+                      {
+                        "name": "Jane Doe",
+                        "id": "109539256606510070000"
+                      },
+                      {
+                        "name": "John Doe",
+                        "id": "115872669838441320000"
+                      },
+                      {
+                        "name": "Jane Doe",
+                        "id": "113332030113723820000"
+                      },
+                      false,
+                      false
+                    ],
+                    "match": 64,
+                    "competition": "2020ilch"
+                  }]
                 }
               }
             }
           },
           "400": {
             "description": "The 2022 competition schedule could not be retrieved. Returns the reason for the error.",
+            "schema": {
+              "$ref": "#/definitions/NoData"
+            }
+          }
+        }
+      }
+    },
+    "/api/fetchPitConfig": {
+      "get": {
+        "summary": "Get the pit scouting configuration for the user's team",
+        "description": "Get the pit scouting configuration for the user's team",
+        "tags": [
+          "Authenticated Routes"
+        ],
+        "security": [
+          {
+            "GoogleAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "competition",
+            "required": true,
+            "description": "FRC competition ID.",
+            "schema": {
+              "type": "string",
+              "example": "2020ilch"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The team pit scouting configuration was retrieved.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": true,
+                  "description": "Describes whether the request completed successfully."
+                },
+                "competition": {
+                  "type": "string",
+                  "example": "2020ilch"
+                },
+                "team": {
+                  "type": "string",
+                  "example": "2022"
+                },
+                "config": {
+                  "type": "object",
+                  "example": [
+                    {
+                        "Pit": [
+                            {
+                                "name": "Updated on Match",
+                                "key": "match-updated",
+                                "widget": "stepper"
+                            },
+                            {
+                                "name": "Can do low balls?",
+                                "key": "low-balls",
+                                "widget": "segment",
+                                "options": [
+                                    "Don't Know",
+                                    "Yes",
+                                    "No"
+                                ]
+                            },
+                            {
+                                "name": "Can do high balls?",
+                                "key": "high-balls",
+                                "widget": "segment",
+                                "options": [
+                                    "Don't Know",
+                                    "Yes",
+                                    "No"
+                                ]
+                            },
+                            {
+                                "name": "Has wheel mechanism?",
+                                "key": "wheel-mechanism",
+                                "widget": "segment",
+                                "options": [
+                                    "Don't Know",
+                                    "Yes",
+                                    "No"
+                                ]
+                            },
+                            {
+                                "name": "Demonstrated wheel success?",
+                                "key": "wheel-success",
+                                "widget": "segment",
+                                "options": [
+                                    "Don't Know",
+                                    "Yes",
+                                    "No"
+                                ]
+                            },
+                            {
+                                "name": "Strategic focus",
+                                "key": "strategic-focus",
+                                "widget": "segment",
+                                "options": [
+                                    "Unknown",
+                                    "Offense",
+                                    "Defense",
+                                    "Hybrid"
+                                ]
+                            },
+                            {
+                                "name": "Climb mechanism",
+                                "key": "climb-mechanism",
+                                "widget": "segment",
+                                "options": [
+                                    "Don't Know",
+                                    "x0",
+                                    "x1",
+                                    "x2",
+                                    "x3"
+                                ]
+                            },
+                            {
+                                "name": "Climb requirements (space? time?)",
+                                "key": "climb-requirements",
+                                "widget": "text-area"
+                            },
+                            {
+                                "name": "Attitude toward Titan Robotics",
+                                "key": "attitude",
+                                "widget": "segment",
+                                "options": [
+                                    "Don't Know",
+                                    "Negative",
+                                    "Neutral",
+                                    "Positive",
+                                    "Love"
+                                ]
+                            },
+                            {
+                                "name": "Other notes",
+                                "key": "defense-notes",
+                                "widget": "text-area"
+                            }
+                        ]
+                    }
+                ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The pit configuration could not be retrieved. Returns the reason for the error.",
             "schema": {
               "$ref": "#/definitions/NoData"
             }
@@ -388,6 +587,120 @@
                   "type": "string",
                   "example": "Dev Singh",
                   "description": "First and last name of the user."
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The user team association could not be retrieved. Returns the reason for the error.",
+            "schema": {
+              "$ref": "#/definitions/NoData"
+            }
+          },
+          "401": {
+            "description": "The current user is not authorized to perform this action.",
+            "schema": {
+              "$ref": "#/definitions/NoAuth"
+            }
+          }
+        }
+      }
+    },
+    "/api/fetchUserStrategy": {
+      "get": {
+        "summary": "Get user's submitted strategy for a given match and competition",
+        "description": "Get user's submitted strategy for a given match and competition",
+        "tags": [
+          "Authenticated Routes"
+        ],
+        "security": [
+          {
+            "GoogleAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "match",
+            "type": "string",
+            "example": "7",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "competition",
+            "type": "string",
+            "example": "2020ilch",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The user's submitted strategy was retrieved.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": true,
+                  "description": "Describes whether the request completed successfully."
+                },
+                "data": {
+                  "type": "object",
+                  "example": [{"_id":"2020ilchDev Singh7","competition":"2020ilch","data":"For testing","match":"7","scouter":"Dev Singh"}],
+                  "description": "Array of user submitted strategies for the given match."
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The user team association could not be retrieved. Returns the reason for the error.",
+            "schema": {
+              "$ref": "#/definitions/NoData"
+            }
+          },
+          "401": {
+            "description": "The current user is not authorized to perform this action.",
+            "schema": {
+              "$ref": "#/definitions/NoAuth"
+            }
+          }
+        }
+      }
+    },
+    "/api/fetchTeamCompetition": {
+      "get": {
+        "summary": "Get user current competition",
+        "description": "Get the competition a user is currently at based on the team association",
+        "tags": [
+          "Authenticated Routes"
+        ],
+        "security": [
+          {
+            "GoogleAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The user's competition was retrieved.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": true,
+                  "description": "Describes whether the request completed successfully."
+                },
+                "team": {
+                  "type": "string",
+                  "example": "2022",
+                  "description": "User's registered team."
+                },
+                "competition": {
+                  "type": "string",
+                  "example": "2020ilch",
+                  "description": "User's current competition."
                 }
               }
             }
@@ -745,7 +1058,7 @@
         "summary": "Fetches the match scouting config for a given team and competition\n",
         "description": "Fetches the match scouting config for a given team and competition\n",
         "tags": [
-          "Non-Authenticated Routes"
+          "Authenticated Routes"
         ],
         "parameters": [
           {
@@ -754,13 +1067,6 @@
             "required": true,
             "type": "string",
             "example": "2020ilch"
-          },
-          {
-            "in": "query",
-            "name": "team",
-            "required": true,
-            "type": "string",
-            "example": "2022"
           }
         ],
         "responses": {
@@ -881,6 +1187,111 @@
                 "data": {
                   "type": "object",
                   "example": [{"_id":"5e61b638a3dfe2b512d4ff3e","teams":["8184","1675","3197","7237","4787","5125"],"scouters":[{"name":"Sarah Oquendo","id":"116902796378120080000"},{"name":"Cordelia Sirais","id":"104097601226614030000"},{"name":"Alexander Wells","id":"113332350115233820000"},{"name":"Liam Nelson","id":"105420177494902540000"},{"name":"Dev Singh","id":"114979123360880120000"},{"name":"Jacob Levine","id":"118006453012298350000"}],"match":16,"competition":"2020ilch"}]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The match config data could not be retrieved. Returns the reason for the error.",
+            "schema": {
+              "$ref": "#/definitions/NoData"
+            }
+          }
+        }
+      }
+    },
+    "/api/fetchCompetitionFriendlyName": {
+      "get": {
+        "summary": "Fetches the friendly name for a competition identifier\n",
+        "description": "Fetches the friendly name for a competition identifier\n",
+        "tags": [
+          "Non-Authenticated Routes"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "competition",
+            "required": true,
+            "type": "string",
+            "example": "2020ilch"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The friendly name data was retrieved.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": true,
+                  "description": "Describes whether the request completed successfully."
+                },
+                "competition": {
+                  "type": "string",
+                  "example": "2020ilch",
+                  "description": "User-provided competition."
+                },
+                "data": {
+                  "type": "object",
+                  "example": {"friendlyName":"2020 Midwest Regional"}
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The friendly name data could not be retrieved. Returns the reason for the error.",
+            "schema": {
+              "$ref": "#/definitions/NoData"
+            }
+          }
+        }
+      }
+    },
+    "/api/fetchTeamTestsData": {
+      "get": {
+        "summary": "Fetches the team analysis data for a given competition and team (Team 2022 only)\n",
+        "description": "Fetches the team analysis data for a given competition and team (Team 2022 only)\n",
+        "tags": [
+          "Authenticated Routes"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "competition",
+            "required": true,
+            "type": "string",
+            "example": "2020ilch"
+          },
+          {
+            "in": "query",
+            "name": "team",
+            "required": true,
+            "type": "string",
+            "example": "2022"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The analysis data was retrieved.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": true,
+                  "description": "Describes whether the request completed successfully."
+                },
+                "competition": {
+                  "type": "string",
+                  "example": "2020ilch"
+                },
+                "team": {
+                  "type": "string",
+                  "example": "2022"
+                },
+                "data": {
+                  "type": "object"
                 }
               }
             }

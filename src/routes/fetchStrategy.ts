@@ -9,7 +9,7 @@ module.exports = (app: any, dbHandler: any) => {
       match: Joi.number().required(),
     }),
   }
-  app.get('/api/fetchStrategy', validate(validation, { keyByField: true }, {}), async (req: any, res:any) => {
+  app.get('/api/fetchStrategy', validate(validation, { keyByField: true }, { allowUnknown: true }), async (req: any, res:any) => {
     let val: UserReturnData = new UserReturnData();
     const { competition }: Record<string, string> = req.query;
     const matchNumber: number = req.query.match;

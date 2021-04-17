@@ -11,7 +11,7 @@ module.exports = (app:any, dbHandler:any, auth: any) => {
       team_scouting: Joi.string().required(),
     }),
   }
-  app.post('/api/addScouterToMatch', auth.noAPIKey, auth.checkAuth, validate(validation, { keyByField: true }, {}), async (req: any, res:any) => {
+  app.post('/api/addScouterToMatch', auth.noAPIKey, auth.checkAuth, validate(validation, { keyByField: true }, { allowUnknown: true }), async (req: any, res:any) => {
     let val: UserReturnData = new UserReturnData();
     const scouter: Scouter = { name: String(res.locals.name), id: String(res.locals.id), team: parseInt(res.locals.team, 10) };
     const { competition } = req.body;

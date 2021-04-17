@@ -1,5 +1,4 @@
 import express from 'express';
-import bodyParser from 'body-parser';
 import expressMongoDb from 'mongo-express-req';
 import { ValidationError } from 'express-validation';
 import path from 'path';
@@ -12,8 +11,8 @@ import auth = require('./authHandler');
 
 const port = process.env.PORT || 8190;
 const app = express();
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
@@ -30,7 +29,7 @@ try {
 const options = {
   swaggerDefinition,
   // Paths to files containing OpenAPI definitions
-  apis: ['./routes/*.ts'],
+  apis: ['./routes/swagger.json'],
 };
 
 const swaggerSpec = swaggerJSDoc(options);
@@ -46,16 +45,17 @@ const swaggerSpec = swaggerJSDoc(options);
 
 // TODO: find a way to loop through this without a bunch of require(). A simple for loop results in `require() not found`.
 // TODO: use the UserReturnData class when returning data in all these apis
+app.use('/docs/', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 require('./routes/fetchScouters')(app, dbHandler);
 require('./routes/submitMatchData')(app, dbHandler, auth);
 require('./routes/fetchScouterSuggestions')(app, dbHandler);
 require('./routes/fetchScouterUIDs')(app, dbHandler);
-require('./routes/fetchPitConfig')(app, dbHandler);
+require('./routes/fetchPitConfig')(app, dbHandler, auth);
 require('./routes/findTeamNickname')(app, dbHandler);
 require('./routes/fetchAllTeamNicknamesAtCompetition')(app, dbHandler);
 require('./routes/fetchCompetitionSchedule')(app, dbHandler);
-require('./routes/fetch2022Schedule')(app, dbHandler);
+require('./routes/fetchTeamSchedule')(app, dbHandler, auth);
 require('./routes/fetchMatchData')(app, dbHandler);
 require('./routes/addAPIKey')(app, dbHandler, auth);
 require('./routes/privacyPolicy')(app);
@@ -67,7 +67,7 @@ require('./routes/fetchUserStrategy')(app, dbHandler, auth);
 require('./routes/fetchPitData')(app, dbHandler);
 require('./routes/submitPitData')(app, dbHandler, auth);
 require('./routes/addUserToTeam')(app, dbHandler, auth);
-require('./routes/fetchMatchConfig')(app, dbHandler);
+require('./routes/fetchMatchConfig')(app, dbHandler, auth);
 require('./routes/fetchMetricsData')(app, dbHandler);
 require('./routes/fetchAnalysisFlags')(app, dbHandler);
 require('./routes/fetchAllTeamMatchData')(app, dbHandler);
@@ -77,8 +77,12 @@ require('./routes/getUserTeam')(app, auth);
 require('./routes/submitTeamPitData')(app, dbHandler, auth);
 require('./routes/submitTeamTestsData')(app, dbHandler, auth);
 require('./routes/submitTeamMetricsData')(app, dbHandler, auth);
-require('./routes/setAnalysisFlags')(app, dbHandler, auth);
+require('./routes/setAnalysisFlags')(app, dbHandler);
 require('./routes/fetchAPIConfig')(app);
+require('./routes/fetchCompetitionFriendlyName')(app, dbHandler);
+require('./routes/fetchTeamCompetition')(app, dbHandler, auth);
+require('./routes/fetchTeamTestsData')(app, dbHandler, auth);
+require('./routes/base')(app);
 
 class CustomValidationError extends ValidationError {
   success?: boolean
@@ -88,6 +92,11 @@ class CustomValidationError extends ValidationError {
     this.success = false;
   }
 }
+
+app.use((req, res) => {
+  res.status(404).json({ success: true, reasons: ['404: Page Not Found'] });
+});
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use((err: any, req, res, next) => {
   if (err instanceof ValidationError) {
@@ -99,7 +108,6 @@ app.use((err: any, req, res, next) => {
 
   return res.status(500).json(err)
 })
-app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
