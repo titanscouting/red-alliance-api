@@ -16,14 +16,13 @@ chai.use(chaiHttp);
 describe('POST /api/setAnalysisFlags', () => {
     it('It should add the flag with name flag to data', (done) => {
       chai.request(server)
-        .post('/api/setAnalysisFlags')
+        .post(`/api/setAnalysisFlags?CLIENT_ID=${process.env.TRA_CLIENTID}&CLIENT_SECRET=${process.env.TRA_CLIENTSECRET}`)
         .set('content-type', 'application/x-www-form-urlencoded')
-        .send({flag: '2022',
-      data: {test: true}})
+        .send({flag: 'test_flag',
+      data: true})
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.be.an('object');
-        res.body.should.have.property('flag');
         res.body.should.have.property('success').eql(true)
         done();
       });

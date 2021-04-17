@@ -16,17 +16,14 @@ chai.use(chaiHttp);
 describe('POST /api/submitTeamMetricsData', () => {
     it('it should POST the team metrics data for a team', (done) => {
       chai.request(server)
-        .post('/api/submitTeamMetricsData')
+        .post(`/api/submitTeamMetricsData?CLIENT_ID=${process.env.TRA_CLIENTID}&CLIENT_SECRET=${process.env.TRA_CLIENTSECRET}`)
         .set('content-type', 'application/x-www-form-urlencoded')
-        .send({team_number: '2022',
+        .send({team: '2022',
         competition: '2020ilch',
       data: {test: true}})
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.be.an('object');
-        res.body.should.have.property('team_number');
-        res.body.should.have.property('competition');
-        res.body.should.have.property('data');
         res.body.should.have.property('success').eql(true)
         done();
       });

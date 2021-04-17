@@ -1024,7 +1024,7 @@
         "summary": "Gets the data for the flag",
         "description": "Returns the data for the flag",
         "tags": [
-          "Non-Authenticated Routes"
+          "Authenticated Routes"
         ],
         "responses": {
           "200": {

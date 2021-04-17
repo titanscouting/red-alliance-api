@@ -2,16 +2,16 @@ import { validate, Joi } from 'express-validation';
 import UserReturnData from '../UserReturnData';
 import StatusCodes from '../StatusCodes';
 
-module.exports = (app: any, dbHandler: any) => {
+module.exports = (app: any, dbHandler: any, auth: any) => {
   const validation = {
     query: Joi.object({
       flag: Joi.string().required(),
     }),
   }
-  app.get('/api/fetchAnalysisFlags', validate(validation, { keyByField: true }, { allowUnknown: true }), async (req: any, res:any) => {
+  app.get('/api/fetchAnalysisFlags', auth.checkAuth, validate(validation, { keyByField: true }, { allowUnknown: true }), async (req: any, res:any) => {
     const val: UserReturnData = new UserReturnData();
     const { flag }: Record<string, string> = req.query;
-    val.data = await dbHandler.fetchAnalysisFlags(req.db).catch((e) => { console.error(e); val.err_occur = true; });
+    val.data = await dbHandler.fetchAnalysisFlags(req.db, res.locals.team).catch((e) => { console.error(e); val.err_occur = true; });
     if (val.data.data[flag] === undefined) {
       val.err_occur = true
       val.err_reasons.push('Flag not present in DB.')

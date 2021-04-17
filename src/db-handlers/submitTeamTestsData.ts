@@ -10,7 +10,7 @@ export default async (db: any, team: number, competition: string, data: Record<s
   };
   try {
     await dbo.collection('team_tests').updateOne({
-      _id: competition + team, competition, team, data,
+      _id: competition + team,
     }, myobj, { upsert: true });
   } catch (err) {
     dataReturn.err_occur = true;
