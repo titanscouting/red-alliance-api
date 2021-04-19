@@ -25,6 +25,8 @@ jobs:
     - run: yarn
     - name: Run typedoc to generate docs page
       run: yarn run doc
+    - name: git add
+      run: git add docs/
     - uses: stefanzweifel/git-auto-commit-action@v4
       with:
         commit_options: '--no-verify --signoff'
