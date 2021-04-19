@@ -23,6 +23,8 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: yarn
+    - name: git rm
+      run: git rm -f -r -q .
     - name: Run typedoc to generate docs page
       run: yarn run doc
     - name: git add
