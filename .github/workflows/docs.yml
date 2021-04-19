@@ -32,3 +32,6 @@ jobs:
         commit_user_name: Documentation Builder
         commit_user_email: titanscout2022@gmail.com
         commit_author: Documentation Builder <titanscout2022@gmail.com>
+        branch: docs
+        file_pattern: docs/*
+        push_options: '--force'
