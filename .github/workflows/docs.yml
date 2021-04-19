@@ -35,3 +35,4 @@ jobs:
         branch: docs
         file_pattern: docs/*
         push_options: '--force'
+        skip_dirty_check: true
