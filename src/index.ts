@@ -5,9 +5,10 @@ import path from 'path';
 import swaggerJSDoc = require('swagger-jsdoc');
 import swaggerUi = require('swagger-ui-express');
 // eslint-disable-next-line
-import * as swaggerDefinition from './routes/swagger.json';
+// import * as swaggerDefinition from './routes/swagger.json';
 import dbHandler = require('./dbHandler');
 import auth = require('./authHandler');
+import swaggerDefinition = require('./api-docs/index');
 
 const port = process.env.PORT || 8190;
 const app = express();
@@ -26,13 +27,7 @@ try {
   process.exit(1);
 }
 
-const options = {
-  swaggerDefinition,
-  // Paths to files containing OpenAPI definitions
-  apis: ['./routes/swagger.json'],
-};
-
-const swaggerSpec = swaggerJSDoc(options);
+const swaggerSpec = swaggerJSDoc({ definition: swaggerDefinition.default, apis: ['./routes/*'] });
 /**
  * NOTE TO DEVELOPERS: the `auth.checkAuth` statement is simply middleware which contacts
  * authHandler.ts to ensure that the user has a valid authentication token.
