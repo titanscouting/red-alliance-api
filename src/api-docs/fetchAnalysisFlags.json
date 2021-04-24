@@ -1,0 +1,34 @@
+{
+    "get": {
+        "summary": "Gets the data for the flag",
+        "description": "Returns the data for the flag",
+        "tags": [
+            "Non-Authenticated Routes"
+        ],
+        "responses": {
+            "200": {
+                "description": "The flag data was retrieved.",
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                        "success": {
+                            "type": "boolean",
+                            "example": true,
+                            "description": "Describes whether the request completed successfully."
+                        },
+                        "flag": {
+                            "type": "string",
+                            "example": "latest_update"
+                        }
+                    }
+                }
+            },
+            "400": {
+                "description": "The flag data could not be retrieved. Returns the reason for the error.",
+                "schema": {
+                    "$ref": "#/definitions/NoData"
+                }
+            }
+        }
+    }
+}

@@ -1,80 +1,78 @@
 {
-    "post":{
-       "summary":"Add current user as scouter to a match",
-       "description":"Registers the currently signed-in user as the scouter for a given match and a team at a given competition.",
-       "tags":[
-          "Authenticated Routes"
-       ],
-       "parameters":[
-          {
-             "in":"body",
-             "name":"team_scouting",
-             "required":true,
-             "description":"FRC team number of the team that the scouter is scouting.",
-             "schema":{
-                "type":"string",
-                "example":"2022"
-             }
-          },
-          {
-             "in":"body",
-             "name":"competition",
-             "required":true,
-             "description":"FRC competition code at which the user is scouting.",
-             "schema":{
-                "type":"string",
-                "example":"2020ilch"
-             }
-          },
-          {
-             "in":"body",
-             "name":"match",
-             "required":true,
-             "description":"FRC match which the user is scouting.",
-             "schema":{
-                "type":"string",
-                "example":"2"
-             }
-          }
-       ],
-       "security":[
-          {
-             "GoogleAuth":[
-                
-             ]
-          }
-       ],
-       "responses":{
-          "200":{
-             "description":"The user was added as a scouter to the match.",
-             "schema":{
-                "type":"object",
-                "properties":{
-                   "success":{
-                      "type":"boolean",
-                      "example":true
-                   }
-                }
-             }
-          },
-          "400":{
-             "description":"The user was not added as a scouter to the match. Returns the reasons for the error.",
-             "schema":{
-                "$ref":"#/definitions/NoData"
-             }
-          },
-          "401":{
-             "description":"The current user is not authorized to perform this action.",
-             "schema":{
-                "$ref":"#/definitions/NoAuth"
-             }
-          },
-          "403":{
-             "description":"Key-based authentication is not allowed for this route",
-             "schema":{
-                "$ref":"#/definitions/KeysNotAllowed"
-             }
-          }
-       }
-    }
- }
+   "post": {
+      "summary": "Add current user as scouter to a match",
+      "description": "Registers the currently signed-in user as the scouter for a given match and a team at a given competition.",
+      "tags": [
+         "Authenticated Routes"
+      ],
+      "parameters": [
+         {
+            "in": "body",
+            "name": "team_scouting",
+            "required": true,
+            "description": "FRC team number of the team that the scouter is scouting.",
+            "schema": {
+               "type": "string",
+               "example": "2022"
+            }
+         },
+         {
+            "in": "body",
+            "name": "competition",
+            "required": true,
+            "description": "FRC competition code at which the user is scouting.",
+            "schema": {
+               "type": "string",
+               "example": "2020ilch"
+            }
+         },
+         {
+            "in": "body",
+            "name": "match",
+            "required": true,
+            "description": "FRC match which the user is scouting.",
+            "schema": {
+               "type": "string",
+               "example": "2"
+            }
+         }
+      ],
+      "security": [
+         {
+            "GoogleAuth": []
+         }
+      ],
+      "responses": {
+         "200": {
+            "description": "The user was added as a scouter to the match.",
+            "schema": {
+               "type": "object",
+               "properties": {
+                  "success": {
+                     "type": "boolean",
+                     "example": true
+                  }
+               }
+            }
+         },
+         "400": {
+            "description": "The user was not added as a scouter to the match. Returns the reasons for the error.",
+            "schema": {
+               "$ref": "#/definitions/NoData"
+            }
+         },
+         "401": {
+            "description": "The current user is not authorized to perform this action.",
+            "schema": {
+               "$ref": "#/definitions/NoAuth"
+            }
+         },
+         "403": {
+            "description": "Key-based authentication is not allowed for this route",
+            "schema": {
+               "$ref": "#/definitions/KeysNotAllowed"
+            }
+         }
+      }
+   }
+}

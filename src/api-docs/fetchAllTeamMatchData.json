@@ -1,0 +1,34 @@
+{
+    "get": {
+        "summary": "Gets all the team match data",
+        "description": "Returns all of the team match data",
+        "tags": [
+            "Non-Authenticated Routes"
+        ],
+        "responses": {
+            "200": {
+                "description": "All team match data was retrieved.",
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                        "success": {
+                            "type": "boolean",
+                            "example": true,
+                            "description": "Describes whether the request completed successfully."
+                        },
+                        "competition": {
+                            "type": "string",
+                            "example": "2020ilch"
+                        }
+                    }
+                }
+            },
+            "400": {
+                "description": "All team match data could not be retrieved. Returns the reason for the error.",
+                "schema": {
+                    "$ref": "#/definitions/NoData"
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,56 @@
+{
+    "get": {
+        "summary": "Get user team association",
+        "description": "Returns the name, Google ID, and team number for the currently authenticated user.",
+        "tags": [
+            "Authenticated Routes"
+        ],
+        "security": [
+            {
+                "GoogleAuth": []
+            }
+        ],
+        "responses": {
+            "200": {
+                "description": "The user team association was retrieved.",
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                        "success": {
+                            "type": "boolean",
+                            "example": true,
+                            "description": "Describes whether the request completed successfully."
+                        },
+                        "id": {
+                            "type": "string",
+                            "example": "114979123360880121338",
+                            "description": "Google user ID."
+                        },
+                        "team": {
+                            "type": "string",
+                            "example": "2022",
+                            "description": "FRC team number which the user is a member of."
+                        },
+                        "name": {
+                            "type": "string",
+                            "example": "Dev Singh",
+                            "description": "First and last name of the user."
+                        }
+                    }
+                }
+            },
+            "400": {
+                "description": "The user team association could not be retrieved. Returns the reason for the error.",
+                "schema": {
+                    "$ref": "#/definitions/NoData"
+                }
+            },
+            "401": {
+                "description": "The current user is not authorized to perform this action.",
+                "schema": {
+                    "$ref": "#/definitions/NoAuth"
+                }
+            }
+        }
+    }
+}

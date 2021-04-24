@@ -1,0 +1,93 @@
+{
+   "get": {
+      "summary": "Get the schedule for the user's team",
+      "description": "Returns the competition schedule for the user's team",
+      "tags": [
+         "Authenticated Routes"
+      ],
+      "security": [
+         {
+            "GoogleAuth": []
+         }
+      ],
+      "parameters": [
+         {
+            "in": "query",
+            "name": "competition",
+            "required": true,
+            "description": "FRC competition ID.",
+            "schema": {
+               "type": "string",
+               "example": "2020ilch"
+            }
+         }
+      ],
+      "responses": {
+         "200": {
+            "description": "The team competition schedule was retrieved.",
+            "schema": {
+               "type": "object",
+               "properties": {
+                  "success": {
+                     "type": "boolean",
+                     "example": true,
+                     "description": "Describes whether the request completed successfully."
+                  },
+                  "competition": {
+                     "type": "string",
+                     "example": "2020ilch"
+                  },
+                  "team": {
+                     "type": "string",
+                     "example": "2022"
+                  },
+                  "data": {
+                     "type": "object",
+                     "example": [
+                        {
+                           "_id": "5e61b638a3dfe2b512d4ff73",
+                           "teams": [
+                              "2022",
+                              "1781",
+                              "930",
+                              "2039",
+                              "63",
+                              "4296"
+                           ],
+                           "scouters": [
+                              {
+                                 "name": "John Doe",
+                                 "id": "118039453938298350000"
+                              },
+                              {
+                                 "name": "Jane Doe",
+                                 "id": "109539256606510070000"
+                              },
+                              {
+                                 "name": "John Doe",
+                                 "id": "115872669838441320000"
+                              },
+                              {
+                                 "name": "Jane Doe",
+                                 "id": "113332030113723820000"
+                              },
+                              false,
+                              false
+                           ],
+                           "match": 64,
+                           "competition": "2020ilch"
+                        }
+                     ]
+                  }
+               }
+            }
+         },
+         "400": {
+            "description": "The 2022 competition schedule could not be retrieved. Returns the reason for the error.",
+            "schema": {
+               "$ref": "#/definitions/NoData"
+            }
+         }
+      }
+   }
+}

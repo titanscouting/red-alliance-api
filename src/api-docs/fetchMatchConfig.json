@@ -1,0 +1,196 @@
+{
+    "get": {
+        "summary": "Fetches the match scouting config for a given team and competition\n",
+        "description": "Fetches the match scouting config for a given team and competition\n",
+        "tags": [
+            "Authenticated Routes"
+        ],
+        "parameters": [
+            {
+                "in": "query",
+                "name": "competition",
+                "required": true,
+                "type": "string",
+                "example": "2020ilch"
+            }
+        ],
+        "responses": {
+            "200": {
+                "description": "The match config data was retrieved.",
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                        "success": {
+                            "type": "boolean",
+                            "example": true,
+                            "description": "Describes whether the request completed successfully."
+                        },
+                        "competition": {
+                            "type": "string",
+                            "example": "2020ilch"
+                        },
+                        "team": {
+                            "type": "string",
+                            "example": "2022"
+                        },
+                        "config": {
+                            "type": "object",
+                            "example": [
+                                {
+                                    "Auto": [
+                                        {
+                                            "name": "Passed Auto Line?",
+                                            "key": "pass-line",
+                                            "widget": "segment",
+                                            "options": [
+                                                "Don't Know",
+                                                "No",
+                                                "Yes"
+                                            ]
+                                        },
+                                        {
+                                            "name": "Initial Balls Stored",
+                                            "key": "balls-started",
+                                            "widget": "stepper"
+                                        },
+                                        {
+                                            "name": "Extra Balls Collected",
+                                            "key": "balls-collected",
+                                            "widget": "stepper"
+                                        },
+                                        {
+                                            "name": "Balls Scored Upper",
+                                            "key": "balls-upper-auto",
+                                            "widget": "stepper"
+                                        },
+                                        {
+                                            "name": "Balls Scored Lower",
+                                            "key": "balls-lower-auto",
+                                            "widget": "stepper"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Teleop": [
+                                        {
+                                            "name": "Spun Wheel?",
+                                            "key": "spun-wheel",
+                                            "widget": "segment",
+                                            "options": [
+                                                "Don't know",
+                                                "No",
+                                                "Position",
+                                                "Color"
+                                            ]
+                                        },
+                                        {
+                                            "name": "Balls Scored Upper",
+                                            "key": "balls-upper-teleop",
+                                            "widget": "stepper"
+                                        },
+                                        {
+                                            "name": "Balls Scored Lower",
+                                            "key": "balls-lower-teleop",
+                                            "widget": "stepper"
+                                        },
+                                        {
+                                            "name": "Did they shoot from a vulnerable location??",
+                                            "key": "shooting-vulnerable",
+                                            "widget": "segment",
+                                            "options": [
+                                                "Don't know",
+                                                "No",
+                                                "Yes"
+                                            ]
+                                        },
+                                        {
+                                            "name": "Where could they shoot from?",
+                                            "key": "shooting-notes",
+                                            "widget": "text-area"
+                                        },
+                                        {
+                                            "name": "Did they climb?",
+                                            "key": "climb",
+                                            "widget": "segment",
+                                            "options": [
+                                                "Don't know",
+                                                "No Attempt",
+                                                "Failed",
+                                                "Yes"
+                                            ]
+                                        },
+                                        {
+                                            "name": "Did they play defense?",
+                                            "key": "defense",
+                                            "widget": "segment",
+                                            "options": [
+                                                "Don't know",
+                                                "No",
+                                                "Yes"
+                                            ]
+                                        },
+                                        {
+                                            "name": "What teams did this one play defense on?",
+                                            "key": "defense-notes",
+                                            "widget": "text-area"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Notes": [
+                                        {
+                                            "name": "Overall Competency",
+                                            "key": "competency",
+                                            "widget": "segment",
+                                            "options": [
+                                                "Don't know",
+                                                "Awful",
+                                                "Meh",
+                                                "Good",
+                                                "Best"
+                                            ]
+                                        },
+                                        {
+                                            "name": "Speed",
+                                            "key": "speed",
+                                            "widget": "segment",
+                                            "options": [
+                                                "Don't know",
+                                                "Slow",
+                                                "Med.",
+                                                "Fast",
+                                                "Ludicrous"
+                                            ]
+                                        },
+                                        {
+                                            "name": "Strategic Focus",
+                                            "key": "strategic-focus",
+                                            "widget": "segment",
+                                            "options": [
+                                                "Don't know",
+                                                "Offense",
+                                                "Defense",
+                                                "Hybrid"
+                                            ]
+                                        },
+                                        {
+                                            "name": "How could we use this robot in a strategy?",
+                                            "key": "strategy-notes",
+                                            "widget": "text-area"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "400": {
+                "description": "The match config data could not be retrieved. Returns the reason for the error.",
+                "schema": {
+                    "$ref": "#/definitions/NoData"
+                }
+            }
+        }
+    }
+}
