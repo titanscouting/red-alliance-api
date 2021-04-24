@@ -1,27 +1,9 @@
-import * as addAPIKey from './addAPIKey.json';
-import * as addScouterToMatch from './addScouterToMatch.json';
-import * as addUserToTeam from './addUserToTeam.json';
-import * as fetchTeamSchedule from './fetchTeamSchedule.json';
-import * as fetchPitConfig from './fetchPitConfig.json';
-import * as getUserTeam from './getUserTeam.json';
-import * as fetchTeamCompetition from './fetchTeamCompetition.json';
-import * as removeScouterFromMatch from './removeScouterFromMatch.json';
-import * as submitMatchData from './submitMatchData.json';
-import * as fetchAllTeamMatchData from './fetchAllTeamMatchData.json';
-import * as fetchAllTeamPitData from './fetchAllTeamPitData.json';
-import * as fetchMetricsData from './fetchMetricsData.json';
-import * as fetchPitVariableData from './fetchPitVariableData.json';
-import * as fetchAnalysisFlags from './fetchAnalysisFlags.json';
-import * as fetchMatchConfig from './fetchMatchConfig.json';
-import * as fetchAllTeamNicknamesAtCompetition from './fetchAllTeamNicknamesAtCompetition.json';
-import * as fetchCompetitionSchedule from './fetchCompetitionSchedule.json';
-import * as fetchCompetitionFriendlyName from './fetchCompetitionFriendlyName.json';
-import * as fetchTeamTestsData from './fetchTeamTestsData.json';
+import generateRouteJSONs from './routeDocs';
 
 export default {
   swagger: '2.0',
   info: {
-    version: '0.11.0',
+    version: '0.12.0',
     title: 'The Red Alliance API',
     description: 'An API to submit and retrieve data for and from The Red Alliance family of products.',
     license: {
@@ -116,25 +98,5 @@ export default {
   produces: [
     'application/json',
   ],
-  paths: {
-    '/api/addAPIKey': addAPIKey,
-    '/api/addScouterToMatch': addScouterToMatch,
-    '/api/addUserToTeam': addUserToTeam,
-    '/api/fetchTeamSchedule': fetchTeamSchedule,
-    '/api/fetchPitConfig': fetchPitConfig,
-    '/api/getUserTeam': getUserTeam,
-    '/api/fetchTeamCompetition': fetchTeamCompetition,
-    '/api/removeScouterFromMatch': removeScouterFromMatch,
-    '/api/submitMatchData': submitMatchData,
-    '/api/fetchAllTeamMatchData': fetchAllTeamMatchData,
-    '/api/fetchAllTeamPitData': fetchAllTeamPitData,
-    '/api/fetchMetricsData': fetchMetricsData,
-    '/api/fetchPitVariableData': fetchPitVariableData,
-    '/api/fetchAnalysisFlags': fetchAnalysisFlags,
-    '/api/fetchMatchConfig': fetchMatchConfig,
-    '/api/fetchAllTeamNicknamesAtCompetition': fetchAllTeamNicknamesAtCompetition,
-    '/api/fetchCompetitionSchedule': fetchCompetitionSchedule,
-    '/api/fetchCompetitionFriendlyName': fetchCompetitionFriendlyName,
-    '/api/fetchTeamTestsData': fetchTeamTestsData,
-  },
+  paths: generateRouteJSONs(),
 }
