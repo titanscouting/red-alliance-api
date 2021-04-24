@@ -5,6 +5,11 @@
         "tags": [
             "Authenticated Routes"
         ],
+        "security": [
+            {
+                "GoogleAuth": []
+            }
+        ],
         "parameters": [
             {
                 "in": "query",
