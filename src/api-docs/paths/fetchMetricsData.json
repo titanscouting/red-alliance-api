@@ -1,0 +1,39 @@
+{
+    "get": {
+        "summary": "Get the metrics data for the team",
+        "description": "Returns the metrics data for the team",
+        "tags": [
+            "Non-Authenticated Routes"
+        ],
+        "responses": {
+            "200": {
+                "description": "The team metrics data was retrieved.",
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                        "success": {
+                            "type": "boolean",
+                            "example": true,
+                            "description": "Describes whether the request completed successfully."
+                        },
+                        "competition": {
+                            "type": "string",
+                            "example": "2020ilch"
+                        },
+                        "team": {
+                            "type": "string",
+                            "example": "2022",
+                            "description": "FRC team number which the user is a member of."
+                        }
+                    }
+                }
+            },
+            "400": {
+                "description": "The team metrics data could not be retrieved. Returns the reason for the error.",
+                "schema": {
+                    "$ref": "#/definitions/NoData"
+                }
+            }
+        }
+    }
+}

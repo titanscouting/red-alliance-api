@@ -1,0 +1,87 @@
+{
+    "get":{
+      "summary":"Fetches the competiton schedule for a given competition\n",
+      "description":"Fetches the competiton schedule for a given competition. Also provides scouting seat availability and filling.\n",
+      "tags":[
+        "Non-Authenticated Routes"
+      ],
+      "parameters":[
+        {
+          "in":"query",
+          "name":"competition",
+          "required":true,
+          "type":"string",
+          "example":"2020ilch"
+        }
+      ],
+      "responses":{
+        "200":{
+          "description":"The competition schedule data was retrieved.",
+          "schema":{
+            "type":"object",
+            "properties":{
+              "success":{
+                "type":"boolean",
+                "example":true,
+                "description":"Describes whether the request completed successfully."
+              },
+              "competition":{
+                "type":"string",
+                "example":"2020ilch"
+              },
+              "data":{
+                "type":"object",
+                "example":[
+                  {
+                    "_id":"5e61b638a3dfe2b512d4ff3e",
+                    "teams":[
+                      "8184",
+                      "1675",
+                      "3197",
+                      "7237",
+                      "4787",
+                      "5125"
+                    ],
+                    "scouters":[
+                      {
+                        "name":"Sarah Oquendo",
+                        "id":"116902796378120080000"
+                      },
+                      {
+                        "name":"Cordelia Sirais",
+                        "id":"104097601226614030000"
+                      },
+                      {
+                        "name":"Alexander Wells",
+                        "id":"113332350115233820000"
+                      },
+                      {
+                        "name":"Liam Nelson",
+                        "id":"105420177494902540000"
+                      },
+                      {
+                        "name":"Dev Singh",
+                        "id":"114979123360880120000"
+                      },
+                      {
+                        "name":"Jacob Levine",
+                        "id":"118006453012298350000"
+                      }
+                    ],
+                    "match":16,
+                    "competition":"2020ilch"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "400":{
+          "description":"The match config data could not be retrieved. Returns the reason for the error.",
+          "schema":{
+            "$ref":"#/definitions/NoData"
+          }
+        }
+      }
+    }
+  }

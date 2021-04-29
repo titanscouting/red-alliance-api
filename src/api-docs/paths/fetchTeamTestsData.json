@@ -1,0 +1,62 @@
+{
+    "get": {
+        "summary": "Fetches the team analysis data for a given competition and team (Team 2022 only)\n",
+        "description": "Fetches the team analysis data for a given competition and team (Team 2022 only)\n",
+        "tags": [
+            "Authenticated Routes"
+        ],
+        "security": [
+            {
+                "GoogleAuth": []
+            }
+        ],
+        "parameters": [
+            {
+                "in": "query",
+                "name": "competition",
+                "required": true,
+                "type": "string",
+                "example": "2020ilch"
+            },
+            {
+                "in": "query",
+                "name": "team",
+                "required": true,
+                "type": "string",
+                "example": "2022"
+            }
+        ],
+        "responses": {
+            "200": {
+                "description": "The analysis data was retrieved.",
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                        "success": {
+                            "type": "boolean",
+                            "example": true,
+                            "description": "Describes whether the request completed successfully."
+                        },
+                        "competition": {
+                            "type": "string",
+                            "example": "2020ilch"
+                        },
+                        "team": {
+                            "type": "string",
+                            "example": "2022"
+                        },
+                        "data": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "400": {
+                "description": "The match config data could not be retrieved. Returns the reason for the error.",
+                "schema": {
+                    "$ref": "#/definitions/NoData"
+                }
+            }
+        }
+    }
+}

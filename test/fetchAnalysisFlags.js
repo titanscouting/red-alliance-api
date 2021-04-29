@@ -14,7 +14,7 @@ chai.use(chaiHttp);
 describe('GET /api/fetchAnalysisFlags', () => {
   it('it should GET the data for the flag', (done) => {
     chai.request(server)
-      .get('/api/fetchAnalysisFlags?flag=latest_update')
+      .get(`/api/fetchAnalysisFlags?flag=latest_update&CLIENT_ID=${process.env.TRA_CLIENTID}&CLIENT_SECRET=${process.env.TRA_CLIENTSECRET}`)
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.have.property('data');
@@ -25,7 +25,7 @@ describe('GET /api/fetchAnalysisFlags', () => {
       chai.request(server)
       .get('/api/fetchAnalysisFlags')
       .end((err, res) => {
-        res.should.have.status(400);
+        res.should.have.status(401);
         res.body.should.have.property('success').eql(false);
         done();
       });

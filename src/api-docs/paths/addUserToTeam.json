@@ -1,0 +1,74 @@
+{
+   "post": {
+      "summary": "Add user association to team",
+      "description": "Stores that the currently signed-in user is a member of the given team.",
+      "tags": [
+         "Authenticated Routes"
+      ],
+      "parameters": [
+         {
+            "in": "body",
+            "name": "team",
+            "required": true,
+            "description": "FRC team number of the team that the scouter belongs to.",
+            "schema": {
+               "type": "string",
+               "example": "2022"
+            }
+         }
+      ],
+      "security": [
+         {
+            "GoogleAuth": []
+         }
+      ],
+      "responses": {
+         "200": {
+            "description": "The user was added to the team. Returns the name, Google ID, and team of the newly-registered user.",
+            "schema": {
+               "type": "object",
+               "properties": {
+                  "success": {
+                     "type": "boolean",
+                     "example": true,
+                     "description": "Describes whether the request completed successfully."
+                  },
+                  "id": {
+                     "type": "string",
+                     "example": "114979123360880121338",
+                     "description": "Google user ID."
+                  },
+                  "team": {
+                     "type": "string",
+                     "example": "2022",
+                     "description": "FRC team number which the user is a member of."
+                  },
+                  "name": {
+                     "type": "string",
+                     "example": "Dev Singh",
+                     "description": "First and last name of the user."
+                  }
+               }
+            }
+         },
+         "400": {
+            "description": "The user was not added to the team. Returns the reasons for the error.",
+            "schema": {
+               "$ref": "#/definitions/NoData"
+            }
+         },
+         "401": {
+            "description": "The current user is not authorized to perform this action.",
+            "schema": {
+               "$ref": "#/definitions/NoAuth"
+            }
+         },
+         "403": {
+            "description": "Key-based authentication is not allowed for this route",
+            "schema": {
+               "$ref": "#/definitions/KeysNotAllowed"
+            }
+         }
+      }
+   }
+}

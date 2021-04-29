@@ -5,7 +5,7 @@ import StatusCodes from '../StatusCodes';
 module.exports = (app: any, dbHandler: any, auth: any) => {
   const validation = {
     body: Joi.object({
-      team_number: Joi.number().required(),
+      team: Joi.number().required(),
       competition: Joi.string().required(),
       data: Joi.object().required(),
     }),
@@ -13,10 +13,10 @@ module.exports = (app: any, dbHandler: any, auth: any) => {
   app.post('/api/submitTeamTestsData', validate(validation, { keyByField: true }, { allowUnknown: true }), auth.checkAuth, async (req: any, res:any) => {
     const val: UserReturnData = new UserReturnData();
     const competitionID: string = req.body.competition;
-    const { team_number } = req.body;
+    const { team } = req.body;
     const { data } = req.body;
     // Application exhibits unpredicatble behavior if `if` evaluates to true, so we just filter that out.
-    val.data = await dbHandler.submitTeamTestsData(req.db, team_number, competitionID, data);
+    val.data = await dbHandler.submitTeamTestsData(req.db, team, competitionID, data);
 
     if (val.err_occur === false) {
       res.json({

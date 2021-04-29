@@ -10,7 +10,7 @@
   "scripts": {
     "start": "ts-node-dev src/index.ts",
     "start:prod": "node built/index.js",
-    "build": "tsc",
+    "build": "tsc && cp -r src/api-docs/paths/ built/api-docs/paths/",
     "test-lint": "eslint . --ext .ts",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
@@ -19,7 +19,11 @@
     "doc": "typedoc --out docs src/ --exclude src/routes/ --exclude src/routes/index.ts --name 'The Red Alliance API' --includeVersion --hideGenerator",
     "precommit-msg": "echo 'Pre-commit checks...' && exit 0"
   },
-  "pre-commit": [ "precommit-msg", "lint:fix", "test" ],
+  "pre-commit": [
+    "precommit-msg",
+    "lint:fix",
+    "test"
+  ],
   "nyc": {
     "extension": [
       ".ts",

@@ -1,0 +1,50 @@
+{
+    "get": {
+        "summary": "Fetches the friendly name for a competition identifier\n",
+        "description": "Fetches the friendly name for a competition identifier\n",
+        "tags": [
+            "Non-Authenticated Routes"
+        ],
+        "parameters": [
+            {
+                "in": "query",
+                "name": "competition",
+                "required": true,
+                "type": "string",
+                "example": "2020ilch"
+            }
+        ],
+        "responses": {
+            "200": {
+                "description": "The friendly name data was retrieved.",
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                        "success": {
+                            "type": "boolean",
+                            "example": true,
+                            "description": "Describes whether the request completed successfully."
+                        },
+                        "competition": {
+                            "type": "string",
+                            "example": "2020ilch",
+                            "description": "User-provided competition."
+                        },
+                        "data": {
+                            "type": "object",
+                            "example": {
+                                "friendlyName": "2020 Midwest Regional"
+                            }
+                        }
+                    }
+                }
+            },
+            "400": {
+                "description": "The friendly name data could not be retrieved. Returns the reason for the error.",
+                "schema": {
+                    "$ref": "#/definitions/NoData"
+                }
+            }
+        }
+    }
+}

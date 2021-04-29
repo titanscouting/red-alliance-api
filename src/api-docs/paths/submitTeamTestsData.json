@@ -1,0 +1,81 @@
+{
+    "post": {
+        "summary": "Submit a team's test data",
+        "description": "Stores the scouted test data for a given team and competition.",
+        "tags": [
+            "Authenticated Routes"
+        ],
+        "parameters": [
+            {
+                "in": "body",
+                "name": "team",
+                "required": true,
+                "type": "number",
+                "example": 2022
+            },
+            {
+                "in": "body",
+                "name": "competition",
+                "required": true,
+                "type": "string",
+                "example": "2020ilch"
+            },
+            {
+                "in": "body",
+                "name": "data",
+                "type": "object",
+                "required": true,
+                "example": {
+                    "balls-started": 3,
+                    "balls-collected": 0,
+                    "climb": "No attempt",
+                    "speed": "Slow"
+                },
+                "description": "Test data of arbitrary JSON structure to store."
+            }
+        ],
+        "security": [
+            {
+                "GoogleAuth": []
+            },
+            {
+                "CLIENT_ID": [],
+                "CLIENT_SECRET": []
+            }
+        ],
+        "responses": {
+            "200": {
+                "description": "The data was submitted. Returns the comeptition and team that was scouted.",
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                        "success": {
+                            "type": "boolean",
+                            "example": true
+                        },
+                        "competition": {
+                            "type": "string",
+                            "example": "2020ilch"
+                        },
+                        "team": {
+                            "type": "number",
+                            "example": 2022
+                        }
+                    }
+                }
+            },
+            "400": {
+                "description": "The data was not submitted. Returns the reasons for the error.",
+                "schema": {
+                    "$ref": "#/definitions/NoData"
+                }
+            },
+            "401": {
+                "description": "The current user is not authorized to perform this action.",
+                "schema": {
+                    "$ref": "#/definitions/NoAuth"
+                }
+            }
+        }
+    }
+}

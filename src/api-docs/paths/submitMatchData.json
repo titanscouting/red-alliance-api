@@ -1,0 +1,88 @@
+{
+    "post": {
+        "summary": "Submit scouted data",
+        "description": "Stores the scouted match data for a given match and team.",
+        "tags": [
+            "Authenticated Routes"
+        ],
+        "parameters": [
+            {
+                "in": "body",
+                "name": "match",
+                "required": true,
+                "type": "string",
+                "example": "2"
+            },
+            {
+                "in": "body",
+                "name": "teamScouted",
+                "required": true,
+                "type": "string",
+                "example": "2022"
+            },
+            {
+                "in": "body",
+                "name": "competition",
+                "required": true,
+                "type": "string",
+                "example": "2020ilch"
+            },
+            {
+                "in": "body",
+                "name": "data",
+                "type": "object",
+                "required": true,
+                "example": {
+                    "balls-started": 3,
+                    "balls-collected": 0,
+                    "climb": "No attempt",
+                    "speed": "Slow"
+                },
+                "description": "Match data of arbitrary JSON structure to store."
+            }
+        ],
+        "security": [
+            {
+                "GoogleAuth": []
+            },
+            {
+                "CLIENT_ID": [],
+                "CLIENT_SECRET": []
+            }
+        ],
+        "responses": {
+            "200": {
+                "description": "The data was submitted. Returns the comeptition and match that was scouted.",
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                        "success": {
+                            "type": "boolean",
+                            "example": true
+                        },
+                        "competition": {
+                            "type": "string",
+                            "example": "2020ilch"
+                        },
+                        "match": {
+                            "type": "number",
+                            "example": 2
+                        }
+                    }
+                }
+            },
+            "400": {
+                "description": "The data was not submitted. Returns the reasons for the error.",
+                "schema": {
+                    "$ref": "#/definitions/NoData"
+                }
+            },
+            "401": {
+                "description": "The current user is not authorized to perform this action.",
+                "schema": {
+                    "$ref": "#/definitions/NoAuth"
+                }
+            }
+        }
+    }
+}
