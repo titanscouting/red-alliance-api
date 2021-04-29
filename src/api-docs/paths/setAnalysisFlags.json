@@ -1,0 +1,72 @@
+{
+    "post": {
+        "summary": "Sets a team's analysis flags",
+        "description": "Stores the scouted analysis flags for a given team and competition.",
+        "tags": [
+            "Authenticated Routes"
+        ],
+        "parameters": [
+            {
+                "in": "body",
+                "name": "flag",
+                "required": true,
+                "type": "string",
+                "example": "test_flag"
+            },
+            {
+                "in": "body",
+                "name": "data",
+                "type": "object",
+                "required": true,
+                "example": {
+                    "balls-started": 3,
+                    "balls-collected": 0,
+                    "climb": "No attempt",
+                    "speed": "Slow"
+                },
+                "description": "flags data of arbitrary JSON structure to store."
+            },
+            {
+                "in": "body",
+                "name": "team",
+                "required": true,
+                "type": "string",
+                "example": "2022"
+            }
+        ],
+        "security": [
+            {
+                "GoogleAuth": []
+            },
+            {
+                "CLIENT_ID": [],
+                "CLIENT_SECRET": []
+            }
+        ],
+        "responses": {
+            "200": {
+                "description": "The flag data was set.",
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                        "success": {
+                            "type": "boolean",
+                            "example": true,
+                            "description": "Describes whether the request completed successfully."
+                        },
+                        "flag": {
+                            "type": "string",
+                            "example": "latest_update"
+                        }
+                    }
+                }
+            },
+            "400": {
+                "description": "The flag data could not be set. Returns the reason for the error.",
+                "schema": {
+                    "$ref": "#/definitions/NoData"
+                }
+            }
+        }
+    }
+}
