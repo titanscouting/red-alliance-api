@@ -19,7 +19,7 @@ app.set('view engine', 'hbs');
 const server = app.listen(port, () => console.log(`Listening on port ${port}`));
 const globalIO = require('socket.io')(server, {
   cors: true,
-  origins: ['https://titanscouting.epochml.org', `https://localhost:${port}`, `http://localhost:${port}`],
+  origins: ['*'],
 });
 
 globalIO.on('connection', (socket) => {
