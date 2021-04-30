@@ -17,13 +17,15 @@ app.use(express.urlencoded({ extended: true }));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 const server = app.listen(port, () => console.log(`Listening on port ${port}`));
-const globalIO = require('socket.io')({ serveClient: false }).listen(server);
+const globalIO = require('socket.io')(server, {
+  cors: true,
+  origins: ['https://titanscouting.epochml.org', `https://localhost:${port}`, `http://localhost:${port}`],
+});
 
 globalIO.on('connection', (socket) => {
   socket.emit('serverBroadcastMessage', {
-    message: 'Connected to the API socket!',
+    message: 'Connected to the Titan Scouting event socket!',
   });
-  console.log('Client connected to socket!');
 })
 
 app.use((req, res, next) => {
