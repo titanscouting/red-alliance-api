@@ -16,7 +16,21 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
+const server = app.listen(port, () => console.log(`Listening on port ${port}`));
+const globalIO = require('socket.io')({ serveClient: false }).listen(server);
 
+globalIO.on('connection', (socket) => {
+  socket.emit('serverBroadcastMessage', {
+    message: 'Connected to the API socket!',
+  });
+  console.log('Client connected to socket!');
+})
+
+app.use((req, res, next) => {
+  // eslint-disable-next-line global-require
+  res.locals.io = globalIO;
+  next();
+})
 // Make sure to set the connection string as an environment variable
 // e.g export REDALLIANCEDBKEY='mongodb+srv://<user>:<pass>@<url>/<path>?<opts>'
 try {
@@ -103,7 +117,5 @@ app.use((err: any, req, res, next) => {
 
   return res.status(500).json(err)
 })
-
-app.listen(port, () => console.log(`Listening on port ${port}`));
 
 module.exports = app;

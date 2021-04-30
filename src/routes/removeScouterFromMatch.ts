@@ -18,6 +18,9 @@ module.exports = (app: any, dbHandler: any, auth: any) => {
     val = await dbHandler.removeScouterFromMatch(req.db, match, teamScouted, competition).catch((e) => { console.error(e); val.err_occur = true; });
 
     if (val.err_occur === false) {
+      res.locals.io.sockets.emit(`${competition}_scoutChange`, {
+        match, team: teamScouted, action: 'remove',
+      })
       res.json({
         success: true,
       });

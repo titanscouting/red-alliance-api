@@ -19,6 +19,9 @@ module.exports = (app:any, dbHandler:any, auth: any) => {
     const teamScouted: string = req.body.team_scouting
     val = await dbHandler.addScouterToMatch(req.db, scouter.id, scouter.name, match, teamScouted, competition).catch((e) => { console.error(e); val.err_occur = true; });
     if (val.err_occur === false) {
+      res.locals.io.sockets.emit(`${competition}_scoutChange`, {
+        name: scouter.name, match, team: teamScouted, action: 'add',
+      })
       res.json({
         success: true,
       });
