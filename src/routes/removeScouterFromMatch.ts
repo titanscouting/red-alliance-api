@@ -21,6 +21,9 @@ module.exports = (app: any, dbHandler: any, auth: any) => {
       res.locals.io.sockets.emit(`${competition}_scoutChange`, {
         match, team: teamScouted, action: 'remove',
       })
+      res.locals.io.sockets.emit(`${competition}_${teamScouted}_scoutChange`, {
+        match, team: teamScouted, action: 'remove',
+      })
       res.json({
         success: true,
       });
