@@ -22,7 +22,7 @@ module.exports = (app:any, dbHandler:any, auth: any) => {
       res.locals.io.sockets.emit(`${competition}_scoutChange`, {
         name: scouter.name, match, team: teamScouted, action: 'add',
       })
-      res.locals.io.sockets.emit(`${competition}_${teamScouted}_scoutChange`, {
+      res.locals.io.sockets.emit(`${competition}_${match}_scoutChange`, {
         name: scouter.name, match, team: teamScouted, action: 'add',
       })
       res.json({
