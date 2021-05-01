@@ -1,7 +1,7 @@
 import { validate, Joi } from 'express-validation';
 import Scouter from '../Scouter';
 
-module.exports = (app: any, dbHandler: any, auth: any) => {
+module.exports = (app: any, auth: any) => {
   const validation = {
     body: Joi.object({
       message: Joi.string().required(),
