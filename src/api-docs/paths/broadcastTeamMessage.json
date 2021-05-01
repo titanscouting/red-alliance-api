@@ -1,0 +1,43 @@
+{
+    "post": {
+        "summary": "Broadcast message to team",
+        "description": "Broadcast a message to all members of your team.",
+        "tags": [
+            "Authenticated Routes"
+        ],
+        "parameters": [
+            {
+                "in": "body",
+                "name": "message",
+                "required": true,
+                "type": "string",
+                "example": "Hello, world!"
+            }
+        ],
+        "security": [
+            {
+                "GoogleAuth": []
+            }
+        ],
+        "responses": {
+            "200": {
+                "description": "The message was broadcast.",
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                        "success": {
+                            "type": "boolean",
+                            "example": true
+                        }
+                    }
+                }
+            },
+            "401": {
+                "description": "The current user is not authorized to perform this action.",
+                "schema": {
+                    "$ref": "#/definitions/NoAuth"
+                }
+            }
+        }
+    }
+}
