@@ -13,7 +13,7 @@ module.exports = (app: any, dbHandler: any, auth: any) => {
   }
   app.post('/api/submitStrategy', auth.checkAuth, validate(validation, { keyByField: true }, { allowUnknown: true }), auth.checkAuth, async (req: any, res:any) => {
     let val: UserReturnData = new UserReturnData();
-    const scouter: Scouter = { name: String(res.locals.name), id: String(res.locals.id) };
+    const scouter: Scouter = { name: String(res.locals.name), id: String(res.locals.id), team: res.locals.team };
     const competitionID = String(req.body.competition);
     const data = String(req.body.data);
     const matchNumber = String(req.body.match);
@@ -21,6 +21,7 @@ module.exports = (app: any, dbHandler: any, auth: any) => {
     val = await dbHandler.submitStrategy(req.db, scouter.name, matchNumber, competitionID, data);
 
     if (val.err_occur === false) {
+      res.locals.io.sockets.emit(`${String(scouter.team)}_${competitionID}_${matchNumber}_newStrategy`, {})
       res.json({
         success: true,
       });

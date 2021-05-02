@@ -14,13 +14,14 @@ module.exports = (app: any, dbHandler: any, auth: any) => {
   }
   app.post('/api/submitPitData', auth.checkAuth, validate(validation, { keyByField: true }, { allowUnknown: true }), async (req: any, res:any) => {
     let val: UserReturnData = new UserReturnData();
-    const scouter: Scouter = { name: String(res.locals.name), id: String(res.locals.id) };
+    const scouter: Scouter = { name: String(res.locals.name), id: String(res.locals.id), team: res.locals.team };
     const competitionID = String(req.body.competitionID);
     const matchNumber: number = parseInt(req.body.matchNumber, 10);
     const teamScouted: number = parseInt(req.body.teamScouted, 10);
     const { data }: Record<string, any> = req.body;
     val = await dbHandler.submitPitData(req.db, scouter, competitionID, matchNumber, teamScouted, data).catch((e) => { console.error(e); val.err_occur = true; });
     if (val.err_occur === false) {
+      res.locals.io.sockets.emit(`${String(scouter.team)}_${competitionID}_newPitData`, {})
       res.json({
         success: true,
         competition: competitionID,
