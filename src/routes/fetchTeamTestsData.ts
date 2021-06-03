@@ -10,7 +10,7 @@ module.exports = (app: any, dbHandler: any, auth: any) => {
     }),
   }
   app.get('/api/fetchTeamTestsData', auth.checkAuth, validate(validation, { keyByField: true }, { allowUnknown: true }), async (req: any, res:any) => {
-    if (res.locals.team !== 2022) {
+    if (res.locals.team !== '2022') {
       return res.json({
         success: false,
         reasons: ['Analysis data is only available to team 2022.'],

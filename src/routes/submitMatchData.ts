@@ -26,7 +26,7 @@ module.exports = (app: any, dbHandler: any, auth: any) => {
     );
     if (val.err_occur === false) {
       res.locals.io.sockets.emit(`${String(res.locals.team)}_newMatchData`, {
-         match, team: teamScouted
+        match, team: teamScouted,
       })
       res.json({
         success: true,
