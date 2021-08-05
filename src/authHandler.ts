@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { readSync } from 'node:fs';
 import './dbHandler';
 import StatusCodes from './StatusCodes';
 
@@ -14,7 +13,7 @@ export const checkAuth = async (req: any, res: any, next: any): Promise<void> =>
     if (isAuthorized) {
       res.locals.id = req.query.CLIENT_ID;
       res.locals.name = 'API User';
-      res.locals.team = 2022;
+      res.locals.team = '2022';
       next();
       return
     }
@@ -73,7 +72,7 @@ export const checkAuthNoTeam = async (req: any, res: any, next: any): Promise<vo
     if (isAuthorized) {
       res.locals.id = req.query.CLIENT_ID;
       res.locals.name = 'API User';
-      res.locals.team = 2022;
+      res.locals.team = '2022';
     } else {
       res.status(StatusCodes.not_authorized);
       res.json({

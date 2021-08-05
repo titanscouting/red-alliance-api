@@ -5,11 +5,9 @@ const chaiHttp = require('chai-http');
 
 const server = require('../src/index.ts');
 
-const should = chai.should();
-
 chai.use(chaiHttp);
 /*
-  * Test the GETroute
+  * Test the GET route
   */
 describe('GET /api/fetchAnalysisFlags', () => {
   it('it should GET the data for the flag', (done) => {

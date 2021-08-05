@@ -5,7 +5,7 @@ const chaiHttp = require('chai-http');
 
 const server = require('../src/index.ts');
 
-const should = chai.should();
+const expect = chai.expect;
 
 chai.use(chaiHttp);
 /*
@@ -17,8 +17,12 @@ describe('GET /api/fetchCompetitionFriendlyName', () => {
       .get('/api/fetchCompetitionFriendlyName?competition=2020ilch')
       .end((err, res) => {
         res.should.have.status(200);
-        res.body.should.be.eql({"success":true,"competition":"2020ilch","data":{"friendlyName":"2020 Midwest Reigonal - UIC Pavillion"}});
-        res.body.should.have.property('success').eql(true);
+        res.body.should.have.property('success')
+          .eql(true);
+        expect(res.body.data.friendlyName)
+          .to
+          .be
+          .a('string')
         done();
       });
   });
