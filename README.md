@@ -5,13 +5,13 @@ NodeJS REST API for interacting with MongoDB. Backend database for TRA.
 * The Docker image has been published to Docker Hub [here](https://hub.docker.com/r/titanscout2022/red-alliance-api). It exposes the HTTP interface at port 8190.
 
 ## Unit Testing 
-* Run `npm test` to run the Mocha/Chai tests.
+* Run `yarn test` to run the Mocha/Chai tests.
 
 ## Documenation 
 
 **REST API Documentation**
 
-The REST API documention can be found [here](https://titanscouting.epochml.org/).
+The REST API documention can be found [here](https://titanscouting.epochml.org/docs/). It conforms to the Swagger OpenAPI v2 model and seperates both authenticated and public routes.
 
 **Database handlers and internal documentation**
 
