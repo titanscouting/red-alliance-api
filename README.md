@@ -23,7 +23,7 @@ Documentation for internal APIs can be found [here](https://titanscouting.github
 
 ![Linting](https://github.com/titanscout2022/red-alliance-api/workflows/Lint%20the%20API/badge.svg)
 
-![Dependencies](https://david-dm.org/titanscout2022/red-alliance-api.svg)
+![Dependencies](https://david-dm.org/titanscouting/red-alliance-api.svg)
 
 [![Known Vulnerabilities](https://snyk.io/test/github/titanscout2022/red-alliance-api/badge.svg?targetFile=package.json)](https://snyk.io/test/github/titanscout2022/red-alliance-api?targetFile=package.json)
 
