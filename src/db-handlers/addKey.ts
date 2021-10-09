@@ -1,4 +1,5 @@
 import * as bcrypt from 'bcrypt';
+import Scouter from '../Scouter';
 import UserReturnData from '../UserReturnData';
 /**
  * @async
@@ -13,13 +14,13 @@ import UserReturnData from '../UserReturnData';
  * @see /api/addAPIKey endpoint
  */
 
-export default async (db: any, clientID: string, clientKey: string, team: number): Promise<UserReturnData> => {
+export default async (db: any, clientID: string, clientKey: string, team: number, scouter: Scouter): Promise<UserReturnData> => {
   const data: UserReturnData = { err_occur: false, err_reasons: [], data: {} };
   const dbo = db.db('userlist');
   const hashedClientKey = await bcrypt.hash(clientKey, 12);
   const myobj = {
     $set: {
-      clientID, hashedClientKey, team,
+      clientID, hashedClientKey, team, creator: scouter,
     },
   };
   await dbo.collection('api_keys').updateOne({ _id: clientID }, myobj, { upsert: true }).catch((e) => { console.error(e); data.err_reasons.push(e); data.err_occur = true; });
