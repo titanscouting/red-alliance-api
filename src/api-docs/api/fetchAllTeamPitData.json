@@ -3,7 +3,7 @@
         "summary": "Gets all the team pit data",
         "description": "Returns all of the team pit data",
         "tags": [
-            "Non-Authenticated Routes"
+            "Authenticated Routes"
         ],
         "responses": {
             "200": {
