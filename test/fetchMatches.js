@@ -14,7 +14,7 @@ chai.use(chaiHttp);
 describe('GET /api/fetchScouters', () => {
   it('it should GET the number of scouters for each match', (done) => {
     chai.request(server)
-      .get('/api/fetchScouters?competition=2020ilch')
+      .get(`/api/fetchScouters?competition=2020ilch&CLIENT_ID=${process.env.TRA_CLIENTID}&CLIENT_SECRET=${process.env.TRA_CLIENTSECRET}`)
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.be.an('object');
@@ -24,7 +24,7 @@ describe('GET /api/fetchScouters', () => {
       chai.request(server)
       .get('/api/fetchScouters')
       .end((err, res) => {
-        res.should.have.status(400);
+        res.should.have.status(401);
         res.body.should.have.property('success').equal(false);
         done();
       });
