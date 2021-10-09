@@ -3,7 +3,7 @@
       "summary":"Fetches the competiton schedule for a given competition\n",
       "description":"Fetches the competiton schedule for a given competition. Also provides scouting seat availability and filling.\n",
       "tags":[
-        "Non-Authenticated Routes"
+        "Authenticated Routes"
       ],
       "parameters":[
         {

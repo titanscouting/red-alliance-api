@@ -1,9 +1,10 @@
+import Scouter from '../Scouter';
 import UserReturnData from '../UserReturnData';
 
-export default async (db: any, competition: string, match: number): Promise<UserReturnData> => {
+export default async (db: any, competition: string, match: number, scouter: Scouter): Promise<UserReturnData> => {
   const data: UserReturnData = { err_occur: false, err_reasons: [], data: {} };
   const dbo = db.db('data_scouting');
-  const myobj = { competition, match };
+  const myobj = { competition, match, owner: scouter.team };
   try {
     const out = [];
     const toProcess = await dbo.collection('matchdata').find(myobj).toArray().catch((e) => { console.error(e); data.err_occur = true; });

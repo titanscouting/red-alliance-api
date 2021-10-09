@@ -1,8 +1,9 @@
 import { validate, Joi } from 'express-validation';
 import UserReturnData from '../UserReturnData';
 import StatusCodes from '../StatusCodes';
+import Scouter from '../Scouter';
 
-module.exports = (app: any, dbHandler: any) => {
+module.exports = (app: any, dbHandler: any, auth: any) => {
   const validation = {
     query: Joi.object({
       competition: Joi.string().required(),
@@ -10,13 +11,14 @@ module.exports = (app: any, dbHandler: any) => {
       teamScouted: Joi.string().required(),
     }),
   }
-  app.get('/api/fetchMatchData', validate(validation, { keyByField: true }, { allowUnknown: true }), async (req: any, res:any) => {
+  app.get('/api/fetchMatchData', auth.checkAuth, validate(validation, { keyByField: true }, { allowUnknown: true }), async (req: any, res:any) => {
+    const scouter: Scouter = { name: String(res.locals.name), id: String(res.locals.id), team: String(res.locals.team) };
     let val: UserReturnData = new UserReturnData();
     const competition = String(req.query.competition);
     const match = parseInt(req.query.match, 10);
-    const teamScouted = parseInt(req.query.teamScouted, 10);
+    const teamScouted = String(req.query.teamScouted);
     let dataInterim;
-    val = await dbHandler.fetchMatchData(req.db, competition, match, teamScouted).catch((e) => { console.error(e); val.err_occur = true; val.err_reasons.push(e); });
+    val = await dbHandler.fetchMatchData(req.db, competition, match, teamScouted, scouter).catch((e) => { console.error(e); val.err_occur = true; val.err_reasons.push(e); });
     // the try...catch is the next few lines serves to ensure the application doesn't just crash if scouters or teams were not returned by the DB handler.
     try {
       dataInterim = val.data;

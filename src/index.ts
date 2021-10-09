@@ -10,6 +10,8 @@ import dbHandler = require('./dbHandler');
 import auth = require('./authHandler');
 import swaggerDefinition = require('./api-docs/index');
 
+require('dotenv').config()
+
 const port = process.env.PORT || 8190;
 const app = express();
 app.use(express.json());
@@ -58,16 +60,16 @@ const swaggerSpec = swaggerJSDoc({ definition: swaggerDefinition.default, apis: 
 // TODO: use the UserReturnData class when returning data in all these apis
 app.use('/docs/', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-require('./routes/fetchScouters')(app, dbHandler);
+require('./routes/fetchScouters')(app, dbHandler, auth);
 require('./routes/submitMatchData')(app, dbHandler, auth);
-require('./routes/fetchScouterSuggestions')(app, dbHandler);
-require('./routes/fetchScouterUIDs')(app, dbHandler);
+require('./routes/fetchScouterSuggestions')(app, dbHandler, auth);
+require('./routes/fetchScouterUIDs')(app, dbHandler, auth);
 require('./routes/fetchPitConfig')(app, dbHandler, auth);
 require('./routes/findTeamNickname')(app, dbHandler);
 require('./routes/fetchAllTeamNicknamesAtCompetition')(app, dbHandler);
-require('./routes/fetchCompetitionSchedule')(app, dbHandler);
+require('./routes/fetchCompetitionSchedule')(app, dbHandler, auth);
 require('./routes/fetchTeamSchedule')(app, dbHandler, auth);
-require('./routes/fetchMatchData')(app, dbHandler);
+require('./routes/fetchMatchData')(app, dbHandler, auth);
 require('./routes/addAPIKey')(app, dbHandler, auth);
 require('./routes/privacyPolicy')(app);
 require('./routes/addScouterToMatch')(app, dbHandler, auth);
@@ -75,14 +77,14 @@ require('./routes/removeScouterFromMatch')(app, dbHandler, auth);
 require('./routes/submitStrategy')(app, dbHandler, auth);
 require('./routes/fetchStrategy')(app, dbHandler);
 require('./routes/fetchUserStrategy')(app, dbHandler, auth);
-require('./routes/fetchPitData')(app, dbHandler);
+require('./routes/fetchPitData')(app, dbHandler, auth);
 require('./routes/submitPitData')(app, dbHandler, auth);
 require('./routes/addUserToTeam')(app, dbHandler, auth);
 require('./routes/fetchMatchConfig')(app, dbHandler, auth);
 require('./routes/fetchMetricsData')(app, dbHandler);
 require('./routes/fetchAnalysisFlags')(app, dbHandler, auth);
-require('./routes/fetchAllTeamMatchData')(app, dbHandler);
-require('./routes/fetchAllTeamPitData')(app, dbHandler);
+require('./routes/fetchAllTeamMatchData')(app, dbHandler, auth);
+require('./routes/fetchAllTeamPitData')(app, dbHandler, auth);
 require('./routes/fetchPitVariableData')(app, dbHandler);
 require('./routes/getUserTeam')(app, auth);
 require('./routes/submitTeamPitData')(app, dbHandler, auth);

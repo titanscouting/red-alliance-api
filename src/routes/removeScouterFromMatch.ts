@@ -1,6 +1,7 @@
 import { validate, Joi } from 'express-validation';
 import UserReturnData from '../UserReturnData';
 import StatusCodes from '../StatusCodes';
+import Scouter from '../Scouter';
 
 module.exports = (app: any, dbHandler: any, auth: any) => {
   const validation = {
@@ -12,10 +13,11 @@ module.exports = (app: any, dbHandler: any, auth: any) => {
   }
   app.post('/api/removeScouterFromMatch', auth.checkAuth, validate(validation, { keyByField: true }, { allowUnknown: true }), async (req: any, res:any) => {
     let val: UserReturnData = new UserReturnData();
+    const scouter: Scouter = { name: String(res.locals.name), id: String(res.locals.id), team: String(res.locals.team) };
     const match = parseInt(req.body.match, 10);
     const teamScouted: string = req.body.team_scouting;
     const { competition } = req.body
-    val = await dbHandler.removeScouterFromMatch(req.db, match, teamScouted, competition).catch((e) => { console.error(e); val.err_occur = true; });
+    val = await dbHandler.removeScouterFromMatch(req.db, match, teamScouted, competition, scouter).catch((e) => { console.error(e); val.err_occur = true; });
 
     if (val.err_occur === false) {
       res.locals.io.sockets.emit(`${competition}_scoutChange`, {

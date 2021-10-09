@@ -6,7 +6,7 @@ export default async (db: any, scouter: Scouter, competition: string, match: num
   const dbo = db.db('data_scouting');
   const myobj = {
     $set: {
-      scouter, competition, match, team_scouted, data: datain,
+      scouter, competition, match, team_scouted, data: datain, owner: scouter.team,
     },
   };
   try {

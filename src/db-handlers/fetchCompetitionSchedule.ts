@@ -1,3 +1,4 @@
+import Scouter from '../Scouter';
 import UserReturnData from '../UserReturnData';
 /**
  * @async
@@ -10,11 +11,11 @@ import UserReturnData from '../UserReturnData';
  * @returns {Promise<UserReturnData>} - See definition of UserReturnData
  * @see /api/fetchCompetitionSchedule endpoint
  */
-export default async (db: any, competition: string): Promise<UserReturnData> => {
+export default async (db: any, competition: string, scouter: Scouter): Promise<UserReturnData> => {
   const data: UserReturnData = { err_occur: false, err_reasons: [], data: {} };
   const dbo = db.db('data_scouting');
   try {
-    data.data = await dbo.collection('matches').find({ competition }).toArray();
+    data.data = await dbo.collection('matches').find({ competition, owner: scouter.team }).toArray();
   } catch (err) {
     data.err_occur = true;
     data.err_reasons.push(err.toString());

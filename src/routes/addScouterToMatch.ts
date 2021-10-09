@@ -13,11 +13,11 @@ module.exports = (app:any, dbHandler:any, auth: any) => {
   }
   app.post('/api/addScouterToMatch', auth.noAPIKey, auth.checkAuth, validate(validation, { keyByField: true }, { allowUnknown: true }), async (req: any, res:any) => {
     let val: UserReturnData = new UserReturnData();
-    const scouter: Scouter = { name: String(res.locals.name), id: String(res.locals.id), team: parseInt(res.locals.team, 10) };
+    const scouter: Scouter = { name: String(res.locals.name), id: String(res.locals.id), team: String(res.locals.team) };
     const { competition } = req.body;
     const match = parseInt(req.body.match, 10)
     const teamScouted: string = req.body.team_scouting
-    val = await dbHandler.addScouterToMatch(req.db, scouter.id, scouter.name, match, teamScouted, competition).catch((e) => { console.error(e); val.err_occur = true; });
+    val = await dbHandler.addScouterToMatch(req.db, scouter, match, teamScouted, competition).catch((e) => { console.error(e); val.err_occur = true; });
     if (val.err_occur === false) {
       res.locals.io.sockets.emit(`${competition}_scoutChange`, {
         name: scouter.name, match, team: teamScouted, action: 'add',

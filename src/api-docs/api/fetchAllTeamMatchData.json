@@ -3,7 +3,7 @@
         "summary": "Gets all the team match data",
         "description": "Returns all of the team match data",
         "tags": [
-            "Non-Authenticated Routes"
+            "Authenticated Routes"
         ],
         "responses": {
             "200": {
