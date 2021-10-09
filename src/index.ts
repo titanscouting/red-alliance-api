@@ -60,14 +60,14 @@ const swaggerSpec = swaggerJSDoc({ definition: swaggerDefinition.default, apis: 
 // TODO: use the UserReturnData class when returning data in all these apis
 app.use('/docs/', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-require('./routes/fetchScouters')(app, dbHandler);
+require('./routes/fetchScouters')(app, dbHandler, auth);
 require('./routes/submitMatchData')(app, dbHandler, auth);
 require('./routes/fetchScouterSuggestions')(app, dbHandler, auth);
-require('./routes/fetchScouterUIDs')(app, dbHandler);
+require('./routes/fetchScouterUIDs')(app, dbHandler, auth);
 require('./routes/fetchPitConfig')(app, dbHandler, auth);
 require('./routes/findTeamNickname')(app, dbHandler);
 require('./routes/fetchAllTeamNicknamesAtCompetition')(app, dbHandler);
-require('./routes/fetchCompetitionSchedule')(app, dbHandler);
+require('./routes/fetchCompetitionSchedule')(app, dbHandler, auth);
 require('./routes/fetchTeamSchedule')(app, dbHandler, auth);
 require('./routes/fetchMatchData')(app, dbHandler, auth);
 require('./routes/addAPIKey')(app, dbHandler, auth);

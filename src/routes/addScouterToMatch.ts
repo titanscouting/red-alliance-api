@@ -17,7 +17,7 @@ module.exports = (app:any, dbHandler:any, auth: any) => {
     const { competition } = req.body;
     const match = parseInt(req.body.match, 10)
     const teamScouted: string = req.body.team_scouting
-    val = await dbHandler.addScouterToMatch(req.db, scouter.id, scouter.name, scouter.team, match, teamScouted, competition).catch((e) => { console.error(e); val.err_occur = true; });
+    val = await dbHandler.addScouterToMatch(req.db, scouter, match, teamScouted, competition).catch((e) => { console.error(e); val.err_occur = true; });
     if (val.err_occur === false) {
       res.locals.io.sockets.emit(`${competition}_scoutChange`, {
         name: scouter.name, match, team: teamScouted, action: 'add',
