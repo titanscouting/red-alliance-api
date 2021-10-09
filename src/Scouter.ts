@@ -1,5 +1,5 @@
 export default interface Scouter {
     name: string;
     id: string;
-    team?: number
+    team?: string
 }

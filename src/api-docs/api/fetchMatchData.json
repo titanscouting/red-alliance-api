@@ -1,13 +1,13 @@
 {
     "get": {
-        "summary": "Gets all the team match data",
-        "description": "Returns all of the team match data",
+        "summary": "Gets the data for a given match, scouted team, and competition",
+        "description": "Returns all of the data for a given match and team",
         "tags": [
             "Authenticated Routes"
         ],
         "responses": {
             "200": {
-                "description": "All team match data was retrieved.",
+                "description": "Match data was retrieved.",
                 "schema": {
                     "type": "object",
                     "properties": {
@@ -24,7 +24,7 @@
                 }
             },
             "400": {
-                "description": "All team match data could not be retrieved. Returns the reason for the error.",
+                "description": "Match data could not be retrieved. Returns the reason for the error.",
                 "schema": {
                     "$ref": "#/definitions/NoData"
                 }
