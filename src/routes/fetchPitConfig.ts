@@ -11,7 +11,7 @@ module.exports = (app: any, dbHandler: any, auth: any) => {
   app.get('/api/fetchPitConfig', auth.checkAuth, validate(validation, { keyByField: true }, { allowUnknown: true }), async (req: any, res:any) => {
     let val: UserReturnData = new UserReturnData();
     const { competition }: Record<string, string> = req.query;
-    const team_number: number = parseInt(res.locals.team, 10);
+    const team_number = String(res.locals.team);
     let dataInterim: Record<string, unknown>;
     val = await dbHandler.fetchPitConfig(req.db, competition, team_number).catch((e) => { console.error(e); val.err_occur = true; });
     try {
