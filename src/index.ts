@@ -10,6 +10,8 @@ import dbHandler = require('./dbHandler');
 import auth = require('./authHandler');
 import swaggerDefinition = require('./api-docs/index');
 
+require('dotenv').config()
+
 const port = process.env.PORT || 8190;
 const app = express();
 app.use(express.json());
