@@ -5,7 +5,7 @@ export default async (db: any, compID: string, teamScouted: string): Promise<Use
   const dbo = db.db('data_scouting');
   let myobj;
   if (teamScouted) {
-    myobj = { competition: String(compID), team_scouted: parseInt(teamScouted, 10) };
+    myobj = { competition: String(compID), team_scouted: String(teamScouted) };
   } else {
     myobj = { competition: String(compID) };
   }

@@ -15,6 +15,7 @@
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
     "test": "PORT=9999 nyc --reporter=text ts-mocha --timeout 10000 --exit",
+    "test:windows": "set PORT=9999 && nyc --reporter=text ts-mocha --timeout 10000 --exit",
     "coverage": "npm test && nyc report --reporter=lcov",
     "doc": "typedoc --out docs src/ --exclude src/routes/ --exclude src/routes/index.ts --name 'The Red Alliance API' --includeVersion --hideGenerator",
     "precommit-msg": "echo 'Pre-commit checks...' && exit 0"
