@@ -22,10 +22,10 @@ export default async (db: any, id: string, email: string, name: string, team: st
   };
   try {
     const teamAuthList = await db.db('teamlist').collection('competitions').findOne({ team });
-    const { authorizedDomains } = teamAuthList;
+    const { authorizedDomains, authorizedUsers } = teamAuthList;
     const userDomain = email.split('@').pop();
-    if (!authorizedDomains.includes(userDomain)) {
-      throw new Error(`Users from domain ${userDomain} are not authorized to join this team!`);
+    if (!authorizedDomains.includes(userDomain) && !authorizedUsers.includes(email)) {
+      if (email) { throw new Error(`Users from domain ${userDomain} are not authorized to join this team!`); }
     } else {
       await dbo.collection('data').updateOne({ _id: id }, myobj, { upsert: true });
     }
