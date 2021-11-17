@@ -14,7 +14,7 @@ module.exports = (app: any, dbHandler: any, auth: any) => {
       competition: Joi.string().required(),
     }),
   }
-  app.get('/api/fetchCompetitionSchedule', validate(validation, { keyByField: true }, { allowUnknown: true }), async (req: any, res:any) => {
+  app.get('/api/fetchCompetitionSchedule', auth.checkAuth, validate(validation, { keyByField: true }, { allowUnknown: true }), async (req: any, res:any) => {
     let val: UserReturnData = new UserReturnData();
     const scouter: Scouter = { name: String(res.locals.name), id: String(res.locals.id), team: String(res.locals.team) };
     const { competition }: Record<string, string> = req.query;
