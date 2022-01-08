@@ -2,7 +2,6 @@ process.env.NODE_ENV = 'test';
 
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const { passportJwtSecret } = require('jwks-rsa');
 
 const server = require('../src/index.ts');
 
