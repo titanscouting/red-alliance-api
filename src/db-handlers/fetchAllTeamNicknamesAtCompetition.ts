@@ -21,11 +21,9 @@ export default async (db, competition: string): Promise<UserReturnData> => {
   data.data = {}
   const allTeams = await dbo.collection('nicknames').findOne({}).catch((e) => { console.error(e); data.err_occur = true; data.err_reasons.push(e); });
   const arrTeamsAtComp = Object.entries(allTeams).filter(([key]) => teams.indexOf(key) !== -1);
-  // the following way is not reccomended way as of ECMA 2019
-  // but we haven't tested our TypeScript compiler to work with ECMA so we do it this way
-  // eslint-disable-next-line
   for (const team of arrTeamsAtComp) {
-    data.data[team[0]] = team[1];
+    const [key, value] = team
+    data.data[key] = value;
   }
   return data;
 };
