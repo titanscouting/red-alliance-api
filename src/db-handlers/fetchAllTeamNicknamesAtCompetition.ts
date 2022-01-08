@@ -13,7 +13,19 @@ import UserReturnData from '../UserReturnData';
 export default async (db, competition: string): Promise<UserReturnData> => {
   const data: UserReturnData = { err_occur: false, err_reasons: [], data: {} };
   const dbo = db.db('teamlist');
-  const myobj = { competition };
-  data.data = await dbo.collection('nicknames').findOne(myobj).catch((e) => { console.error(e); data.err_occur = true; data.err_reasons.push(e); });
+  const dbo2 = db.db('data_scouting');
+  const interim = await dbo2.collection('matches').find({ competition }).project({ _id: 0, teams: 1 }).toArray()
+    .catch((e) => { data.err_occur = true; data.err_reasons.push(e); console.error(e); });
+  let teams = interim.map((x) => x.teams).flat();
+  teams = teams.filter((item, pos) => teams.indexOf(item) === pos)
+  data.data = {}
+  const allTeams = await dbo.collection('nicknames').findOne({}).catch((e) => { console.error(e); data.err_occur = true; data.err_reasons.push(e); });
+  const arrTeamsAtComp = Object.entries(allTeams).filter(([key]) => teams.indexOf(key) !== -1);
+  // the following way is not reccomended way as of ECMA 2019
+  // but we haven't tested our TypeScript compiler to work with ECMA so we do it this way
+  // eslint-disable-next-line
+  for (const team of arrTeamsAtComp) {
+    data.data[team[0]] = team[1];
+  }
   return data;
 };
