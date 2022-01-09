@@ -11,7 +11,7 @@ chai.use(chaiHttp);
 /*
   * Test the GETroute
   */
-describe('GET/api/fetchAllTeamNicknamesAtCompetition', () => {
+describe('GET /api/fetchAllTeamNicknamesAtCompetition', () => {
   it('it should GET the scouting suggesions for a match number and competition', (done) => {
     chai.request(server)
       .get('/api/fetchAllTeamNicknamesAtCompetition?competition=2020ilch')

@@ -11,7 +11,7 @@ chai.use(chaiHttp);
 /*
   * Test the GETroute
   */
-describe('GET/api/fetchScouterSuggestions', () => {
+describe('GET /api/fetchScouterSuggestions', () => {
   it('it should GET the scouting suggesions for a match number and competition', (done) => {
     chai.request(server)
       .get(`/api/fetchScouterSuggestions?competition=2020ilch&match=2&CLIENT_ID=${process.env.TRA_CLIENTID}&CLIENT_SECRET=${process.env.TRA_CLIENTSECRET}`)
