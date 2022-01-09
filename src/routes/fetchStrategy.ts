@@ -1,21 +1,23 @@
 import { validate, Joi } from 'express-validation';
 import UserReturnData from '../UserReturnData';
 import StatusCodes from '../StatusCodes';
+import Scouter from '../Scouter';
 
-module.exports = (app: any, dbHandler: any) => {
+module.exports = (app: any, dbHandler: any, auth: any) => {
   const validation = {
     query: Joi.object({
       competition: Joi.string().required(),
       match: Joi.number().required(),
     }),
   }
-  app.get('/api/fetchStrategy', validate(validation, { keyByField: true }, { allowUnknown: true }), async (req: any, res:any) => {
+  app.get('/api/fetchStrategy', auth.checkAuth, validate(validation, { keyByField: true }, { allowUnknown: true }), async (req: any, res:any) => {
     let val: UserReturnData = new UserReturnData();
     const { competition }: Record<string, string> = req.query;
     const matchNumber: number = req.query.match;
     let dataInterim: Array<any>;
+    const scouter: Scouter = { name: String(res.locals.name), id: String(res.locals.id), team: String(res.locals.team) };
 
-    val = await dbHandler.fetchStrategy(req.db, competition, matchNumber).catch((e) => { console.error(e); val.err_occur = true; });
+    val = await dbHandler.fetchStrategy(req.db, competition, matchNumber, scouter).catch((e) => { console.error(e); val.err_occur = true; });
     // the try...catch is the next few lines serves to ensure the application doesn't just crash if scouters or teams were not returned by the DB handler.
 
     try {

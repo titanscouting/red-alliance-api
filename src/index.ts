@@ -75,7 +75,7 @@ require('./routes/privacyPolicy')(app);
 require('./routes/addScouterToMatch')(app, dbHandler, auth);
 require('./routes/removeScouterFromMatch')(app, dbHandler, auth);
 require('./routes/submitStrategy')(app, dbHandler, auth);
-require('./routes/fetchStrategy')(app, dbHandler);
+require('./routes/fetchStrategy')(app, dbHandler, auth);
 require('./routes/fetchUserStrategy')(app, dbHandler, auth);
 require('./routes/fetchPitData')(app, dbHandler, auth);
 require('./routes/submitPitData')(app, dbHandler, auth);

@@ -6,11 +6,11 @@ export default async (db: any, scouter: Scouter, match: string, competition: str
   const dbo = db.db('strategies');
   const myobj = {
     $set: {
-      scouter, competition, match, data,
+      scouter, competition, match, data, owner: scouter.team,
     },
   };
   try {
-    await dbo.collection('data').updateOne({ _id: competition + scouter.id + match }, myobj, { upsert: true });
+    await dbo.collection('data').updateOne({ scouter, match, competition }, myobj, { upsert: true });
   } catch (err) {
     dataReturn.err_occur = true;
     dataReturn.err_reasons.push(err);

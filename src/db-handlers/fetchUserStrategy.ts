@@ -1,6 +1,7 @@
+import Scouter from '../Scouter';
 import UserReturnData from '../UserReturnData';
 
-export default async (db: any, competition: string, match: string, scouter: string): Promise<UserReturnData> => {
+export default async (db: any, competition: string, match: string, scouter: Scouter): Promise<UserReturnData> => {
   const data: UserReturnData = { err_occur: false, err_reasons: [], data: {} };
 
   const dbo = db.db('strategies');
