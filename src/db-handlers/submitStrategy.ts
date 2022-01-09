@@ -10,7 +10,11 @@ export default async (db: any, scouter: Scouter, match: string, competition: str
     },
   };
   try {
-    await dbo.collection('data').updateOne({ scouter, match, competition }, myobj, { upsert: true });
+    if (data === "") {
+      await dbo.collection('data').deleteOne({ scouter, match, competition });
+    } else {
+      await dbo.collection('data').updateOne({ scouter, match, competition }, myobj, { upsert: true });
+    }
   } catch (err) {
     dataReturn.err_occur = true;
     dataReturn.err_reasons.push(err);
