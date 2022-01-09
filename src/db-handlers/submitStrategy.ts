@@ -10,7 +10,7 @@ export default async (db: any, scouter: Scouter, match: string, competition: str
     },
   };
   try {
-    if (data === '') {
+    if (data === ' ') {
       await dbo.collection('data').deleteOne({ scouter, match, competition });
     } else {
       await dbo.collection('data').updateOne({ scouter, match, competition }, myobj, { upsert: true });
