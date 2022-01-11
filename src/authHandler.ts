@@ -22,7 +22,7 @@ const checkBearerToken = async (bearerHeader: Array<string>, db: any, force_team
   if (bearerHeader.length === 2) {
     [type, token] = bearerHeader
   } else if (bearerHeader.length === 1) {
-    token = bearerHeader
+    [token] = bearerHeader
   } else {
     const return_val: AuthResult = { success: false, status: StatusCodes.not_authorized, reason: `Unknown authentication scheme "${type}" (expected Bearer).` }
     return return_val;
