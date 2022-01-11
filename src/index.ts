@@ -108,7 +108,7 @@ class CustomValidationError extends ValidationError {
 }
 
 app.use((req, res) => {
-  res.status(404).json({ success: true, reasons: ['404: Page Not Found'] });
+  res.status(404).json({ success: false, reasons: ['404: Page Not Found'] });
 });
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
