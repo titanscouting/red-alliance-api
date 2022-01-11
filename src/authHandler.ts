@@ -56,7 +56,7 @@ const checkBearerToken = async (bearerHeader: Array<string>, db: any, force_team
 const checkAPIKey = async (id: string, secret: string, db: any, force_team = true): Promise<AuthResult> => {
   const isAuthorized = await dbHandler.checkKey(db, id, secret);
   if (isAuthorized) {
-    const team = await dbHandler.getKeyTeam(db, id)
+    const team = await dbHandler.getUserTeam(db, id);
     if (!team && force_team) {
       const return_val: AuthResult = { success: false, status: StatusCodes.not_authorized, reason: 'User is not registered to a team.' }
       return return_val;
