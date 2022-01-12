@@ -21,10 +21,13 @@ module.exports = (app: any, dbHandler: any, auth: any) => {
 
     if (val.err_occur === false) {
       res.locals.io.sockets.emit(`${competition}_scoutChange`, {
-        match, team: teamScouted, action: 'remove',
+        match, team: teamScouted, action: 'remove', owner: scouter.team
       })
       res.locals.io.sockets.emit(`${competition}_${match}_scoutChange`, {
-        match, team: teamScouted, action: 'remove',
+        match, team: teamScouted, action: 'remove', owner: scouter.team
+      })
+      res.locals.io.sockets.emit(`${scouter.team}_${competition}_${match}_scoutChange`, {
+        match, team: teamScouted, action: 'remove', owner: scouter.team
       })
       res.json({
         success: true,
