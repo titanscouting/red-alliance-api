@@ -27,7 +27,7 @@ module.exports = (app: any, dbHandler: any, auth: any) => {
         match, team: teamScouted, action: 'remove', owner: scouter.team,
       })
       res.locals.io.sockets.emit(`${scouter.team}_${competition}_${match}_scoutChange`, {
-        match, team: teamScouted, action: 'remove', owner: scouter.team, perfomedBy: scouter.name,
+        match, team: teamScouted, action: 'remove', owner: scouter.team, performedBy: scouter.name,
       })
       res.json({
         success: true,
