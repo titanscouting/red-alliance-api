@@ -28,4 +28,4 @@ jobs:
         git config --global user.name 'Titan Scouting Bot'
         git config --global user.email 'titanscouting@epochml.org'
         git diff-index --quiet HEAD || git commit -am "Build documentation"
-        git push
+        git push origin --force master:gh-pages
