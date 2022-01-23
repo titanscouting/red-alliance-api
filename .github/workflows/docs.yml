@@ -24,8 +24,8 @@ jobs:
       run: yarn run doc
     - name: Commit docs
       run: |
-        git add docs/
+        git add .
         git config --global user.name 'Titan Scouting Bot'
         git config --global user.email 'titanscouting@epochml.org'
-        git commit -am "Build documentation"
+        git diff-index --quiet HEAD || git commit -am "Build documentation"
         git push
