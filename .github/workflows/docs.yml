@@ -1,0 +1,30 @@
+name: Build documentation
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: yarn
+    - name: Run typedoc to generate docs page
+      run: yarn run doc
+    - name: Commit docs
+      run: |
+        git config --global user.name 'Titan Scouting Bot'
+        git config --global user.email 'titanscouting@epochml.org'
+        git commit -am "Build documentation"
+        git push
