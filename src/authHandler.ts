@@ -97,7 +97,7 @@ const checkAuthWrapped = async (req: any, res: any, next: any, force_team = true
     });
   }
   const bearerHeader = req.header('Authorization').split(' ');
-  const googleAuthResult: AuthResult = await checkBearerToken(bearerHeader, req.db);
+  const googleAuthResult: AuthResult = await checkBearerToken(bearerHeader, req.db, force_team);
   if (!googleAuthResult.success) {
     return res.status(googleAuthResult.status).json({
       success: false,
