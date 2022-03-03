@@ -19,7 +19,6 @@ describe('GET /api/fetchMetricsData', () => {
         res.should.have.status(200);
         res.body.should.have.property('metrics');
         res.body.metrics.metrics.should.have.property('elo');
-        res.body.metrics.metrics.elo.should.have.property('score').eql(1478.9855779613563);
         res.body.competition.should.eql('2020ilch');
         res.body.should.have.property('success').eql(true);
       });
