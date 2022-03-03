@@ -2577,10 +2577,10 @@ globals@^12.1.0:
   dependencies:
     type-fest "^0.8.1"
 
-google-auth-library@^7.11.0:
-  version "7.11.0"
-  resolved "https://registry.yarnpkg.com/google-auth-library/-/google-auth-library-7.11.0.tgz#b63699c65037310a424128a854ba7e736704cbdb"
-  integrity sha512-3S5jn2quRumvh9F/Ubf7GFrIq71HZ5a6vqosgdIu105kkk0WtSqc2jGCRqtWWOLRS8SX3AHACMOEDxhyWAQIcg==
+google-auth-library@^7.12.0:
+  version "7.14.0"
+  resolved "https://registry.yarnpkg.com/google-auth-library/-/google-auth-library-7.14.0.tgz#9d6a20592f7b4d4c463cd3e93934c4b1711d5dc6"
+  integrity sha512-or8r7qUqGVI3W8lVSdPh0ZpeFyQHeE73g5c0p+bLNTTUFXJ+GSeDQmZRZ2p4H8cF/RJYa4PNvi/A1ar1uVNLFA==
   dependencies:
     arrify "^2.0.0"
     base64-js "^1.3.0"
