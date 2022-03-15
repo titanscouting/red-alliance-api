@@ -14,7 +14,7 @@ module.exports = (app: any, dbHandler: any, auth: any) => {
   app.post('/api/submitPitData', auth.checkAuth, validate(validation, { keyByField: true }, { allowUnknown: true }), async (req: any, res:any) => {
     let val: UserReturnData = new UserReturnData();
     const scouter: Scouter = { name: String(res.locals.name), id: String(res.locals.id), team: String(res.locals.team) };
-    const competitionID = String(req.body.competitionID);
+    const competitionID = String(req.body.competition);
     const teamScouted = String(req.body.teamScouted);
     const { data }: Record<string, any> = req.body;
     console.log(competitionID, teamScouted, scouter)
