@@ -17,7 +17,6 @@ module.exports = (app: any, dbHandler: any, auth: any) => {
     const competitionID = String(req.body.competition);
     const teamScouted = String(req.body.teamScouted);
     const { data }: Record<string, any> = req.body;
-    console.log(competitionID, teamScouted, scouter)
     val = await dbHandler.submitPitData(req.db, scouter, competitionID, teamScouted, data).catch((e) => { console.error(e); val.err_occur = true; });
     if (val.err_occur === false) {
       res.locals.io.sockets.emit(`${String(scouter.team)}_${competitionID}_newPitData`, {})
