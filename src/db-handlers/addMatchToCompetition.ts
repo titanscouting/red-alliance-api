@@ -18,9 +18,11 @@ export default async (db: any, scouter: Scouter, match: number, competition: str
   const data: UserReturnData = { err_occur: false, err_reasons: [], data: {} };
   const dbo = db.db('data_scouting');
   const scouters = [false, false, false, false, false, false]
-  const myobj = { match, teams, scouters, competition, owner: scouter.team };
+  const myobj = {
+    match, teams, scouters, competition, owner: scouter.team,
+  };
   try {
-    await dbo.collection('matches').findOne(myobj, {upsert: true}).catch((e) => { console.error(e); data.err_occur = true; });
+    await dbo.collection('matches').findOne(myobj, { upsert: true }).catch((e) => { console.error(e); data.err_occur = true; });
   } catch (err) {
     data.err_occur = true;
     data.err_reasons.push(err.toString());
