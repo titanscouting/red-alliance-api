@@ -1,7 +1,7 @@
 import generateRouteJSONs from './routeDocs';
 
 export default {
-  swagger: '2.0',
+  openapi: "3.0.1",
   info: {
     version: '0.14.0',
     title: 'The Red Alliance API',
@@ -57,10 +57,10 @@ export default {
   components: {
     securitySchemes: {
       GoogleAuth: {
-        type: 'apiKey',
-        in: 'header',
-        name: 'token',
-        description: 'Use the Backend Authenticaation JWT provided to you by the frontend Google OAuth flow.',
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+        description: "Obtain a token from https://goepoch.ml/ts-ggt"
       },
       CLIENT_ID: {
         type: 'apiKey',
@@ -78,8 +78,16 @@ export default {
   },
   servers: [
     {
-      url: 'https://titanscouting.epochml.org',
+      url: 'https://scouting.titanrobotics2022.com',
       description: 'Production environment',
+    },
+    {
+      url: 'https://titanscouting.epochml.org',
+      description: 'Old production environment',
+    },
+    {
+      url: 'http://localhost:8190',
+      description: 'Local environment',
     },
   ],
   tags: [
