@@ -95,6 +95,7 @@ require('./routes/fetchAPIConfig')(app);
 require('./routes/fetchCompetitionFriendlyName')(app, dbHandler);
 require('./routes/fetchTeamCompetition')(app, dbHandler, auth);
 require('./routes/fetchTeamTestsData')(app, dbHandler, auth);
+require('./routes/addMatchToCompetition')(app, dbHandler, auth);
 require('./routes/broadcastTeamMessage')(app, auth);
 require('./routes/base')(app);
 

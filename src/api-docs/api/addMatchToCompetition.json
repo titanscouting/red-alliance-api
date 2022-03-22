@@ -1,0 +1,72 @@
+{
+   "post": {
+      "summary": "Add a match to the given competition",
+      "description": "Add a match to the given competition (primarily used for the scouting app).",
+      "tags": [
+         "Authenticated Routes"
+      ],
+      "parameters": [
+         {
+            "in": "body",
+            "name": "competition",
+            "required": true,
+            "description": "FRC competition code at which the user is scouting.",
+            "schema": {
+               "type": "string",
+               "example": "2020ilch"
+            }
+         },
+         {
+            "in": "body",
+            "name": "match",
+            "required": true,
+            "description": "FRC match which the user is scouting.",
+            "schema": {
+               "type": "string",
+               "example": "2"
+            }
+         },
+         {
+            "in": "body",
+            "name": "teams",
+            "required": true,
+            "description": "Teams which are in the competition (blue alliance first, then red alliance).",
+            "schema": {
+               "type": "array",
+               "example": ["5350", "5133", "3734", "63", "1675", "8160"]
+            }
+         }
+      ],
+      "security": [
+         {
+            "GoogleAuth": []
+         }
+      ],
+      "responses": {
+         "200": {
+            "description": "The match was added to the given competition.",
+            "schema": {
+               "type": "object",
+               "properties": {
+                  "success": {
+                     "type": "boolean",
+                     "example": true
+                  }
+               }
+            }
+         },
+         "400": {
+            "description": "The match was not added for the given competition. Returns the reasons for the error.",
+            "schema": {
+               "$ref": "#/definitions/NoData"
+            }
+         },
+         "401": {
+            "description": "The current user is not authorized to perform this action.",
+            "schema": {
+               "$ref": "#/definitions/NoAuth"
+            }
+         },
+      }
+   }
+}
