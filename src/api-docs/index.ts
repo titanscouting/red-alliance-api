@@ -1,7 +1,7 @@
 import generateRouteJSONs from './routeDocs';
 
 export default {
-  openapi: "3.0.1",
+  openapi: '3.0.1',
   info: {
     version: '0.14.0',
     title: 'The Red Alliance API',
@@ -60,7 +60,7 @@ export default {
         type: 'http',
         scheme: 'bearer',
         bearerFormat: 'JWT',
-        description: "Obtain a token from https://goepoch.ml/ts-ggt"
+        description: 'Obtain a token from https://goepoch.ml/ts-ggt',
       },
       CLIENT_ID: {
         type: 'apiKey',

@@ -1,5 +1,6 @@
 import Scouter from '../Scouter';
 import UserReturnData from '../UserReturnData';
+
 /**
  * @async
  * @memberof module:dbHandler
@@ -22,7 +23,7 @@ export default async (db: any, scouter: Scouter, match: number, competition: str
     match, teams, scouters, competition, owner: scouter.team,
   };
   try {
-    await dbo.collection('matches').findOne(myobj, { upsert: true }).catch((e) => { console.error(e); data.err_occur = true; });
+    await dbo.collection('matches').updateOne({ _id: `${match.toString()}_${competition}_${scouter.team}` }, { $set: myobj }, { upsert: true }).catch((e) => { console.error(e); data.err_occur = true; });
   } catch (err) {
     data.err_occur = true;
     data.err_reasons.push(err.toString());
