@@ -15,7 +15,7 @@ export default async (db: any, competition: string, scouter: Scouter): Promise<U
   const data: UserReturnData = { err_occur: false, err_reasons: [], data: {} };
   const dbo = db.db('data_scouting');
   try {
-    data.data = await dbo.collection('matches').find({ competition, owner: scouter.team }).toArray();
+    data.data = await dbo.collection('matches').find({ competition, owner: scouter.team }).project({_id: 0, match: 1, scouters: 1, teams: 1}).toArray();
   } catch (err) {
     data.err_occur = true;
     data.err_reasons.push(err.toString());
