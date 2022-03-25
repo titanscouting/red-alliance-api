@@ -6,6 +6,7 @@ import swaggerJSDoc = require('swagger-jsdoc');
 import swaggerUi = require('swagger-ui-express');
 // eslint-disable-next-line
 // import * as swaggerDefinition from './routes/swagger.json';
+import redis = require('redis');
 import dbHandler = require('./dbHandler');
 import auth = require('./authHandler');
 import swaggerDefinition = require('./api-docs/index');
@@ -23,6 +24,12 @@ const globalIO = require('socket.io')(server, {
   cors: true,
   origins: ['*'],
 });
+
+const redisClient = redis.createClient({ url: process.env.REDIS_URL || 'redis://localhost:6379' })
+
+redisClient.on('error', (err) => { console.log('Redis Client Error (redis disabled)'); process.env.REDIS = 'true'; console.log(err) });
+redisClient.on('connect', () => { console.log('Redis Client Connected!'); delete process.env.REDIS; });
+redisClient.connect();
 
 globalIO.on('connection', (socket) => {
   socket.emit('serverBroadcastMessage', {
@@ -67,7 +74,7 @@ require('./routes/fetchScouterUIDs')(app, dbHandler, auth);
 require('./routes/fetchPitConfig')(app, dbHandler, auth);
 require('./routes/findTeamNickname')(app, dbHandler);
 require('./routes/fetchAllTeamNicknamesAtCompetition')(app, dbHandler);
-require('./routes/fetchCompetitionSchedule')(app, dbHandler, auth);
+require('./routes/fetchCompetitionSchedule')(app, dbHandler, auth, redisClient);
 require('./routes/fetchTeamSchedule')(app, dbHandler, auth);
 require('./routes/fetchMatchData')(app, dbHandler, auth);
 require('./routes/addAPIKey')(app, dbHandler, auth);
