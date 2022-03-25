@@ -24,6 +24,10 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
+    - name: Start Redis
+      uses: supercharge/redis-github-action@1.4.0
+      with:
+        redis-version: 6.2
     - run: yarn
     - name: Run unit tests and output to lcov
       run: yarn run coverage
@@ -31,6 +35,7 @@ jobs:
         REDALLIANCEDBKEY: ${{ secrets.REDALLIANCEDBKEY }}
         TRA_CLIENTID: ${{secrets.TRA_CLIENTID}}
         TRA_CLIENTSECRET: ${{secrets.TRA_CLIENTSECRET}}
+        TBA_KEY: ${{secrets.TBA_KEY}}
     - name: Coveralls GitHub Action
       uses: coverallsapp/github-action@v1.1.1
       with:
