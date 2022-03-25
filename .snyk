@@ -1,8 +1,13 @@
 # Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
-version: v1.19.0
+version: v1.22.1
 ignore: {}
 # patches apply the minimum changes required to fix a vulnerability
 patch:
   'npm:marked:20140131-1':
     - tsdoc > jsdoc > marked:
         patched: '2021-01-18T07:09:38.616Z'
+  SNYK-JS-LODASH-567746:
+    - jsdoc > catharsis > lodash:
+        patched: '2022-03-25T22:52:47.896Z'
+    - jsdoc > requizzle > lodash:
+        patched: '2022-03-25T22:52:47.896Z'
