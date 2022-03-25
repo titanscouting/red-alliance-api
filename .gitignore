@@ -67,3 +67,6 @@ deploy/secret.yml
 deploy/.secret.yml.swp
 deploy/secret.yml
 .devcontainer/.env
+
+# Redis cache files
+*.rdb
