@@ -1,4 +1,4 @@
-import fs = require('fs');
+const fs = require('fs');
 
 export default function generateRouteJSONs() {
   const files: string[] = fs.readdirSync(`${__dirname}/api/`);

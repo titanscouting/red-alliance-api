@@ -1,5 +1,5 @@
 import StatusCodes from '../StatusCodes';
-import swaggerDefinition = require('../api-docs/index');
+const swaggerDefinition = require('../api-docs/index');
 
 module.exports = (app: any) => {
   app.get('/api/fetchAPIConfig', async (req: any, res:any) => {

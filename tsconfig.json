@@ -2,9 +2,10 @@
     "compilerOptions": {
         "outDir": "./built",
         "allowJs": true,
-        "target": "es5",
+        "target": "es6",
         "esModuleInterop": true,
-        "resolveJsonModule": true
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
     },
     "include": [
         "./src/**/*"

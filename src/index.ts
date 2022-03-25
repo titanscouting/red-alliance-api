@@ -2,14 +2,14 @@ import express from 'express';
 import expressMongoDb from 'mongo-express-req';
 import { ValidationError } from 'express-validation';
 import path from 'path';
-import swaggerJSDoc = require('swagger-jsdoc');
-import swaggerUi = require('swagger-ui-express');
+const swaggerJSDoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
 // eslint-disable-next-line
 // import * as swaggerDefinition from './routes/swagger.json';
-import redis = require('redis');
-import dbHandler = require('./dbHandler');
-import auth = require('./authHandler');
-import swaggerDefinition = require('./api-docs/index');
+const redis = require('redis');
+const dbHandler = require('./dbHandler');
+const auth = require('./authHandler');
+const swaggerDefinition = require('./api-docs/index');
 
 require('dotenv').config()
 
