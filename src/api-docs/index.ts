@@ -1,9 +1,9 @@
 import generateRouteJSONs from './routeDocs';
-
+import * as pjson from '../../package.json'
 export default {
   openapi: '3.0.1',
   info: {
-    version: '0.14.0',
+    version: pjson.version,
     title: 'The Red Alliance API',
     description: 'An API to submit and retrieve data for and from The Red Alliance family of products.',
     license: {
