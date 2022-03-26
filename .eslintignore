@@ -2,3 +2,5 @@
 test/*
 # TypeScript compilation may have own lint issues
 built/*
+# don't move index.ts around 
+src/index.ts

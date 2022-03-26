@@ -8,6 +8,9 @@ const swaggerUi = require('swagger-ui-express');
 // eslint-disable-next-line
 // import * as swaggerDefinition from './routes/swagger.json';
 const redis = require('redis');
+const port = process.env.PORT || 8190;
+const app = express();
+const server = app.listen(port, () => console.log(`Listening on port ${port}`));
 const globalIO = require('socket.io')(server, {
   cors: true,
   origins: ['*'],
@@ -18,13 +21,10 @@ const swaggerDefinition = require('./api-docs/index');
 
 require('dotenv').config()
 
-const port = process.env.PORT || 8190;
-const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
-const server = app.listen(port, () => console.log(`Listening on port ${port}`));
 
 const redisClient = redis.createClient({ url: process.env.REDIS_URL || 'redis://localhost:6379' })
 
