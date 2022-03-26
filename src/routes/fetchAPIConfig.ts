@@ -1,4 +1,5 @@
 import StatusCodes from '../StatusCodes';
+
 const swaggerDefinition = require('../api-docs/index');
 
 module.exports = (app: any) => {

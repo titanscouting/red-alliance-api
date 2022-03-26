@@ -2,11 +2,16 @@ import express from 'express';
 import expressMongoDb from 'mongo-express-req';
 import { ValidationError } from 'express-validation';
 import path from 'path';
+
 const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 // eslint-disable-next-line
 // import * as swaggerDefinition from './routes/swagger.json';
 const redis = require('redis');
+const globalIO = require('socket.io')(server, {
+  cors: true,
+  origins: ['*'],
+});
 const dbHandler = require('./dbHandler');
 const auth = require('./authHandler');
 const swaggerDefinition = require('./api-docs/index');
@@ -20,10 +25,6 @@ app.use(express.urlencoded({ extended: true }));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 const server = app.listen(port, () => console.log(`Listening on port ${port}`));
-const globalIO = require('socket.io')(server, {
-  cors: true,
-  origins: ['*'],
-});
 
 const redisClient = redis.createClient({ url: process.env.REDIS_URL || 'redis://localhost:6379' })
 
