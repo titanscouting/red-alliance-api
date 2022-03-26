@@ -1,5 +1,6 @@
 import generateRouteJSONs from './routeDocs';
 import * as pjson from '../../package.json'
+
 export default {
   openapi: '3.0.1',
   info: {
