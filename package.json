@@ -52,6 +52,7 @@
     "hbs": "^4.2.0",
     "jsdoc": "^3.6.10",
     "mongo-express-req": "^4.3.0",
+    "morgan": "^1.10.0",
     "node-fetch": "^2.6.6",
     "nodemon": "^2.0.15",
     "redis": "^4.0.4",

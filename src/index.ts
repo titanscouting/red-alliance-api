@@ -2,6 +2,7 @@ import express from 'express';
 import expressMongoDb from 'mongo-express-req';
 import { ValidationError } from 'express-validation';
 import path from 'path';
+import morgan from 'morgan'
 
 const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
@@ -20,7 +21,17 @@ const auth = require('./authHandler');
 const swaggerDefinition = require('./api-docs/index');
 
 require('dotenv').config()
-
+morgan.token('visitor-addr', function(req,res){
+  if (req.headers['cdn-loop'] == 'cloudflare') {
+    return req.headers['cf-connecting-ip'] + " (through Cloudflare)"
+  } else {
+    return req.ip + " (direct)"
+  }
+})
+morgan.token('user-email', function(req,res){
+  return res.locals.email || "anonymous";
+})
+app.use(morgan('[:date[clf]] :visitor-addr <:user-email>  ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.set('views', path.join(__dirname, 'views'));
