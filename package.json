@@ -9,8 +9,8 @@
   "private": false,
   "scripts": {
     "start": "ts-node-dev src/index.ts",
-    "start:prod": "node built/index.js",
-    "build": "tsc && mkdir -p built/api-docs/api/ && cp -r src/api-docs/api/ built/api-docs/api/",
+    "start:prod": "node built/src/index.js",
+    "build": "tsc && mkdir -p built/src/api-docs/api/ && cp -r src/api-docs/api/ built/src/api-docs/api/",
     "test-lint": "eslint . --ext .ts",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
