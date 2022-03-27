@@ -1,4 +1,4 @@
-import generateRouteJSONs from './routeDocs';
+// import generateRouteJSONs from './routeDocs';
 import * as pjson from '../../package.json'
 
 export default {
@@ -107,5 +107,5 @@ export default {
   produces: [
     'application/json',
   ],
-  paths: generateRouteJSONs(),
+  // paths: generateRouteJSONs(),
 }
