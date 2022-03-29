@@ -2,14 +2,14 @@ import { validate, Joi } from 'express-validation';
 import UserReturnData from '../UserReturnData';
 import StatusCodes from '../StatusCodes';
 
-module.exports = (app: any, dbHandler: any) => {
+module.exports = (app: any, dbHandler: any, auth: any) => {
   const validation = {
     query: Joi.object({
       competition: Joi.string().required(),
       team: Joi.string().required(),
     }),
   }
-  app.get('/api/fetchMetricsData', validate(validation, { keyByField: true }, { allowUnknown: true }), async (req: any, res:any) => {
+  app.get('/api/fetchMetricsData', auth.checkAuth, validate(validation, { keyByField: true }, { allowUnknown: true }), async (req: any, res:any) => {
     const val: UserReturnData = new UserReturnData();
     const { competition }: Record<string, string> = req.query;
     const team = parseInt(req.query.team, 10);

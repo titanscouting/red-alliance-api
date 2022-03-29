@@ -100,7 +100,7 @@ require('./routes/fetchPitData')(app, dbHandler, auth);
 require('./routes/submitPitData')(app, dbHandler, auth);
 require('./routes/addUserToTeam')(app, dbHandler, auth);
 require('./routes/fetchMatchConfig')(app, dbHandler, auth);
-require('./routes/fetchMetricsData')(app, dbHandler);
+require('./routes/fetchMetricsData')(app, dbHandler, auth);
 require('./routes/fetchAnalysisFlags')(app, dbHandler, auth);
 require('./routes/fetchAllTeamMatchData')(app, dbHandler, auth);
 require('./routes/fetchAllTeamPitData')(app, dbHandler, auth);

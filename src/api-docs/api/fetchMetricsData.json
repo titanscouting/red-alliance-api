@@ -3,7 +3,7 @@
         "summary": "Get the metrics data for the team",
         "description": "Returns the metrics data for the team",
         "tags": [
-            "Non-Authenticated Routes"
+            "Authenticated Routes"
         ],
         "responses": {
             "200": {
