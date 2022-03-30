@@ -19,7 +19,7 @@ module.exports = (app: any, dbHandler: any, auth: any) => {
         success: true,
         competition,
         team,
-        metrics: val.data.metrics[competition],
+        metrics: val.data.metrics,
       });
     } else {
       res.status(StatusCodes.no_data).json({
