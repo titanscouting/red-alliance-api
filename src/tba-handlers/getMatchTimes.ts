@@ -16,14 +16,12 @@ export default async (redisClient: any, competition: string): Promise<UserReturn
   const headers = { 'X-TBA-Auth-Key': process.env.TBA_KEY }
   const matchTimes = await fetch(`https://www.thebluealliance.com/api/v3/event/${competition}/matches/simple`, { headers })
   let json = await matchTimes.json()
-  json = json.filter((x) => x.comp_level = 'qm') // eslint-disable-line
+  json = json.filter((x) => {return x.comp_level = 'qm' && x.key.includes('qm')}) // eslint-disable-line
   const json2 = {}
-  json.map((x) => {
+  for (const x of json) {
     const time = new Date((x.actual_time !== null ? x.actual_time : x.predicted_time) * 1000);
-    const match = x.match_number
-    json2[match.toString()] = time
-    return null
-  })
+    json2[parseInt(x.match_number)] = time
+  }
   data.data = json2;
   return data;
 };
