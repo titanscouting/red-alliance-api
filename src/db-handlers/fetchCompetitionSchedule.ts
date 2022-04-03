@@ -25,7 +25,7 @@ export default async (db: any, redisClient, competition: string, scouter: Scoute
     let matchTimes;
     if (!redisEnable) {
       try {
-        redisCache = JSON.parse(await redisClient.get(`${competition}_getMatchTimes`));
+        redisCache = JSON.parse(await redisClient.get(`${competition}_fetchCompetitionSchedule`));
       } catch (err) {
         console.error('Error pulling match times from cache.', err)
         redisCache = undefined;
