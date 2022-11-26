@@ -18,8 +18,8 @@ describe('GET /api/fetchMetricsData', () => {
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.have.property('metrics');
-        res.body.metrics.should.have.property('elo');
         res.body.metrics.should.have.property('gl2');
+        res.body.metrics.gl2.should.have.property('score');
         res.body.competition.should.eql('2022ilch');
         res.body.should.have.property('success').eql(true);
       });
@@ -28,7 +28,7 @@ describe('GET /api/fetchMetricsData', () => {
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.have.property('metrics').eql(null);
-        res.body.competition.should.eql('2022ilch');
+        res.body.competition.should.eql('2020ilch');
         res.body.should.have.property('success').eql(true);
       });
       chai.request(server)
