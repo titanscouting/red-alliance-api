@@ -14,13 +14,21 @@ chai.use(chaiHttp);
 describe('GET /api/fetchMetricsData', () => {
   it('it should GET the metrics data for a team', (done) => {
     chai.request(server)
-      .get(`/api/fetchMetricsData?competition=2020ilch&team=8160&CLIENT_ID=${process.env.TRA_CLIENTID}&CLIENT_SECRET=${process.env.TRA_CLIENTSECRET}`)
+      .get(`/api/fetchMetricsData?competition=2022ilch&team=2338&CLIENT_ID=${process.env.TRA_CLIENTID}&CLIENT_SECRET=${process.env.TRA_CLIENTSECRET}`)
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.have.property('metrics');
         res.body.metrics.should.have.property('elo');
         res.body.metrics.should.have.property('gl2');
-        res.body.competition.should.eql('2020ilch');
+        res.body.competition.should.eql('2022ilch');
+        res.body.should.have.property('success').eql(true);
+      });
+      chai.request(server)
+      .get(`/api/fetchMetricsData?competition=2020ilch&team=8160&CLIENT_ID=${process.env.TRA_CLIENTID}&CLIENT_SECRET=${process.env.TRA_CLIENTSECRET}`)
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.have.property('metrics').eql(null);
+        res.body.competition.should.eql('2022ilch');
         res.body.should.have.property('success').eql(true);
       });
       chai.request(server)
