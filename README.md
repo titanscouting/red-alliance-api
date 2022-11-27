@@ -15,7 +15,7 @@ The REST API documention can be found [here](https://scouting.titanrobotics2022.
 
 **Database handlers and internal documentation**
 
-~~~Documentation for internal APIs can be found [here](https://titanscouting.github.io/red-alliance-api/).~~~
+~~Documentation for internal APIs can be found [here](https://titanscouting.github.io/red-alliance-api/).~~
 
 DB Handler docs are currently not rendered, please check in src/db-handlers/ for the TypeDoc annotations.
 
