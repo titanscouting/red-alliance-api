@@ -4,4 +4,5 @@ export default {
   not_authorized: 401,
   no_key_auth: 403,
   not_enough_info: 400,
+  rate_limited: 429
 }
