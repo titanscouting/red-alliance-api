@@ -133,8 +133,8 @@ require('./routes/base')(app);
 class CustomValidationError extends ValidationError {
   success?: boolean
 
-  constructor() {
-    super();
+  constructor(errors, options) {
+    super(errors, options);
     this.success = false;
   }
 }
@@ -144,7 +144,7 @@ app.use((req, res) => {
 });
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-app.use((err: any, req, res, next) => {
+app.use((err: any, req: express.Request, res: express.Response, next) => {
   if (err instanceof ValidationError) {
     // eslint-disable-next-line
     const err2: CustomValidationError = err

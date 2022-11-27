@@ -27,6 +27,8 @@ jobs:
       with:
         redis-version: 6.2
     - run: yarn
+    - name: Check typescript compiles
+      run: yarn build
     - name: Run unit tests and output to lcov
       run: yarn run coverage
       env:
