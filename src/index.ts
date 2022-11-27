@@ -3,7 +3,7 @@ import expressMongoDb from 'mongo-express-req';
 import { ValidationError } from 'express-validation';
 import path from 'path';
 import morgan from 'morgan'
-
+import { rateLimit } from 'express-rate-limit';
 const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 // eslint-disable-next-line
@@ -21,6 +21,7 @@ const auth = require('./authHandler');
 const swaggerDefinition = require('./api-docs/index');
 
 require('dotenv').config()
+// request logging
 morgan.token('visitor-addr', function(req,res){
   if (req.headers['cdn-loop'] == 'cloudflare') {
     return req.headers['cf-connecting-ip'] + " (through Cloudflare)"
@@ -37,6 +38,19 @@ app.use(express.urlencoded({ extended: true }));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
+//rate limiting for some endpoints
+const limiter = rateLimit({
+  windowMs: 1 * 60 * 1000, // 1 minute
+  max: 10, // limit each IP to 10 requests per minute
+  message: "Rate limited.",
+  standardHeaders: true
+});
+app.use("/privacy-policy", limiter);
+app.use("/api/addAPIKey", limiter);
+app.use("/api/broadcastTeamMessage", limiter);
+app.use("/api/addUserToTeam", limiter);
+
+// redis connection for TBA caching
 const redisClient = redis.createClient({ url: process.env.REDIS_URL || 'redis://localhost:6379' })
 
 redisClient.on('error', (err) => { console.log('Redis Client Error (redis disabled)'); process.env.REDIS = 'true'; console.log(err) });
