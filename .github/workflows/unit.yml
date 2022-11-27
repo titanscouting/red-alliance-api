@@ -6,6 +6,13 @@ name: Run Unit tests
 on:
   push:
     branches: [ master ]
+    paths-ignore:
+      - 'README.md'
+      - '.github/workflows/**'
+      - 'deploy/**'
+      - 'CONTRIBUTING.md'
+      - 'MAINTAINERS'
+      - 'SECURITY.md'
   pull_request:
     branches: [ master ]
 
