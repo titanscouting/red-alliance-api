@@ -61,7 +61,7 @@ export default {
         type: 'http',
         scheme: 'bearer',
         bearerFormat: 'JWT',
-        description: 'Obtain a token from https://goepoch.ml/ts-ggt',
+        description: 'Obtain a token from https://titanscouting.github.io/get-google-token/',
       },
       CLIENT_ID: {
         type: 'apiKey',
@@ -95,6 +95,10 @@ export default {
     {
       name: 'Authenticated Routes',
       description: 'Routes which require authentication to interact with',
+    },
+    {
+      name: 'No-Key Routes',
+      description: 'Authenticated routes that do not support API keys',
     },
     {
       name: 'Non-Authenticated Routes',

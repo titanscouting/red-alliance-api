@@ -3,7 +3,8 @@
         "summary": "Broadcast message to team",
         "description": "Broadcast a message to all members of your team.",
         "tags": [
-            "Authenticated Routes"
+            "Authenticated Routes",
+            "No-Key Routes"
         ],
         "parameters": [
             {

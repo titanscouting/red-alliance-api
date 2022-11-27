@@ -3,7 +3,8 @@
       "summary": "Add user association to team",
       "description": "Stores that the currently signed-in user is a member of the given team.",
       "tags": [
-         "Authenticated Routes"
+         "Authenticated Routes",
+         "No-Key Routes"
       ],
       "parameters": [
          {

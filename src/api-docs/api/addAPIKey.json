@@ -3,7 +3,8 @@
     "summary": "Create API Key",
     "description": "Allows currently authenticated (via Google OAuth) users to create API keys to access the API programatically.",
     "tags": [
-      "Authenticated Routes"
+      "Authenticated Routes",
+      "No-Key Routes"
     ],
     "responses": {
       "200": {

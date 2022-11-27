@@ -3,7 +3,8 @@
       "summary": "Add current user as scouter to a match",
       "description": "Registers the currently signed-in user as the scouter for a given match and a team at a given competition.",
       "tags": [
-         "Authenticated Routes"
+         "Authenticated Routes",
+         "No-Key Routes"
       ],
       "parameters": [
          {
