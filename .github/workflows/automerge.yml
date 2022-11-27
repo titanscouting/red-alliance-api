@@ -1,9 +1,11 @@
 name: auto-merge
 
 on:
-  pull_request:
+  pull_request_target:
+    branches: [ master ]
 
 jobs:
+  if: github.actor == 'dependabot[bot]'
   auto-merge:
     runs-on: ubuntu-latest
     steps:
