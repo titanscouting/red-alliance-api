@@ -35,8 +35,6 @@ morgan.token('user-email', function(req,res){
 app.use(morgan('[:date[clf]] :visitor-addr <:user-email>  ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'hbs');
 
 //rate limiting for some endpoints
 const limiter = rateLimit({
