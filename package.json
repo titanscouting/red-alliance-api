@@ -1,6 +1,6 @@
 {
   "name": "red-alliance-api",
-  "version": "0.16.0",
+  "version": "0.17.0",
   "description": "FRC 2022 Scouting API",
   "main": "index.js",
   "repository": "https://github.com/titanscout2022/red-alliance-api",
@@ -18,7 +18,7 @@
     "test": "PORT=9999 nyc --reporter=text ts-mocha --timeout 10000 --exit",
     "test:windows": "set PORT=9999 && nyc --reporter=text ts-mocha --timeout 10000 --exit",
     "coverage": "npm test && nyc report --reporter=lcov",
-    "doc": "typedoc --out docs src/ --exclude src/routes/ --exclude src/routes/index.ts --name 'The Red Alliance API' --includeVersion --hideGenerator",
+    "doc": "typedoc --out docs src/db-handlers/ --exclude src/routes/ --exclude src/routes/index.ts --name 'The Red Alliance API' --includeVersion --hideGenerator",
     "precommit-msg": "echo 'Pre-commit checks...' && exit 0"
   },
   "pre-commit": [
@@ -41,7 +41,6 @@
   },
   "dependencies": {
     "@babel/register": "^7.17.0",
-    "@istanbuljs/nyc-config-babel": "^3.0.0",
     "@types/express": "^4.17.9",
     "@types/node": "^14.18.11",
     "bcrypt": "^5.0.1",
@@ -62,13 +61,14 @@
     "swagger-jsdoc": "^6.1.0",
     "swagger-ui-express": "^4.3.0",
     "tsdoc": "^0.0.4",
-    "typescript": "^4.5.5",
+    "typescript": "^4.9.3",
     "uuid": "^8.3.2",
     "uuid-apikey": "^1.5.3",
     "validator": "^13.7.0"
   },
   "devDependencies": {
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
+    "@istanbuljs/nyc-config-babel": "^3.0.0",
     "@types/expect": "^24.3.0",
     "@types/mocha": "^8.0.0",
     "@typescript-eslint/eslint-plugin": "^5.44.0",
@@ -88,7 +88,7 @@
     "ts-mocha": "^7.0.0",
     "ts-node": "^8.10.1",
     "ts-node-dev": "^1.0.0-pre.56",
-    "typedoc": "^0.22.10",
+    "typedoc": "^0.23.21",
     "validator": "^13.7.0"
   },
   "snyk": true
