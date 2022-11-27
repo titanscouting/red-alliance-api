@@ -56,7 +56,7 @@
     "node-fetch": "^2.6.6",
     "nodemon": "^2.0.15",
     "redis": "^4.0.4",
-    "snyk": "^1.996.0",
+    "snyk": "^1.1061.0",
     "socket.io": "^4.4.0",
     "swagger-jsdoc": "^6.1.0",
     "swagger-ui-express": "^4.6.0",
