@@ -5,7 +5,6 @@
  * @license BSD-3-Clause
  */
 
-import './dbHandler';
 import Scouter from '../Scouter';
 import StatusCodes from '../StatusCodes'
 import { AuthResult } from '../AuthResult';
