@@ -5,7 +5,11 @@
  * @license BSD-3-Clause
  */
 
-
+ import { checkKey, getUserTeam } from "../dbHandler";
+ import { AuthResult } from "../AuthResult";
+ import Scouter from "../Scouter";
+ import StatusCodes from "../StatusCodes";
+ 
 /**
  * Verifies that a CLIENT_ID and CLIENT_SECRET pair are correct and valid. Usually used instead of JWT authentication. 
  * @memberOf module:authHandler
@@ -15,10 +19,6 @@
  * @param force_team if true, requires the user to be part of the team. set to false when enrolling new users as they will not be part of a team
  * @returns AuthResult instance describing the final authentication result.
  */
-import { checkKey, getUserTeam } from "../dbHandler";
-import { AuthResult } from "../AuthResult";
-import Scouter from "../Scouter";
-import StatusCodes from "../StatusCodes";
 
 export const checkAPIKey = async (id: string, secret: string, db: any, force_team = true): Promise<AuthResult> => {
     const isAuthorized = await checkKey(db, id, secret);
