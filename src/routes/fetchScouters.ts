@@ -24,7 +24,7 @@ module.exports = (app: any, dbHandler: any, auth:any) => {
       res.json({
         success: true,
         competition,
-        data: val.data.data, // TODO: Fix that structure up a bit
+        data: val.data.data,
       });
     } else {
       res.status(StatusCodes.no_data).json({
