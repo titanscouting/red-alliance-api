@@ -10,11 +10,10 @@ module.exports = (app: any, dbHandler: any, auth: any) => {
     }),
   }
   app.post('/api/setAnalysisFlags', auth.checkAuth, validate(validation, { keyByField: true }, { allowUnknown: true }), async (req: any, res:any) => {
-    let val: UserReturnData = new UserReturnData();
     const { flag, data } = req.body;
     const { team } = res.locals;
     // Application exhibits unpredicatble behavior if `if` evaluates to true, so we just filter that out.
-    val = await dbHandler.setAnalysisFlags(req.db, flag, data, team);
+    const val: UserReturnData  = await dbHandler.setAnalysisFlags(req.db, flag, data, team);
 
     if (val.err_occur === false) {
       res.json({

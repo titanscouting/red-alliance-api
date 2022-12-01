@@ -28,7 +28,7 @@ export const checkGoogleToken = async (bearerHeader: Array<string>, db: any, for
   let token; let type;
   // Bearer token may or may not have "Bearer" in front: account for both cases.
   if (bearerHeader.length === 2) {
-    [type, token] = bearerHeader
+    token = bearerHeader[1];
   } else if (bearerHeader.length === 1) {
     [token] = bearerHeader
   } else {
