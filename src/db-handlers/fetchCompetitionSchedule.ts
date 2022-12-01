@@ -36,7 +36,7 @@ export default async (db: any, redisClient, competition: string, scouter: Scoute
     if (redisCache) {
       matchTimes = redisCache
     } else {
-      matchTimes = await getMatchTimes(redisClient, competition);
+      matchTimes = await getMatchTimes(competition);
       redisClient.set(`${competition}_getMatchTimes`, JSON.stringify(matchTimes), 'EX', 15); // store in cache for 15 seconds
     }
     data.data.sort((a, b) => parseInt(a.match, 10) - parseInt(b.match, 10));

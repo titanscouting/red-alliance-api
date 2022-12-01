@@ -12,8 +12,8 @@ export default async (db: any, competition: string, scouter: Scouter): Promise<U
     data.data.data = [];
     for (const m of interim) {
       let numScouters = 0;
-      for (let i = 0; i < m.scouters.length; i += 1) {
-        if (String(typeof (m.scouters[i])) !== 'boolean') {
+      for (const value of m.scouters) {
+        if (String(typeof (value)) !== 'boolean') {
           numScouters += 1;
         }
       }

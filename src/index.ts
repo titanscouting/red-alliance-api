@@ -1,13 +1,11 @@
 import express from 'express';
 import expressMongoDb from 'mongo-express-req';
 import { ValidationError } from 'express-validation';
-import path from 'path';
 import morgan from 'morgan'
 import { rateLimit } from 'express-rate-limit';
 const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 // eslint-disable-next-line
-// import * as swaggerDefinition from './routes/swagger.json';
 const redis = require('redis');
 const port = process.env.PORT || 8190;
 const app = express();
@@ -87,8 +85,7 @@ const swaggerSpec = swaggerJSDoc({ definition: swaggerDefinition.default, apis: 
 // All the routes should be written in different files so that this file doesn't become a behemoth
 // requiring path and fs modules
 
-// TODO: find a way to loop through this without a bunch of require(). A simple for loop results in `require() not found`.
-// TODO: use the UserReturnData class when returning data in all these apis
+// ideally find a way to loop through this without a bunch of require(). A simple for loop results in `require() not found`.
 app.use('/docs/', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 require('./routes/fetchScouters')(app, dbHandler, auth);
