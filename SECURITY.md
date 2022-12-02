@@ -1,4 +1,4 @@
 # Security Policy
 ## Reporting a Vulnerability
 
-To report a vulnerability, please email titanscout2022@gmail.com
+To report a vulnerability, please email titanrobotics2022@imsa.edu.
