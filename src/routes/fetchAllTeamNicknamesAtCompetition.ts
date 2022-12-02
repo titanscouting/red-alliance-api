@@ -8,6 +8,7 @@ import StatusCodes from '../StatusCodes';
  * @param competition is the identifier for the competition: e.g. '2020ilch'.
  * @returns back to the client let resobj (competition id, JSON of the team number and nicknames) and HTTP Status Code 200 OK.
  */
+
 module.exports = (app, dbHandler) => {
   const validation = {
     query: Joi.object({

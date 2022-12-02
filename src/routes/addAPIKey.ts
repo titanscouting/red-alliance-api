@@ -3,6 +3,13 @@ import UserReturnData from '../UserReturnData';
 import StatusCodes from '../StatusCodes';
 import Scouter from '../Scouter';
 
+/**
+* POST route '/api/addAPIKey'
+* Allows Google-authenticated users to create API keys to access the API.
+* Cannot be accessed by API Key-Authenticated users.
+* @returns back to the client a CLIENT_ID, CLIENT_SECRET, and HTTP Status Code 200 OK.
+*/
+
 module.exports = (app, dbHandler, auth) => {
   app.post('/api/addAPIKey', auth.noAPIKey, auth.checkAuth, async (req: any, res:any) => {
     const { team } = res.locals;

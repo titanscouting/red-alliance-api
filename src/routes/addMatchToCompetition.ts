@@ -3,6 +3,15 @@ import UserReturnData from '../UserReturnData';
 import Scouter from '../Scouter';
 import StatusCodes from '../StatusCodes';
 
+/**
+* GET route '/api/addMatchToCompetition'
+* Allows the application to add a match to a given competition's schedule.
+* @param competition is the identifier for the competition: e.g. '2020ilch'.
+* @param match is the new match number.
+* @param teams (Array<String>) is an array of the teams competing (red alliance first).
+* @returns back to the client let resobj (success status) and HTTP Status Code 200 OK.
+*/
+
 module.exports = (app:any, dbHandler:any, auth: any) => {
   const validation = {
     body: Joi.object({
