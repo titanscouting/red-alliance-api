@@ -43,6 +43,8 @@ jobs:
         TRA_CLIENTID: ${{secrets.TRA_CLIENTID}}
         TRA_CLIENTSECRET: ${{secrets.TRA_CLIENTSECRET}}
         TBA_KEY: ${{secrets.TBA_KEY}}
+        TRA_DISABLE_APIKEY_CHECKS: true
+        TRA_TESTING: true
     - name: Coveralls GitHub Action
       uses: coverallsapp/github-action@v1.1.1
       with:

@@ -23,5 +23,9 @@ module.exports = (app, dbHandler, auth) => {
         reasons: val.err_reasons,
       });
     }
+    if (process.env.TRA_TESTING) {
+      console.log("Running in testing environment, going to delete the API key we just made.");
+      await dbHandler.deleteKey(req.db, clientInfo.uuid, clientInfo.apiKey, team, scouter).catch((e) => { console.error(e); });
+    }
   });
 };

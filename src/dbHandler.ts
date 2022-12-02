@@ -3,6 +3,7 @@
  * @module dbHandler
  */
 export { default as addKey } from './db-handlers/addKey';
+export { default as deleteKey } from './db-handlers/deleteKey';
 export { default as addUserToTeam } from './db-handlers/addUserToTeam';
 export { default as getUserTeam } from './db-handlers/getUserTeam';
 export { default as checkKey } from './db-handlers/checkKey';

@@ -48,6 +48,11 @@ export const checkAuthNoTeam = async (req: any, res: any, next: any): Promise<vo
  */
 
  export const noAPIKey = async (req, res, next) => {
+  if (process.env.TRA_DISABLE_APIKEY_CHECKS) {
+    console.log("Bypassed API Key restriction.")
+    return next();
+  }
+
   if (req.query.CLIENT_ID || req.query.CLIENT_SECRET) {
     res.status(StatusCodes.no_key_auth);
     res.json({ success: false, reason: 'This route does not allow authentication via API key' });

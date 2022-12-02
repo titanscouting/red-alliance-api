@@ -33,7 +33,12 @@ morgan.token('user-email', function(req,res){
 app.use(morgan('[:date[clf]] :visitor-addr <:user-email>  ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+if (process.env.TRA_DISABLE_APIKEY_CHECKS) {
+  console.warn("Warning: NoAPIKey checks disabled.")
+}
+if (process.env.TRA_TESTING) {
+  console.warn("Warning: Running in testing mode. Some checks are disabled.")
+}
 //rate limiting for some endpoints
 const limiter = rateLimit({
   windowMs: 1 * 60 * 1000, // 1 minute
