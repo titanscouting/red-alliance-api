@@ -25,5 +25,4 @@ DB Handler docs are currently not rendered, please check in src/db-handlers/ for
 
 ![Linting](https://github.com/titanscouting/red-alliance-api/workflows/Lint%20the%20API/badge.svg)
 
-[![Coverage Status](https://coveralls.io/repos/github/titanscouting/red-alliance-api/badge.svg)](https://coveralls.io/github/titanscouting/red-alliance-api)
-
+[![Coverage Status](https://coveralls.io/repos/github/titanscouting/red-alliance-api/badge.svg?branch=master)](https://coveralls.io/github/titanscouting/red-alliance-api?branch=master)
