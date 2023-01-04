@@ -57,7 +57,7 @@
     "nodemon": "^2.0.15",
     "redis": "^4.0.4",
     "socket.io": "^4.5.4",
-    "swagger-jsdoc": "^6.1.0",
+    "swagger-jsdoc": "^6.2.7",
     "swagger-ui-express": "^4.6.0",
     "tsdoc": "^0.0.4",
     "typescript": "^4.9.4",
