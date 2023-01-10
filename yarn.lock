@@ -4362,12 +4362,12 @@ mocha@^10.1.0:
     yargs-parser "20.2.4"
     yargs-unparser "2.0.0"
 
-mongo-express-req@^4.3.0:
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/mongo-express-req/-/mongo-express-req-4.3.0.tgz#bc3420ec194af9aad090585341ab65c072d2d4ce"
-  integrity sha512-R4RNwSaOwmtV0qVQrhyrmMM4Q66DGVbEKJJ7L4D6EfXRX2DuOzg/o34tZ+PXdq4q/AbzGpE5kCguSNkZhRcZVg==
+mongo-express-req@^4.13.0:
+  version "4.13.0"
+  resolved "https://registry.yarnpkg.com/mongo-express-req/-/mongo-express-req-4.13.0.tgz#117596e1def60c4dd9687635cafdcde7a40448cf"
+  integrity sha512-wQtmyqPqKADoYSQlk7C97jMUkmBVss4BPyE7aFEpXPBLiUmtJmoJl3xRU4XZkTKuLxOLE1Egjaz68OuLurMOVA==
   dependencies:
-    mongodb "^4.3.0"
+    mongodb "^4.13.0"
 
 mongodb-connection-string-url@^2.5.4:
   version "2.5.4"
@@ -4377,10 +4377,10 @@ mongodb-connection-string-url@^2.5.4:
     "@types/whatwg-url" "^8.2.1"
     whatwg-url "^11.0.0"
 
-mongodb@^4.3.0:
-  version "4.12.1"
-  resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-4.12.1.tgz#224eb39b8784af835b515aa687c6010cecaabb1a"
-  integrity sha512-koT87tecZmxPKtxRQD8hCKfn+ockEL2xBiUvx3isQGI6mFmagWt4f4AyCE9J4sKepnLhMacoCTQQA6SLAI2L6w==
+mongodb@^4.13.0:
+  version "4.13.0"
+  resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-4.13.0.tgz#2aa832b827e2891eb2e52e8235c201cbb4701ed2"
+  integrity sha512-+taZ/bV8d1pYuHL4U+gSwkhmDrwkWbH1l4aah4YpmpscMwgFBkufIKxgP/G7m87/NUuQzc2Z75ZTI7ZOyqZLbw==
   dependencies:
     bson "^4.7.0"
     mongodb-connection-string-url "^2.5.4"
