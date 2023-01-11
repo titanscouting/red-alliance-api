@@ -5,6 +5,7 @@
         "tags": [
             "Authenticated Routes"
         ],
+        
         "parameters": [
             {
                 "in": "body",

@@ -5,6 +5,11 @@
         "tags": [
             "Authenticated Routes"
         ],
+        "security": [
+            {
+                "GoogleAuth": []
+            }
+        ],
         "responses": {
             "200": {
                 "description": "All team match data was retrieved.",

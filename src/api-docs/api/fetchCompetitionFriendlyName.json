@@ -5,6 +5,11 @@
         "tags": [
             "Non-Authenticated Routes"
         ],
+        "security": [
+            {
+                "GoogleAuth": []
+            }
+        ],
         "parameters": [
             {
                 "in": "query",

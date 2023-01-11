@@ -5,6 +5,11 @@
         "tags": [
             "Non-Authenticated Routes"
         ],
+        "security": [
+            {
+                "GoogleAuth": []
+            }
+        ],
         "responses": {
             "200": {
                 "description": "The pit variable data was retrieved.",

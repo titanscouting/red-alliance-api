@@ -6,6 +6,7 @@
       "Authenticated Routes",
       "No-Key Routes"
     ],
+    
     "responses": {
       "200": {
         "description": "The API key was created. Returns the issued client ID, client secret, and team with which the key is registered.",
