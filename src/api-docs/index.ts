@@ -65,7 +65,7 @@ export default {
       },
       CLIENT_ID: {
         type: 'apiKey',
-        in: 'header',
+        in: 'query',
         name: 'CLIENT_ID',
         description: 'Use the Client ID issued to you. MUST BE USED IN CONJUNCTION WITH CLIENT_SECRET.',
       },
