@@ -83,8 +83,8 @@ export default {
       description: 'Production environment',
     },
     {
-      url: 'https://titanscouting.epochml.org',
-      description: 'Old production environment',
+      url: 'https://staging.titanrobotics2022.com',
+      description: 'Staging environment',
     },
     {
       url: 'http://localhost:8190',
