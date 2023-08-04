@@ -1,5 +1,7 @@
 name: auto-merge
 
+permissions: write-all
+  
 on:
   pull_request_target:
     branches: [ master ]
