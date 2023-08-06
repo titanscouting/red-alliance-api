@@ -1,5 +1,5 @@
 name: Tag Release
-run-name: Test and Build for tag ${{ github.ref }}
+run-name: Test and Build for ${{ github.ref }}
 
 
 on:
@@ -70,5 +70,5 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: ghcr.io/titanscouting/red-alliance-api/red-alliance-api:${{ github.ref }}
+          tags: ghcr.io/titanscouting/red-alliance-api/red-alliance-api:${{ github.ref_name }}
 
