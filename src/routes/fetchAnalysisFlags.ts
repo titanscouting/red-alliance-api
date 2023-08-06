@@ -2,6 +2,14 @@ import { validate, Joi } from 'express-validation';
 import UserReturnData from '../UserReturnData';
 import StatusCodes from '../StatusCodes';
 
+
+/**
+* GET route '/api/fetchAnalysisFlags'
+* Get a given analysis flag (used by the analysis engine).
+* @param flag is the flag name in the DB. 
+* @returns back to the client let resobj (success status) and HTTP Status Code 200 OK.
+*/
+
 module.exports = (app: any, dbHandler: any, auth: any) => {
   const validation = {
     query: Joi.object({

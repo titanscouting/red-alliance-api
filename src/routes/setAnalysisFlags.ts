@@ -2,6 +2,15 @@ import { validate, Joi } from 'express-validation';
 import UserReturnData from '../UserReturnData';
 import StatusCodes from '../StatusCodes';
 
+
+/**
+* POST route '/api/setAnalysisFlags'
+* Enables analysis engine to store stateful data in a key-value store.
+* @param flag is the flag name.
+* @param data is the flag data.
+* @returns back to the client let resobj (success status) and HTTP Status Code 200 OK.
+*/
+
 module.exports = (app: any, dbHandler: any, auth: any) => {
   const validation = {
     body: Joi.object({

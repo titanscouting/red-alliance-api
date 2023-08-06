@@ -2,6 +2,15 @@ import { validate, Joi } from 'express-validation';
 import UserReturnData from '../UserReturnData';
 import StatusCodes from '../StatusCodes';
 
+
+/**
+* GET route '/api/fetchTeamTestsData'
+* Gets analysis data for a competition and team from the analysis engine outputs.
+* @param competition is the competition ID (ex: 2020ilch).
+* @param team is the team that we seek data for.
+* @returns back to the client let resobj (success status) and HTTP Status Code 200 OK.
+*/
+
 module.exports = (app: any, dbHandler: any, auth: any) => {
   const validation = {
     query: Joi.object({

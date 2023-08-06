@@ -3,6 +3,14 @@ import UserReturnData from '../UserReturnData';
 import StatusCodes from '../StatusCodes';
 import Scouter from '../Scouter';
 
+/**
+* GET route '/api/fetchStrategy'
+* Get all user-submitted strategies for a given competition and match.
+* @param competition is the competition ID (ex: 2020ilch).
+* @param match is the match that we seek data for.
+* @returns back to the client let resobj (success status) and HTTP Status Code 200 OK.
+*/
+
 module.exports = (app: any, dbHandler: any, auth: any) => {
   const validation = {
     query: Joi.object({

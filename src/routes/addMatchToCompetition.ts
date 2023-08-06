@@ -4,7 +4,7 @@ import Scouter from '../Scouter';
 import StatusCodes from '../StatusCodes';
 
 /**
-* GET route '/api/addMatchToCompetition'
+* POST route '/api/addMatchToCompetition'
 * Allows the application to add a match to a given competition's schedule.
 * @param competition is the identifier for the competition: e.g. '2020ilch'.
 * @param match is the new match number.

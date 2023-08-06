@@ -2,6 +2,13 @@ import { validate, Joi } from 'express-validation';
 import UserReturnData from '../UserReturnData';
 import StatusCodes from '../StatusCodes';
 
+/**
+* GET route '/api/fetchMatchConfig'
+* Get the pit scouting screen config data (this is rendered by the mobile app).
+* @param competition is the competition ID (ex: 2020ilch).
+* @returns back to the client let resobj (success status) and HTTP Status Code 200 OK.
+*/
+
 module.exports = (app: any, dbHandler: any, auth: any) => {
   const validation = {
     query: Joi.object({

@@ -3,6 +3,15 @@ import UserReturnData from '../UserReturnData';
 import Scouter from '../Scouter';
 import StatusCodes from '../StatusCodes';
 
+/**
+* POST route '/api/submitStrategy'
+* Allows users to submit potential match comments to be shown in the app.
+* @param competition is the competition ID (ex: 2020ilch).
+* @param match is the match that we seek data for.
+* @param data is the JSON data to submit
+* @returns back to the client let resobj (success status) and HTTP Status Code 200 OK.
+*/
+
 module.exports = (app: any, dbHandler: any, auth: any) => {
   const validation = {
     body: Joi.object({

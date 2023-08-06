@@ -2,6 +2,16 @@ import { validate, Joi } from 'express-validation';
 import UserReturnData from '../UserReturnData';
 import StatusCodes from '../StatusCodes';
 
+/**
+* POST route '/api/submitTeamMetricsData'
+* Allows analysis engine to submit match metrics to be shown in the app.
+* @param competition is the competition ID (ex: 2020ilch).
+* @param team is the team the metrics are associated with.
+* @param data is the JSON data to submit
+* @returns back to the client let resobj (success status) and HTTP Status Code 200 OK.
+*/
+
+
 module.exports = (app: any, dbHandler: any, auth: any) => {
   const validation = {
     body: Joi.object({
