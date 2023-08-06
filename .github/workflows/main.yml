@@ -1,4 +1,4 @@
-name: Main CI/CD Pipeline - initiated by @${{ github.actor }}
+name: Build and deploy by @${{ github.actor }}
 
 on:
   push:
