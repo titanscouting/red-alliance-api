@@ -2,7 +2,7 @@
 NodeJS REST API for interacting with MongoDB. Backend database for TRA. 
 
 ## Deploying the API
-* The Docker image has been published to Docker Hub [here](https://hub.docker.com/r/titanscout2022/red-alliance-api). It exposes the HTTP interface at port 8190.
+* The Docker image has been published to GitHub Packages [here](https://github.com/titanscouting/red-alliance-api/pkgs/container/red-alliance-api%2Fred-alliance-api). It exposes the HTTP interface at port 8190.
 
 ## Unit Testing 
 * Run `yarn test` to run the Mocha/Chai tests.
