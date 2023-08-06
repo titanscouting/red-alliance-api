@@ -2,6 +2,14 @@ import { validate, Joi } from 'express-validation';
 import UserReturnData from '../UserReturnData';
 import StatusCodes from '../StatusCodes';
 
+
+/**
+* GET route '/api/fetchPitVariableData'
+* Gets the data from all teams for a given competiton and variable name.
+* @param competition is the competition ID (ex: 2020ilch).
+* @returns back to the client let resobj (success status) and HTTP Status Code 200 OK.
+*/
+
 module.exports = (app: any, dbHandler: any) => {
   const validation = {
     query: Joi.object({

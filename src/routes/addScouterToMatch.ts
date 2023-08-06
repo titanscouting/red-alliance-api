@@ -3,6 +3,16 @@ import UserReturnData from '../UserReturnData';
 import Scouter from '../Scouter';
 import StatusCodes from '../StatusCodes';
 
+
+/**
+* POST route '/api/addScouterToMatch'
+* Allows the application to register a scouter as scouting a given match and team.
+* @param competition is the identifier for the competition: e.g. '2020ilch'.
+* @param match is the new match number.
+* @param team_scouting is the team being scouted.
+* @returns back to the client let resobj (success status) and HTTP Status Code 200 OK.
+*/
+
 module.exports = (app:any, dbHandler:any, auth: any) => {
   const validation = {
     body: Joi.object({

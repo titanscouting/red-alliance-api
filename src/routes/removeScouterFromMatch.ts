@@ -3,6 +3,15 @@ import UserReturnData from '../UserReturnData';
 import StatusCodes from '../StatusCodes';
 import Scouter from '../Scouter';
 
+/**
+* POST route '/api/removeScouterFromMatch'
+* Removes a scouter entry for scouting a given match.
+* @param competition is the competition ID (ex: 2020ilch).
+* @param team_scouting is the team that was previously being scouted.
+* @param match is the match that we seek data for.
+* @returns back to the client let resobj (success status) and HTTP Status Code 200 OK.
+*/
+
 module.exports = (app: any, dbHandler: any, auth: any) => {
   const validation = {
     body: Joi.object({

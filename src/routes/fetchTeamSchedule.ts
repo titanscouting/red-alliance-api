@@ -3,6 +3,14 @@ import UserReturnData from '../UserReturnData';
 import StatusCodes from '../StatusCodes';
 import Scouter from '../Scouter';
 
+
+/**
+* GET route '/api/fetchTeamSchedule'
+* Get a team's match schedule for a given competition.
+* @param competition is the competition ID (ex: 2020ilch).
+* @returns back to the client let resobj (success status) and HTTP Status Code 200 OK.
+*/
+
 module.exports = (app: any, dbHandler: any, auth: any) => {
   const validation = {
     query: Joi.object({

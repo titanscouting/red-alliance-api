@@ -1,6 +1,13 @@
 import { validate, Joi } from 'express-validation';
 import Scouter from '../Scouter';
 
+/**
+* POST route '/api/broadcastTeamMessage'
+* Allows a team member to broadcast a message to all members of the team.
+* @param message is the message to broadcast.
+* @returns back to the client let resobj (success status) and HTTP Status Code 200 OK.
+*/
+
 module.exports = (app: any, auth: any) => {
   const validation = {
     body: Joi.object({

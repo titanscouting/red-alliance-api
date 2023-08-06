@@ -3,6 +3,15 @@ import UserReturnData from '../UserReturnData';
 import Scouter from '../Scouter';
 import StatusCodes from '../StatusCodes';
 
+/**
+* POST route '/api/submitPitData'
+* Submit pit data about a team for a given competition and match.
+* @param competition is the competition ID (ex: 2020ilch).
+* @param teamScouted is the team that we seek data for.
+* @param data is the JSON data to submit
+* @returns back to the client let resobj (success status) and HTTP Status Code 200 OK.
+*/
+
 module.exports = (app: any, dbHandler: any, auth: any) => {
   const validation = {
     body: Joi.object({
