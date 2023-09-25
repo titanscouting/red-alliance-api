@@ -55,7 +55,7 @@
     "morgan": "^1.10.0",
     "node-fetch": "^2.7.0",
     "nodemon": "^3.0.1",
-    "redis": "^4.6.8",
+    "redis": "^4.6.10",
     "socket.io": "^4.7.2",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.0",
