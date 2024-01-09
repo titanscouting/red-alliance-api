@@ -68,5 +68,5 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: ghcr.io/titanscouting/red-alliance-api/red-alliance-api:latest
+          tags: ghcr.io/titanscouting/red-alliance-api:latest
 
