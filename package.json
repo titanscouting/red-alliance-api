@@ -49,7 +49,7 @@
     "express-jwt": "^8.4.1",
     "express-rate-limit": "^7.1.5",
     "express-validation": "^4.1.0",
-    "google-auth-library": "^9.4.1",
+    "google-auth-library": "^9.4.2",
     "jsdoc": "^4.0.2",
     "mongo-express-req": "^4.13.0",
     "morgan": "^1.10.0",
