@@ -61,7 +61,7 @@
     "swagger-ui-express": "^5.0.1",
     "tsdoc": "^0.0.4",
     "typescript": "^5.7.2",
-    "uuid": "^11.0.4",
+    "uuid": "^11.0.5",
     "uuid-apikey": "^1.5.3",
     "validator": "^13.12.0"
   },
