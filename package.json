@@ -80,7 +80,7 @@
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "minimist": ">=1.2.8",
-    "mocha": "^10.8.2",
+    "mocha": "^11.1.0",
     "nyc": "^17.1.0",
     "pre-commit": "^1.2.2",
     "source-map-support": "^0.5.19",
