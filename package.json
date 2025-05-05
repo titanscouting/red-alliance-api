@@ -40,7 +40,7 @@
     "all": true
   },
   "dependencies": {
-    "@babel/register": "^7.25.9",
+    "@babel/register": "^7.27.1",
     "@types/express": "^5.0.1",
     "@types/node": "^22.15.3",
     "bcrypt": "^5.1.1",
