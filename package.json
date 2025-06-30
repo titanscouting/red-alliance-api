@@ -42,7 +42,7 @@
   "dependencies": {
     "@babel/register": "^7.27.1",
     "@types/express": "^5.0.3",
-    "@types/node": "^24.0.3",
+    "@types/node": "^24.0.7",
     "bcrypt": "^6.0.0",
     "dotenv": "^17.0.0",
     "express": "^5.1.0",
