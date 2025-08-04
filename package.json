@@ -44,7 +44,7 @@
     "@types/express": "^5.0.3",
     "@types/node": "^24.0.15",
     "bcrypt": "^6.0.0",
-    "dotenv": "^17.2.0",
+    "dotenv": "^17.2.1",
     "express": "^5.1.0",
     "express-jwt": "^8.5.1",
     "express-rate-limit": "^8.0.1",
