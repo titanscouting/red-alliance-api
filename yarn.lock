@@ -902,10 +902,10 @@
   dependencies:
     "@babel/types" "^7.29.7"
 
-"@babel/register@^8.0.5":
-  version "8.0.5"
-  resolved "https://registry.yarnpkg.com/@babel/register/-/register-8.0.5.tgz#9108829a8dfd85943c39b8bc5f1ccebadbe810f2"
-  integrity sha512-+5z6kU1KnrkXX7SVwnkxl3lU7ZYaB1obWcDfEuTLjILQy4PNZ6NPljeavlo3JMHbcmWRcdFum96OXN+SMH855w==
+"@babel/register@^8.0.6":
+  version "8.0.6"
+  resolved "https://registry.yarnpkg.com/@babel/register/-/register-8.0.6.tgz#d4a6572c0111474eb33626028ee2f61a8e274f8c"
+  integrity sha512-Ix77Wl3Xpv/YXCRUa7s/FC0pWqsA+fego+HjmC0ziJioGKrBdS2Jpz2GruJMkUKYiJ33m+W8NXfce+3PQRzmSQ==
   dependencies:
     "@cspotcode/source-map-support" "^0.8.1"
     cacache "20.0.3"
